@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="72.15551mm"
+   height="135.57271mm"
+   viewBox="0 0 72.15551 135.57271"
+   version="1.1"
+   id="svg5422"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   sodipodi:docname="35,34_44,45.svg">
+  <defs
+     id="defs5416" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.1827801"
+     inkscape:cx="28.793938"
+     inkscape:cy="236.55244"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1248"
+     inkscape:window-height="943"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5419">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-129.03974,-115.80242)">
+    <path
+       sodipodi:nodetypes="scccccsccsccccscssccccccccc"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:connector-curvature="0"
+       id="path4706-2"
+       d="m 162.81871,251.21502 c -4.12834,-0.81351 -9.30128,-5.07647 -14.90646,-12.28401 -6.49225,-8.3483 -9.9955,-17.91405 -12.51797,-34.17993 -1.35441,-8.73339 -1.96909,-17.22842 -2.25213,-31.12572 -0.30173,-14.80789 -0.10245,-13.79742 -4.10241,-20.81389 20.18866,-22.19337 57.39402,-20.49858 72.15551,-0.35958 -1.6598,4.73831 -3.18178,11.44152 -3.51197,20.41982 -0.68468,18.61675 -5.42527,44.94076 -12.61281,59.98422 -4.71594,9.21684 -10.77384,16.02751 -15.82217,17.789 -1.95131,0.68081 -4.65243,0.9203 -6.42959,0.57009 z m 4.41054,-7.62615 c 3.03335,-1.43939 7.64538,-6.96765 10.83706,-12.9899 0.71966,-1.3582 1.92531,-3.5807 2.67938,-4.93889 4.07955,-7.34994 7.22009,-22.37469 8.44353,-40.39305 0.26444,-3.89061 0.70696,-26.10889 0.52044,-26.10581 -0.009,1.4e-4 -1.59571,0.64634 -3.5278,1.43603 -4.4704,1.82705 -10.33636,3.59257 -14.62557,4.40193 -4.48847,0.84695 -12.12314,0.86631 -16.4042,0.0416 -3.65368,-0.70386 -10.31186,-2.7119 -13.14255,-3.96375 -1.06595,-0.47151 -1.95834,-0.85728 -1.98261,-0.85728 -0.21957,-2.5e-4 0.18683,22.95059 0.4809,27.16391 0.46454,6.65065 1.57198,15.81108 2.51686,20.81389 1.56831,8.30405 4.06936,16.56309 5.66194,18.69722 0.3621,0.48509 1.95834,2.86634 3.54725,5.29167 1.83558,2.80207 3.98755,5.51868 5.90212,7.45151 4.32991,4.37095 6.35457,5.25052 9.09325,3.95089 z"
+       style="fill:#000000;stroke-width:0.282223"
+       inkscape:export-filename="/Users/ingmarkappel/Desktop/tooth menu_lower_jaw.png" />
+    <ellipse
+       ry="14.092855"
+       rx="14.987639"
+       cy="130.39528"
+       cx="165.50177"
+       id="path839"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:round;paint-order:stroke markers fill" />
+    <rect
+       ry="2.1185188"
+       y="161.48904"
+       x="159.70728"
+       height="56.371422"
+       width="10.513718"
+       id="rect841"
+       style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linejoin:round;paint-order:stroke markers fill" />
+  </g>
+</svg>
