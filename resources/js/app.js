@@ -1,24 +1,25 @@
 import './bootstrap';
-import '../css/app.css'; 
 
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
-import { createApp } from 'vue'
-import { createVuetify } from 'vuetify'
+import Vue from 'vue'
+import { createInertiaApp } from '@inertiajs/inertia-vue'
+import { InertiaProgress } from '@inertiajs/progress'
+import vuetify from './Plugins/vuetify'
+import { Link } from "@inertiajs/inertia-vue";
 
-import App from '../src/App.vue'
+InertiaProgress.init({ color: "#4B5563" })
+createInertiaApp({
+    title: title => `${title} - Addy.Dental`,
+    resolve: name => import(`./Pages/${name}`),
+    setup({ el, App, props, plugin }) {
+        Vue.use(plugin)
+        Vue.prototype.$route = route
+        Vue.component("Link", Link);
+        Vue.mixin({ methods: { route: window.route } });
 
-// createApp(App).mount('#app');
 
-const app = createApp(App)
-
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-
-const vuetify = createVuetify({
-    components,
-    directives,
+        new Vue({
+            vuetify,
+            render: h => h(App, props),
+        }).$mount(el)
+    },
 })
-
-app.use(vuetify)
-app.mount('#app')

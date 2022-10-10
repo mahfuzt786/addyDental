@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route::get('photos', function ($data='addy_logo.png') {
-//     //dd(Photo::all());
-//     return storage_path('img') .'/'. $data;
+// Route::get('/', function () {
+//     return view('welcome');
 // });
+
+Route::get('/', function () {
+    return Inertia::render("Welcome");
+ })->name('/');
+
+Route::get('home', [HomeController::class, 'index'])->name('home');
+
+require __DIR__.'/auth.php';
+
+ 
