@@ -3,10 +3,11 @@
       <v-app-bar color="primary" :clipped-left="false" fixed dark app>
         <v-toolbar-title v-text="appName" />
         <v-spacer />
-        <!-- <Link v-if="$page.props.auth.user" :href="route('home')">
+        <!-- <Link v-if="$page.props.auth.user" :href="route('home')"> -->
+        <Link :href="route('home')">
           <v-btn text>Home</v-btn>
         </Link>
-        <div v-else> -->
+        <!-- <div v-else> -->
         <div>
           <Link :href="route('login')">
             <v-btn text>Login</v-btn>

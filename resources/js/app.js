@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress'
 import vuetify from './Plugins/vuetify'
 import { Link } from "@inertiajs/inertia-vue";
+import store from './store'
 
 InertiaProgress.init({ color: "#4B5563" })
 createInertiaApp({
@@ -19,6 +20,7 @@ createInertiaApp({
 
         new Vue({
             vuetify,
+            store,
             render: h => h(App, props),
         }).$mount(el)
     },

@@ -94,7 +94,15 @@ var render = function render() {
     domProps: {
       textContent: _vm._s(_vm.appName)
     }
-  }), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("div", [_c("Link", {
+  }), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("Link", {
+    attrs: {
+      href: _vm.route("home")
+    }
+  }, [_c("v-btn", {
+    attrs: {
+      text: ""
+    }
+  }, [_vm._v("Home")])], 1), _vm._v(" "), _c("div", [_c("Link", {
     attrs: {
       href: _vm.route("login")
     }
