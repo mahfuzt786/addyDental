@@ -91067,7 +91067,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames based on template
-/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_Calculation_vue":"f48b253b635d65f4","resources_js_Pages_Home_vue":"2b9c882d73357ae8","resources_js_Pages_Welcome_vue":"0056f36d74ed9f36","resources_js_Pages_auth_confirm-password_vue":"4cc6ea6adc17e835","resources_js_Pages_auth_forgot-password_vue":"bcb1ccecd3f31079","resources_js_Pages_auth_login_vue":"9436538bf8d341b3","resources_js_Pages_auth_register_vue":"8f02eb926e011009","resources_js_Pages_auth_reset-password_vue":"644e1eb5a6a7c021","resources_js_Pages_auth_verify-email_vue":"acee0f96f01a1bed"}[chunkId] + "";
+/******/ 			return "js/" + chunkId + ".js?id=" + {"resources_js_Pages_Calculation_vue":"320e3412e75f5719","resources_js_Pages_Home_vue":"34a422d8c166ca29","resources_js_Pages_Welcome_vue":"bc761fd1ac68ce7b","resources_js_Pages_auth_confirm-password_vue":"8d8cd9a769308c3e","resources_js_Pages_auth_forgot-password_vue":"658247821d2e3971","resources_js_Pages_auth_login_vue":"b27a807b178c4ef0","resources_js_Pages_auth_register_vue":"490db99017a666cd","resources_js_Pages_auth_reset-password_vue":"465d2e7a36896079","resources_js_Pages_auth_verify-email_vue":"a470ba92568976cd"}[chunkId] + "";
 /******/ 		};
 /******/ 	})();
 /******/ 	

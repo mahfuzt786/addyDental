@@ -7,38 +7,38 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="85.013519mm"
-   height="162.81758mm"
-   viewBox="0 0 85.013519 162.81758"
-   version="1.1"
-   id="svg4218"
+   sodipodi:docname="11_21.svg"
    inkscape:version="1.0 (4035a4f, 2020-05-01)"
-   sodipodi:docname="11_21.svg">
+   id="svg4218"
+   version="1.1"
+   viewBox="0 0 85.013519 162.81758"
+   height="162.81758mm"
+   width="85.013519mm">
   <defs
      id="defs4212" />
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.72462754"
-     inkscape:cx="-25.424893"
-     inkscape:cy="345.34065"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:window-width="1248"
-     inkscape:window-height="943"
+     inkscape:window-maximized="0"
+     inkscape:window-y="72"
      inkscape:window-x="346"
-     inkscape:window-y="50"
-     inkscape:window-maximized="0" />
+     inkscape:window-height="943"
+     inkscape:window-width="1248"
+     fit-margin-bottom="0"
+     fit-margin-right="0"
+     fit-margin-left="0"
+     fit-margin-top="0"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="345.34065"
+     inkscape:cx="-25.424893"
+     inkscape:zoom="0.72462754"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
   <metadata
      id="metadata4215">
     <rdf:RDF>
@@ -52,27 +52,27 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
+     transform="translate(-127.40362,-100.72331)"
      id="layer1"
-     transform="translate(-127.40362,-100.72331)">
+     inkscape:groupmode="layer"
+     inkscape:label="Ebene 1">
     <path
-       sodipodi:nodetypes="cscsssscscc"
-       inkscape:export-ydpi="90"
-       inkscape:export-xdpi="90"
-       inkscape:connector-curvature="0"
-       id="path4638-9-6"
+       inkscape:export-filename="/Users/ingmarkappel/Desktop/tooth menu.png"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 203.07812,197.4766 c 2.15756,3.63477 4.54852,8.82954 4.90127,10.64892 0.0916,0.47241 0.71947,2.76394 1.39525,5.09227 2.51528,8.66595 3.21223,18.17661 1.86955,25.51209 -1.53994,8.41316 -5.69589,19.71401 -7.737,21.03848 -1.46832,0.95276 -18.53337,2.79092 -29.87633,3.2181 -11.39057,0.42897 -35.63346,-1.77868 -37.63351,-3.42706 -1.46725,-1.20923 -5.04515,-10.95273 -6.58882,-17.94301 -2.40605,-10.89501 -1.97778,-19.06937 1.58426,-30.23778 1.75655,-5.50751 3.29249,-8.96098 6.24253,-14.03581 18.3685,-22.10789 49.13349,-11.22891 65.8428,0.1338 z"
-       style="fill:#808080;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       inkscape:export-filename="/Users/ingmarkappel/Desktop/tooth menu.png" />
-    <path
-       sodipodi:nodetypes="csssccccsscscccccscssscccc"
-       inkscape:export-ydpi="90"
-       inkscape:export-xdpi="90"
+       id="path4638-9-6"
        inkscape:connector-curvature="0"
-       id="path4638-9"
-       d="m 172.53339,101.04851 c 2.39712,0.56287 6.31667,2.88959 8.77779,5.21061 6.71331,6.33115 11.09294,17.47659 13.84715,35.23864 1.38326,8.92073 1.96562,17.06513 2.16253,30.24375 0.14108,9.44132 0.30934,12.79889 0.71498,14.26641 0.63827,2.30926 2.20015,5.4667 5.22455,10.56183 -16.64054,27.13088 -0.20475,53.68672 -31.83913,54.92654 -34.33411,-1.05361 -14.44236,-27.05196 -34.00367,-55.06034 3.10297,-5.33801 4.49374,-8.17211 5.11728,-10.42803 0.40516,-1.46589 0.57497,-4.83556 0.71893,-14.26641 0.19781,-12.95931 0.47834,-17.53438 1.64369,-26.80459 1.74128,-13.85186 4.96243,-25.06808 9.31105,-32.42183 3.14759,-5.32274 8.90244,-10.04285 13.79951,-11.31841 2.30042,-0.59919 2.56765,-0.60791 4.52534,-0.14817 z m -5.17852,7.97247 c -2.76521,1.91412 -6.48775,7.00648 -9.75811,13.3488 -3.37674,6.54866 -5.94448,19.83345 -7.05398,36.49534 -0.28307,4.25055 -0.704,27.51711 -0.49787,27.51675 0.0243,-6e-5 0.90938,-0.38267 1.9667,-0.85025 3.18036,-1.40651 7.98951,-3.01476 11.37618,-3.80436 4.9283,-1.14904 11.53744,-1.07414 16.47444,0.18669 2.99748,0.7655 7.47225,2.32675 10.35507,3.61287 0.46736,0.2085 0.34194,-19.34399 -0.171,-26.6617 -1.10806,-15.80718 -4.05649,-31.07814 -7.20917,-37.33848 -2.78178,-5.52391 -7.77124,-11.76875 -10.6115,-13.2814 -1.38712,-0.73881 -3.07001,-0.47075 -4.87076,0.77574 z"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       sodipodi:nodetypes="cscsssscscc" />
+    <path
+       inkscape:export-filename="/Users/ingmarkappel/Desktop/tooth menu.png"
        style="fill:#000000;stroke:none;stroke-width:2.082;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       inkscape:export-filename="/Users/ingmarkappel/Desktop/tooth menu.png" />
+       d="m 172.53339,101.04851 c 2.39712,0.56287 6.31667,2.88959 8.77779,5.21061 6.71331,6.33115 11.09294,17.47659 13.84715,35.23864 1.38326,8.92073 1.96562,17.06513 2.16253,30.24375 0.14108,9.44132 0.30934,12.79889 0.71498,14.26641 0.63827,2.30926 2.20015,5.4667 5.22455,10.56183 -16.64054,27.13088 -0.20475,53.68672 -31.83913,54.92654 -34.33411,-1.05361 -14.44236,-27.05196 -34.00367,-55.06034 3.10297,-5.33801 4.49374,-8.17211 5.11728,-10.42803 0.40516,-1.46589 0.57497,-4.83556 0.71893,-14.26641 0.19781,-12.95931 0.47834,-17.53438 1.64369,-26.80459 1.74128,-13.85186 4.96243,-25.06808 9.31105,-32.42183 3.14759,-5.32274 8.90244,-10.04285 13.79951,-11.31841 2.30042,-0.59919 2.56765,-0.60791 4.52534,-0.14817 z m -5.17852,7.97247 c -2.76521,1.91412 -6.48775,7.00648 -9.75811,13.3488 -3.37674,6.54866 -5.94448,19.83345 -7.05398,36.49534 -0.28307,4.25055 -0.704,27.51711 -0.49787,27.51675 0.0243,-6e-5 0.90938,-0.38267 1.9667,-0.85025 3.18036,-1.40651 7.98951,-3.01476 11.37618,-3.80436 4.9283,-1.14904 11.53744,-1.07414 16.47444,0.18669 2.99748,0.7655 7.47225,2.32675 10.35507,3.61287 0.46736,0.2085 0.34194,-19.34399 -0.171,-26.6617 -1.10806,-15.80718 -4.05649,-31.07814 -7.20917,-37.33848 -2.78178,-5.52391 -7.77124,-11.76875 -10.6115,-13.2814 -1.38712,-0.73881 -3.07001,-0.47075 -4.87076,0.77574 z"
+       id="path4638-9"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       sodipodi:nodetypes="csssccccsscscccccscssscccc" />
   </g>
 </svg>

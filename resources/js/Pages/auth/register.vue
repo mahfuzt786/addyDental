@@ -12,7 +12,7 @@
               </v-card-title>
               <v-card-text>
                 <p class="text-2xl font-weight-semibold text--primary mb-2">
-                  Adventure starts here 🚀
+                  Registration starts
                 </p>
                 <p class="mb-2">Make your app management easy and fun!</p>
               </v-card-text>

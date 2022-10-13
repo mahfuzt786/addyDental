@@ -6,9 +6,9 @@
           <v-col cols="12" sm="12" md="10" lg="4">
             <v-card>
               <v-card-title class="d-flex align-center justify-center">
-                <Link :href="route('/')">
+                <!-- <Link :href="route('/')">
                   <application-logo style="height: 75" />
-                </Link>
+                </Link> -->
               </v-card-title>
               <v-card-text>
                 <p class="mb-2">This is a secure area of the application. Please confirm your password before continuing.</p>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import ApplicationLogo from "../../components/ApplicationLogo.vue";
+// import ApplicationLogo from "../../components/ApplicationLogo.vue";
 import GuestLayout from '../../Layouts/GuestsLayout.vue';
 export default {
   components: { ApplicationLogo, GuestLayout },

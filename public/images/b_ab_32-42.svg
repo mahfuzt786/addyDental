@@ -7,38 +7,38 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="32-42.svg"
-   inkscape:version="1.0 (4035a4f, 2020-05-01)"
-   id="svg6626"
-   version="1.1"
-   viewBox="0 0 81.087273 161.14189"
+   width="81.087273mm"
    height="161.14189mm"
-   width="81.087273mm">
+   viewBox="0 0 81.087273 161.14189"
+   version="1.1"
+   id="svg6626"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   sodipodi:docname="32-42.svg">
   <defs
      id="defs6620" />
   <sodipodi:namedview
-     inkscape:window-maximized="0"
-     inkscape:window-y="127"
-     inkscape:window-x="147"
-     inkscape:window-height="943"
-     inkscape:window-width="1248"
-     fit-margin-bottom="0"
-     fit-margin-right="0"
-     fit-margin-left="0"
-     fit-margin-top="0"
-     showgrid="false"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="165.53793"
-     inkscape:cx="184.91802"
-     inkscape:zoom="1.1930687"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
+     id="base"
      pagecolor="#ffffff"
-     id="base" />
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-24.82946"
+     inkscape:cy="164.52011"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1248"
+     inkscape:window-height="943"
+     inkscape:window-x="241"
+     inkscape:window-y="33"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata6623">
     <rdf:RDF>
@@ -52,18 +52,18 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-112.40279,-104.63739)"
-     id="layer1"
+     inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
-     inkscape:label="Ebene 1">
+     id="layer1"
+     transform="translate(-112.40279,-104.63739)">
     <path
        sodipodi:nodetypes="csccccccsscscc"
        inkscape:transform-center-y="8.8388162"
        inkscape:transform-center-x="-601.04076"
        inkscape:connector-curvature="0"
-       id="path4720-4"
-       d="m 122.21902,171.04959 c -2.15756,-3.63477 -4.54851,-8.82955 -4.90126,-10.64892 -0.0916,-0.47242 -0.71947,-2.76395 -1.39525,-5.09228 -2.51525,-8.66594 -3.2122,-18.17663 -1.86953,-25.51212 1.02111,-5.57858 3.79561,-14.40621 5.67377,-18.05201 0.25101,-0.48723 0.66853,-1.33601 0.92783,-1.88612 0.25934,-0.55013 0.88271,-1.21291 1.38535,-1.4728 0.96807,-0.50064 9.34432,-1.63997 17.27913,-2.35032 6.89687,-0.61742 22.93334,-0.51904 29.87447,0.18327 8.67457,0.87771 13.95707,1.67525 14.87401,2.24564 1.61637,1.00548 5.17426,10.359 6.88221,18.09305 2.47289,11.19778 1.98716,19.18066 -1.89706,31.17705 -1.78929,5.52617 -3.6026,9.46339 -7.57516,16.44797 -22.95949,17.3093 -36.25901,18.9991 -59.25851,-3.13241 z"
-       style="fill:#808080;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4720-6"
+       d="m 122.37752,171.03602 c -2.15756,-3.63477 -4.54851,-8.82955 -4.90126,-10.64892 -0.0916,-0.47242 -0.71947,-2.76395 -1.39525,-5.09228 -2.51525,-8.66594 -3.2122,-18.17663 -1.86953,-25.51212 1.02111,-5.57858 3.79561,-14.40621 5.67377,-18.05201 0.25101,-0.48723 0.66853,-1.33601 0.92783,-1.88612 0.25934,-0.55013 0.88271,-1.21291 1.38535,-1.4728 0.96807,-0.50064 9.34432,-1.63997 17.27913,-2.35032 6.89687,-0.61742 22.93334,-0.51904 29.87447,0.18327 8.67457,0.87771 13.95707,1.67525 14.87401,2.24564 1.61637,1.00548 5.17426,10.359 6.88221,18.09305 2.47289,11.19778 1.98716,19.18066 -1.89706,31.17705 -1.78929,5.52617 -3.6026,9.46339 -7.57516,16.44797 -22.95949,17.3093 -36.25901,18.9991 -59.25851,-3.13241 z"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>

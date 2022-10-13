@@ -1,6 +1,6 @@
 <?php
 
-// use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HomeController;
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,11 +24,11 @@ Route::get('/', function () {
     return Inertia::render("Welcome");
  })->name('/');
 
-// Route::get('home', [HomeController::class, 'index'])->name('home');
+Route::get('home', [HomeController::class, 'index'])->name('home');
 
-Route::get('home', function () {
-    return Inertia::render("Home");
- })->name('home');
+// Route::get('home', function () {
+//     return Inertia::render("Home");
+//  })->name('home');
 
 Route::get('calculation', function () {
     return Inertia::render("Calculation");

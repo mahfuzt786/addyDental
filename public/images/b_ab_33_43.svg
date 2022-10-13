@@ -7,38 +7,38 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="33_43.svg"
-   inkscape:version="1.0 (4035a4f, 2020-05-01)"
-   id="svg6024"
-   version="1.1"
-   viewBox="0 0 92.263588 189.14584"
+   width="92.263588mm"
    height="189.14584mm"
-   width="92.263588mm">
+   viewBox="0 0 92.263588 189.14584"
+   version="1.1"
+   id="svg6024"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   sodipodi:docname="33_43.svg">
   <defs
      id="defs6018" />
   <sodipodi:namedview
-     inkscape:window-maximized="0"
-     inkscape:window-y="23"
-     inkscape:window-x="0"
-     inkscape:window-height="943"
-     inkscape:window-width="1248"
-     fit-margin-bottom="0"
-     fit-margin-right="0"
-     fit-margin-left="0"
-     fit-margin-top="0"
-     showgrid="false"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="343.15524"
-     inkscape:cx="87.719723"
-     inkscape:zoom="0.35"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
+     id="base"
      pagecolor="#ffffff"
-     id="base" />
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="87.719723"
+     inkscape:cy="343.15524"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1248"
+     inkscape:window-height="943"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata6021">
     <rdf:RDF>
@@ -52,17 +52,17 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-82.624157,-57.373509)"
-     id="layer1"
+     inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
-     inkscape:label="Ebene 1">
+     id="layer1"
+     transform="translate(-82.624157,-57.373509)">
     <path
        sodipodi:nodetypes="cccccsccscsc"
        inkscape:export-ydpi="90"
        inkscape:export-xdpi="90"
-       style="fill:#808080;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 95.600102,145.93648 c -4.832463,-8.47708 -9.537135,-22.38538 -10.711179,-28.24079 -1.982329,-9.88722 -1.656617,-20.618775 0.854004,-28.134355 1.942253,-5.81366 4.128092,-8.98877 10.179755,-14.78771 8.444988,-8.09235 16.731318,-13.16645 25.320438,-15.505031 4.14643,-1.128917 10.7267,-1.056358 15.36982,0.169474 8.68031,2.291697 17.30473,7.167567 26.58928,15.032367 4.83362,4.0944 8.06535,9.72676 9.69349,16.89334 0.9175,4.03815 1.25701,12.715265 0.69991,17.883775 -1.02757,9.53315 -7.13853,25.97279 -13.24723,36.68893 -14.17163,11.43625 -16.97265,11.07291 -32.03652,11.03744 -15.34097,-0.0361 -18.03529,0.009 -32.711768,-11.03744 z"
-       id="path4710-8-8"
+       style="fill:#ffffff;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 95.600103,145.93654 c -4.83247,-8.47708 -9.53714,-22.38538 -10.71118,-28.24079 -1.98233,-9.88723 -1.65662,-20.61882 0.854,-28.1344 1.94225,-5.81367 4.12809,-8.98878 10.17976,-14.78771 8.444987,-8.09236 16.731317,-13.16646 25.320437,-15.50504 4.14643,-1.12891 10.7267,-1.05635 15.36982,0.16948 8.68031,2.2917 17.30473,7.16757 26.58928,15.03237 4.83362,4.09439 8.06535,9.72676 9.69349,16.89334 0.9175,4.03815 1.25701,12.71528 0.69991,17.88382 -1.02757,9.53315 -7.13853,25.97279 -13.24723,36.68893 -14.17163,11.43625 -16.97265,11.07291 -32.03652,11.03744 -15.34097,-0.0361 -18.03529,0.009 -32.711767,-11.03744 z"
+       id="path4710-8-4"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/Users/ingmarkappel/Desktop/tooth menu_lower_jaw.png" />
   </g>

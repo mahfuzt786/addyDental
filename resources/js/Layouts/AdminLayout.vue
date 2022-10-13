@@ -7,22 +7,28 @@
           >
 
             <!-- <template v-slot:prepend> -->
-            <template v-slot:img="{ props }">
+            <!-- <template v-slot:img="{ props }">
               <v-img
                 width="60"
                 height="60"
                 :src="Logo"
                 v-bind="props"
               ></v-img>
-            </template>
+            </template> -->
+
+            <Link :href="route('home')">
+                  <application-logo style="height: 75" />
+                </Link>
 
             <v-app-bar-title>ADDY.DENTAL</v-app-bar-title>
 
             <v-spacer></v-spacer>
 
+          <Link :href="route('calculation')">
             <v-btn class="noShadow">
               <span class="newPlan"> + Neue ZE-Planung </span>
             </v-btn>
+          </Link>
 
             <v-btn class="noShadow">
               <span class="doctorName"> Dr. Ingmar Kappel</span>
