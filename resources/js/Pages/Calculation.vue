@@ -112,7 +112,7 @@
                 <tr>
                   <th class="text-center text-subtitle-1 font-weight-black">Case</th>
                   <th class="text-center text-subtitle-1 font-weight-black">Zahn/Gebiet</th>
-                  <th class="text-center text-subtitle-1 font-weight-black"> . </th>
+                  <!-- <th class="text-center text-subtitle-1 font-weight-black"> . </th> -->
                   <th class="text-center text-subtitle-1 font-weight-black">Versorgung</th>
                 </tr>
               </thead>
@@ -120,12 +120,93 @@
                 <tr v-for="(data, index) in tableData" :key="index">
                   <td class="text-center">{{data["Case Name"]}}</td>
                   <td class="text-center">{{ data["Case Region"] }}</td>
-                  <td class="text-center">{{ data }}</td>
+                  <!-- <td class="text-center">{{ data }}</td> -->
                   <td class="text-center"> planning </td>
+                <!-- </tr> -->
+
+                  <v-simple-table outlined class="my-2">
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
+                          <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
+                          <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- <tr v-for="(data, index) in tableData" :key="index">
+                          <td class="text-center">{{data["Case Name"]}}</td>
+                          <td class="text-center">{{ data["Case Region"] }}</td>
+                          <td class="text-center">{{ data["Case Region"] }}</td>
+                        </tr> -->
+                        <tr>
+                          <td>
+                            <tr class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
+                              <td>
+                                <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('RV' + indexRV)" />
+                                <label :for="indexRV">RV {{ indexRV+1 }}</label>
+                                <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
+                              </td>
+                            </tr>
+                          </td>
+
+                          <td>
+                            <tr class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV">
+                              <td>
+                                <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('GAV' + indexGAV)" />
+                                <label :for="indexGAV"> GAV {{ indexGAV+1 }}</label>
+                                <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
+                              </td>
+                            </tr>                          
+                          </td>
+
+                          <td>
+                            <tr class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV">
+                              <td>
+                                <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('AAV' + indexAAV)" />
+                                <label :for="indexAAV"> AAV {{ indexAAV+1 }}</label>
+                                <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
+                              </td>
+                            </tr>                          
+                          </td>
+                          
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
+
+          <v-dialog
+            v-model="dialog"
+            max-width="290"
+          >
+            <v-card>
+              <v-card-title class="text-h5">
+                Details
+              </v-card-title>
+
+              <v-card-text>
+                {{ dataRV_GAV_AAV }}
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Close
+                </v-btn>                                      
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <!-- <span class="text-subtitle-1 font-weight-black">Summe Festzuschüsse Kasse: <span class="font-weight-black">{{totalAmount}}</span> EUR</span> -->
         </div>
         
@@ -551,6 +632,8 @@
       findingsEntries: '',
       disabled: false,
       resetBtns: false,
+      dialog: false,
+      dataRV_GAV_AAV: '',
       manualUpperJaw: [],
       manualMandible: [],
       tableData: [],
@@ -720,7 +803,7 @@
         }
       },
       displayData(responseData) {
-        console.log(responseData)
+        console.log(responseData.length)        
         /*responseData.pop().forEach(element => {
           let splitedElement = element.split(':')
           // console.log(splitedElement)
@@ -742,6 +825,13 @@
         });*/
         this.tableData = responseData
         this.apiCallSuccess = true
+      },
+      displayRVs(idValue) {
+        let dataValues = document.getElementById(idValue).value
+
+        this.dataRV_GAV_AAV = dataValues
+        this.dialog = true
+
       },
       reset() {
         // Object.assign(this.$data, this.$options.data.apply(this))

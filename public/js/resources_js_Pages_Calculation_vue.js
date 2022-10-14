@@ -374,6 +374,8 @@ var _validEntry = function validEntry(value) {
       findingsEntries: '',
       disabled: false,
       resetBtns: false,
+      dialog: false,
+      dataRV_GAV_AAV: '',
       manualUpperJaw: [],
       manualMandible: [],
       tableData: [],
@@ -553,7 +555,7 @@ var _validEntry = function validEntry(value) {
       }
     },
     displayData: function displayData(responseData) {
-      console.log(responseData);
+      console.log(responseData.length);
       /*responseData.pop().forEach(element => {
         let splitedElement = element.split(':')
         // console.log(splitedElement)
@@ -576,6 +578,11 @@ var _validEntry = function validEntry(value) {
 
       this.tableData = responseData;
       this.apiCallSuccess = true;
+    },
+    displayRVs: function displayRVs(idValue) {
+      var dataValues = document.getElementById(idValue).value;
+      this.dataRV_GAV_AAV = dataValues;
+      this.dialog = true;
     },
     reset: function reset() {
       // Object.assign(this.$data, this.$options.data.apply(this))
@@ -1694,8 +1701,6 @@ var render = function render() {
           staticClass: "text-center text-subtitle-1 font-weight-black"
         }, [_vm._v("Zahn/Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-center text-subtitle-1 font-weight-black"
-        }, [_vm._v(" . ")]), _vm._v(" "), _c("th", {
-          staticClass: "text-center text-subtitle-1 font-weight-black"
         }, [_vm._v("Versorgung")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.tableData, function (data, index) {
           return _c("tr", {
             key: index
@@ -1705,14 +1710,140 @@ var render = function render() {
             staticClass: "text-center"
           }, [_vm._v(_vm._s(data["Case Region"]))]), _vm._v(" "), _c("td", {
             staticClass: "text-center"
-          }, [_vm._v(_vm._s(data))]), _vm._v(" "), _c("td", {
-            staticClass: "text-center"
-          }, [_vm._v(" planning ")])]);
+          }, [_vm._v(" planning ")]), _vm._v(" "), _c("v-simple-table", {
+            staticClass: "my-2",
+            attrs: {
+              outlined: ""
+            },
+            scopedSlots: _vm._u([{
+              key: "default",
+              fn: function fn() {
+                return [_c("thead", [_c("tr", [_c("th", {
+                  staticClass: "text-center text-subtitle-1 font-weight-black"
+                }, [_vm._v("Regelversorgung")]), _vm._v(" "), _c("th", {
+                  staticClass: "text-center text-subtitle-1 font-weight-black"
+                }, [_vm._v("Gleichartiger Zahnersatz")]), _vm._v(" "), _c("th", {
+                  staticClass: "text-center text-subtitle-1 font-weight-black"
+                }, [_vm._v("Andersartiger Zahnersatz")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", _vm._l(data["RV Details"], function (dataRV, indexRV) {
+                  return _c("tr", {
+                    key: indexRV,
+                    staticClass: "text-center"
+                  }, [_c("td", [_c("input", {
+                    attrs: {
+                      type: "radio",
+                      name: "RV_GAV_AAV"
+                    },
+                    domProps: {
+                      value: indexRV
+                    },
+                    on: {
+                      change: function change($event) {
+                        return _vm.displayRVs("RV" + indexRV);
+                      }
+                    }
+                  }), _vm._v(" "), _c("label", {
+                    attrs: {
+                      "for": indexRV
+                    }
+                  }, [_vm._v("RV " + _vm._s(indexRV + 1))]), _vm._v(" "), _c("textarea", {
+                    staticStyle: {
+                      display: "none"
+                    },
+                    attrs: {
+                      id: "RV" + indexRV
+                    }
+                  }, [_vm._v(" " + _vm._s(dataRV) + " ")])])]);
+                }), 0), _vm._v(" "), _c("td", _vm._l(data["GAV Details"], function (dataGAV, indexGAV) {
+                  return _c("tr", {
+                    key: indexGAV,
+                    staticClass: "text-center"
+                  }, [_c("td", [_c("input", {
+                    attrs: {
+                      type: "radio",
+                      name: "RV_GAV_AAV"
+                    },
+                    domProps: {
+                      value: indexGAV
+                    },
+                    on: {
+                      change: function change($event) {
+                        return _vm.displayRVs("GAV" + indexGAV);
+                      }
+                    }
+                  }), _vm._v(" "), _c("label", {
+                    attrs: {
+                      "for": indexGAV
+                    }
+                  }, [_vm._v(" GAV " + _vm._s(indexGAV + 1))]), _vm._v(" "), _c("textarea", {
+                    staticStyle: {
+                      display: "none"
+                    },
+                    attrs: {
+                      id: "GAV" + indexGAV
+                    }
+                  }, [_vm._v(" " + _vm._s(dataGAV) + " ")])])]);
+                }), 0), _vm._v(" "), _c("td", _vm._l(data["AAV Details"], function (dataAAV, indexAAV) {
+                  return _c("tr", {
+                    key: indexAAV,
+                    staticClass: "text-center"
+                  }, [_c("td", [_c("input", {
+                    attrs: {
+                      type: "radio",
+                      name: "RV_GAV_AAV"
+                    },
+                    domProps: {
+                      value: indexAAV
+                    },
+                    on: {
+                      change: function change($event) {
+                        return _vm.displayRVs("AAV" + indexAAV);
+                      }
+                    }
+                  }), _vm._v(" "), _c("label", {
+                    attrs: {
+                      "for": indexAAV
+                    }
+                  }, [_vm._v(" AAV " + _vm._s(indexAAV + 1))]), _vm._v(" "), _c("textarea", {
+                    staticStyle: {
+                      display: "none"
+                    },
+                    attrs: {
+                      id: "AAV" + indexAAV
+                    }
+                  }, [_vm._v(" " + _vm._s(dataAAV) + " ")])])]);
+                }), 0)])])];
+              },
+              proxy: true
+            }], null, true)
+          })], 1);
         }), 0)];
       },
       proxy: true
-    }], null, false, 1278556010)
-  })], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
+    }], null, false, 1212501955)
+  }), _vm._v(" "), _c("v-dialog", {
+    attrs: {
+      "max-width": "290"
+    },
+    model: {
+      value: _vm.dialog,
+      callback: function callback($$v) {
+        _vm.dialog = $$v;
+      },
+      expression: "dialog"
+    }
+  }, [_c("v-card", [_c("v-card-title", {
+    staticClass: "text-h5"
+  }, [_vm._v("\n              Details\n            ")]), _vm._v(" "), _c("v-card-text", [_vm._v("\n              " + _vm._s(_vm.dataRV_GAV_AAV) + "\n            ")]), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "green darken-1",
+      text: ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.dialog = false;
+      }
+    }
+  }, [_vm._v("\n                Close\n              ")])], 1)], 1)], 1)], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
     staticClass: "d-flex ubernehmen"
   }, [_c("v-text-field", {
     staticClass: "mr-4",
