@@ -8,12 +8,31 @@
       </div>
       <div class="ma-auto" style="max-width: min-content">
         <div class="d-flex mt-12 mb-5 pa-0">
-          <span class="pr-1">Bitte geben Sie nachfolgend den Befund ein, um den Festzuschuss zu errechnen. <a @click="showInfo=true">info</a></span>
+          <span class="pr-1">Befundeingabe <a @click="showInfo=true">info</a></span>
         </div>
         <div class="reset-btn">
           <!-- <v-btn @click="resetLoad" class="" elevation="0" color="#BBDEFB">Löschen</v-btn> -->
         </div>
         <div class="my-3">
+
+          <div v-show="calculated" :class="calculated?'d-flex':''" class="align-center">
+            <span class="px-3">TP</span>
+            <div class="d-flex justify-center">
+              <v-btn-toggle tile background-color="transparent">
+                <v-btn 
+                  text
+                  disabled
+                  class="ma-0 pa-0"
+                  style="border-color: transparent !important; color: black !important;"
+                  v-for="btn in upperJawRV"
+                  :key="btn.index"
+                >
+                  {{btn.value}}
+                </v-btn>
+              </v-btn-toggle>
+            </div>
+          </div>
+
           <div v-show="calculated" :class="calculated?'d-flex':''" class="align-center">
             <span class="px-3">RV</span>
             <div class="d-flex justify-center">
@@ -49,6 +68,7 @@
                 </v-btn-toggle>
               </div>
             </div>
+
             <div class="px-8 py-2">
               <UpperJaw
                 @btn-selected="upperJawSelectedBtn($event)"
@@ -86,6 +106,7 @@
               </div>
             </div>
           </div>
+
           <div v-show="calculated" :class="calculated?'d-flex':''" class="align-center">
             <span class="px-3">RV</span>
             <div class="d-flex justify-center">
@@ -103,9 +124,69 @@
               </v-btn-toggle>
             </div>
           </div>
+
+          <div v-show="calculated" :class="calculated?'d-flex':''" class="align-center">
+            <span class="px-3">TP</span>
+            <div class="d-flex justify-center">
+              <v-btn-toggle tile background-color="transparent">
+                <v-btn 
+                  text
+                  disabled
+                  class="ma-0 pa-0"
+                  style="border-color: transparent !important; color: black !important;"
+                  v-for="btn in MandibleRV"
+                  :key="btn.index"
+                >
+                  {{btn.value}}
+                </v-btn>
+              </v-btn-toggle>
+            </div>
+          </div>
+
         </div>
         <div v-if="calculated" class="my-4">
           <div>Bonus: <span class="font-weight-black">{{bonus}}%</span></div>
+
+
+          <v-data-table :headers="initialDataSetHeaders"
+                      :items="initialDataSet"
+                      item-key="caseId"
+                      :expanded.sync="set1"
+                      show-expand
+                      class="elevation-1"
+                      disable-pagination
+                      hide-default-footer
+                    >
+                      <!-- expand-icon="planen" -->
+
+            <template v-slot:expanded-item="{ headers, item }">
+                <td :colspan="headers.length">
+                    <v-data-table :headers="expandedDataSetHeaders"
+                                  :items="filteredData(item)"
+                                  item-key="RVId"
+                                  :expanded.sync="set2[item.caseId]"
+                                  show-expand
+                                  hide-default-footer
+                                  class="first-expanded-datatable">
+
+                        <template v-slot:expanded-item="{ headers, item: childItem }">
+
+                            <td :colspan="headers.length">
+                                <v-data-table :headers="secondExpandedDataSetHeaders"
+                                              :items="filteredHistoryData(childItem)"
+                                              item-key="historyId"
+                                              dense
+                                              hide-default-footer
+                                              class="expanded-datatable">
+
+                                </v-data-table>
+                            </td>
+                        </template>
+                    </v-data-table>
+                </td>
+            </template>
+          </v-data-table>
+
           <v-simple-table outlined class="my-2">
             <template v-slot:default>
               <thead>
@@ -121,10 +202,10 @@
                   <td class="text-center">{{data["Case Name"]}}</td>
                   <td class="text-center">{{ data["Case Region"] }}</td>
                   <!-- <td class="text-center">{{ data }}</td> -->
-                  <td class="text-center"> planning </td>
+                  <td class="text-center" @click="displaySecond=true" style="cursor:pointer; color:blue;"> planning </td>
                 <!-- </tr> -->
 
-                  <v-simple-table outlined class="my-2">
+                  <v-simple-table outlined class="my-2" v-show="displaySecond">
                     <template v-slot:default>
                       <thead>
                         <tr>
@@ -144,7 +225,7 @@
                             <tr class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
                               <td>
                                 <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('RV' + indexRV)" />
-                                <label :for="indexRV">RV {{ indexRV+1 }}</label>
+                                <label :for="indexRV"> {{ dataRV['RV Solution Name']}}</label>
                                 <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
                               </td>
                             </tr>
@@ -154,7 +235,7 @@
                             <tr class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV">
                               <td>
                                 <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('GAV' + indexGAV)" />
-                                <label :for="indexGAV"> GAV {{ indexGAV+1 }}</label>
+                                <label :for="indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
                                 <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
                               </td>
                             </tr>                          
@@ -164,7 +245,7 @@
                             <tr class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV">
                               <td>
                                 <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('AAV' + indexAAV)" />
-                                <label :for="indexAAV"> AAV {{ indexAAV+1 }}</label>
+                                <label :for="indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
                                 <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
                               </td>
                             </tr>                          
@@ -182,15 +263,95 @@
 
           <v-dialog
             v-model="dialog"
-            max-width="290"
+            max-width="750"
+            persistent
           >
             <v-card>
               <v-card-title class="text-h5">
-                Details
               </v-card-title>
 
               <v-card-text>
-                {{ dataRV_GAV_AAV }}
+
+                <h3 v-if="dataRV_GAV_AAV['RV#']">BEMA-Positionen</h3>
+                <v-simple-table v-if="dataRV_GAV_AAV['RV#']" outlined class="my-2">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">BEMA-Nr.</th>
+                        <th class="text-left">Leistungsbeschreibung</th>
+                        <th class="text-left">Zahn/ Gebiet</th>
+                        <th class="text-left">Anzahl</th>
+                        <th class="text-left">Betrag (€)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(datasRV, indexRV) in dataRV_GAV_AAV['RV Solution BEMA name']" :key="indexRV">
+                        <td> {{indexRV}}</td>
+                        <td> {{datasRV}} </td>
+                        <td> {{dataRV_GAV_AAV['RV Solution BEMA Region'][indexRV]}} </td>
+                        <td> {{dataRV_GAV_AAV['RV Solution BEMA Quantity'][indexRV]}} </td>
+                        <td> {{dataRV_GAV_AAV['RV Solution BEMA amount'][indexRV]}} </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+
+
+                <h3 v-if="dataRV_GAV_AAV['GAV#']">BEMA-Positionen</h3>
+                <v-simple-table v-if="dataRV_GAV_AAV['GAV#']" outlined class="my-2">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">BEMA-Nr.</th>
+                        <th class="text-left">Leistungsbeschreibung</th>
+                        <th class="text-left">Zahn/ Gebiet</th>
+                        <th class="text-left">Anzahl</th>
+                        <th class="text-left">Betrag (€)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(datasGAV, indexGAV) in dataRV_GAV_AAV['GAV Solution BEMA name']" :key="indexGAV">
+                        <td> {{indexGAV}}</td>
+                        <td> {{datasGAV}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA Region'][indexGAV]}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA Quantity'][indexGAV]}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+
+                <h3 v-if="dataRV_GAV_AAV['GAV#']">GOZ-Positionen</h3>
+                <v-simple-table v-if="dataRV_GAV_AAV['GAV#']" outlined class="my-2">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th class="text-left">GOZ-Nr.</th>
+                        <th class="text-left">Leistungsbeschreibung</th>
+                        <th class="text-left">Zahn/ Gebiet</th>
+                        <th class="text-left">Anzahl</th>
+                        <th class="text-left">Faktor</th>
+                        <th class="text-left">Betrag (€)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(datasGAV, indexGAV) in dataRV_GAV_AAV['GAV Solution BEMA name']" :key="indexGAV">
+                        <td> {{indexGAV}}</td>
+                        <td> {{indexGAV}}</td>
+                        <td> {{indexGAV}}</td>
+                        <td> {{indexGAV}}</td>
+                        <td> {{indexGAV}}</td>
+                        <td> {{indexGAV}}</td>
+                        <!-- <td> {{datasGAV}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA Region'][indexGAV]}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA Quantity'][indexGAV]}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td> -->
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+
               </v-card-text>
 
               <v-card-actions>
@@ -236,7 +397,7 @@
           ></v-select>
         </div>
         <div v-if="!calculated" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
-          <v-btn @click="apiCall" class="" elevation="0" color="#BBDEFB">Festzuschüsse berechnen</v-btn>
+          <v-btn @click="apiCall" class="" elevation="0" color="#BBDEFB">Zahnersatz planen</v-btn>
         </div>
       </div>
       <v-dialog v-model="showInfo" width="500">
@@ -633,7 +794,8 @@
       disabled: false,
       resetBtns: false,
       dialog: false,
-      dataRV_GAV_AAV: '',
+      displaySecond: false,
+      dataRV_GAV_AAV: [],
       manualUpperJaw: [],
       manualMandible: [],
       tableData: [],
@@ -661,7 +823,35 @@
                       '4.4' : 'zahnloser Unterkiefer',
                       '7.1' : 'erneuerungsbedurftige Suprakonstruktion',
                       '7.2' : 'erneuerungsbedurftige Suprakonstruktion',
-                  }
+                  },
+
+      levels: 5,
+      expanded: [],
+      set1: [],
+      set2: [],
+      set3: [],
+      disablePagination: true,
+      initialDataSetHeaders: [
+          { text: 'Case', value: 'case' },
+          { text: 'Zahn/Gebiet', value: 'zahn' },
+          { text: 'Versorgung', value: 'plan' },
+      ],
+      initialDataSet: [],
+      expandedDataSetHeaders: [
+          { text: 'Regelversorgung', value: 'regelversorgung' },
+          { text: 'Gleichartiger Zahnersatz', value: 'gleichartigerZahnersatz' },
+          { text: 'Andersartiger Zahnersatz', value: 'andersartigerZahnersatz' },
+      ],
+      expandedDataSet: [],
+      secondExpandedDataSetHeaders: [
+          { text: 'History', value: 'history' }
+      ],
+      secondExpandedDataSet: [
+          { specieId: 1, animalId: 1, historyId: 1, history: 'The cutest cat you could ever meet! <3' },
+          { specieId: 2, animalId: 2, historyId: 2, history: 'Known as THE DOG.' },
+          { specieId: 3, animalId: 3, historyId: 3, history: 'History missing for Joey' },
+      ],
+
     }),
     watch: {
       
@@ -803,7 +993,7 @@
         }
       },
       displayData(responseData) {
-        console.log(responseData.length)        
+        console.log(responseData.length)
         /*responseData.pop().forEach(element => {
           let splitedElement = element.split(':')
           // console.log(splitedElement)
@@ -823,15 +1013,50 @@
             })
           }
         });*/
+
+        for(var ca=0; ca<responseData.length; ca++) {
+          this.initialDataSet.push({ caseId: ca, case: responseData[ca]['Case Name'], zahn: responseData[ca]['Case Region'], plan: ca });
+
+          let maxRV = Math.max(responseData[ca]['RV Details'].length,
+                                responseData[ca]['GAV Details'].length,
+                                responseData[ca]['AAV Details'].length
+                      );
+          
+          // for(var rv=0; rv<responseData[ca]['RV Details'].length; rv++) {
+          for(var rv=0; rv<maxRV; rv++) {
+          // { caseId: 1, RVId: 1, regelversorgung: 'Spiffy', gleichartigerZahnersatz: 'Cat', andersartigerZahnersatz: 'Jan 2019' }
+            this.expandedDataSet.push({ caseId: ca, RVId: rv, 
+                // regelversorgung: '<input type="radio" value=R'+rv+' name="RV_GAV_AAV" v-on:change="displayRVs(indexRV)" />'+
+                //                 '<label :for="indexRV">'+ responseData[ca]["RV Details"][rv]["RV Solution Name"] +'</label>',
+
+                regelversorgung: responseData[ca]["RV Details"][rv]["RV Solution Name"],
+              
+          //     });
+          // }
+
+          // for(var gav=0; gav<responseData[ca]['GAV Details'].length; gav++) {
+          //   this.expandedDataSet.push({ caseId: ca, RVId: 'g' +gav, 
+                gleichartigerZahnersatz: responseData[ca]['GAV Details'][rv]['GAV Solution Name'],
+                // andersartigerZahnersatz: (responseData[ca]['AAV Details'][rv]['AAV Solution Name'] !== undefined) ? responseData[ca]['AAV Details'][rv]['AAV Solution Name'] : '',
+                andersartigerZahnersatz: '',
+          
+          });
+          }
+
+          // for(var rv=0; rv<responseData.rv_details[ca].length; rv++) {
+            // this.expandedDataSet.push({ caseId: ca, RVId: rv, andersartigerZahnersatz: 'Jan 2019' });
+          // }
+
+        }
+
         this.tableData = responseData
         this.apiCallSuccess = true
       },
       displayRVs(idValue) {
-        let dataValues = document.getElementById(idValue).value
+        let dataValues = JSON.parse(document.getElementById(idValue).value)
 
         this.dataRV_GAV_AAV = dataValues
         this.dialog = true
-
       },
       reset() {
         // Object.assign(this.$data, this.$options.data.apply(this))
@@ -991,6 +1216,14 @@
         if(this.findingsEntries) {
           this.disabled = true
         }
+      },
+
+
+      filteredData(item) {
+        return this.expandedDataSet.filter(f => f.caseId == item.caseId);
+      },
+      filteredHistoryData(item) {
+        return this.secondExpandedDataSet.filter(f => f.RVId == item.RVId);
       }
     }
   }
@@ -1012,4 +1245,31 @@ td, th {
   text-align: left;
   padding: 8px;
 }
+
+
+table {
+  table-layout: fixed;
+}
+
+.v-data-table__expanded__content td {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+.v-data-table__expanded {
+  box-shadow: none !important;
+}
+.v-data-table__expanded__content {
+  background-color: rgba(255, 209, 220, 0.2) !important;
+}
+.v-data-table__expanded__content .expanded-datatable {
+  background-color: white !important;
+}
+.expanded-datatable {
+  border-radius: 0px !important;
+  background-color: white !important;
+}
+thead {
+  background-color: #ddecdd !important;
+}
+
 </style>
