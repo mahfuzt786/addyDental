@@ -144,6 +144,7 @@
           </div>
 
         </div>
+
         <div v-if="calculated" class="my-4">
           <div>Bonus: <span class="font-weight-black">{{bonus}}%</span></div>
 
@@ -202,7 +203,7 @@
                   <td class="text-center">{{data["Case Name"]}}</td>
                   <td class="text-center">{{ data["Case Region"] }}</td>
                   <!-- <td class="text-center">{{ data }}</td> -->
-                  <td class="text-center" @click="displaySecond=true" style="cursor:pointer; color:blue;"> planning </td>
+                  <td class="text-center" @click="displaySecond=true" style="cursor:pointer; color:blue;"> planen </td>
                 <!-- </tr> -->
 
                   <v-simple-table outlined class="my-2" v-show="displaySecond">
@@ -335,18 +336,29 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(datasGAV, indexGAV) in dataRV_GAV_AAV['GAV Solution BEMA name']" :key="indexGAV">
+                      <tr v-for="(datasGAV, indexGAV) in dataRV_GAV_AAV['GAV Solution GOZ name']" :key="indexGAV">
                         <td> {{indexGAV}}</td>
-                        <td> {{indexGAV}}</td>
-                        <td> {{indexGAV}}</td>
-                        <td> {{indexGAV}}</td>
-                        <td> {{indexGAV}}</td>
-                        <td> {{indexGAV}}</td>
-                        <!-- <td> {{datasGAV}} </td>
-                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA Region'][indexGAV]}} </td>
-                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA Quantity'][indexGAV]}} </td>
-                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td>
-                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td> -->
+                        <td> {{datasGAV}}</td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution GOZ Region'][indexGAV]}}</td>
+                        <td> {{dataRV_GAV_AAV['GAV Solution GOZ Quantity'][indexGAV]}}</td>
+                        <td>
+                          <v-slider
+                            value=""
+                            :tick-labels="ticksLabels"
+                            :max="2"
+                            step="1"
+                            ticks="always"
+                            tick-size="4"
+                            :thumb-size="36"
+                            :vertical="true"
+                            v-on:change="displayFak(faktors)"
+                          >
+                          <template v-slot:thumb-label="{ modelValue }">
+                            {{ displayFak(modelValue) }}
+                          </template>
+                          </v-slider>
+                        </td>
+                        <td> {{gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV]) }} </td>
                       </tr>
                     </tbody>
                   </template>
@@ -851,6 +863,12 @@
           { specieId: 2, animalId: 2, historyId: 2, history: 'Known as THE DOG.' },
           { specieId: 3, animalId: 3, historyId: 3, history: 'History missing for Joey' },
       ],
+      faktors: 1,
+      ticksLabels: [
+        '1',
+        '2.3',
+        '3.5',
+      ],
 
     }),
     watch: {
@@ -1058,6 +1076,10 @@
         this.dataRV_GAV_AAV = dataValues
         this.dialog = true
       },
+      gozAmount(amount) {
+
+        return (parseFloat(2.3) * parseFloat(amount)).toFixed(2);
+      },
       reset() {
         // Object.assign(this.$data, this.$options.data.apply(this))
         // this.resetBtns = true
@@ -1216,6 +1238,10 @@
         if(this.findingsEntries) {
           this.disabled = true
         }
+      },
+      displayFak(faktors) {
+        console.log(faktors)
+        return faktors;
       },
 
 
