@@ -50,6 +50,52 @@
               </v-btn-toggle>
             </div>
           </div>
+          <div class="table-container" v-if="calculated">
+            <v-simple-table outlined>
+              <template v-slot:default>
+              <tbody>
+                <tr>
+                  <td> Honorar BEMA </td>
+                  <td class="totalAmountBema"> {{ totalBema }} €</td>
+                </tr>
+
+                <tr>
+                  <td> Honorar GOZ/GOÄ </td>
+                  <td class="totalAmountGoz"> {{ totalGav }} €</td>
+                </tr>
+
+                <tr>
+                  <td> Labor gewerblich </td>
+                  <td> 0.00 €</td>
+                </tr>
+
+                <tr>
+                  <td> Eigenlabor </td>
+                  <td> 0.00 €</td>
+                </tr>
+
+                <tr>
+                  <td> Summe </td>
+                  <td> 0.00 €</td>
+                </tr>
+
+                <tr>
+                  <td> Festzuschüsse </td>
+                  <td> {{totalAmount}} €</td>
+                </tr>
+
+                <tr>
+                  <td> Eigenanteil Patient </td>
+                  <td> 0.00 €</td>
+                </tr>
+
+                </tbody>
+
+                </template>
+
+            </v-simple-table>
+          </div>
+
           <div class="button-container">
             <div class="d-flex align-center">
               <span class="px-3">B</span>
@@ -148,8 +194,7 @@
         <div v-if="calculated" class="my-4">
           <div>Bonus: <span class="font-weight-black">{{bonus}}%</span></div>
 
-
-          <v-data-table :headers="initialDataSetHeaders"
+          <!-- <v-data-table :headers="initialDataSetHeaders"
                       :items="initialDataSet"
                       item-key="caseId"
                       :expanded.sync="set1"
@@ -158,8 +203,6 @@
                       disable-pagination
                       hide-default-footer
                     >
-                      <!-- expand-icon="planen" -->
-
             <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
                     <v-data-table :headers="expandedDataSetHeaders"
@@ -186,7 +229,7 @@
                     </v-data-table>
                 </td>
             </template>
-          </v-data-table>
+          </v-data-table> -->
 
           <v-simple-table outlined class="my-2">
             <template v-slot:default>
@@ -194,19 +237,17 @@
                 <tr>
                   <th class="text-center text-subtitle-1 font-weight-black">Case</th>
                   <th class="text-center text-subtitle-1 font-weight-black">Zahn/Gebiet</th>
-                  <!-- <th class="text-center text-subtitle-1 font-weight-black"> . </th> -->
                   <th class="text-center text-subtitle-1 font-weight-black">Versorgung</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(data, index) in tableData" :key="index">
-                  <td class="text-center">{{data["Case Name"]}}</td>
-                  <td class="text-center">{{ data["Case Region"] }}</td>
-                  <!-- <td class="text-center">{{ data }}</td> -->
-                  <td class="text-center" @click="displaySecond=true" style="cursor:pointer; color:blue;"> planen </td>
+                  <td class="text-center" v-if="index !== 'Final'">{{data["Case Name"]}}</td>
+                  <td class="text-center" v-if="index !== 'Final'">{{ data["Case Region"] }}</td>
+                  <td class="text-center" v-if="index !== 'Final'" @click=displayPlanen(index) style="cursor:pointer; color:blue;"> planen </td>
                 <!-- </tr> -->
 
-                  <v-simple-table outlined class="my-2" v-show="displaySecond">
+                  <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
                     <template v-slot:default>
                       <thead>
                         <tr>
@@ -216,11 +257,6 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <!-- <tr v-for="(data, index) in tableData" :key="index">
-                          <td class="text-center">{{data["Case Name"]}}</td>
-                          <td class="text-center">{{ data["Case Region"] }}</td>
-                          <td class="text-center">{{ data["Case Region"] }}</td>
-                        </tr> -->
                         <tr>
                           <td>
                             <tr class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
@@ -263,7 +299,7 @@
           </v-simple-table>
 
           <v-dialog
-            v-model="dialog"
+            v-model="dialogCalc"
             max-width="750"
             persistent
           >
@@ -291,7 +327,7 @@
                         <td> {{datasRV}} </td>
                         <td> {{dataRV_GAV_AAV['RV Solution BEMA Region'][indexRV]}} </td>
                         <td> {{dataRV_GAV_AAV['RV Solution BEMA Quantity'][indexRV]}} </td>
-                        <td> {{dataRV_GAV_AAV['RV Solution BEMA amount'][indexRV]}} </td>
+                        <td class="clsBemaAmount"> {{dataRV_GAV_AAV['RV Solution BEMA amount'][indexRV]}} </td>
                       </tr>
                     </tbody>
                   </template>
@@ -316,7 +352,7 @@
                         <td> {{datasGAV}} </td>
                         <td> {{dataRV_GAV_AAV['GAV Solution BEMA Region'][indexGAV]}} </td>
                         <td> {{dataRV_GAV_AAV['GAV Solution BEMA Quantity'][indexGAV]}} </td>
-                        <td> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td>
+                        <td class="clsBemaAmount"> {{dataRV_GAV_AAV['GAV Solution BEMA amount'][indexGAV]}} </td>
                       </tr>
                     </tbody>
                   </template>
@@ -343,7 +379,7 @@
                         <td> {{dataRV_GAV_AAV['GAV Solution GOZ Quantity'][indexGAV]}}</td>
                         <td>
                           <v-slider
-                            value=""
+                            v-model="faktors"
                             :tick-labels="ticksLabels"
                             :max="2"
                             step="1"
@@ -353,12 +389,14 @@
                             :vertical="true"
                             v-on:change="displayFak(faktors)"
                           >
-                          <template v-slot:thumb-label="{ modelValue }">
-                            {{ displayFak(modelValue) }}
-                          </template>
+                          
                           </v-slider>
+
+                          <!-- <input type="range" min="1" max="3" step="1" v-model="faktors"> -->
+                          <!-- {{gozTotalCalc(dataRV_GAV_AAV['GAV Solution GOZ amount'])}} -->
                         </td>
-                        <td> {{gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV]) }} </td>
+                        <td class="clsGozAmount"> {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV]) }}
+                        </td>
                       </tr>
                     </tbody>
                   </template>
@@ -372,10 +410,18 @@
                 <v-btn
                   color="green darken-1"
                   text
-                  @click="dialog = false"
+                  @click="calcTable"
                 >
-                  Close
-                </v-btn>                                      
+                  speichern
+                </v-btn>
+
+                <v-btn
+                  color="red darken-1"
+                  text
+                  @click="dialogCalc = false"
+                >
+                  abbrechen
+                </v-btn> 
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -805,7 +851,7 @@
       findingsEntries: '',
       disabled: false,
       resetBtns: false,
-      dialog: false,
+      dialogCalc: false,
       displaySecond: false,
       dataRV_GAV_AAV: [],
       manualUpperJaw: [],
@@ -869,6 +915,8 @@
         '2.3',
         '3.5',
       ],
+      totalGav: '0.00',
+      totalBema: '0.00',
 
     }),
     watch: {
@@ -888,8 +936,10 @@
     computed: {
       // ...mapGetters(["isLoggedIn"]),
       totalAmount() {
-        if(this.tableData.length>0) {
-          return (this.tableData.map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0)).toFixed(2)
+        if(this.tableData['Final'] && 
+          this.tableData['Final'].length > 0
+        ) {
+          return (this.tableData['Final'].map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0)).toFixed(2)
         } else {
           return 'XXX,XX'
         }
@@ -961,7 +1011,7 @@
           input.push({"00": this.bonus})
 
           this.calculateValuesApi(input).then((response) => {
-            console.log(response)
+            // console.log(response)
             /*if(response.data[0].length>1) {
               let title = '';
               let text = '';
@@ -1011,7 +1061,7 @@
         }
       },
       displayData(responseData) {
-        console.log(responseData.length)
+        // console.log(responseData.length)
         /*responseData.pop().forEach(element => {
           let splitedElement = element.split(':')
           // console.log(splitedElement)
@@ -1069,16 +1119,20 @@
 
         this.tableData = responseData
         this.apiCallSuccess = true
+        this.dataRV_GAV_AAV = []
       },
       displayRVs(idValue) {
         let dataValues = JSON.parse(document.getElementById(idValue).value)
 
-        this.dataRV_GAV_AAV = dataValues
-        this.dialog = true
-      },
-      gozAmount(amount) {
+        console.log(dataValues)
 
-        return (parseFloat(2.3) * parseFloat(amount)).toFixed(2);
+        this.dataRV_GAV_AAV = dataValues
+
+        this.dialogCalc = true
+      },
+      gozAmount(amountGoz) {
+
+        return (parseFloat(2.3) * parseFloat(amountGoz)).toFixed(2);
       },
       reset() {
         // Object.assign(this.$data, this.$options.data.apply(this))
@@ -1240,11 +1294,35 @@
         }
       },
       displayFak(faktors) {
-        console.log(faktors)
+        // console.log(faktors)
         return faktors;
       },
+      displayPlanen(rowIndex) {
+        this.displaySecond = rowIndex;
+      },
+      calcTable() {
+        const collectionGoz = document.getElementsByClassName("clsGozAmount");
+        const collectionBema = document.getElementsByClassName("clsBemaAmount");
+
+        let clsGozAmount = 0;
+        let clsBemaAmount = 0;
+
+        for(var gozI=0; gozI<collectionGoz.length; gozI++) {
+          clsGozAmount += parseFloat(collectionGoz[gozI].innerText)
+        }
+        // document.getElementsByClassName("totalAmountGoz").innerHTML = clsGozAmount + ' €'
+        this.totalGav = parseFloat(clsGozAmount).toFixed(2)
+
+        for(var bemaI=0; bemaI<collectionBema.length; bemaI++) {
+          clsBemaAmount += parseFloat(collectionBema[bemaI].innerText)
+        }
+        // document.getElementsByClassName("totalAmountBema").innerHTML = clsBemaAmount + ' €'
+        this.totalBema = parseFloat(clsBemaAmount).toFixed(2)
 
 
+
+        this.dialogCalc = false
+      },
       filteredData(item) {
         return this.expandedDataSet.filter(f => f.caseId == item.caseId);
       },
@@ -1259,6 +1337,14 @@
   background-color: #eeeeee;
   width: fit-content;
   padding: 10px;
+}
+.table-container {
+  background-color: white;
+  width: 275px !important;
+  margin-right: 25px !important;
+  margin-left: -300px;
+  float: left;
+  height: 325px;
 }
 .ubernehmen {
   width: 80%;
