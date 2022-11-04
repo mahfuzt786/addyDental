@@ -387,7 +387,7 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="true"
-                            v-on:change="displayFak(indexGAV, dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV])"
+                            v-on:change="displayFak(indexGAV, dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], 'GAV')"
                             :id="'GAVSlider'+ indexGAV"
                           >
                           </v-slider>
@@ -421,7 +421,7 @@
                         <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity'][indexAAV]}}</td>
                         <td v-if="datasAAV">
                           <v-slider
-                            v-model="faktors"
+                            value="1"
                             :tick-labels="ticksLabels"
                             :max="2"
                             step="1"
@@ -429,15 +429,15 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="true"
-                            v-on:change="displayFak(faktors)"
+                            v-on:change="displayFak(indexAAV, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAV')"
+                            :id="'AAVSlider'+ indexAAV"
                           >
-                          
                           </v-slider>
 
                           <!-- <input type="range" min="1" max="3" step="1" v-model="faktors"> -->
                           <!-- {{gozTotalCalc(dataRV_GAV_AAV['GAV Solution GOZ amount'])}} -->
                         </td>
-                        <td v-if="datasAAV" class="clsGozAmount"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV]) }}
+                        <td v-if="datasAAV" class="clsGozAmount" :id="'AAVAmount'+ indexAAV"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
                         </td>
                       </tr>
                     </tbody>
@@ -459,13 +459,13 @@
                     </thead>
                     <tbody>
                       <tr v-for="(datasAAV, indexAAV) in dataRV_GAV_AAV['AAV Solution GOZ name Opt']" :key="indexAAV">
-                        <td> o{{indexAAV}}</td>
-                        <td> {{datasAAV}}</td>
-                        <td> {{dataRV_GAV_AAV['AAV Solution GOZ Region Opt'][indexAAV]}}</td>
-                        <td> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV]}}</td>
-                        <td>
+                        <td v-if="datasAAV"> o{{indexAAV}}</td>
+                        <td v-if="datasAAV"> {{datasAAV}}</td>
+                        <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Region Opt'][indexAAV]}}</td>
+                        <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV]}}</td>
+                        <td v-if="datasAAV">
                           <v-slider
-                            v-model="faktors"
+                            value="1"
                             :tick-labels="ticksLabels"
                             :max="2"
                             step="1"
@@ -473,15 +473,12 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="true"
-                            v-on:change="displayFak(faktors)"
+                            v-on:change="displayFak(indexAAV, dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], 'oAAV')"
+                            :id="'oAAVSlider'+ indexAAV"
                           >
-                          
                           </v-slider>
-
-                          <!-- <input type="range" min="1" max="3" step="1" v-model="faktors"> -->
-                          <!-- {{gozTotalCalc(dataRV_GAV_AAV['GAV Solution GOZ amount'])}} -->
                         </td>
-                        <td class="clsGozAmount"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV]) }}
+                        <td v-if="datasAAV" class="clsGozAmount" :id="'oAAVAmount'+ indexAAV"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], '2.3') }}
                         </td>
                       </tr>
                     </tbody>
@@ -512,7 +509,14 @@
             </v-card>
           </v-dialog>
 
-          <!-- <span class="text-subtitle-1 font-weight-black">Summe Festzuschüsse Kasse: <span class="font-weight-black">{{totalAmount}}</span> EUR</span> -->
+          <v-overlay :value="overlay">
+            <v-progress-circular
+              :size="70"
+              :width="7"
+              color="purple"
+              indeterminate
+            ></v-progress-circular>
+          </v-overlay>
         </div>
         
         <div v-if="!calculated" class="d-flex ubernehmen">
@@ -1004,6 +1008,7 @@
       totalGav: '0.00',
       totalBema: '0.00',
       totalSumCalc: '0.00',
+      overlay: false,
 
     }),
     watch: {
@@ -1096,6 +1101,8 @@
           })
           let input = upperInput.concat(mandibleInput.reverse())
           input.push({"00": this.bonus})
+
+          this.overlay = true
 
           this.calculateValuesApi(input).then((response) => {
             // console.log(response)
@@ -1208,6 +1215,7 @@
         this.tableData = responseData
         this.apiCallSuccess = true
         this.dataRV_GAV_AAV = []
+        this.overlay = false
       },
       displayRVs(idValue) {
         let dataValues = JSON.parse(document.getElementById(idValue).value)
@@ -1381,14 +1389,23 @@
           this.disabled = true
         }
       },
-      displayFak(faktors, amountGoz) {
+      displayFak(faktors, amountGoz, solutionT) {
         // console.log(document.getElementById('GAVAmount'+faktors).value)
+        if(solutionT == 'GAV') {
+          let newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSlider'+faktors).value])
+          document.getElementById('GAVAmount'+faktors).innerHTML = newGozAmount
+        }
 
-        let newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSlider'+faktors).value])
+        if(solutionT == 'AAV') {
+          let newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVSlider'+faktors).value])
+          document.getElementById('AAVAmount'+faktors).innerHTML = newGozAmount
+        }
 
-        console.log(newGozAmount)
+        if(solutionT == 'oAAV') {
+          let newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('oAAVSlider'+faktors).value])
+          document.getElementById('oAAVAmount'+faktors).innerHTML = newGozAmount
+        }
 
-        document.getElementById('GAVAmount'+faktors).innerHTML = newGozAmount
       },
       displayPlanen(rowIndex) {
         this.displaySecond = rowIndex;
@@ -1453,11 +1470,9 @@ td, th {
   padding: 8px;
 }
 
-
 table {
   table-layout: fixed;
 }
-
 .v-data-table__expanded__content td {
   padding-right: 0px !important;
   padding-left: 0px !important;
@@ -1477,6 +1492,9 @@ table {
 }
 thead {
   background-color: #ddecdd !important;
+}
+.v-progress-circular {
+  margin: 1rem !important;
 }
 
 </style>
