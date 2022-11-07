@@ -241,10 +241,12 @@
                 </tr>
               </thead>
               <tbody>
+              <!-- <template v-for="(data, index) in tableData" > -->
+
                 <tr v-for="(data, index) in tableData" :key="index">
                   <td class="text-center" v-if="index !== 'Final'">{{data["Case Name"]}}</td>
                   <td class="text-center" v-if="index !== 'Final'">{{ data["Case Region"] }}</td>
-                  <td class="text-center" v-if="index !== 'Final'" @click=displayPlanen(index) style="cursor:pointer; color:blue;"> planen </td>
+                  <td class="text-center" v-if="index !== 'Final'" :id="'planen'+index" @click=displayPlanen(index) style="cursor:pointer; color:blue;"> planen </td>
                 <!-- </tr> -->
 
                   <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
@@ -261,8 +263,8 @@
                           <td>
                             <tr class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
                               <td>
-                                <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('RV' + indexRV)" />
-                                <label :for="indexRV"> {{ dataRV['RV Solution Name']}}</label>
+                                <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + indexRV)" />
+                                <label :for="indexRV" :id="'lblRV' + index"> {{ dataRV['RV Solution Name']}}</label>
                                 <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
                               </td>
                             </tr>
@@ -271,8 +273,8 @@
                           <td>
                             <tr class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV">
                               <td>
-                                <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('GAV' + indexGAV)" />
-                                <label :for="indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
+                                <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + indexGAV)" />
+                                <label :for="indexGAV" :id="'lblGAV' + index"> {{ dataGAV['GAV Solution Name'] }}</label>
                                 <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
                               </td>
                             </tr>                          
@@ -281,8 +283,8 @@
                           <td>
                             <tr class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV">
                               <td>
-                                <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('AAV' + indexAAV)" />
-                                <label :for="indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
+                                <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + indexAAV)" />
+                                <label :for="indexAAV" :id="'lblAAV' + index"> {{ dataAAV['AAV Solution Name'] }}</label>
                                 <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
                               </td>
                             </tr>                          
@@ -294,6 +296,7 @@
                   </v-simple-table>
 
                 </tr>
+
               </tbody>
             </template>
           </v-simple-table>
@@ -305,6 +308,7 @@
           >
             <v-card>
               <v-card-title class="text-h5">
+                
               </v-card-title>
 
               <v-card-text>
@@ -332,7 +336,6 @@
                     </tbody>
                   </template>
                 </v-simple-table>
-
 
                 <h3 v-if="dataRV_GAV_AAV['GAV#']">BEMA-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['GAV#']" outlined class="my-2">
@@ -444,7 +447,12 @@
                   </template>
                 </v-simple-table>
 
-                <h3 v-if="dataRV_GAV_AAV['AAV#']"> Optionale GOZ-Positionen</h3>
+                <h3 v-if="dataRV_GAV_AAV['AAV#']"> 
+                  <v-checkbox
+                    v-model="checkbox"
+                    :label="`Checkbox 1: ${checkbox.toString()}`"
+                  ></v-checkbox> Optionale GOZ-Positionen
+                </h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['AAV#']" outlined class="my-2">
                   <template v-slot:default>
                     <thead>
@@ -493,7 +501,7 @@
                 <v-btn
                   color="green darken-1"
                   text
-                  @click="calcTable"
+                  @click="calcTable(dialogRow)"
                 >
                   speichern
                 </v-btn>
@@ -513,7 +521,7 @@
             <v-progress-circular
               :size="70"
               :width="7"
-              color="purple"
+              color="primary"
               indeterminate
             ></v-progress-circular>
           </v-overlay>
@@ -973,32 +981,6 @@
                       '7.2' : 'erneuerungsbedurftige Suprakonstruktion',
                   },
 
-      levels: 5,
-      expanded: [],
-      set1: [],
-      set2: [],
-      set3: [],
-      disablePagination: true,
-      initialDataSetHeaders: [
-          { text: 'Case', value: 'case' },
-          { text: 'Zahn/Gebiet', value: 'zahn' },
-          { text: 'Versorgung', value: 'plan' },
-      ],
-      initialDataSet: [],
-      expandedDataSetHeaders: [
-          { text: 'Regelversorgung', value: 'regelversorgung' },
-          { text: 'Gleichartiger Zahnersatz', value: 'gleichartigerZahnersatz' },
-          { text: 'Andersartiger Zahnersatz', value: 'andersartigerZahnersatz' },
-      ],
-      expandedDataSet: [],
-      secondExpandedDataSetHeaders: [
-          { text: 'History', value: 'history' }
-      ],
-      secondExpandedDataSet: [
-          { specieId: 1, animalId: 1, historyId: 1, history: 'The cutest cat you could ever meet! <3' },
-          { specieId: 2, animalId: 2, historyId: 2, history: 'Known as THE DOG.' },
-          { specieId: 3, animalId: 3, historyId: 3, history: 'History missing for Joey' },
-      ],
       faktors: 1,
       ticksLabels: [
         '1',
@@ -1009,6 +991,9 @@
       totalBema: '0.00',
       totalSumCalc: '0.00',
       overlay: false,
+      dialogRow: 0,
+      checkbox: true,
+      planLabel: '',
 
     }),
     watch: {
@@ -1155,8 +1140,9 @@
         }
       },
       displayData(responseData) {
-        // console.log(responseData)
-        // responseData.pop().forEach(element => {
+        console.log(responseData)
+
+        // responseData[''].pop().forEach(element => {
         //   let splitedElement = element.split(':')
         //   // console.log(splitedElement)
         //   if(Number(splitedElement[0])<30) {
@@ -1176,51 +1162,17 @@
         //   }
         // });
 
-
-        for(var ca=0; ca<responseData.length; ca++) {
-          this.initialDataSet.push({ caseId: ca, case: responseData[ca]['Case Name'], zahn: responseData[ca]['Case Region'], plan: ca });
-
-          let maxRV = Math.max(responseData[ca]['RV Details'].length,
-                                responseData[ca]['GAV Details'].length,
-                                responseData[ca]['AAV Details'].length
-                      );
-          
-          // for(var rv=0; rv<responseData[ca]['RV Details'].length; rv++) {
-          for(var rv=0; rv<maxRV; rv++) {
-          // { caseId: 1, RVId: 1, regelversorgung: 'Spiffy', gleichartigerZahnersatz: 'Cat', andersartigerZahnersatz: 'Jan 2019' }
-            this.expandedDataSet.push({ caseId: ca, RVId: rv, 
-                // regelversorgung: '<input type="radio" value=R'+rv+' name="RV_GAV_AAV" v-on:change="displayRVs(indexRV)" />'+
-                //                 '<label :for="indexRV">'+ responseData[ca]["RV Details"][rv]["RV Solution Name"] +'</label>',
-
-                regelversorgung: responseData[ca]["RV Details"][rv]["RV Solution Name"],
-              
-          //     });
-          // }
-
-          // for(var gav=0; gav<responseData[ca]['GAV Details'].length; gav++) {
-          //   this.expandedDataSet.push({ caseId: ca, RVId: 'g' +gav, 
-                gleichartigerZahnersatz: responseData[ca]['GAV Details'][rv]['GAV Solution Name'],
-                // andersartigerZahnersatz: (responseData[ca]['AAV Details'][rv]['AAV Solution Name'] !== undefined) ? responseData[ca]['AAV Details'][rv]['AAV Solution Name'] : '',
-                andersartigerZahnersatz: '',
-          
-          });
-          }
-
-          // for(var rv=0; rv<responseData.rv_details[ca].length; rv++) {
-            // this.expandedDataSet.push({ caseId: ca, RVId: rv, andersartigerZahnersatz: 'Jan 2019' });
-          // }
-
-        }
-
         this.tableData = responseData
         this.apiCallSuccess = true
         this.dataRV_GAV_AAV = []
         this.overlay = false
       },
-      displayRVs(idValue) {
+      displayRVs(label, idValue) {
         let dataValues = JSON.parse(document.getElementById(idValue).value)
 
         console.log(dataValues)
+
+        this.planLabel = label
 
         this.dataRV_GAV_AAV = dataValues
 
@@ -1408,9 +1360,10 @@
 
       },
       displayPlanen(rowIndex) {
+        this.dialogRow = rowIndex;
         this.displaySecond = rowIndex;
       },
-      calcTable() {
+      calcTable(dialogRowIndex) {
         const collectionGoz = document.getElementsByClassName("clsGozAmount");
         const collectionBema = document.getElementsByClassName("clsBemaAmount");
 
@@ -1429,9 +1382,11 @@
         // document.getElementsByClassName("totalAmountBema").innerHTML = clsBemaAmount + ' €'
         this.totalBema = parseFloat(clsBemaAmount).toFixed(2)
 
-        this.totalSumCalc = parseFloat(this.totalGav) + parseFloat(this.totalBema)
+        this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
 
+        document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel+dialogRowIndex).innerHTML
 
+        this.displaySecond = false;
 
         this.dialogCalc = false
       },

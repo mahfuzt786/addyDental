@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CalculateController;
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,9 +31,12 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 //     return Inertia::render("Home");
 //  })->name('home');
 
-Route::get('calculation', function () {
-    return Inertia::render("Calculation");
- })->name('calculation');
+// Route::get('calculation', function () {
+//     return Inertia::render("Calculation");
+//  })->name('calculation');
+
+Route::get('calculation', [CalculateController::class, 'index'])->name('calculation');
+
 
 require __DIR__.'/auth.php';
 
