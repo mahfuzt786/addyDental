@@ -56,37 +56,37 @@
               <tbody>
                 <tr>
                   <td> Honorar BEMA </td>
-                  <td class="totalAmountBema"> {{ totalBema }} €</td>
+                  <td class="totalAmountBema"> {{ totalBema }} <span v-html="euro"></span> </td>
                 </tr>
 
                 <tr>
-                  <td> Honorar GOZ/GOÄ </td>
-                  <td class="totalAmountGoz"> {{ totalGav }} €</td>
+                  <td> Honorar GOZ / GOA </td>
+                  <td class="totalAmountGoz"> {{totalGav}} <span v-html="euro"></span> </td>
                 </tr>
 
                 <tr>
                   <td> Labor gewerblich </td>
-                  <td> 0.00 €</td>
+                  <td> 0.00 € </td>
                 </tr>
 
                 <tr>
                   <td> Eigenlabor </td>
-                  <td> 0.00 €</td>
+                  <td> 0.00 <span v-html="euro"></span> </td>
                 </tr>
 
                 <tr>
                   <td> Summe </td>
-                  <td> {{ totalSumCalc }} €</td>
+                  <td> {{totalSumCalc}} <span v-html="euro"></span> </td>
                 </tr>
 
                 <tr>
-                  <td> Festzuschüsse </td>
-                  <td> {{totalAmount}} €</td>
+                  <td> Festzuschusse </td>
+                  <td> {{totalAmount}} <span v-html="euro"></span> </td>
                 </tr>
 
                 <tr>
                   <td> Eigenanteil Patient </td>
-                  <td> 0.00 €</td>
+                  <td> 0.00 <span v-html="euro"></span> </td>
                 </tr>
 
                 </tbody>
@@ -194,43 +194,6 @@
         <div v-if="calculated" class="my-4">
           <div>Bonus: <span class="font-weight-black">{{bonus}}%</span></div>
 
-          <!-- <v-data-table :headers="initialDataSetHeaders"
-                      :items="initialDataSet"
-                      item-key="caseId"
-                      :expanded.sync="set1"
-                      show-expand
-                      class="elevation-1"
-                      disable-pagination
-                      hide-default-footer
-                    >
-            <template v-slot:expanded-item="{ headers, item }">
-                <td :colspan="headers.length">
-                    <v-data-table :headers="expandedDataSetHeaders"
-                                  :items="filteredData(item)"
-                                  item-key="RVId"
-                                  :expanded.sync="set2[item.caseId]"
-                                  show-expand
-                                  hide-default-footer
-                                  class="first-expanded-datatable">
-
-                        <template v-slot:expanded-item="{ headers, item: childItem }">
-
-                            <td :colspan="headers.length">
-                                <v-data-table :headers="secondExpandedDataSetHeaders"
-                                              :items="filteredHistoryData(childItem)"
-                                              item-key="historyId"
-                                              dense
-                                              hide-default-footer
-                                              class="expanded-datatable">
-
-                                </v-data-table>
-                            </td>
-                        </template>
-                    </v-data-table>
-                </td>
-            </template>
-          </v-data-table> -->
-
           <v-simple-table outlined class="my-2">
             <template v-slot:default>
               <thead>
@@ -249,7 +212,93 @@
                   <td class="text-center" v-if="index !== 'Final'" :id="'planen'+index" @click=displayPlanen(index) style="cursor:pointer; color:blue;"> planen </td>
                 <!-- </tr> -->
 
-                  <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
+                  <v-dialog
+                    v-model="dialogSolution[index]"
+                    max-width="750"
+                    persistent
+                  >
+                  <v-card>
+                    <v-card-title class="text-h5">
+                      {{data["Case Name"]}}
+                    </v-card-title>
+
+                    <v-card-text>
+                      
+                      <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
+                        <template v-slot:default>
+                          <!-- <thead>
+                            <tr>
+                              <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
+                              <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
+                              <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
+                            </tr>
+                          </thead> -->
+                          <tbody>
+                            <tr>
+                              <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
+                                    <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + indexRV, indexRV)" />
+                                    <label :for="indexRV" :id="'lblRV' + indexRV"> {{ dataRV['RV Solution Name']}}</label>
+                                    <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
+
+                                    <v-divider></v-divider>
+                                  </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
+                                    <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + indexGAV, indexGAV)" />
+                                    <label :for="indexGAV" :id="'lblGAV' + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
+                                    <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
+
+                                    <v-divider></v-divider>
+                                </div>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
+                            </tr>
+                            <tr>
+                              <td>
+                                <div class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
+                                    <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + indexAAV, indexAAV)" />
+                                    <label :for="indexAAV" :id="'lblAAV' + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
+                                    <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
+
+                                    <v-divider></v-divider>
+                                  </div>
+                              </td>                          
+                            </tr>
+
+                          </tbody>
+                        </template>
+                      </v-simple-table>
+
+                    </v-card-text>
+
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <!-- <v-btn
+                        color="red darken-1"
+                        text
+                        @click="dialogSolution[index] = false"
+                      >
+                        abbrechen
+                      </v-btn>  -->
+                    </v-card-actions>
+                  </v-card>
+                  </v-dialog>
+
+                  <!-- <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
                     <template v-slot:default>
                       <thead>
                         <tr>
@@ -260,46 +309,42 @@
                       </thead>
                       <tbody>
                         <tr>
+
                           <td>
-                            <tr class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
-                              <td>
+                            <div class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
                                 <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + indexRV)" />
                                 <label :for="indexRV" :id="'lblRV' + index"> {{ dataRV['RV Solution Name']}}</label>
                                 <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
-                              </td>
-                            </tr>
+                              </div>
                           </td>
 
                           <td>
-                            <tr class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV">
-                              <td>
+                            <div class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV">
                                 <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + indexGAV)" />
                                 <label :for="indexGAV" :id="'lblGAV' + index"> {{ dataGAV['GAV Solution Name'] }}</label>
                                 <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
-                              </td>
-                            </tr>                          
+                            </div>
                           </td>
 
                           <td>
-                            <tr class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV">
-                              <td>
+                            <div class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV">
                                 <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + indexAAV)" />
                                 <label :for="indexAAV" :id="'lblAAV' + index"> {{ dataAAV['AAV Solution Name'] }}</label>
                                 <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
-                              </td>
-                            </tr>                          
+                              </div>
                           </td>
                           
                         </tr>
                       </tbody>
                     </template>
-                  </v-simple-table>
+                  </v-simple-table> -->
 
                 </tr>
-
               </tbody>
+
             </template>
           </v-simple-table>
+
 
           <v-dialog
             v-model="dialogCalc"
@@ -447,11 +492,8 @@
                   </template>
                 </v-simple-table>
 
-                <h3 v-if="dataRV_GAV_AAV['AAV#']"> 
-                  <v-checkbox
-                    v-model="checkbox"
-                    :label="`Checkbox 1: ${checkbox.toString()}`"
-                  ></v-checkbox> Optionale GOZ-Positionen
+                <h3 v-if="dataRV_GAV_AAV['AAV#']">
+                  Optionale GOZ-Positionen
                 </h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['AAV#']" outlined class="my-2">
                   <template v-slot:default>
@@ -463,6 +505,7 @@
                         <th class="text-left">Anzahl</th>
                         <th class="text-left">Faktor</th>
                         <th class="text-left">Betrag (€)</th>
+                        <th class="text-left">Active / Not Active</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -486,8 +529,18 @@
                           >
                           </v-slider>
                         </td>
-                        <td v-if="datasAAV" class="clsGozAmount" :id="'oAAVAmount'+ indexAAV"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], '2.3') }}
+                        <td v-if="datasAAV" class="clsGozAmountNo" :id="'oAAVAmount'+ indexAAV"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], '2.3') }}
                         </td>
+                        <td v-if="datasAAV">
+                          <v-switch
+                            v-model="optGoz"
+                            color="success"
+                            :value="'oAAVAmount'+ indexAAV"
+                            hide-details
+                            @change="optGozActivate"
+                          ></v-switch>
+                        </td>
+
                       </tr>
                     </tbody>
                   </template>
@@ -950,6 +1003,7 @@
       disabled: false,
       resetBtns: false,
       dialogCalc: false,
+      dialogSolution: [],
       displaySecond: false,
       dataRV_GAV_AAV: [],
       manualUpperJaw: [],
@@ -990,10 +1044,14 @@
       totalGav: '0.00',
       totalBema: '0.00',
       totalSumCalc: '0.00',
+      euro: '&euro;',
       overlay: false,
       dialogRow: 0,
       checkbox: true,
       planLabel: '',
+      dataCaseName: '',
+      selectedTableData: '',
+      optGoz: [],
 
     }),
     watch: {
@@ -1013,6 +1071,9 @@
     computed: {
       // ...mapGetters(["isLoggedIn"]),
       totalAmount() {
+        // console.log(this.tableData)
+        // console.log(this.tableData['Final'])
+
         if(this.tableData['Final'] && 
           this.tableData['Final'].length > 0
         ) {
@@ -1167,15 +1228,25 @@
         this.dataRV_GAV_AAV = []
         this.overlay = false
       },
-      displayRVs(label, idValue) {
+      displayRVs(label, idValue, ids) {
         let dataValues = JSON.parse(document.getElementById(idValue).value)
 
         console.log(dataValues)
 
-        this.planLabel = label
+        if(label == 'lblRV') {
+          this.planLabel = label+ids
+        }
+
+        if(label == 'lblGAV') {
+          this.planLabel = label+ids
+        }
+
+        if(label == 'lblAAV') {
+          this.planLabel = label+ids
+        }
 
         this.dataRV_GAV_AAV = dataValues
-
+        this.optGoz = []
         this.dialogCalc = true
       },
       gozAmount(amountGoz, factorValue) {
@@ -1359,11 +1430,26 @@
         }
 
       },
+      optGozActivate() {
+        console.log(this.optGoz)
+        
+      },
       displayPlanen(rowIndex) {
+
+        this.dialogSolution[rowIndex] = true;
         this.dialogRow = rowIndex;
         this.displaySecond = rowIndex;
       },
       calcTable(dialogRowIndex) {
+        this.dialogSolution[dialogRowIndex] = false
+
+        /** Add Toggle Selected Values */
+        for(var op=0; op<this.optGoz.length; op++) {
+          var elementOpt = document.getElementById(this.optGoz[op]);
+          elementOpt.classList.remove("clsGozAmountNo");
+          elementOpt.classList.add("clsGozAmount");
+        }
+
         const collectionGoz = document.getElementsByClassName("clsGozAmount");
         const collectionBema = document.getElementsByClassName("clsBemaAmount");
 
@@ -1384,7 +1470,7 @@
 
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
 
-        document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel+dialogRowIndex).innerHTML
+        document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
 
         this.displaySecond = false;
 
@@ -1423,6 +1509,9 @@ td, th {
   border: 1px solid black;
   text-align: left;
   padding: 8px;
+}
+th {
+  background-color: #ddecdd !important;
 }
 
 table {
