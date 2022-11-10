@@ -24,7 +24,7 @@
                   disabled
                   class="ma-0 pa-0"
                   style="border-color: transparent !important; color: black !important;"
-                  v-for="btn in upperJawRV"
+                  v-for="btn in upperJawTP"
                   :key="btn.index"
                 >
                   {{btn.value}}
@@ -180,7 +180,7 @@
                   disabled
                   class="ma-0 pa-0"
                   style="border-color: transparent !important; color: black !important;"
-                  v-for="btn in MandibleRV"
+                  v-for="btn in MandibleTP"
                   :key="btn.index"
                 >
                   {{btn.value}}
@@ -219,7 +219,7 @@
                   >
                   <v-card>
                     <v-card-title class="text-h5">
-                      {{data["Case Name"]}}
+                      {{data["Case Name"]}}, {{ data["Case Region"] }}
                     </v-card-title>
 
                     <v-card-text>
@@ -239,7 +239,7 @@
                             </tr>
                             <tr>
                               <td>
-                                <div class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
+                                <div v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
                                     <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + indexRV, indexRV)" />
                                     <label :for="indexRV" :id="'lblRV' + indexRV"> {{ dataRV['RV Solution Name']}}</label>
                                     <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
@@ -254,7 +254,7 @@
                             </tr>
                             <tr>
                               <td>
-                                <div class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
+                                <div v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
                                     <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + indexGAV, indexGAV)" />
                                     <label :for="indexGAV" :id="'lblGAV' + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
                                     <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
@@ -269,7 +269,7 @@
                             </tr>
                             <tr>
                               <td>
-                                <div class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
+                                <div v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
                                     <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + indexAAV, indexAAV)" />
                                     <label :for="indexAAV" :id="'lblAAV' + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
                                     <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
@@ -814,6 +814,252 @@
           value: '',
         },
       ],
+      upperJawRVReset: [
+        {
+          index: 0,
+          toothNo: 18,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 17,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 16,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 15,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 14,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 13,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 12,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 11,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 21,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 22,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 23,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 24,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 25,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 26,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 27,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 28,
+          value: '',
+        },
+      ],
+      upperJawTP: [
+        {
+          index: 0,
+          toothNo: 18,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 17,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 16,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 15,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 14,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 13,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 12,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 11,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 21,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 22,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 23,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 24,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 25,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 26,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 27,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 28,
+          value: '',
+        },
+      ],
+      upperJawTPReset: [
+        {
+          index: 0,
+          toothNo: 18,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 17,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 16,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 15,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 14,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 13,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 12,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 11,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 21,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 22,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 23,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 24,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 25,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 26,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 27,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 28,
+          value: '',
+        },
+      ],
       MandibleSelected: [
         {
           index: 0,
@@ -978,6 +1224,252 @@
           value: '',
         },
       ],
+      MandibleRVReset: [
+        {
+          index: 0,
+          toothNo: 48,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 47,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 46,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 45,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 44,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 43,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 42,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 41,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 31,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 32,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 33,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 34,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 35,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 36,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 37,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 38,
+          value: '',
+        },
+      ],
+      MandibleTP: [
+        {
+          index: 0,
+          toothNo: 48,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 47,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 46,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 45,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 44,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 43,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 42,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 41,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 31,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 32,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 33,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 34,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 35,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 36,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 37,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 38,
+          value: '',
+        },
+      ],
+      MandibleTPReset: [
+        {
+          index: 0,
+          toothNo: 48,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 47,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 46,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 45,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 44,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 43,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 42,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 41,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 31,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 32,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 33,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 34,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 35,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 36,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 37,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 38,
+          value: '',
+        },
+      ],
       // Logo,
       bonus: 60,
       bonusOptions: [
@@ -1052,6 +1544,8 @@
       dataCaseName: '',
       selectedTableData: '',
       optGoz: [],
+      RVShortcut: '',
+      TPShortcut: '',
 
     }),
     watch: {
@@ -1204,6 +1698,9 @@
         console.log(responseData)
 
         // responseData[''].pop().forEach(element => {
+        // var rvData = "16 : K, 15 : BV, 14 : KV".split(",");
+        //   // console.log(rvData)
+        //   rvData.forEach(element => {
         //   let splitedElement = element.split(':')
         //   // console.log(splitedElement)
         //   if(Number(splitedElement[0])<30) {
@@ -1224,7 +1721,7 @@
         // });
 
         this.tableData = responseData
-        this.apiCallSuccess = true
+        // this.apiCallSuccess = true //to change teeth images
         this.dataRV_GAV_AAV = []
         this.overlay = false
       },
@@ -1232,17 +1729,28 @@
         let dataValues = JSON.parse(document.getElementById(idValue).value)
 
         console.log(dataValues)
+        // console.log(dataValues['GAV Solution shortcuts'])
+        // console.log(dataValues['GAV Solution shortcuts'].trim().slice(0, -1))
+        // console.log(dataValues['GAV Solution shortcuts'].trim().slice(0, -1).split(","))
+
+        /** Reset Images **/
+        this.apiCallSuccess = false
+        this.upperJawRV = this.upperJawRVReset
+        this.MandibleRV = this.MandibleRVReset
 
         if(label == 'lblRV') {
           this.planLabel = label+ids
+          this.RVShortcut = dataValues['RV Solution shortcuts'];
         }
 
         if(label == 'lblGAV') {
           this.planLabel = label+ids
+          this.RVShortcut = dataValues['GAV Solution shortcuts'];
         }
 
         if(label == 'lblAAV') {
           this.planLabel = label+ids
+          this.RVShortcut = dataValues['AAV Solution shortcuts'];
         }
 
         this.dataRV_GAV_AAV = dataValues
@@ -1459,21 +1967,44 @@
         for(var gozI=0; gozI<collectionGoz.length; gozI++) {
           clsGozAmount += parseFloat(collectionGoz[gozI].innerText)
         }
-        // document.getElementsByClassName("totalAmountGoz").innerHTML = clsGozAmount + ' €'
         this.totalGav = parseFloat(clsGozAmount).toFixed(2)
 
         for(var bemaI=0; bemaI<collectionBema.length; bemaI++) {
           clsBemaAmount += parseFloat(collectionBema[bemaI].innerText)
         }
-        // document.getElementsByClassName("totalAmountBema").innerHTML = clsBemaAmount + ' €'
         this.totalBema = parseFloat(clsBemaAmount).toFixed(2)
 
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
 
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
 
-        this.displaySecond = false;
+        /** DISPLAY TEETH IMAGES */
+        var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
 
+        dataRVs.forEach(element => {
+          let splitedElement = element.split(':')
+          // console.log(splitedElement)
+          if(Number(splitedElement[0])<30) {
+            this.upperJawRV = this.upperJawRV.map((value) => {
+              if(value.toothNo == Number(splitedElement[0])) {
+                value.value = splitedElement[1]
+              }
+              return value
+            })
+          } else {
+            this.MandibleRV = this.MandibleRV.map((value) => {
+              if(value.toothNo == Number(splitedElement[0])) {
+                value.value = splitedElement[1]
+              }
+              return value
+            })
+          }
+        });
+
+        this.apiCallSuccess = true
+        /** DISPLAY TEETH IMAGES END */
+
+        this.displaySecond = false;
         this.dialogCalc = false
       },
       filteredData(item) {
