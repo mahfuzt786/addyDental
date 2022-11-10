@@ -814,171 +814,7 @@
           value: '',
         },
       ],
-      upperJawRVReset: [
-        {
-          index: 0,
-          toothNo: 18,
-          value: '',
-        },
-        {
-          index: 1,
-          toothNo: 17,
-          value: '',
-        },
-        {
-          index: 2,
-          toothNo: 16,
-          value: '',
-        },
-        {
-          index: 3,
-          toothNo: 15,
-          value: '',
-        },
-        {
-          index: 4,
-          toothNo: 14,
-          value: '',
-        },
-        {
-          index: 5,
-          toothNo: 13,
-          value: '',
-        },
-        {
-          index: 6,
-          toothNo: 12,
-          value: '',
-        },
-        {
-          index: 7,
-          toothNo: 11,
-          value: '',
-        },
-        {
-          index: 8,
-          toothNo: 21,
-          value: '',
-        },
-        {
-          index: 9,
-          toothNo: 22,
-          value: '',
-        },
-        {
-          index: 10,
-          toothNo: 23,
-          value: '',
-        },
-        {
-          index: 11,
-          toothNo: 24,
-          value: '',
-        },
-        {
-          index: 12,
-          toothNo: 25,
-          value: '',
-        },
-        {
-          index: 13,
-          toothNo: 26,
-          value: '',
-        },
-        {
-          index: 14,
-          toothNo: 27,
-          value: '',
-        },
-        {
-          index: 15,
-          toothNo: 28,
-          value: '',
-        },
-      ],
       upperJawTP: [
-        {
-          index: 0,
-          toothNo: 18,
-          value: '',
-        },
-        {
-          index: 1,
-          toothNo: 17,
-          value: '',
-        },
-        {
-          index: 2,
-          toothNo: 16,
-          value: '',
-        },
-        {
-          index: 3,
-          toothNo: 15,
-          value: '',
-        },
-        {
-          index: 4,
-          toothNo: 14,
-          value: '',
-        },
-        {
-          index: 5,
-          toothNo: 13,
-          value: '',
-        },
-        {
-          index: 6,
-          toothNo: 12,
-          value: '',
-        },
-        {
-          index: 7,
-          toothNo: 11,
-          value: '',
-        },
-        {
-          index: 8,
-          toothNo: 21,
-          value: '',
-        },
-        {
-          index: 9,
-          toothNo: 22,
-          value: '',
-        },
-        {
-          index: 10,
-          toothNo: 23,
-          value: '',
-        },
-        {
-          index: 11,
-          toothNo: 24,
-          value: '',
-        },
-        {
-          index: 12,
-          toothNo: 25,
-          value: '',
-        },
-        {
-          index: 13,
-          toothNo: 26,
-          value: '',
-        },
-        {
-          index: 14,
-          toothNo: 27,
-          value: '',
-        },
-        {
-          index: 15,
-          toothNo: 28,
-          value: '',
-        },
-      ],
-      upperJawTPReset: [
         {
           index: 0,
           toothNo: 18,
@@ -1224,171 +1060,7 @@
           value: '',
         },
       ],
-      MandibleRVReset: [
-        {
-          index: 0,
-          toothNo: 48,
-          value: '',
-        },
-        {
-          index: 1,
-          toothNo: 47,
-          value: '',
-        },
-        {
-          index: 2,
-          toothNo: 46,
-          value: '',
-        },
-        {
-          index: 3,
-          toothNo: 45,
-          value: '',
-        },
-        {
-          index: 4,
-          toothNo: 44,
-          value: '',
-        },
-        {
-          index: 5,
-          toothNo: 43,
-          value: '',
-        },
-        {
-          index: 6,
-          toothNo: 42,
-          value: '',
-        },
-        {
-          index: 7,
-          toothNo: 41,
-          value: '',
-        },
-        {
-          index: 8,
-          toothNo: 31,
-          value: '',
-        },
-        {
-          index: 9,
-          toothNo: 32,
-          value: '',
-        },
-        {
-          index: 10,
-          toothNo: 33,
-          value: '',
-        },
-        {
-          index: 11,
-          toothNo: 34,
-          value: '',
-        },
-        {
-          index: 12,
-          toothNo: 35,
-          value: '',
-        },
-        {
-          index: 13,
-          toothNo: 36,
-          value: '',
-        },
-        {
-          index: 14,
-          toothNo: 37,
-          value: '',
-        },
-        {
-          index: 15,
-          toothNo: 38,
-          value: '',
-        },
-      ],
       MandibleTP: [
-        {
-          index: 0,
-          toothNo: 48,
-          value: '',
-        },
-        {
-          index: 1,
-          toothNo: 47,
-          value: '',
-        },
-        {
-          index: 2,
-          toothNo: 46,
-          value: '',
-        },
-        {
-          index: 3,
-          toothNo: 45,
-          value: '',
-        },
-        {
-          index: 4,
-          toothNo: 44,
-          value: '',
-        },
-        {
-          index: 5,
-          toothNo: 43,
-          value: '',
-        },
-        {
-          index: 6,
-          toothNo: 42,
-          value: '',
-        },
-        {
-          index: 7,
-          toothNo: 41,
-          value: '',
-        },
-        {
-          index: 8,
-          toothNo: 31,
-          value: '',
-        },
-        {
-          index: 9,
-          toothNo: 32,
-          value: '',
-        },
-        {
-          index: 10,
-          toothNo: 33,
-          value: '',
-        },
-        {
-          index: 11,
-          toothNo: 34,
-          value: '',
-        },
-        {
-          index: 12,
-          toothNo: 35,
-          value: '',
-        },
-        {
-          index: 13,
-          toothNo: 36,
-          value: '',
-        },
-        {
-          index: 14,
-          toothNo: 37,
-          value: '',
-        },
-        {
-          index: 15,
-          toothNo: 38,
-          value: '',
-        },
-      ],
-      MandibleTPReset: [
         {
           index: 0,
           toothNo: 48,
@@ -1735,8 +1407,28 @@
 
         /** Reset Images **/
         this.apiCallSuccess = false
-        this.upperJawRV = this.upperJawRVReset
-        this.MandibleRV = this.MandibleRVReset
+        this.upperJawRV = this.upperJawRV.map((teethAll) => {
+            teethAll.value = ''
+          return teethAll
+        })
+
+        this.MandibleRV = this.MandibleRV.map((teethAll) => {
+            teethAll.value = ''
+          return teethAll
+        })
+
+        this.upperJawTP = this.upperJawTP.map((teethAll) => {
+            teethAll.value = ''
+          return teethAll
+        })
+
+        this.MandibleTP = this.MandibleTP.map((teethAll) => {
+            teethAll.value = ''
+          return teethAll
+        })
+
+        this.resetBtns = true
+
 
         if(label == 'lblRV') {
           this.planLabel = label+ids
@@ -1745,12 +1437,15 @@
 
         if(label == 'lblGAV') {
           this.planLabel = label+ids
-          this.RVShortcut = dataValues['GAV Solution shortcuts'];
+          this.RVShortcut = dataValues['RV Solution shortcuts'];
+          this.TPShortcut = dataValues['GAV Solution shortcuts'];
         }
 
         if(label == 'lblAAV') {
           this.planLabel = label+ids
-          this.RVShortcut = dataValues['AAV Solution shortcuts'];
+          this.RVShortcut = dataValues['RV Solution shortcuts'];
+          this.TPShortcut = dataValues['AAV Solution shortcuts'];
+          // this.TPShortcut = dataValues['TP Solution shortcuts'];
         }
 
         this.dataRV_GAV_AAV = dataValues
@@ -1985,18 +1680,39 @@
           let splitedElement = element.split(':')
           // console.log(splitedElement)
           if(Number(splitedElement[0])<30) {
-            this.upperJawRV = this.upperJawRV.map((value) => {
-              if(value.toothNo == Number(splitedElement[0])) {
-                value.value = splitedElement[1]
+            this.upperJawRV = this.upperJawRV.map((teethAll) => {
+              if(teethAll.toothNo == Number(splitedElement[0])) {
+                teethAll.value = splitedElement[1]
               }
-              return value
+              return teethAll
             })
           } else {
-            this.MandibleRV = this.MandibleRV.map((value) => {
-              if(value.toothNo == Number(splitedElement[0])) {
-                value.value = splitedElement[1]
+            this.MandibleRV = this.MandibleRV.map((teethAll) => {
+              if(teethAll.toothNo == Number(splitedElement[0])) {
+                teethAll.value = splitedElement[1]
               }
-              return value
+              return teethAll
+            })
+          }
+        });
+
+        var dataTPs = this.TPShortcut.trim().slice(0, -1).split(",");
+        dataTPs.forEach(element => {
+          let splitedElement = element.split(':')
+          // console.log(splitedElement)
+          if(Number(splitedElement[0])<30) {
+            this.upperJawTP = this.upperJawTP.map((teethAll) => {
+              if(teethAll.toothNo == Number(splitedElement[0])) {
+                teethAll.value = splitedElement[1]
+              }
+              return teethAll
+            })
+          } else {
+            this.MandibleTP = this.MandibleTP.map((teethAll) => {
+              if(teethAll.toothNo == Number(splitedElement[0])) {
+                teethAll.value = splitedElement[1]
+              }
+              return teethAll
             })
           }
         });
