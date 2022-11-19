@@ -121,7 +121,7 @@
                 :resetBtns="resetBtns"
                 :disabled="disabled"
                 :manualUpperJaw="manualUpperJaw"
-                :upperJawRV="upperJawRV"
+                :upperJawRV="isTP ? upperJawTP : upperJawRV"
                 :apiCallSuccess="apiCallSuccess"
               ></UpperJaw>
               <TeethNumbers></TeethNumbers>
@@ -130,7 +130,7 @@
                 :resetBtns="resetBtns"
                 :disabled="disabled"
                 :manualMandible="manualMandible"
-                :MandibleRV="MandibleRV"
+                :MandibleRV="isTP ? MandibleTP : MandibleRV"
                 :apiCallSuccess="apiCallSuccess"
               ></Mandible>
             </div>
@@ -209,7 +209,15 @@
                 <tr v-for="(data, index) in tableData" :key="index">
                   <td class="text-center" v-if="index !== 'Final'">{{data["Case Name"]}}</td>
                   <td class="text-center" v-if="index !== 'Final'">{{ data["Case Region"] }}</td>
-                  <td class="text-center" v-if="index !== 'Final'" :id="'planen'+index" @click=displayPlanen(index) style="cursor:pointer; color:blue;"> planen </td>
+                  <td class="text-center" v-if="index !== 'Final'"> 
+                          <v-btn
+                            block
+                            :id="'planen'+index" @click=displayPlanen(index) style="color:blue;"> planen 
+                          </v-btn>
+                  </td>
+                  <!-- <td class="text-center" v-if="index !== 'Final'"
+                            :id="'planen'+index" @click=displayPlanen(index) style="color:blue; cursor: pointer;"> planen 
+                  </td> -->
                 <!-- </tr> -->
 
                   <v-dialog
@@ -240,9 +248,9 @@
                             <tr>
                               <td>
                                 <div v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + indexRV, indexRV)" />
-                                    <label :for="indexRV" :id="'lblRV' + indexRV"> {{ dataRV['RV Solution Name']}}</label>
-                                    <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
+                                    <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + index + indexRV, index +indexRV)" />
+                                    <label :for="indexRV" :id="'lblRV' + index + indexRV"> {{ dataRV['RV Solution Name']}}</label>
+                                    <textarea style="display:none;" :id="'RV' + index + indexRV" > {{dataRV}} </textarea>
 
                                     <v-divider></v-divider>
                                   </div>
@@ -255,9 +263,9 @@
                             <tr>
                               <td>
                                 <div v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + indexGAV, indexGAV)" />
-                                    <label :for="indexGAV" :id="'lblGAV' + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
-                                    <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
+                                    <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + index + indexGAV, index + indexGAV)" />
+                                    <label :for="indexGAV" :id="'lblGAV' + index + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
+                                    <textarea style="display:none;" :id="'GAV' + index + indexGAV" > {{dataGAV}} </textarea>
 
                                     <v-divider></v-divider>
                                 </div>
@@ -270,9 +278,9 @@
                             <tr>
                               <td>
                                 <div v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + indexAAV, indexAAV)" />
-                                    <label :for="indexAAV" :id="'lblAAV' + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
-                                    <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
+                                    <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + index + indexAAV, index + indexAAV)" />
+                                    <label :for="indexAAV" :id="'lblAAV' + index + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
+                                    <textarea style="display:none;" :id="'AAV' + index + indexAAV" > {{dataAAV}} </textarea>
 
                                     <v-divider></v-divider>
                                   </div>
@@ -1218,6 +1226,7 @@
       optGoz: [],
       RVShortcut: '',
       TPShortcut: '',
+      isTP: false,
 
     }),
     watch: {
@@ -1402,12 +1411,10 @@
 
         console.log(dataValues)
         // console.log(dataValues['GAV Solution shortcuts'])
-        // console.log(dataValues['GAV Solution shortcuts'].trim().slice(0, -1))
-        // console.log(dataValues['GAV Solution shortcuts'].trim().slice(0, -1).split(","))
 
         /** Reset Images **/
         this.apiCallSuccess = false
-        this.upperJawRV = this.upperJawRV.map((teethAll) => {
+        /*this.upperJawRV = this.upperJawRV.map((teethAll) => {
             teethAll.value = ''
           return teethAll
         })
@@ -1425,10 +1432,11 @@
         this.MandibleTP = this.MandibleTP.map((teethAll) => {
             teethAll.value = ''
           return teethAll
-        })
+        })*/
 
-        this.resetBtns = true
-
+        // this.resetBtns = true
+        // this.RVShortcut = ''
+        // this.TPShortcut = ''
 
         if(label == 'lblRV') {
           this.planLabel = label+ids
@@ -1438,14 +1446,53 @@
         if(label == 'lblGAV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
-          this.TPShortcut = dataValues['GAV Solution shortcuts'];
+          // this.TPShortcut = dataValues['GAV Solution shortcuts'];
+          // this.TPShortcut = dataValues['TP Solution shortcuts'];
+
+          let newKM = '';
+          for(let tp in dataValues['TP Solution shortcuts']) {
+            var kms = []
+            
+            if(tp == 'SKM') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
+            }
+            if(tp == 'KM') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
+            }
+
+            for(let k=0; k<kms.length; k++) {
+              newKM += kms[k] + ' : ' + tp + ', '
+            }
+          }
+
+          console.log(String(newKM))
+
+          this.TPShortcut = String(newKM);
         }
 
         if(label == 'lblAAV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
-          this.TPShortcut = dataValues['AAV Solution shortcuts'];
+          // this.TPShortcut = dataValues['AAV Solution shortcuts'];
           // this.TPShortcut = dataValues['TP Solution shortcuts'];
+
+          let newKM = '';
+          for(let tp in dataValues['TP Solution shortcuts']) {
+            var kms = []
+            
+            if(tp == 'SKM') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
+            }
+            if(tp == 'KM') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
+            }
+
+            for(let k=0; k<kms.length; k++) {
+              newKM += kms[k] + ' : ' + tp + ', '
+            }
+          }
+
+          this.TPShortcut = String(newKM);
         }
 
         this.dataRV_GAV_AAV = dataValues
@@ -1672,13 +1719,12 @@
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
 
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
+        document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
 
         /** DISPLAY TEETH IMAGES */
         var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
-
         dataRVs.forEach(element => {
           let splitedElement = element.split(':')
-          // console.log(splitedElement)
           if(Number(splitedElement[0])<30) {
             this.upperJawRV = this.upperJawRV.map((teethAll) => {
               if(teethAll.toothNo == Number(splitedElement[0])) {
@@ -1697,9 +1743,14 @@
         });
 
         var dataTPs = this.TPShortcut.trim().slice(0, -1).split(",");
+        if(dataTPs[0] == '') {
+          this.isTP = false
+        }
+        else {
+          this.isTP = true
+        }
         dataTPs.forEach(element => {
           let splitedElement = element.split(':')
-          // console.log(splitedElement)
           if(Number(splitedElement[0])<30) {
             this.upperJawTP = this.upperJawTP.map((teethAll) => {
               if(teethAll.toothNo == Number(splitedElement[0])) {
