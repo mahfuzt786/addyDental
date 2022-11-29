@@ -50,51 +50,7 @@
               </v-btn-toggle>
             </div>
           </div>
-          <div class="table-container" v-if="calculated">
-            <v-simple-table outlined>
-              <template v-slot:default>
-              <tbody>
-                <tr>
-                  <td> Honorar BEMA </td>
-                  <td class="totalAmountBema"> {{ totalBema }} <span v-html="euro"></span> </td>
-                </tr>
-
-                <tr>
-                  <td> Honorar GOZ / GOA </td>
-                  <td class="totalAmountGoz"> {{totalGav}} <span v-html="euro"></span> </td>
-                </tr>
-
-                <tr>
-                  <td> Labor gewerblich </td>
-                  <td> 0.00 € </td>
-                </tr>
-
-                <tr>
-                  <td> Eigenlabor </td>
-                  <td> 0.00 <span v-html="euro"></span> </td>
-                </tr>
-
-                <tr>
-                  <td> Summe </td>
-                  <td> {{totalSumCalc}} <span v-html="euro"></span> </td>
-                </tr>
-
-                <tr>
-                  <td> Festzuschusse </td>
-                  <td> {{totalAmount}} <span v-html="euro"></span> </td>
-                </tr>
-
-                <tr>
-                  <td> Eigenanteil Patient </td>
-                  <td> 0.00 <span v-html="euro"></span> </td>
-                </tr>
-
-                </tbody>
-
-                </template>
-
-            </v-simple-table>
-          </div>
+          
 
           <div class="button-container">
             <div class="d-flex align-center">
@@ -189,6 +145,52 @@
             </div>
           </div>
 
+        </div>
+
+        <div class="table-container my-3" v-if="calculated">
+          <v-simple-table outlined>
+            <template v-slot:default>
+            <tbody>
+              <tr>
+                <td class="backColorTable"> Honorar BEMA </td>
+                <td class="totalAmountBema"> {{ totalBema }} <span v-html="euro"></span> </td>
+              </tr>
+
+              <tr>
+                <td class="backColorTable"> Honorar GOZ / GOA </td>
+                <td class="totalAmountGoz"> {{totalGav}} <span v-html="euro"></span> </td>
+              </tr>
+
+              <tr>
+                <td class="backColorTable"> Labor gewerblich </td>
+                <td> 0.00 € </td>
+              </tr>
+
+              <tr>
+                <td class="backColorTable"> Eigenlabor </td>
+                <td> 0.00 <span v-html="euro"></span> </td>
+              </tr>
+
+              <tr>
+                <td class="backColorTable"> Summe </td>
+                <td> {{totalSumCalc}} <span v-html="euro"></span> </td>
+              </tr>
+
+              <tr>
+                <td class="backColorTable"> Festzuschusse </td>
+                <td> {{totalAmount}} <span v-html="euro"></span> </td>
+              </tr>
+
+              <tr>
+                <td class="backColorTable"> Eigenanteil Patient </td>
+                <td> 0.00 <span v-html="euro"></span> </td>
+              </tr>
+
+              </tbody>
+
+              </template>
+
+          </v-simple-table>
         </div>
 
         <div v-if="calculated" class="my-4">
@@ -1192,19 +1194,19 @@
       case_name : {
                       '1.1' : 'Krone',
                       '1.2' : 'Teilkrone',
-                      '2.1' : 'zahnbegrenzte Lucke',
-                      '2.2' : 'zahnbegrenzte Lucke',
-                      '2.3' : 'zahnbegrenzte Lucke',
-                      '2.4' : 'zahnbegrenzte Lucke',
-                      '2.5' : 'zahnbegrenzte Lucken',
+                      '2.1' : 'zahnbegrenzte Lücke',
+                      '2.2' : 'zahnbegrenzte Lücke',
+                      '2.3' : 'zahnbegrenzte Lücke',
+                      '2.4' : 'zahnbegrenzte Lücke',
+                      '2.5' : 'zahnbegrenzte Lücken',
                       '3.1' : 'Restzahngebiss',
                       '3.2' : 'Restzahngebiss',
-                      '4.1' : '1-3 Restzahne',
+                      '4.1' : '1-3 Restzähne',
                       '4.2' : 'zahnloser Oberkiefer',
-                      '4.3' : '1-3 Restzahne',
+                      '4.3' : '1-3 Restzähne',
                       '4.4' : 'zahnloser Unterkiefer',
-                      '7.1' : 'erneuerungsbedurftige Suprakonstruktion',
-                      '7.2' : 'erneuerungsbedurftige Suprakonstruktion',
+                      '7.1' : 'erneuerungsbedürftige Suprakonstruktion',
+                      '7.2' : 'erneuerungsbedürftige Suprakonstruktion',
                   },
 
       faktors: 1,
@@ -1453,10 +1455,10 @@
           for(let tp in dataValues['TP Solution shortcuts']) {
             var kms = []
             
-            if(tp == 'SKM') {
+            if(tp == 'BM') {
               kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
             }
-            if(tp == 'KM') {
+            if(tp == 'KM' || tp == 'PKM') {
               kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
             }
 
@@ -1793,9 +1795,13 @@
   background-color: white;
   width: 275px !important;
   margin-right: 25px !important;
-  margin-left: -300px;
+  margin-left: 280px;
+  /* margin-left: -300px; NOT REQ as table is shifted to bottom center, earlier parallel to tooth and left.
   float: left;
-  height: 325px;
+  height: 325px; */
+}
+.table-container .backColorTable {
+  background-color: rgba(255, 209, 220, 0.3) !important;
 }
 .ubernehmen {
   width: 80%;
