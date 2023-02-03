@@ -69,6 +69,10 @@
                   </v-btn>
                 </v-btn-toggle>
               </div>
+              <span class="px-3">
+                <span class="mdi mdi-application-import" style="cursor: pointer" @click="importDialog=true"></span>
+                <span class="mdi mdi-trash-can-outline" style="cursor: pointer; color: darkred; font-size: 24px;" @click="resetLoad"></span>
+              </span>
             </div>
 
             <div class="px-8 py-2">
@@ -297,13 +301,13 @@
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <!-- <v-btn
+                      <v-btn
                         color="red darken-1"
                         text
                         @click="dialogSolution[index] = false"
                       >
                         abbrechen
-                      </v-btn>  -->
+                      </v-btn> 
                     </v-card-actions>
                   </v-card>
                   </v-dialog>
@@ -622,6 +626,44 @@
       <v-dialog v-model="showInfo" width="500">
         <Information></Information>
       </v-dialog>
+
+      <v-dialog v-model="importDialog" width="500">
+        <v-card>
+          <v-card-title class="text-h5">
+            Import Status
+          </v-card-title>
+
+          <v-card-text>
+            <v-text-field
+              v-model="findingsEntriesImport"
+              dense
+              outlined
+              class="mr-4"
+              :readonly="disabled"
+            ></v-text-field>
+
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="calculateFindingsEntries"
+            >
+              speichern
+            </v-btn>
+
+            <v-btn
+              color="red darken-1"
+              text
+              @click="importDialog = false"
+            >
+              abbrechen
+            </v-btn> 
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </admin-layout>
 </template>
@@ -660,6 +702,7 @@
     },
     data: () => ({
       showInfo: false,
+      importDialog: false,
       upperJawSelected: [
         {
           index: 0,
@@ -1174,6 +1217,7 @@
       ],
       calculated: false,
       findingsEntries: '',
+      findingsEntriesImport: '',
       disabled: false,
       resetBtns: false,
       dialogCalc: false,
@@ -1244,6 +1288,12 @@
       // {
       //   this.$router.push("/");
       // }
+
+
+      // this.getStatusImport().then((response) => {
+      //   // console.log(response.data)
+      //   this.findingsEntriesImport = response.data
+      // })
     },
     computed: {
       // ...mapGetters(["isLoggedIn"]),
@@ -1265,7 +1315,8 @@
     },
     methods: {
       ...mapActions([
-        'calculateValuesApi'
+        'calculateValuesApi',
+        // 'getStatusImport'
       ]),
       upperJawSelectedBtn(events) {
         this.upperJawSelected = this.$options.data(this.upperJawSelected).upperJawSelected
@@ -1373,12 +1424,13 @@
             // }
             // this.apiCallSuccess = true
           })
+
         } else {
           console.log('invalid')
         }
       },
       displayData(responseData) {
-        console.log(responseData)
+        // console.log(responseData)
 
         // responseData[''].pop().forEach(element => {
         // var rvData = "16 : K, 15 : BV, 14 : KV".split(",");
@@ -1537,6 +1589,12 @@
       },
       calculateFindingsEntries() {
         let findingsArray = null
+
+        // For the status import popup Start
+        this.importDialog = false
+        this.findingsEntries = this.findingsEntriesImport
+        // For the status import popup End
+
         if(/ /.test(this.findingsEntries)) {
           findingsArray = this.findingsEntries.split(' ')
         } else {
@@ -1693,7 +1751,7 @@
         this.displaySecond = rowIndex;
       },
       calcTable(dialogRowIndex) {
-        this.dialogSolution[dialogRowIndex] = false
+        this.dialogSolution[dialogRowIndex] = false;
 
         /** Add Toggle Selected Values */
         for(var op=0; op<this.optGoz.length; op++) {
@@ -1795,7 +1853,6 @@
   background-color: white;
   width: 275px !important;
   margin-right: 25px !important;
-  margin-left: 280px;
   /* margin-left: -300px; NOT REQ as table is shifted to bottom center, earlier parallel to tooth and left.
   float: left;
   height: 325px; */
