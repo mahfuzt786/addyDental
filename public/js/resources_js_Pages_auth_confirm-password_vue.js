@@ -97,15 +97,7 @@ var render = function render() {
     attrs: {
       text: ""
     }
-  }, [_vm._v("Login")])], 1), _vm._v(" "), _c("Link", {
-    attrs: {
-      href: _vm.route("register")
-    }
-  }, [_c("v-btn", {
-    attrs: {
-      text: ""
-    }
-  }, [_vm._v("Register")])], 1)], 1)], 1), _vm._v(" "), _c("v-main", [_vm._t("default")], 2)], 1);
+  }, [_vm._v("Login")])], 1)], 1)], 1), _vm._v(" "), _c("v-main", [_vm._t("default")], 2)], 1);
 };
 
 var staticRenderFns = [];

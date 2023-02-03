@@ -649,7 +649,7 @@
             <v-btn
               color="green darken-1"
               text
-              @click="calculateFindingsEntries"
+              @click="calculateFindingsImport"
             >
               speichern
             </v-btn>
@@ -1234,7 +1234,7 @@
       apiCallSuccess: false,
       errorMsg: '',
       decryptedId: '',
-      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")("],
+      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")(", "\\)\\("],
       case_name : {
                       '1.1' : 'Krone',
                       '1.2' : 'Teilkrone',
@@ -1463,7 +1463,7 @@
       displayRVs(label, idValue, ids) {
         let dataValues = JSON.parse(document.getElementById(idValue).value)
 
-        console.log(dataValues)
+        // console.log(dataValues)
         // console.log(dataValues['GAV Solution shortcuts'])
 
         /** Reset Images **/
@@ -1587,25 +1587,52 @@
         })
         return char
       },
-      calculateFindingsEntries() {
-        let findingsArray = null
+      calculateFindingsImport() {
+        let findingsArrayImport = null
+        let findingsArrayTeeth = [18, 17, 16, 15, 14, 13, 12, 11,
+                                  21, 22, 23, 24, 25, 26, 27, 28,
+                                  38, 37, 36, 35, 34, 33, 32, 31,
+                                  41, 42, 43, 44, 45, 46, 47, 48,
+                                ]
+        
+        let resultStatus = ''
+
+        findingsArrayImport = this.findingsEntriesImport.split(',')[1].trim().split(' ')
+
+        for(let i=0; i<findingsArrayImport.length; i++) {
+          if(findingsArrayImport[i] !== 'd' 
+            && this.allowedStatus.find(value => value==findingsArrayImport[i])
+          )
+          {
+            resultStatus += findingsArrayTeeth[i]+findingsArrayImport[i]+','
+          }
+        }
+
+        resultStatus = resultStatus.substr(0, resultStatus.length-1);
 
         // For the status import popup Start
         this.importDialog = false
-        this.findingsEntries = this.findingsEntriesImport
-        // For the status import popup End
+        this.findingsEntries = resultStatus
+
+        this.calculateFindingsEntries()
+      },
+      calculateFindingsEntries() {
+        let findingsArray = null
 
         if(/ /.test(this.findingsEntries)) {
           findingsArray = this.findingsEntries.split(' ')
         } else {
           findingsArray = this.findingsEntries.split(',')
         }
+            // console.log(findingsArray)
+
         for(let i=0; i<findingsArray.length; i++) {
           if(/-/.test(findingsArray[i])) {
             let start_num = Number(findingsArray[i].split("-")[0])
             let end_num = Number(findingsArray[i].split("-")[1].match(/[0-9]/g).join(''))
             let char = undefined
-            char = findingsArray[i].split("-")[1].match(/[a-z]/g)
+            char = findingsArray[i].split("-")[1].match(/[a-z)(]/g)
+
             if(!char) {
               char = this.findStatus(findingsArray.slice(i,findingsArray.length))
             } else {
@@ -1672,7 +1699,9 @@
           } else {
             let numbs = findingsArray[i].match(/[0-9]/g).join('')
             let char = undefined
-            char = findingsArray[i].match(/[a-z]/g)
+            char = findingsArray[i].match(/[a-z)(]/g)
+            console.log(char)
+
             if(!char) {
               char = this.findStatus(findingsArray.slice(i,findingsArray.length))
             } else {

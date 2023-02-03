@@ -28,14 +28,14 @@ export default new Vuex.Store({
       // console.log('values', formData)
 
 
-      return axios.post('http://localhost/dental-api/', formData)
+      // return axios.post('http://localhost/dental-api/', formData)
 
-      // return axios.post('https://www.alegralabs.com/syed/dental-api/', formData)
+      return axios.post('https://www.alegralabs.com/syed/dental-api/', formData)
     },
     getStatusImport(_) {
-      return axios.post('http://localhost/dental-api/subsidy_import/')
+      // return axios.post('http://localhost/dental-api/subsidy_import/')
 
-      // return axios.post('https://www.alegralabs.com/syed/dental-api/subsidy_import/')
+      return axios.post('https://www.alegralabs.com/syed/dental-api/subsidy_import/')
     }
   },
   getters: {

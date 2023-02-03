@@ -95,6 +95,7 @@ var _validEntry = function validEntry(value) {
   data: function data() {
     return {
       showInfo: false,
+      importDialog: false,
       upperJawSelected: [{
         index: 0,
         toothNo: 18,
@@ -161,6 +162,71 @@ var _validEntry = function validEntry(value) {
         value: ''
       }],
       upperJawRV: [{
+        index: 0,
+        toothNo: 18,
+        value: ''
+      }, {
+        index: 1,
+        toothNo: 17,
+        value: ''
+      }, {
+        index: 2,
+        toothNo: 16,
+        value: ''
+      }, {
+        index: 3,
+        toothNo: 15,
+        value: ''
+      }, {
+        index: 4,
+        toothNo: 14,
+        value: ''
+      }, {
+        index: 5,
+        toothNo: 13,
+        value: ''
+      }, {
+        index: 6,
+        toothNo: 12,
+        value: ''
+      }, {
+        index: 7,
+        toothNo: 11,
+        value: ''
+      }, {
+        index: 8,
+        toothNo: 21,
+        value: ''
+      }, {
+        index: 9,
+        toothNo: 22,
+        value: ''
+      }, {
+        index: 10,
+        toothNo: 23,
+        value: ''
+      }, {
+        index: 11,
+        toothNo: 24,
+        value: ''
+      }, {
+        index: 12,
+        toothNo: 25,
+        value: ''
+      }, {
+        index: 13,
+        toothNo: 26,
+        value: ''
+      }, {
+        index: 14,
+        toothNo: 27,
+        value: ''
+      }, {
+        index: 15,
+        toothNo: 28,
+        value: ''
+      }],
+      upperJawTP: [{
         index: 0,
         toothNo: 18,
         value: ''
@@ -355,6 +421,71 @@ var _validEntry = function validEntry(value) {
         toothNo: 38,
         value: ''
       }],
+      MandibleTP: [{
+        index: 0,
+        toothNo: 48,
+        value: ''
+      }, {
+        index: 1,
+        toothNo: 47,
+        value: ''
+      }, {
+        index: 2,
+        toothNo: 46,
+        value: ''
+      }, {
+        index: 3,
+        toothNo: 45,
+        value: ''
+      }, {
+        index: 4,
+        toothNo: 44,
+        value: ''
+      }, {
+        index: 5,
+        toothNo: 43,
+        value: ''
+      }, {
+        index: 6,
+        toothNo: 42,
+        value: ''
+      }, {
+        index: 7,
+        toothNo: 41,
+        value: ''
+      }, {
+        index: 8,
+        toothNo: 31,
+        value: ''
+      }, {
+        index: 9,
+        toothNo: 32,
+        value: ''
+      }, {
+        index: 10,
+        toothNo: 33,
+        value: ''
+      }, {
+        index: 11,
+        toothNo: 34,
+        value: ''
+      }, {
+        index: 12,
+        toothNo: 35,
+        value: ''
+      }, {
+        index: 13,
+        toothNo: 36,
+        value: ''
+      }, {
+        index: 14,
+        toothNo: 37,
+        value: ''
+      }, {
+        index: 15,
+        toothNo: 38,
+        value: ''
+      }],
       // Logo,
       bonus: 60,
       bonusOptions: [{
@@ -372,9 +503,11 @@ var _validEntry = function validEntry(value) {
       }],
       calculated: false,
       findingsEntries: '',
+      findingsEntriesImport: '',
       disabled: false,
       resetBtns: false,
-      dialog: false,
+      dialogCalc: false,
+      dialogSolution: [],
       displaySecond: false,
       dataRV_GAV_AAV: [],
       manualUpperJaw: [],
@@ -389,74 +522,40 @@ var _validEntry = function validEntry(value) {
       apiCallSuccess: false,
       errorMsg: '',
       decryptedId: '',
-      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")("],
+      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")(", "\\)\\("],
       case_name: {
         '1.1': 'Krone',
         '1.2': 'Teilkrone',
-        '2.1': 'zahnbegrenzte Lucke',
-        '2.2': 'zahnbegrenzte Lucke',
-        '2.3': 'zahnbegrenzte Lucke',
-        '2.4': 'zahnbegrenzte Lucke',
-        '2.5': 'zahnbegrenzte Lucken',
+        '2.1': 'zahnbegrenzte Lücke',
+        '2.2': 'zahnbegrenzte Lücke',
+        '2.3': 'zahnbegrenzte Lücke',
+        '2.4': 'zahnbegrenzte Lücke',
+        '2.5': 'zahnbegrenzte Lücken',
         '3.1': 'Restzahngebiss',
         '3.2': 'Restzahngebiss',
-        '4.1': '1-3 Restzahne',
+        '4.1': '1-3 Restzähne',
         '4.2': 'zahnloser Oberkiefer',
-        '4.3': '1-3 Restzahne',
+        '4.3': '1-3 Restzähne',
         '4.4': 'zahnloser Unterkiefer',
-        '7.1': 'erneuerungsbedurftige Suprakonstruktion',
-        '7.2': 'erneuerungsbedurftige Suprakonstruktion'
+        '7.1': 'erneuerungsbedürftige Suprakonstruktion',
+        '7.2': 'erneuerungsbedürftige Suprakonstruktion'
       },
-      levels: 5,
-      expanded: [],
-      set1: [],
-      set2: [],
-      set3: [],
-      disablePagination: true,
-      initialDataSetHeaders: [{
-        text: 'Case',
-        value: 'case'
-      }, {
-        text: 'Zahn/Gebiet',
-        value: 'zahn'
-      }, {
-        text: 'Versorgung',
-        value: 'plan'
-      }],
-      initialDataSet: [],
-      expandedDataSetHeaders: [{
-        text: 'Regelversorgung',
-        value: 'regelversorgung'
-      }, {
-        text: 'Gleichartiger Zahnersatz',
-        value: 'gleichartigerZahnersatz'
-      }, {
-        text: 'Andersartiger Zahnersatz',
-        value: 'andersartigerZahnersatz'
-      }],
-      expandedDataSet: [],
-      secondExpandedDataSetHeaders: [{
-        text: 'History',
-        value: 'history'
-      }],
-      secondExpandedDataSet: [{
-        specieId: 1,
-        animalId: 1,
-        historyId: 1,
-        history: 'The cutest cat you could ever meet! <3'
-      }, {
-        specieId: 2,
-        animalId: 2,
-        historyId: 2,
-        history: 'Known as THE DOG.'
-      }, {
-        specieId: 3,
-        animalId: 3,
-        historyId: 3,
-        history: 'History missing for Joey'
-      }],
       faktors: 1,
-      ticksLabels: ['1', '2.3', '3.5']
+      ticksLabels: ['1', '2.3', '3.5'],
+      totalGav: '0.00',
+      totalBema: '0.00',
+      totalSumCalc: '0.00',
+      euro: '&euro;',
+      overlay: false,
+      dialogRow: 0,
+      checkbox: true,
+      planLabel: '',
+      dataCaseName: '',
+      selectedTableData: '',
+      optGoz: [],
+      RVShortcut: '',
+      TPShortcut: '',
+      isTP: false
     };
   },
   watch: {},
@@ -467,12 +566,18 @@ var _validEntry = function validEntry(value) {
     // {
     //   this.$router.push("/");
     // }
+    // this.getStatusImport().then((response) => {
+    //   // console.log(response.data)
+    //   this.findingsEntriesImport = response.data
+    // })
   },
   computed: {
     // ...mapGetters(["isLoggedIn"]),
     totalAmount: function totalAmount() {
-      if (this.tableData.length > 0) {
-        return this.tableData.map(function (i) {
+      // console.log(this.tableData)
+      // console.log(this.tableData['Final'])
+      if (this.tableData['Final'] && this.tableData['Final'].length > 0) {
+        return this.tableData['Final'].map(function (i) {
           return i.price;
         }).reduce(function (a, b) {
           return Number(a) + Number(b);
@@ -489,7 +594,8 @@ var _validEntry = function validEntry(value) {
       });
     }
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['calculateValuesApi'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['calculateValuesApi' // 'getStatusImport'
+  ])), {}, {
     upperJawSelectedBtn: function upperJawSelectedBtn(events) {
       this.upperJawSelected = this.$options.data(this.upperJawSelected).upperJawSelected;
 
@@ -556,8 +662,10 @@ var _validEntry = function validEntry(value) {
         input.push({
           "00": this.bonus
         });
+        this.overlay = true;
         this.calculateValuesApi(input).then(function (response) {
-          console.log(response);
+          // console.log(response)
+
           /*if(response.data[0].length>1) {
             let title = '';
             let text = '';
@@ -596,7 +704,6 @@ var _validEntry = function validEntry(value) {
           }
           // if(response.data.length>1) {
           else {*/
-
           _this.displayData(response.data); // }
           // this.apiCallSuccess = true
 
@@ -606,68 +713,125 @@ var _validEntry = function validEntry(value) {
       }
     },
     displayData: function displayData(responseData) {
-      console.log(responseData.length);
-      /*responseData.pop().forEach(element => {
-        let splitedElement = element.split(':')
-        // console.log(splitedElement)
-        if(Number(splitedElement[0])<30) {
-          this.upperJawRV = this.upperJawRV.map((value) => {
-            if(value.toothNo == Number(splitedElement[0])) {
-              value.value = splitedElement[1]
-            }
-            return value
-          })
-        } else {
-          this.MandibleRV = this.MandibleRV.map((value) => {
-            if(value.toothNo == Number(splitedElement[0])) {
-              value.value = splitedElement[1]
-            }
-            return value
-          })
-        }
-      });*/
+      // console.log(responseData)
+      // responseData[''].pop().forEach(element => {
+      // var rvData = "16 : K, 15 : BV, 14 : KV".split(",");
+      //   // console.log(rvData)
+      //   rvData.forEach(element => {
+      //   let splitedElement = element.split(':')
+      //   // console.log(splitedElement)
+      //   if(Number(splitedElement[0])<30) {
+      //     this.upperJawRV = this.upperJawRV.map((value) => {
+      //       if(value.toothNo == Number(splitedElement[0])) {
+      //         value.value = splitedElement[1]
+      //       }
+      //       return value
+      //     })
+      //   } else {
+      //     this.MandibleRV = this.MandibleRV.map((value) => {
+      //       if(value.toothNo == Number(splitedElement[0])) {
+      //         value.value = splitedElement[1]
+      //       }
+      //       return value
+      //     })
+      //   }
+      // });
+      this.tableData = responseData; // this.apiCallSuccess = true //to change teeth images
 
-      for (var ca = 0; ca < responseData.length; ca++) {
-        this.initialDataSet.push({
-          caseId: ca,
-          "case": responseData[ca]['Case Name'],
-          zahn: responseData[ca]['Case Region'],
-          plan: ca
-        });
-        var maxRV = Math.max(responseData[ca]['RV Details'].length, responseData[ca]['GAV Details'].length, responseData[ca]['AAV Details'].length); // for(var rv=0; rv<responseData[ca]['RV Details'].length; rv++) {
+      this.dataRV_GAV_AAV = [];
+      this.overlay = false;
+    },
+    displayRVs: function displayRVs(label, idValue, ids) {
+      var dataValues = JSON.parse(document.getElementById(idValue).value); // console.log(dataValues)
+      // console.log(dataValues['GAV Solution shortcuts'])
 
-        for (var rv = 0; rv < maxRV; rv++) {
-          // { caseId: 1, RVId: 1, regelversorgung: 'Spiffy', gleichartigerZahnersatz: 'Cat', andersartigerZahnersatz: 'Jan 2019' }
-          this.expandedDataSet.push({
-            caseId: ca,
-            RVId: rv,
-            // regelversorgung: '<input type="radio" value=R'+rv+' name="RV_GAV_AAV" v-on:change="displayRVs(indexRV)" />'+
-            //                 '<label :for="indexRV">'+ responseData[ca]["RV Details"][rv]["RV Solution Name"] +'</label>',
-            regelversorgung: responseData[ca]["RV Details"][rv]["RV Solution Name"],
-            //     });
-            // }
-            // for(var gav=0; gav<responseData[ca]['GAV Details'].length; gav++) {
-            //   this.expandedDataSet.push({ caseId: ca, RVId: 'g' +gav, 
-            gleichartigerZahnersatz: responseData[ca]['GAV Details'][rv]['GAV Solution Name'],
-            // andersartigerZahnersatz: (responseData[ca]['AAV Details'][rv]['AAV Solution Name'] !== undefined) ? responseData[ca]['AAV Details'][rv]['AAV Solution Name'] : '',
-            andersartigerZahnersatz: ''
-          });
-        } // for(var rv=0; rv<responseData.rv_details[ca].length; rv++) {
-        // this.expandedDataSet.push({ caseId: ca, RVId: rv, andersartigerZahnersatz: 'Jan 2019' });
-        // }
+      /** Reset Images **/
 
+      this.apiCallSuccess = false;
+      /*this.upperJawRV = this.upperJawRV.map((teethAll) => {
+          teethAll.value = ''
+        return teethAll
+      })
+       this.MandibleRV = this.MandibleRV.map((teethAll) => {
+          teethAll.value = ''
+        return teethAll
+      })
+       this.upperJawTP = this.upperJawTP.map((teethAll) => {
+          teethAll.value = ''
+        return teethAll
+      })
+       this.MandibleTP = this.MandibleTP.map((teethAll) => {
+          teethAll.value = ''
+        return teethAll
+      })*/
+      // this.resetBtns = true
+      // this.RVShortcut = ''
+      // this.TPShortcut = ''
+
+      if (label == 'lblRV') {
+        this.planLabel = label + ids;
+        this.RVShortcut = dataValues['RV Solution shortcuts'];
       }
 
-      this.tableData = responseData;
-      this.apiCallSuccess = true;
-    },
-    displayRVs: function displayRVs(idValue) {
-      var dataValues = JSON.parse(document.getElementById(idValue).value);
+      if (label == 'lblGAV') {
+        this.planLabel = label + ids;
+        this.RVShortcut = dataValues['RV Solution shortcuts']; // this.TPShortcut = dataValues['GAV Solution shortcuts'];
+        // this.TPShortcut = dataValues['TP Solution shortcuts'];
+
+        var newKM = '';
+
+        for (var tp in dataValues['TP Solution shortcuts']) {
+          var kms = [];
+
+          if (tp == 'BM') {
+            kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
+          }
+
+          if (tp == 'KM' || tp == 'PKM') {
+            kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
+          }
+
+          for (var k = 0; k < kms.length; k++) {
+            newKM += kms[k] + ' : ' + tp + ', ';
+          }
+        }
+
+        console.log(String(newKM));
+        this.TPShortcut = String(newKM);
+      }
+
+      if (label == 'lblAAV') {
+        this.planLabel = label + ids;
+        this.RVShortcut = dataValues['RV Solution shortcuts']; // this.TPShortcut = dataValues['AAV Solution shortcuts'];
+        // this.TPShortcut = dataValues['TP Solution shortcuts'];
+
+        var _newKM = '';
+
+        for (var _tp in dataValues['TP Solution shortcuts']) {
+          var kms = [];
+
+          if (_tp == 'SKM') {
+            kms = dataValues['TP Solution shortcuts'][_tp].trim().slice(0, -1).split(",");
+          }
+
+          if (_tp == 'KM') {
+            kms = dataValues['TP Solution shortcuts'][_tp].trim().split(",");
+          }
+
+          for (var _k = 0; _k < kms.length; _k++) {
+            _newKM += kms[_k] + ' : ' + _tp + ', ';
+          }
+        }
+
+        this.TPShortcut = String(_newKM);
+      }
+
       this.dataRV_GAV_AAV = dataValues;
-      this.dialog = true;
+      this.optGoz = [];
+      this.dialogCalc = true;
     },
-    gozAmount: function gozAmount(amount) {
-      return (parseFloat(2.3) * parseFloat(amount)).toFixed(2);
+    gozAmount: function gozAmount(amountGoz, factorValue) {
+      return (parseFloat(factorValue) * parseFloat(amountGoz)).toFixed(2);
     },
     reset: function reset() {
       // Object.assign(this.$data, this.$options.data.apply(this))
@@ -696,8 +860,34 @@ var _validEntry = function validEntry(value) {
       });
       return _char;
     },
-    calculateFindingsEntries: function calculateFindingsEntries() {
+    calculateFindingsImport: function calculateFindingsImport() {
       var _this2 = this;
+
+      var findingsArrayImport = null;
+      var findingsArrayTeeth = [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28, 38, 37, 36, 35, 34, 33, 32, 31, 41, 42, 43, 44, 45, 46, 47, 48];
+      var resultStatus = '';
+      findingsArrayImport = this.findingsEntriesImport.split(',')[1].trim().split(' ');
+
+      var _loop = function _loop(i) {
+        if (findingsArrayImport[i] !== 'd' && _this2.allowedStatus.find(function (value) {
+          return value == findingsArrayImport[i];
+        })) {
+          resultStatus += findingsArrayTeeth[i] + findingsArrayImport[i] + ',';
+        }
+      };
+
+      for (var i = 0; i < findingsArrayImport.length; i++) {
+        _loop(i);
+      }
+
+      resultStatus = resultStatus.substr(0, resultStatus.length - 1); // For the status import popup Start
+
+      this.importDialog = false;
+      this.findingsEntries = resultStatus;
+      this.calculateFindingsEntries();
+    },
+    calculateFindingsEntries: function calculateFindingsEntries() {
+      var _this3 = this;
 
       var findingsArray = null;
 
@@ -705,7 +895,8 @@ var _validEntry = function validEntry(value) {
         findingsArray = this.findingsEntries.split(' ');
       } else {
         findingsArray = this.findingsEntries.split(',');
-      }
+      } // console.log(findingsArray)
+
 
       for (var i = 0; i < findingsArray.length; i++) {
         if (/-/.test(findingsArray[i])) {
@@ -713,60 +904,60 @@ var _validEntry = function validEntry(value) {
             var start_num = Number(findingsArray[i].split("-")[0]);
             var end_num = Number(findingsArray[i].split("-")[1].match(/[0-9]/g).join(''));
             var _char2 = undefined;
-            _char2 = findingsArray[i].split("-")[1].match(/[a-z]/g);
+            _char2 = findingsArray[i].split("-")[1].match(/[a-z)(]/g);
 
             if (!_char2) {
-              _char2 = _this2.findStatus(findingsArray.slice(i, findingsArray.length));
+              _char2 = _this3.findStatus(findingsArray.slice(i, findingsArray.length));
             } else {
               _char2 = _char2.join('');
             } // check valid numbers in status
 
 
-            var isValidNum = _this2.toothNumberISO.find(function (value) {
+            var isValidNum = _this3.toothNumberISO.find(function (value) {
               return value == start_num;
-            }) && _this2.toothNumberISO.find(function (value) {
+            }) && _this3.toothNumberISO.find(function (value) {
               return value == end_num;
             });
 
             if (isValidNum == undefined) {
-              _this2.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
+              _this3.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
               return {
                 v: void 0
               };
             } else {
-              _this2.errorMsg = '';
+              _this3.errorMsg = '';
             } // check valid charecters in status
 
 
-            var isValidChar = _this2.allowedStatus.find(function (value) {
+            var isValidChar = _this3.allowedStatus.find(function (value) {
               return value == _char2;
             });
 
             if (isValidChar == undefined) {
-              _this2.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
+              _this3.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
               return {
                 v: void 0
               };
             } else {
-              _this2.errorMsg = '';
+              _this3.errorMsg = '';
             }
 
-            var start_num_index = _this2.toothNumberISO.indexOf(start_num);
+            var start_num_index = _this3.toothNumberISO.indexOf(start_num);
 
-            var end_num_index = _this2.toothNumberISO.indexOf(end_num);
+            var end_num_index = _this3.toothNumberISO.indexOf(end_num);
 
             if (start_num_index <= 15 && end_num_index > 15) {
-              _this2.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
+              _this3.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
               return {
                 v: void 0
               };
             } else if (start_num_index >= 16 && end_num_index < 16) {
-              _this2.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
+              _this3.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
               return {
                 v: void 0
               };
             } else {
-              _this2.errorMsg = '';
+              _this3.errorMsg = '';
             }
 
             if (start_num_index > end_num_index) {
@@ -775,9 +966,9 @@ var _validEntry = function validEntry(value) {
               end_num_index = temp;
             }
 
-            var _loop = function _loop(_i) {
+            var _loop2 = function _loop2(_i) {
               if (start_num < 30) {
-                var filteredUpperJawSelected = _this2.upperJawSelected.find(function (value) {
+                var filteredUpperJawSelected = _this3.upperJawSelected.find(function (value) {
                   if (value.index == _i) {
                     return value;
                   }
@@ -786,10 +977,10 @@ var _validEntry = function validEntry(value) {
                 if (filteredUpperJawSelected) {
                   filteredUpperJawSelected.value = _char2;
 
-                  _this2.manualUpperJaw.push(filteredUpperJawSelected);
+                  _this3.manualUpperJaw.push(filteredUpperJawSelected);
                 }
               } else {
-                var filteredMandibleSelected = _this2.MandibleSelected.find(function (value) {
+                var filteredMandibleSelected = _this3.MandibleSelected.find(function (value) {
                   if (value.index == _i % 16) {
                     return value;
                   }
@@ -798,13 +989,13 @@ var _validEntry = function validEntry(value) {
                 if (filteredMandibleSelected) {
                   filteredMandibleSelected.value = _char2;
 
-                  _this2.manualMandible.push(filteredMandibleSelected);
+                  _this3.manualMandible.push(filteredMandibleSelected);
                 }
               }
             };
 
             for (var _i = start_num_index; _i <= end_num_index; _i++) {
-              _loop(_i);
+              _loop2(_i);
             }
           }();
 
@@ -813,45 +1004,46 @@ var _validEntry = function validEntry(value) {
           var _ret2 = function () {
             var numbs = findingsArray[i].match(/[0-9]/g).join('');
             var _char3 = undefined;
-            _char3 = findingsArray[i].match(/[a-z]/g);
+            _char3 = findingsArray[i].match(/[a-z)(]/g);
+            console.log(_char3);
 
             if (!_char3) {
-              _char3 = _this2.findStatus(findingsArray.slice(i, findingsArray.length));
+              _char3 = _this3.findStatus(findingsArray.slice(i, findingsArray.length));
             } else {
               _char3 = _char3.join('');
             } // check valid numbers in status
 
 
-            var isValidNum = _this2.toothNumberISO.find(function (value) {
+            var isValidNum = _this3.toothNumberISO.find(function (value) {
               return value == numbs;
             });
 
             if (isValidNum == undefined) {
-              _this2.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
+              _this3.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
               return {
                 v: void 0
               };
             } else {
-              _this2.errorMsg = '';
+              _this3.errorMsg = '';
             } // check valid charecters in status
 
 
-            var isValidChar = _this2.allowedStatus.find(function (value) {
+            var isValidChar = _this3.allowedStatus.find(function (value) {
               return value == _char3;
             });
 
             if (isValidChar == undefined) {
-              _this2.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
+              _this3.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!';
               return {
                 v: void 0
               };
             } else {
-              _this2.errorMsg = '';
+              _this3.errorMsg = '';
             }
 
             if (numbs && _char3) {
               if (Number(numbs) < 30) {
-                var filteredUpperJawSelected = _this2.upperJawSelected.find(function (value) {
+                var filteredUpperJawSelected = _this3.upperJawSelected.find(function (value) {
                   if (value.toothNo == Number(numbs)) {
                     return value;
                   }
@@ -859,9 +1051,9 @@ var _validEntry = function validEntry(value) {
 
                 filteredUpperJawSelected.value = _char3;
 
-                _this2.manualUpperJaw.push(filteredUpperJawSelected);
+                _this3.manualUpperJaw.push(filteredUpperJawSelected);
               } else {
-                var filteredMandibleSelected = _this2.MandibleSelected.find(function (value) {
+                var filteredMandibleSelected = _this3.MandibleSelected.find(function (value) {
                   if (value.toothNo == Number(numbs)) {
                     return value;
                   }
@@ -869,7 +1061,7 @@ var _validEntry = function validEntry(value) {
 
                 filteredMandibleSelected.value = _char3;
 
-                _this2.manualMandible.push(filteredMandibleSelected);
+                _this3.manualMandible.push(filteredMandibleSelected);
               }
             }
           }();
@@ -882,9 +1074,122 @@ var _validEntry = function validEntry(value) {
         this.disabled = true;
       }
     },
-    displayFak: function displayFak(faktors) {
-      console.log(faktors);
-      return faktors;
+    displayFak: function displayFak(faktors, amountGoz, solutionT) {
+      // console.log(document.getElementById('GAVAmount'+faktors).value)
+      if (solutionT == 'GAV') {
+        var newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSlider' + faktors).value]);
+        document.getElementById('GAVAmount' + faktors).innerHTML = newGozAmount;
+      }
+
+      if (solutionT == 'AAV') {
+        var _newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVSlider' + faktors).value]);
+
+        document.getElementById('AAVAmount' + faktors).innerHTML = _newGozAmount;
+      }
+
+      if (solutionT == 'oAAV') {
+        var _newGozAmount2 = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('oAAVSlider' + faktors).value]);
+
+        document.getElementById('oAAVAmount' + faktors).innerHTML = _newGozAmount2;
+      }
+    },
+    optGozActivate: function optGozActivate() {
+      console.log(this.optGoz);
+    },
+    displayPlanen: function displayPlanen(rowIndex) {
+      this.dialogSolution[rowIndex] = true;
+      this.dialogRow = rowIndex;
+      this.displaySecond = rowIndex;
+    },
+    calcTable: function calcTable(dialogRowIndex) {
+      var _this4 = this;
+
+      this.dialogSolution[dialogRowIndex] = false;
+      /** Add Toggle Selected Values */
+
+      for (var op = 0; op < this.optGoz.length; op++) {
+        var elementOpt = document.getElementById(this.optGoz[op]);
+        elementOpt.classList.remove("clsGozAmountNo");
+        elementOpt.classList.add("clsGozAmount");
+      }
+
+      var collectionGoz = document.getElementsByClassName("clsGozAmount");
+      var collectionBema = document.getElementsByClassName("clsBemaAmount");
+      var clsGozAmount = 0;
+      var clsBemaAmount = 0;
+
+      for (var gozI = 0; gozI < collectionGoz.length; gozI++) {
+        clsGozAmount += parseFloat(collectionGoz[gozI].innerText);
+      }
+
+      this.totalGav = parseFloat(clsGozAmount).toFixed(2);
+
+      for (var bemaI = 0; bemaI < collectionBema.length; bemaI++) {
+        clsBemaAmount += parseFloat(collectionBema[bemaI].innerText);
+      }
+
+      this.totalBema = parseFloat(clsBemaAmount).toFixed(2);
+      this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2);
+      document.getElementById("planen" + dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML;
+      document.getElementById("planen" + dialogRowIndex).setAttribute("disabled", "disabled");
+      /** DISPLAY TEETH IMAGES */
+
+      var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
+      dataRVs.forEach(function (element) {
+        var splitedElement = element.split(':');
+
+        if (Number(splitedElement[0]) < 30) {
+          _this4.upperJawRV = _this4.upperJawRV.map(function (teethAll) {
+            if (teethAll.toothNo == Number(splitedElement[0])) {
+              teethAll.value = splitedElement[1];
+            }
+
+            return teethAll;
+          });
+        } else {
+          _this4.MandibleRV = _this4.MandibleRV.map(function (teethAll) {
+            if (teethAll.toothNo == Number(splitedElement[0])) {
+              teethAll.value = splitedElement[1];
+            }
+
+            return teethAll;
+          });
+        }
+      });
+      var dataTPs = this.TPShortcut.trim().slice(0, -1).split(",");
+
+      if (dataTPs[0] == '') {
+        this.isTP = false;
+      } else {
+        this.isTP = true;
+      }
+
+      dataTPs.forEach(function (element) {
+        var splitedElement = element.split(':');
+
+        if (Number(splitedElement[0]) < 30) {
+          _this4.upperJawTP = _this4.upperJawTP.map(function (teethAll) {
+            if (teethAll.toothNo == Number(splitedElement[0])) {
+              teethAll.value = splitedElement[1];
+            }
+
+            return teethAll;
+          });
+        } else {
+          _this4.MandibleTP = _this4.MandibleTP.map(function (teethAll) {
+            if (teethAll.toothNo == Number(splitedElement[0])) {
+              teethAll.value = splitedElement[1];
+            }
+
+            return teethAll;
+          });
+        }
+      });
+      this.apiCallSuccess = true;
+      /** DISPLAY TEETH IMAGES END */
+
+      this.displaySecond = false;
+      this.dialogCalc = false;
     },
     filteredData: function filteredData(item) {
       return this.expandedDataSet.filter(function (f) {
@@ -1660,7 +1965,7 @@ var render = function render() {
       tile: "",
       "background-color": "transparent"
     }
-  }, _vm._l(_vm.upperJawRV, function (btn) {
+  }, _vm._l(_vm.upperJawTP, function (btn) {
     return _c("v-btn", {
       key: btn.index,
       staticClass: "ma-0 pa-0",
@@ -1730,14 +2035,36 @@ var render = function render() {
         disabled: ""
       }
     }, [_vm._v("\n                  " + _vm._s(btn.value) + "\n                ")]);
-  }), 1)], 1)]), _vm._v(" "), _c("div", {
+  }), 1)], 1), _vm._v(" "), _c("span", {
+    staticClass: "px-3"
+  }, [_c("span", {
+    staticClass: "mdi mdi-application-import",
+    staticStyle: {
+      cursor: "pointer"
+    },
+    on: {
+      click: function click($event) {
+        _vm.importDialog = true;
+      }
+    }
+  }), _vm._v(" "), _c("span", {
+    staticClass: "mdi mdi-trash-can-outline",
+    staticStyle: {
+      cursor: "pointer",
+      color: "darkred",
+      "font-size": "24px"
+    },
+    on: {
+      click: _vm.resetLoad
+    }
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "px-8 py-2"
   }, [_c("UpperJaw", {
     attrs: {
       resetBtns: _vm.resetBtns,
       disabled: _vm.disabled,
       manualUpperJaw: _vm.manualUpperJaw,
-      upperJawRV: _vm.upperJawRV,
+      upperJawRV: _vm.isTP ? _vm.upperJawTP : _vm.upperJawRV,
       apiCallSuccess: _vm.apiCallSuccess
     },
     on: {
@@ -1750,7 +2077,7 @@ var render = function render() {
       resetBtns: _vm.resetBtns,
       disabled: _vm.disabled,
       manualMandible: _vm.manualMandible,
-      MandibleRV: _vm.MandibleRV,
+      MandibleRV: _vm.isTP ? _vm.MandibleTP : _vm.MandibleRV,
       apiCallSuccess: _vm.apiCallSuccess
     },
     on: {
@@ -1831,7 +2158,7 @@ var render = function render() {
       tile: "",
       "background-color": "transparent"
     }
-  }, _vm._l(_vm.MandibleRV, function (btn) {
+  }, _vm._l(_vm.MandibleTP, function (btn) {
     return _c("v-btn", {
       key: btn.index,
       staticClass: "ma-0 pa-0",
@@ -1845,74 +2172,65 @@ var render = function render() {
       }
     }, [_vm._v("\n                " + _vm._s(btn.value) + "\n              ")]);
   }), 1)], 1)])]), _vm._v(" "), _vm.calculated ? _c("div", {
+    staticClass: "table-container my-3"
+  }, [_c("v-simple-table", {
+    attrs: {
+      outlined: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn() {
+        return [_c("tbody", [_c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Honorar BEMA ")]), _vm._v(" "), _c("td", {
+          staticClass: "totalAmountBema"
+        }, [_vm._v(" " + _vm._s(_vm.totalBema) + " "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })])]), _vm._v(" "), _c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Honorar GOZ / GOA ")]), _vm._v(" "), _c("td", {
+          staticClass: "totalAmountGoz"
+        }, [_vm._v(" " + _vm._s(_vm.totalGav) + " "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })])]), _vm._v(" "), _c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Labor gewerblich ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 € ")])]), _vm._v(" "), _c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Eigenlabor ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })])]), _vm._v(" "), _c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Summe ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalSumCalc) + " "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })])]), _vm._v(" "), _c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Festzuschusse ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalAmount) + " "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })])]), _vm._v(" "), _c("tr", [_c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Eigenanteil Patient ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })])])])];
+      },
+      proxy: true
+    }], null, false, 3512637721)
+  })], 1) : _vm._e(), _vm._v(" "), _vm.calculated ? _c("div", {
     staticClass: "my-4"
   }, [_c("div", [_vm._v("Bonus: "), _c("span", {
     staticClass: "font-weight-black"
-  }, [_vm._v(_vm._s(_vm.bonus) + "%")])]), _vm._v(" "), _c("v-data-table", {
-    staticClass: "elevation-1",
-    attrs: {
-      headers: _vm.initialDataSetHeaders,
-      items: _vm.initialDataSet,
-      "item-key": "caseId",
-      expanded: _vm.set1,
-      "show-expand": "",
-      "disable-pagination": "",
-      "hide-default-footer": ""
-    },
-    on: {
-      "update:expanded": function updateExpanded($event) {
-        _vm.set1 = $event;
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "expanded-item",
-      fn: function fn(_ref) {
-        var headers = _ref.headers,
-            item = _ref.item;
-        return [_c("td", {
-          attrs: {
-            colspan: headers.length
-          }
-        }, [_c("v-data-table", {
-          staticClass: "first-expanded-datatable",
-          attrs: {
-            headers: _vm.expandedDataSetHeaders,
-            items: _vm.filteredData(item),
-            "item-key": "RVId",
-            expanded: _vm.set2[item.caseId],
-            "show-expand": "",
-            "hide-default-footer": ""
-          },
-          on: {
-            "update:expanded": function updateExpanded($event) {
-              return _vm.$set(_vm.set2, item.caseId, $event);
-            }
-          },
-          scopedSlots: _vm._u([{
-            key: "expanded-item",
-            fn: function fn(_ref2) {
-              var headers = _ref2.headers,
-                  childItem = _ref2.item;
-              return [_c("td", {
-                attrs: {
-                  colspan: headers.length
-                }
-              }, [_c("v-data-table", {
-                staticClass: "expanded-datatable",
-                attrs: {
-                  headers: _vm.secondExpandedDataSetHeaders,
-                  items: _vm.filteredHistoryData(childItem),
-                  "item-key": "historyId",
-                  dense: "",
-                  "hide-default-footer": ""
-                }
-              })], 1)];
-            }
-          }], null, true)
-        })], 1)];
-      }
-    }], null, false, 1298062895)
-  }), _vm._v(" "), _c("v-simple-table", {
+  }, [_vm._v(_vm._s(_vm.bonus) + "%")])]), _vm._v(" "), _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
       outlined: ""
@@ -1929,27 +2247,45 @@ var render = function render() {
         }, [_vm._v("Versorgung")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.tableData, function (data, index) {
           return _c("tr", {
             key: index
-          }, [_c("td", {
+          }, [index !== "Final" ? _c("td", {
             staticClass: "text-center"
-          }, [_vm._v(_vm._s(data["Case Name"]))]), _vm._v(" "), _c("td", {
+          }, [_vm._v(_vm._s(data["Case Name"]))]) : _vm._e(), _vm._v(" "), index !== "Final" ? _c("td", {
             staticClass: "text-center"
-          }, [_vm._v(_vm._s(data["Case Region"]))]), _vm._v(" "), _c("td", {
-            staticClass: "text-center",
+          }, [_vm._v(_vm._s(data["Case Region"]))]) : _vm._e(), _vm._v(" "), index !== "Final" ? _c("td", {
+            staticClass: "text-center"
+          }, [_c("v-btn", {
             staticStyle: {
-              cursor: "pointer",
               color: "blue"
+            },
+            attrs: {
+              block: "",
+              id: "planen" + index
             },
             on: {
               click: function click($event) {
-                _vm.displaySecond = true;
+                return _vm.displayPlanen(index);
               }
             }
-          }, [_vm._v(" planen ")]), _vm._v(" "), _c("v-simple-table", {
+          }, [_vm._v(" planen \n                        ")])], 1) : _vm._e(), _vm._v(" "), _c("v-dialog", {
+            attrs: {
+              "max-width": "750",
+              persistent: ""
+            },
+            model: {
+              value: _vm.dialogSolution[index],
+              callback: function callback($$v) {
+                _vm.$set(_vm.dialogSolution, index, $$v);
+              },
+              expression: "dialogSolution[index]"
+            }
+          }, [_c("v-card", [_c("v-card-title", {
+            staticClass: "text-h5"
+          }, [_vm._v("\n                    " + _vm._s(data["Case Name"]) + ", " + _vm._s(data["Case Region"]) + "\n                  ")]), _vm._v(" "), _c("v-card-text", [index !== "Final" ? _c("v-simple-table", {
             directives: [{
               name: "show",
               rawName: "v-show",
-              value: _vm.displaySecond,
-              expression: "displaySecond"
+              value: _vm.displaySecond === index,
+              expression: "displaySecond === index"
             }],
             staticClass: "my-2",
             attrs: {
@@ -1958,17 +2294,16 @@ var render = function render() {
             scopedSlots: _vm._u([{
               key: "default",
               fn: function fn() {
-                return [_c("thead", [_c("tr", [_c("th", {
+                return [_c("tbody", [_c("tr", [_c("th", {
                   staticClass: "text-center text-subtitle-1 font-weight-black"
-                }, [_vm._v("Regelversorgung")]), _vm._v(" "), _c("th", {
-                  staticClass: "text-center text-subtitle-1 font-weight-black"
-                }, [_vm._v("Gleichartiger Zahnersatz")]), _vm._v(" "), _c("th", {
-                  staticClass: "text-center text-subtitle-1 font-weight-black"
-                }, [_vm._v("Andersartiger Zahnersatz")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", _vm._l(data["RV Details"], function (dataRV, indexRV) {
-                  return _c("tr", {
+                }, [_vm._v("Regelversorgung")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["RV Details"], function (dataRV, indexRV) {
+                  return _c("div", {
                     key: indexRV,
-                    staticClass: "text-center"
-                  }, [_c("td", [_c("input", {
+                    staticStyle: {
+                      "margin-bottom": "15px",
+                      "margin-top": "5px"
+                    }
+                  }, [_c("input", {
                     attrs: {
                       type: "radio",
                       name: "RV_GAV_AAV"
@@ -1978,26 +2313,32 @@ var render = function render() {
                     },
                     on: {
                       change: function change($event) {
-                        return _vm.displayRVs("RV" + indexRV);
+                        return _vm.displayRVs("lblRV", "RV" + index + indexRV, index + indexRV);
                       }
                     }
                   }), _vm._v(" "), _c("label", {
                     attrs: {
-                      "for": indexRV
+                      "for": indexRV,
+                      id: "lblRV" + index + indexRV
                     }
                   }, [_vm._v(" " + _vm._s(dataRV["RV Solution Name"]))]), _vm._v(" "), _c("textarea", {
                     staticStyle: {
                       display: "none"
                     },
                     attrs: {
-                      id: "RV" + indexRV
+                      id: "RV" + index + indexRV
                     }
-                  }, [_vm._v(" " + _vm._s(dataRV) + " ")])])]);
-                }), 0), _vm._v(" "), _c("td", _vm._l(data["GAV Details"], function (dataGAV, indexGAV) {
-                  return _c("tr", {
+                  }, [_vm._v(" " + _vm._s(dataRV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
+                }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
+                  staticClass: "text-center text-subtitle-1 font-weight-black"
+                }, [_vm._v("Gleichartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["GAV Details"], function (dataGAV, indexGAV) {
+                  return _c("div", {
                     key: indexGAV,
-                    staticClass: "text-center"
-                  }, [_c("td", [_c("input", {
+                    staticStyle: {
+                      "margin-bottom": "15px",
+                      "margin-top": "5px"
+                    }
+                  }, [_c("input", {
                     attrs: {
                       type: "radio",
                       name: "RV_GAV_AAV"
@@ -2007,26 +2348,32 @@ var render = function render() {
                     },
                     on: {
                       change: function change($event) {
-                        return _vm.displayRVs("GAV" + indexGAV);
+                        return _vm.displayRVs("lblGAV", "GAV" + index + indexGAV, index + indexGAV);
                       }
                     }
                   }), _vm._v(" "), _c("label", {
                     attrs: {
-                      "for": indexGAV
+                      "for": indexGAV,
+                      id: "lblGAV" + index + indexGAV
                     }
                   }, [_vm._v(" " + _vm._s(dataGAV["GAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
                     staticStyle: {
                       display: "none"
                     },
                     attrs: {
-                      id: "GAV" + indexGAV
+                      id: "GAV" + index + indexGAV
                     }
-                  }, [_vm._v(" " + _vm._s(dataGAV) + " ")])])]);
-                }), 0), _vm._v(" "), _c("td", _vm._l(data["AAV Details"], function (dataAAV, indexAAV) {
-                  return _c("tr", {
+                  }, [_vm._v(" " + _vm._s(dataGAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
+                }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
+                  staticClass: "text-center text-subtitle-1 font-weight-black"
+                }, [_vm._v("Andersartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["AAV Details"], function (dataAAV, indexAAV) {
+                  return _c("div", {
                     key: indexAAV,
-                    staticClass: "text-center"
-                  }, [_c("td", [_c("input", {
+                    staticStyle: {
+                      "margin-bottom": "15px",
+                      "margin-top": "5px"
+                    }
+                  }, [_c("input", {
                     attrs: {
                       type: "radio",
                       name: "RV_GAV_AAV"
@@ -2036,41 +2383,52 @@ var render = function render() {
                     },
                     on: {
                       change: function change($event) {
-                        return _vm.displayRVs("AAV" + indexAAV);
+                        return _vm.displayRVs("lblAAV", "AAV" + index + indexAAV, index + indexAAV);
                       }
                     }
                   }), _vm._v(" "), _c("label", {
                     attrs: {
-                      "for": indexAAV
+                      "for": indexAAV,
+                      id: "lblAAV" + index + indexAAV
                     }
                   }, [_vm._v(" " + _vm._s(dataAAV["AAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
                     staticStyle: {
                       display: "none"
                     },
                     attrs: {
-                      id: "AAV" + indexAAV
+                      id: "AAV" + index + indexAAV
                     }
-                  }, [_vm._v(" " + _vm._s(dataAAV) + " ")])])]);
+                  }, [_vm._v(" " + _vm._s(dataAAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
                 }), 0)])])];
               },
               proxy: true
             }], null, true)
-          })], 1);
+          }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+            attrs: {
+              color: "red darken-1",
+              text: ""
+            },
+            on: {
+              click: function click($event) {
+                _vm.dialogSolution[index] = false;
+              }
+            }
+          }, [_vm._v("\n                      abbrechen\n                    ")])], 1)], 1)], 1)], 1);
         }), 0)];
       },
       proxy: true
-    }], null, false, 1807787451)
+    }], null, false, 4120577951)
   }), _vm._v(" "), _c("v-dialog", {
     attrs: {
       "max-width": "750",
       persistent: ""
     },
     model: {
-      value: _vm.dialog,
+      value: _vm.dialogCalc,
       callback: function callback($$v) {
-        _vm.dialog = $$v;
+        _vm.dialogCalc = $$v;
       },
-      expression: "dialog"
+      expression: "dialogCalc"
     }
   }, [_c("v-card", [_c("v-card-title", {
     staticClass: "text-h5"
@@ -2095,11 +2453,13 @@ var render = function render() {
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA name"], function (datasRV, indexRV) {
           return _c("tr", {
             key: indexRV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV]) + " ")])]);
+          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
+            staticClass: "clsBemaAmount"
+          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 3949138389)
+    }], null, false, 2972806632)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -2121,11 +2481,13 @@ var render = function render() {
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV]) + " ")])]);
+          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
+            staticClass: "clsBemaAmount"
+          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 2420924533)
+    }], null, false, 4141267848)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -2151,32 +2513,149 @@ var render = function render() {
             key: indexGAV
           }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV]))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", [_c("v-slider", {
             attrs: {
-              value: "",
+              value: "1",
               "tick-labels": _vm.ticksLabels,
               max: 2,
               step: "1",
               ticks: "always",
               "tick-size": "4",
               "thumb-size": 36,
-              vertical: true
+              vertical: true,
+              id: "GAVSlider" + indexGAV
             },
             on: {
               change: function change($event) {
-                return _vm.displayFak(_vm.faktors);
+                return _vm.displayFak(indexGAV, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "GAV");
               }
-            },
-            scopedSlots: _vm._u([{
-              key: "thumb-label",
-              fn: function fn(_ref3) {
-                var modelValue = _ref3.modelValue;
-                return [_vm._v("\n                          " + _vm._s(_vm.displayFak(modelValue)) + "\n                        ")];
-              }
-            }], null, true)
-          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV])) + " ")])]);
+            }
+          })], 1), _vm._v(" "), _c("td", {
+            staticClass: "clsGozAmount",
+            attrs: {
+              id: "GAVAmount" + indexGAV
+            }
+          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "2.3")) + "\n                      ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 267810960)
+    }], null, false, 3788963016)
+  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
+    staticClass: "my-2",
+    attrs: {
+      outlined: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn() {
+        return [_c("thead", [_c("tr", [_c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"], function (datasAAV, indexAAV) {
+          return _c("tr", {
+            key: indexAAV
+          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-slider", {
+            attrs: {
+              value: "1",
+              "tick-labels": _vm.ticksLabels,
+              max: 2,
+              step: "1",
+              ticks: "always",
+              "tick-size": "4",
+              "thumb-size": 36,
+              vertical: true,
+              id: "AAVSlider" + indexAAV
+            },
+            on: {
+              change: function change($event) {
+                return _vm.displayFak(indexAAV, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "AAV");
+              }
+            }
+          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+            staticClass: "clsGozAmount",
+            attrs: {
+              id: "AAVAmount" + indexAAV
+            }
+          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
+        }), 0)];
+      },
+      proxy: true
+    }], null, false, 690876296)
+  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("\n                Optionale GOZ-Positionen\n              ")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
+    staticClass: "my-2",
+    attrs: {
+      outlined: ""
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function fn() {
+        return [_c("thead", [_c("tr", [_c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
+        }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"], function (datasAAV, indexAAV) {
+          return _c("tr", {
+            key: indexAAV
+          }, [datasAAV ? _c("td", [_vm._v(" o" + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-slider", {
+            attrs: {
+              value: "1",
+              "tick-labels": _vm.ticksLabels,
+              max: 2,
+              step: "1",
+              ticks: "always",
+              "tick-size": "4",
+              "thumb-size": 36,
+              vertical: true,
+              id: "oAAVSlider" + indexAAV
+            },
+            on: {
+              change: function change($event) {
+                return _vm.displayFak(indexAAV, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "oAAV");
+              }
+            }
+          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+            staticClass: "clsGozAmountNo",
+            attrs: {
+              id: "oAAVAmount" + indexAAV
+            }
+          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-switch", {
+            attrs: {
+              color: "success",
+              value: "oAAVAmount" + indexAAV,
+              "hide-details": ""
+            },
+            on: {
+              change: _vm.optGozActivate
+            },
+            model: {
+              value: _vm.optGoz,
+              callback: function callback($$v) {
+                _vm.optGoz = $$v;
+              },
+              expression: "optGoz"
+            }
+          })], 1) : _vm._e()]);
+        }), 0)];
+      },
+      proxy: true
+    }], null, false, 327538410)
   }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
     attrs: {
       color: "green darken-1",
@@ -2184,10 +2663,31 @@ var render = function render() {
     },
     on: {
       click: function click($event) {
-        _vm.dialog = false;
+        return _vm.calcTable(_vm.dialogRow);
       }
     }
-  }, [_vm._v("\n                Close\n              ")])], 1)], 1)], 1)], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
+  }, [_vm._v("\n                speichern\n              ")]), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "red darken-1",
+      text: ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.dialogCalc = false;
+      }
+    }
+  }, [_vm._v("\n                abbrechen\n              ")])], 1)], 1)], 1), _vm._v(" "), _c("v-overlay", {
+    attrs: {
+      value: _vm.overlay
+    }
+  }, [_c("v-progress-circular", {
+    attrs: {
+      size: 70,
+      width: 7,
+      color: "primary",
+      indeterminate: ""
+    }
+  })], 1)], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
     staticClass: "d-flex ubernehmen"
   }, [_c("v-text-field", {
     staticClass: "mr-4",
@@ -2252,7 +2752,52 @@ var render = function render() {
       },
       expression: "showInfo"
     }
-  }, [_c("Information")], 1)], 1)]);
+  }, [_c("Information")], 1), _vm._v(" "), _c("v-dialog", {
+    attrs: {
+      width: "500"
+    },
+    model: {
+      value: _vm.importDialog,
+      callback: function callback($$v) {
+        _vm.importDialog = $$v;
+      },
+      expression: "importDialog"
+    }
+  }, [_c("v-card", [_c("v-card-title", {
+    staticClass: "text-h5"
+  }, [_vm._v("\n          Import Status\n        ")]), _vm._v(" "), _c("v-card-text", [_c("v-text-field", {
+    staticClass: "mr-4",
+    attrs: {
+      dense: "",
+      outlined: "",
+      readonly: _vm.disabled
+    },
+    model: {
+      value: _vm.findingsEntriesImport,
+      callback: function callback($$v) {
+        _vm.findingsEntriesImport = $$v;
+      },
+      expression: "findingsEntriesImport"
+    }
+  })], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "green darken-1",
+      text: ""
+    },
+    on: {
+      click: _vm.calculateFindingsImport
+    }
+  }, [_vm._v("\n            speichern\n          ")]), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "red darken-1",
+      text: ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.importDialog = false;
+      }
+    }
+  }, [_vm._v("\n            abbrechen\n          ")])], 1)], 1)], 1)], 1)]);
 };
 
 var staticRenderFns = [];
@@ -7672,7 +8217,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\n  background-color: #eeeeee;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px;\n}\n.ubernehmen[data-v-09e82b30] {\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\n  border: 1px solid black;\n  text-align: left;\n  padding: 8px;\n}\ntable[data-v-09e82b30] {\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\n  padding-right: 0px !important;\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\n  border-radius: 0px !important;\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\n  background-color: #eeeeee;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\n  background-color: white;\n  width: 275px !important;\n  margin-right: 25px !important;\n  /* margin-left: -300px; NOT REQ as table is shifted to bottom center, earlier parallel to tooth and left.\n  float: left;\n  height: 325px; */\n}\n.table-container .backColorTable[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.3) !important;\n}\n.ubernehmen[data-v-09e82b30] {\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\n  border: 1px solid black;\n  text-align: left;\n  padding: 8px;\n}\nth[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\n  padding-right: 0px !important;\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\n  border-radius: 0px !important;\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\n  margin: 1rem !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
