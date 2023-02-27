@@ -83,6 +83,7 @@
                 :manualUpperJaw="manualUpperJaw"
                 :upperJawRV="isTP ? upperJawTP : upperJawRV"
                 :apiCallSuccess="apiCallSuccess"
+                :statusImport="statusImport"
               ></UpperJaw>
               <TeethNumbers></TeethNumbers>
               <Mandible
@@ -92,6 +93,7 @@
                 :manualMandible="manualMandible"
                 :MandibleRV="isTP ? MandibleTP : MandibleRV"
                 :apiCallSuccess="apiCallSuccess"
+                :statusImport="statusImport"
               ></Mandible>
             </div>
             <div class="d-flex align-center">
@@ -182,7 +184,8 @@
 
               <tr>
                 <td class="backColorTable"> Festzuschusse </td>
-                <td> {{totalAmount}} <span v-html="euro"></span> </td>
+                <td v-if="apiCallSuccess"> {{totalAmount}} <span v-html="euro"></span> </td>
+                <td v-if="!apiCallSuccess"> XXX,XX </td>
               </tr>
 
               <tr>
@@ -254,7 +257,7 @@
                             <tr>
                               <td>
                                 <div v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + index + indexRV, index +indexRV)" />
+                                    <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + index + indexRV, ''+index +indexRV)" />
                                     <label :for="indexRV" :id="'lblRV' + index + indexRV"> {{ dataRV['RV Solution Name']}}</label>
                                     <textarea style="display:none;" :id="'RV' + index + indexRV" > {{dataRV}} </textarea>
 
@@ -269,7 +272,7 @@
                             <tr>
                               <td>
                                 <div v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + index + indexGAV, index + indexGAV)" />
+                                    <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + index + indexGAV, ''+index + indexGAV)" />
                                     <label :for="indexGAV" :id="'lblGAV' + index + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
                                     <textarea style="display:none;" :id="'GAV' + index + indexGAV" > {{dataGAV}} </textarea>
 
@@ -284,7 +287,7 @@
                             <tr>
                               <td>
                                 <div v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + index + indexAAV, index + indexAAV)" />
+                                    <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + index + indexAAV, ''+index + indexAAV)" />
                                     <label :for="indexAAV" :id="'lblAAV' + index + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
                                     <textarea style="display:none;" :id="'AAV' + index + indexAAV" > {{dataAAV}} </textarea>
 
@@ -301,57 +304,24 @@
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn
+                      <!-- <v-btn
                         color="red darken-1"
                         text
                         @click="dialogSolution[index] = false"
+                      >
+                        abbrechen
+                      </v-btn>  -->
+
+                      <v-btn
+                        color="red darken-1"
+                        text
+                        @click="closePlannen(index)"
                       >
                         abbrechen
                       </v-btn> 
                     </v-card-actions>
                   </v-card>
                   </v-dialog>
-
-                  <!-- <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
-                          <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
-                          <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-
-                          <td>
-                            <div class="text-center" v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV">
-                                <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + indexRV)" />
-                                <label :for="indexRV" :id="'lblRV' + index"> {{ dataRV['RV Solution Name']}}</label>
-                                <textarea style="display:none;" :id="'RV' + indexRV" > {{dataRV}} </textarea>
-                              </div>
-                          </td>
-
-                          <td>
-                            <div class="text-center" v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV">
-                                <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + indexGAV)" />
-                                <label :for="indexGAV" :id="'lblGAV' + index"> {{ dataGAV['GAV Solution Name'] }}</label>
-                                <textarea style="display:none;" :id="'GAV' + indexGAV" > {{dataGAV}} </textarea>
-                            </div>
-                          </td>
-
-                          <td>
-                            <div class="text-center" v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV">
-                                <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + indexAAV)" />
-                                <label :for="indexAAV" :id="'lblAAV' + index"> {{ dataAAV['AAV Solution Name'] }}</label>
-                                <textarea style="display:none;" :id="'AAV' + indexAAV" > {{dataAAV}} </textarea>
-                              </div>
-                          </td>
-                          
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table> -->
 
                 </tr>
               </tbody>
@@ -524,7 +494,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="(datasAAV, indexAAV) in dataRV_GAV_AAV['AAV Solution GOZ name Opt']" :key="indexAAV">
-                        <td v-if="datasAAV"> o{{indexAAV}}</td>
+                        <td v-if="datasAAV"> {{indexAAV}}</td>
                         <td v-if="datasAAV"> {{datasAAV}}</td>
                         <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Region Opt'][indexAAV]}}</td>
                         <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV]}}</td>
@@ -679,7 +649,7 @@
   import AdminLayout from "../Layouts/AdminLayout.vue";
 
 
-  const options = ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", "\\)\\("]
+  const options = ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "i-", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", "\\)\\("]
   const validEntry = (value) => {
     let findingsArray = / /.test(value)? value.split(' '): value.split(',')
     return findingsArray.every((ex) => {
@@ -1216,6 +1186,7 @@
         },
       ],
       calculated: false,
+      statusImport: false,
       findingsEntries: '',
       findingsEntriesImport: '',
       disabled: false,
@@ -1233,8 +1204,10 @@
       toothNumberISO: [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28, 48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38],
       apiCallSuccess: false,
       errorMsg: '',
+      errorImport: '',
       decryptedId: '',
-      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")(", "\\)\\("],
+      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "i-", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")(", "\\)\\("],
+      importStatus: ["", "a", "ab", "e", "j", "i", "i-", "k", "pk", "r", "t", "b", "f", ")(", " "],
       case_name : {
                       '1.1' : 'Krone',
                       '1.2' : 'Teilkrone',
@@ -1298,8 +1271,6 @@
     computed: {
       // ...mapGetters(["isLoggedIn"]),
       totalAmount() {
-        // console.log(this.tableData)
-        // console.log(this.tableData['Final'])
 
         if(this.tableData['Final'] && 
           this.tableData['Final'].length > 0
@@ -1552,6 +1523,9 @@
         this.dataRV_GAV_AAV = dataValues
         this.optGoz = []
         this.dialogCalc = true
+
+        // console.log(this.planLabel)
+
       },
       gozAmount(amountGoz, factorValue) {
 
@@ -1588,33 +1562,207 @@
         return char
       },
       calculateFindingsImport() {
-        let findingsArrayImport = null
+        let findingsArrayImportIni = null
+        let findingsArrayImport = []
         let findingsArrayTeeth = [18, 17, 16, 15, 14, 13, 12, 11,
                                   21, 22, 23, 24, 25, 26, 27, 28,
                                   38, 37, 36, 35, 34, 33, 32, 31,
                                   41, 42, 43, 44, 45, 46, 47, 48,
                                 ]
         
-        let resultStatus = ''
 
-        findingsArrayImport = this.findingsEntriesImport.split(',')[1].trim().split(' ')
+        if(!this.findingsEntriesImport.split(',')) {
+          console.log('ERROR')
+        }
 
-        for(let i=0; i<findingsArrayImport.length; i++) {
-          if(findingsArrayImport[i] !== 'd' 
-            && this.allowedStatus.find(value => value==findingsArrayImport[i])
+        // findingsArrayImportIni = this.findingsEntriesImport.split(',')[1].split("") //into array by each char
+        findingsArrayImportIni = this.findingsEntriesImport.split(',')[1].split(/(..)/g).filter(s => s); //into array of 2 char
+
+        if(!findingsArrayImportIni) {
+          console.log('ERROR')
+        }
+
+        for(let i=0; i<findingsArrayImportIni.length; i++) {
+
+          //Add teeth nos to the status array
+          if(findingsArrayImportIni[i] == 'j ')
+          {
+            findingsArrayImportIni[i] = findingsArrayTeeth[i]+'i'
+          }
+          else if(findingsArrayImportIni[i] == 'i ')
+          {
+            findingsArrayImportIni[i] = findingsArrayTeeth[i]+'i*' //using * in place of - in i- as - is ambigious
+          }
+          // else if(findingsArrayImportIni[i] == ')')
+          // {
+          //   findingsArrayImportIni[i] = findingsArrayTeeth[i]+')('
+          // }
+          // else if(findingsArrayImportIni[i] == '(')
+          // {
+          //   findingsArrayImportIni[i] = findingsArrayTeeth[i]+' '
+          // }
+          else if(findingsArrayImportIni[i] == '  ')
+          {
+            findingsArrayImportIni[i] = findingsArrayTeeth[i]+''
+          }
+          else {
+            findingsArrayImportIni[i] = findingsArrayTeeth[i]+findingsArrayImportIni[i].trim()
+          }
+
+        }
+
+        // resultStatus = resultStatus.substr(0, resultStatus.length-1);
+
+        // console.log(findingsArrayImportIni)
+        
+        for(let i=0; i<findingsArrayImportIni.length; i++) {
+          //Add teeth nos to the status array
+          let char = undefined
+          char = findingsArrayImportIni[i].match(/[a-z)(\-]/g)
+          // console.log(char)
+
+          if( char !== null
           )
           {
-            resultStatus += findingsArrayTeeth[i]+findingsArrayImport[i]+','
+            findingsArrayImport.push(findingsArrayImportIni[i]);
+          }
+        }
+        // console.log(findingsArrayImport)
+
+        for(let i=0; i<findingsArrayImport.length; i++) {
+          if(/-/.test(findingsArrayImport[i])) {
+            let start_num = Number(findingsArrayImport[i].split("-")[0])
+            let end_num = Number(findingsArrayImport[i].split("-")[1].match(/[0-9]/g).join(''))
+            let char = undefined
+            char = findingsArrayImport[i].split("-")[1].match(/[a-z)(\-]/g)
+
+            if(!char) {
+              char = this.findStatus(findingsArrayImport.slice(i,findingsArrayImport.length))
+            } else {
+              char = char.join('')
+            }
+
+            // check valid numbers in status
+            let isValidNum = this.toothNumberISO.find(value => value==start_num) && this.toothNumberISO.find(value => value==end_num)
+            if(isValidNum == undefined) {
+              this.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
+              return
+            } else {
+              this.errorMsg = ''
+            }
+
+            // check valid charecters in status
+            let isValidChar = this.importStatus.find(value => value==char)
+            if(isValidChar == undefined) {
+              this.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
+              return
+            } else {
+              this.errorMsg = ''
+            }
+
+            let start_num_index = this.toothNumberISO.indexOf(start_num)
+            let end_num_index = this.toothNumberISO.indexOf(end_num)
+            if(start_num_index<=15 && end_num_index>15) {
+              this.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
+              return
+            } else if(start_num_index>=16 && end_num_index<16) {
+              this.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
+              return
+            } else {
+              this.errorMsg = ''
+            }
+            if(start_num_index>end_num_index) {
+              let temp = start_num_index
+              start_num_index = end_num_index
+              end_num_index = temp
+            }
+            for(let i=start_num_index;i<=end_num_index;i++) {
+              if(start_num<30) {
+                let filteredUpperJawSelected = this.upperJawSelected.find((value) => {
+                  if(value.index == i) {
+                    return value
+                  }
+                })
+                if(filteredUpperJawSelected) {
+                  filteredUpperJawSelected.value = char
+                  this.manualUpperJaw.push(filteredUpperJawSelected)
+                }
+              } else {
+                let filteredMandibleSelected = this.MandibleSelected.find((value) => {
+                  if(value.index == i%16) {
+                    return value
+                  }
+                })
+                if(filteredMandibleSelected) {
+                  filteredMandibleSelected.value = char
+                  this.manualMandible.push(filteredMandibleSelected)
+                }
+              }
+            }
+          } else {
+            let numbs = findingsArrayImport[i].match(/[0-9]/g).join('')
+            let char = undefined
+            char = findingsArrayImport[i].match(/[a-z)(*]/g) //using * in place of - in i- as - is ambigious
+            // console.log(char)
+
+            if(!char) {
+              char = this.findStatus(findingsArrayImport.slice(i,findingsArrayImport.length))
+            } else {
+              char = char.join('')
+              if(char == 'i*') {
+                char = 'i-'; //change i* to i-
+              }
+            }
+
+            // check valid numbers in status
+            let isValidNum = this.toothNumberISO.find(value => value==numbs)
+            if(isValidNum == undefined) {
+              this.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
+              return
+            } else {
+              this.errorMsg = ''
+            }
+            
+            // check valid charecters in status
+            let isValidChar = this.importStatus.find(value => value==char)
+            if(isValidChar == undefined) {
+              this.errorMsg = 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
+              return
+            } else {
+              this.errorMsg = ''
+            }
+
+            if(numbs && char) {
+              if(Number(numbs)<30) {
+                let filteredUpperJawSelected = this.upperJawSelected.find((value) => {
+                  if(value.toothNo == Number(numbs)) {
+                    return value
+                  }
+                })
+                filteredUpperJawSelected.value = char
+                this.manualUpperJaw.push(filteredUpperJawSelected)
+              } else {
+                let filteredMandibleSelected = this.MandibleSelected.find((value) => {
+                  if(value.toothNo == Number(numbs)) {
+                    return value
+                  }
+                })
+                filteredMandibleSelected.value = char
+                this.manualMandible.push(filteredMandibleSelected)
+              }
+            }
           }
         }
 
-        resultStatus = resultStatus.substr(0, resultStatus.length-1);
-
         // For the status import popup Start
         this.importDialog = false
-        this.findingsEntries = resultStatus
-
-        this.calculateFindingsEntries()
+        this.statusImport = true
+        
+        const importBoxes = document.getElementsByClassName("ma-0 pa-0 v-btn--icon");
+        
+        for(let b=0; b<importBoxes.length; b++) {
+          importBoxes[b].style.backgroundColor = "transparent";
+        }
       },
       calculateFindingsEntries() {
         let findingsArray = null
@@ -1779,6 +1927,11 @@
         this.dialogRow = rowIndex;
         this.displaySecond = rowIndex;
       },
+      closePlannen(rowIndex) {
+        console.log(rowIndex)
+        this.dialogSolution[rowIndex] = false;
+        this.dialogSolution = [];
+      },
       calcTable(dialogRowIndex) {
         this.dialogSolution[dialogRowIndex] = false;
 
@@ -1798,12 +1951,12 @@
         for(var gozI=0; gozI<collectionGoz.length; gozI++) {
           clsGozAmount += parseFloat(collectionGoz[gozI].innerText)
         }
-        this.totalGav = parseFloat(clsGozAmount).toFixed(2)
+        this.totalGav = parseFloat(parseFloat(this.totalGav) + parseFloat(clsGozAmount)).toFixed(2)
 
         for(var bemaI=0; bemaI<collectionBema.length; bemaI++) {
           clsBemaAmount += parseFloat(collectionBema[bemaI].innerText)
         }
-        this.totalBema = parseFloat(clsBemaAmount).toFixed(2)
+        this.totalBema = parseFloat(parseFloat(this.totalBema) + parseFloat(clsBemaAmount)).toFixed(2)
 
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
 
@@ -1929,6 +2082,10 @@ thead {
 }
 .v-progress-circular {
   margin: 1rem !important;
+}
+
+.v-btn::before {
+  background-color: transparent !important;
 }
 
 </style>

@@ -106,6 +106,7 @@ import ww_15_25 from './assets/HiDrive/ww/upper jaw/ww_15_25.svg'
 import ww_18_16_26_28 from './assets/HiDrive/ww/upper jaw/ww_18-16_26-28.svg'
 
 import x_ix from './assets/HiDrive/x, ix/x.svg'
+import i_ from './assets/HiDrive/i-/i-.svg'
 import gap_closure from './assets/HiDrive/)(/)(.svg'
 
 import kv_11_21 from './assets/HiDrive/K-X/KV/upper jaw/kv_11_21.svg'
@@ -1359,6 +1360,72 @@ export default {
       {
         toothNo: 28,
         image: x_ix,
+      },
+    ],
+    i_m_toothImages: [
+      {
+        toothNo: 18,
+        image: i_,
+      },
+      {
+        toothNo: 17,
+        image: i_,
+      },
+      {
+        toothNo: 16,
+        image: i_,
+      },
+      {
+        toothNo: 15,
+        image: i_,
+      },
+      {
+        toothNo: 14,
+        image: i_,
+      },
+      {
+        toothNo: 13,
+        image: i_,
+      },
+      {
+        toothNo: 12,
+        image: i_,
+      },
+      {
+        toothNo: 11,
+        image: i_,
+      },
+      {
+        toothNo: 21,
+        image: i_,
+      },
+      {
+        toothNo: 22,
+        image: i_,
+      },
+      {
+        toothNo: 23,
+        image: i_,
+      },
+      {
+        toothNo: 24,
+        image: i_,
+      },
+      {
+        toothNo: 25,
+        image: i_,
+      },
+      {
+        toothNo: 26,
+        image: i_,
+      },
+      {
+        toothNo: 27,
+        image: i_,
+      },
+      {
+        toothNo: 28,
+        image: i_,
       },
     ],
     gap_closure_toothImages: [

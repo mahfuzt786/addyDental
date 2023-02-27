@@ -78,6 +78,7 @@ import ww_38_36_46_48 from './assets/HiDrive/ww/mandible/ww_38-36_46-48.svg'
 
 import x_ix from './assets/HiDrive/x, ix/x.svg'
 import gap_closure from './assets/HiDrive/)(/)(.svg'
+import i_ from './assets/HiDrive/i-/i-.svg'
 
 import kv_32_42 from './assets/HiDrive/K-X/KV/mandible/kv_32-42.svg'
 import kv_33_43 from './assets/HiDrive/K-X/KV/mandible/kv_33_43.svg'
@@ -1293,6 +1294,72 @@ export default {
       {
         toothNo: 38,
         image: x_ix,
+      },
+    ],
+    i_m_toothImages: [
+      {
+        toothNo: 48,
+        image: i_,
+      },
+      {
+        toothNo: 47,
+        image: i_,
+      },
+      {
+        toothNo: 46,
+        image: i_,
+      },
+      {
+        toothNo: 45,
+        image: i_,
+      },
+      {
+        toothNo: 44,
+        image: i_,
+      },
+      {
+        toothNo: 43,
+        image: i_,
+      },
+      {
+        toothNo: 42,
+        image: i_,
+      },
+      {
+        toothNo: 41,
+        image: i_,
+      },
+      {
+        toothNo: 31,
+        image: i_,
+      },
+      {
+        toothNo: 32,
+        image: i_,
+      },
+      {
+        toothNo: 33,
+        image: i_,
+      },
+      {
+        toothNo: 34,
+        image: i_,
+      },
+      {
+        toothNo: 35,
+        image: i_,
+      },
+      {
+        toothNo: 36,
+        image: i_,
+      },
+      {
+        toothNo: 37,
+        image: i_,
+      },
+      {
+        toothNo: 38,
+        image: i_,
       },
     ],
     gap_closure_toothImages: [

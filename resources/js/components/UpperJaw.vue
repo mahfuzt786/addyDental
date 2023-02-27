@@ -3,17 +3,20 @@
     <v-btn-toggle
       v-model="upper_toggle_exclusive"
       multiple
-      active-class="active-item"
+      :active-class="activeClass"
       background-color="transparent"
       @change="changedBtns($event)"
     >
-      <v-btn :disabled="disabled" v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0" style="border-color: transparent !important;">
+      <v-btn :disabled="disabled" 
+        v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0" 
+        style="border-color: transparent !important;">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <v-img contain width="40" height="40" :src="image.image" v-on="on" v-bind="attrs"></v-img>
           </template>
           <span>{{image.toothNo}}</span>
         </v-tooltip>
+        
       </v-btn>
     </v-btn-toggle>
     <v-dialog v-model="showInfo" width="300" @click:outside="checkOptionSelected">
@@ -21,7 +24,7 @@
         <v-radio-group v-model="selectedOption" @change="checkedOption(selectedOption)" class="ma-0" column dense>
           <v-radio
             class="font-weight-bold"
-            v-for="(option, index) in options"
+            v-for="(option, index) in optionsDisplay"
             :key="index"
             :label="option.text"
             :value="option.value"
@@ -42,13 +45,18 @@ export default {
     'disabled',
     'manualUpperJaw',
     'upperJawRV',
-    'apiCallSuccess'
+    'apiCallSuccess',
+    'statusImport'
   ],
   data: () => ({
     upper_toggle_exclusive: [],
     selectedBtns: [],
     showInfo: false,
     selectedOption: null,
+    optionsDisplay: [],
+    activeItem:'active-item',
+    activeItemImport:'active-item-import',
+    activeClass: 'active-item',
     options: [
       {
         text: 'a',
@@ -89,6 +97,10 @@ export default {
       {
         text: 'ix',
         value: 'ix'
+      },
+      {
+        text: 'i-',
+        value: 'i-'
       },
       {
         text: 'k',
@@ -138,7 +150,113 @@ export default {
         text: ')(',
         value: ')('
       }
-    ]
+    ],
+    optionsA: [
+      {
+        text: 'aw',
+        value: 'aw'
+      },
+      {
+        text: 'pw',
+        value: 'pw'
+      },
+      {
+        text: 'ww',
+        value: 'ww'
+      },
+      {
+        text: 'ur',
+        value: 'ur'
+      },
+      {
+        text: 'x',
+        value: 'x'
+      }
+    ],
+    optionsAb: [
+      {
+        text: 'abw',
+        value: 'abw'
+      }
+    ],
+    optionsE: [
+      {
+        text: 'ew',
+        value: 'ew'
+      }
+    ],
+    optionsI: [
+      {
+        text: 'ix',
+        value: 'ix'
+      },
+      {
+        text: 'sw',
+        value: 'sw'
+      },
+    ],
+    optionsK: [
+      {
+        text: 'kw',
+        value: 'kw'
+      },
+      {
+        text: 'ur',
+        value: 'ur'
+      },
+      {
+        text: 'x',
+        value: 'x'
+      },
+    ],
+    optionsPK: [
+      {
+        text: 'pw',
+        value: 'pw'
+      },
+      {
+        text: 'ur',
+        value: 'ur'
+      },
+      {
+        text: 'x',
+        value: 'x'
+      },
+    ],
+    optionsR: [
+      {
+        text: 'rw',
+        value: 'rw'
+      },
+      {
+        text: 'ur',
+        value: 'ur'
+      },
+      {
+        text: 'x',
+        value: 'x'
+      },
+    ],
+    optionsT: [
+      {
+        text: 'tw',
+        value: 'tw'
+      },
+      {
+        text: 'ur',
+        value: 'ur'
+      },
+      {
+        text: 'x',
+        value: 'x'
+      },
+    ],
+    optionsB: [
+      {
+        text: 'bw',
+        value: 'bw'
+      },
+    ],
   }),
   watch: {
     resetBtns() {
@@ -152,6 +270,8 @@ export default {
         this.manualUpperJaw.forEach(element => {
           this.upper_toggle_exclusive.push(element.index)
           this.checkedOption(element.value)
+          // console.log(this.optionsDisplay)
+          // console.log(this.upper_toggle_exclusive)
         })
       }
     },
@@ -238,6 +358,8 @@ export default {
         this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.ww_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
       } else if(value == 'x' || value == 'ix') {
         this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.x_ix_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+      } else if(value == 'i-') {
+        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.i_m_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
       } else if(value == ')(') {
         this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.gap_closure_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
       } else if(value == 'f') {
@@ -247,6 +369,54 @@ export default {
       this.$emit('btn-selected', this.selectedBtns)
     },
     changedBtns(event) {
+      this.optionsDisplay = this.options
+
+      var eventArray = [...new Set(event)]
+      
+      var jawArray = [...new Set(this.manualUpperJaw)]
+      var newJawArray = []
+      var newValueArray = []
+
+      jawArray.forEach(element => {
+        newValueArray.push(element.value);
+        newJawArray.push(element.index);
+      })
+
+      if(newJawArray.indexOf(eventArray.at(-1))) {
+        let index = newJawArray.indexOf(eventArray.at(-1));
+
+        if(newValueArray[index] == 'a') {
+          this.optionsDisplay = this.optionsA
+        }
+        else if(newValueArray[index] == 'ab') {
+          this.optionsDisplay = this.optionsAb
+        }
+        else if(newValueArray[index] == 'e') {
+          this.optionsDisplay = this.optionsE
+        }
+        else if(newValueArray[index] == 'i') {
+          this.optionsDisplay = this.optionsI
+        }
+        else if(newValueArray[index] == 'k') {
+          this.optionsDisplay = this.optionsK
+        }
+        else if(newValueArray[index] == 'pk') {
+            this.optionsDisplay = this.optionsPK
+        }
+        else if(newValueArray[index] == 'r') {
+          this.optionsDisplay = this.optionsR
+        }
+        else if(newValueArray[index] == 't') {
+          this.optionsDisplay = this.optionsT
+        }
+        else if(newValueArray[index] == 'b') {
+          this.optionsDisplay = this.optionsB
+        }
+        else {
+          this.optionsDisplay = this.options
+        }
+      }
+
       this.selectedOption = ''
       if(event.length > this.selectedBtns.length) {
         this.showInfo = true
@@ -287,5 +457,15 @@ export default {
   background-color: lightgreen;
   opacity: 0.5;
   border-radius: 10px !important;
+}
+
+.active-item-import {
+  background-color: azure;
+  opacity: 0.5;
+  border-radius: 10px !important;
+}
+
+.v-btn::before {
+  background-color: transparent !important;
 }
 </style>
