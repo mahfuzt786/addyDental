@@ -54,6 +54,7 @@ export default {
     activeItem:'active-item',
     activeItemImport:'active-item-import',
     activeClass: 'active-item',
+    isImportMenu: false,
     options: [
       {
         text: 'a',
