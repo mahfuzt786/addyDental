@@ -648,7 +648,7 @@
   import { mapActions, mapGetters } from 'vuex'
   import AdminLayout from "../Layouts/AdminLayout.vue";
 
-
+  
   const options = ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "i-", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", "\\)\\("]
   const validEntry = (value) => {
     let findingsArray = / /.test(value)? value.split(' '): value.split(',')

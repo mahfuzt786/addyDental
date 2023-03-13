@@ -1591,6 +1591,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       activeItem: 'active-item',
       activeItemImport: 'active-item-import',
       activeClass: 'active-item',
+      isImportMenu: false,
       options: [{
         text: 'a',
         value: 'a'
@@ -1994,7 +1995,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_upper_jaw_imports_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
-  props: ['resetBtns', 'disabled', 'manualUpperJaw', 'upperJawRV', 'apiCallSuccess', 'statusImport'],
+  props: ['resetBtns', 'disabled', 'manualUpperJaw', 'upperJawRV', 'apiCallSuccess'],
   data: function data() {
     return {
       upper_toggle_exclusive: [],
@@ -2005,6 +2006,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       activeItem: 'active-item',
       activeItemImport: 'active-item-import',
       activeClass: 'active-item',
+      isImportMenu: false,
       options: [{
         text: 'a',
         value: 'a'
@@ -2076,78 +2078,78 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         value: ')('
       }],
       optionsA: [{
-        text: 'aw',
+        text: 'aw : erneuerungsbedürftige Adhäsivbrücke (Anker)',
         value: 'aw'
       }, {
-        text: 'pw',
+        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
         value: 'pw'
       }, {
-        text: 'ww',
+        text: 'ww : erhaltungswürdiger Zahn mit weitgehender Zerstörung',
         value: 'ww'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsAb: [{
-        text: 'abw',
+        text: 'abw : erneuerungsbedürftige Adhäsivbrücke (Brückenglied)',
         value: 'abw'
       }],
       optionsE: [{
-        text: 'ew',
+        text: 'ew : ersetzter, aber erneuerungsbedürftiger Zahn',
         value: 'ew'
       }],
       optionsI: [{
-        text: 'ix',
+        text: 'ix : zu entfernendes Implantat',
         value: 'ix'
       }, {
-        text: 'sw',
+        text: 'sw : erneuerungsbedürftige Suprakonstruktion',
         value: 'sw'
       }],
       optionsK: [{
-        text: 'kw',
+        text: 'kw : erneuerungsbedürftige Krone',
         value: 'kw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsPK: [{
-        text: 'pw',
+        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
         value: 'pw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsR: [{
-        text: 'rw',
+        text: 'rw : erneuerungsbedürftige Wurzelstiftkappe',
         value: 'rw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsT: [{
-        text: 'tw',
+        text: 'tw : erneuerungsbedürftiges Teleskop',
         value: 'tw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsB: [{
-        text: 'bw',
+        text: 'bw : erneuerungsbedürfiges Brückenglied',
         value: 'bw'
       }]
     };
@@ -2162,15 +2164,26 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     manualUpperJaw: function manualUpperJaw() {
       var _this = this;
 
+      this.isImportMenu = true;
+      console.log(this.selectedBtns); // console.log(this.selectedOption)
+      // console.log(this.manualUpperJaw)
+
       if (this.manualUpperJaw.length > 0) {
         this.manualUpperJaw.forEach(function (element) {
           _this.upper_toggle_exclusive.push(element.index);
 
-          _this.checkedOption(element.value); // console.log(this.optionsDisplay)
-          // console.log(this.upper_toggle_exclusive)
-
+          _this.checkedOption(element.value);
         });
-      }
+      } // var elementOpt = document.querySelectorAll('.ma-0.pa-0.v-btn');
+      // console.log(elementOpt)
+      // elementOpt.forEach((element) => {
+      //   element.classList.remove('active-item');
+      //   element.classList.remove('v-btn--active');
+      // });
+      // elementOpt.classList.remove("active-item v-btn--active");
+      // console.log(this.upper_toggle_exclusive)
+      // this.upper_toggle_exclusive.pop()
+
     },
     apiCallSuccess: function apiCallSuccess() {
       var _this2 = this;
@@ -2269,10 +2282,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.showInfo = false;
       this.$emit('btn-selected', this.selectedBtns);
     },
-    changedBtns: function changedBtns(event) {
-      var _this3 = this;
-
+    changedBtnsStatus: function changedBtnsStatus(eventz) {
+      console.log('eventz');
+      console.log(eventz);
       this.optionsDisplay = this.options;
+      this.isImportMenu = false;
+      var event = [];
+      event.push(eventz);
+      this.upper_toggle_exclusive.push(eventz);
 
       var eventArray = _toConsumableArray(new Set(event));
 
@@ -2283,33 +2300,175 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       jawArray.forEach(function (element) {
         newValueArray.push(element.value);
         newJawArray.push(element.index);
+      }); //Find the clicked btn Start
+
+      var newSelectedBtns = [];
+      var lastClicked = [];
+      this.selectedBtns.forEach(function (element) {
+        newSelectedBtns.push(element.index);
       });
+      lastClicked = this.diffArray(newSelectedBtns, eventArray); // console.log('jawArray');
+      // console.log(jawArray);
+      // console.log('eventArray');
+      // console.log(eventArray);
+      // console.log('newJawArray');
+      // console.log(newJawArray);
+      // console.log('newValueArray');
+      // console.log(newValueArray);
+      // console.log('lastClicked');
+
+      console.log(lastClicked); // console.log(lastClicked.at(-1));
+      //Find the clicked btn End
 
       if (newJawArray.indexOf(eventArray.at(-1))) {
-        var index = newJawArray.indexOf(eventArray.at(-1));
+        var index = newJawArray.indexOf(eventArray.at(-1)); // if(newJawArray.indexOf(lastClicked.at(-1))) {
+        // let index = newJawArray.indexOf(lastClicked.at(-1));
 
         if (newValueArray[index] == 'a') {
           this.optionsDisplay = this.optionsA;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'ab') {
           this.optionsDisplay = this.optionsAb;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'e') {
           this.optionsDisplay = this.optionsE;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'i') {
           this.optionsDisplay = this.optionsI;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'k') {
           this.optionsDisplay = this.optionsK;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'pk') {
           this.optionsDisplay = this.optionsPK;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'r') {
           this.optionsDisplay = this.optionsR;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 't') {
           this.optionsDisplay = this.optionsT;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'b') {
           this.optionsDisplay = this.optionsB;
+          this.isImportMenu = true;
         } else {
           this.optionsDisplay = this.options;
+          this.isImportMenu = false;
         }
+      } // console.log(this.selectedBtns)
+      // console.log(eventArray)
+      // this.$delete(this.selectedBtns, lastClicked.at(-1))
+
+
+      this.showInfo = true;
+      this.selectedOption = ''; // if(event.length > this.selectedBtns.length) {
+      //   this.showInfo = true
+      // }
+
+      if (event.length < 1) {
+        this.toothImages = this.$options.data(this.toothImages).toothImages;
       }
+      /*if(event.length != this.selectedBtns.length) {
+        this.selectedBtns = this.selectedBtns.filter((value) => {
+          let unselectedBtns = []
+          for(let i=0; i<event.length; i++) {
+            if (value.index == event[i]) {
+              return value
+            } else {
+              unselectedBtns.push(value.index)
+            }
+          }
+          console.log(unselectedBtns)
+           for(let btn of unselectedBtns) {
+            console.log(btn)
+             this.toothImages[btn] = this.$options.data(this.toothImages).toothImages[btn]
+          }
+        })
+      }*/
+
+    },
+    diffArray: function diffArray(arr1, arr2) {
+      function diff(a, b) {
+        return a.filter(function (item) {
+          return b.indexOf(item) === -1;
+        });
+      }
+
+      var diff1 = diff(arr1, arr2); // [0, 1]
+
+      var diff2 = diff(arr2, arr1); // [5, 6]
+
+      return [].concat(diff1, diff2); // [0, 1, 5, 6]
+    },
+    changedBtns: function changedBtns(event) {
+      var _this3 = this;
+
+      // console.log(eventz)
+      this.optionsDisplay = this.options;
+      this.isImportMenu = false; // let event = []
+      // event.push(eventz)
+      // this.upper_toggle_exclusive.push(eventz)
+
+      var eventArray = _toConsumableArray(new Set(event));
+
+      var jawArray = _toConsumableArray(new Set(this.manualUpperJaw));
+
+      var newJawArray = [];
+      var newValueArray = [];
+      jawArray.forEach(function (element) {
+        newValueArray.push(element.value);
+        newJawArray.push(element.index);
+      }); //Find the clicked btn Start
+
+      var newSelectedBtns = [];
+      var lastClicked = [];
+      this.selectedBtns.forEach(function (element) {
+        newSelectedBtns.push(element.index);
+      });
+      lastClicked = this.diffArray(newSelectedBtns, eventArray);
+      console.log(lastClicked.at(-1)); //Find the clicked btn End
+      // if(newJawArray.indexOf(eventArray.at(-1))) {
+      //   let index = newJawArray.indexOf(eventArray.at(-1));
+
+      if (newJawArray.indexOf(lastClicked.at(-1))) {
+        var index = newJawArray.indexOf(lastClicked.at(-1));
+
+        if (newValueArray[index] == 'a') {
+          this.optionsDisplay = this.optionsA;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'ab') {
+          this.optionsDisplay = this.optionsAb;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'e') {
+          this.optionsDisplay = this.optionsE;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'i') {
+          this.optionsDisplay = this.optionsI;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'k') {
+          this.optionsDisplay = this.optionsK;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'pk') {
+          this.optionsDisplay = this.optionsPK;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'r') {
+          this.optionsDisplay = this.optionsR;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 't') {
+          this.optionsDisplay = this.optionsT;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'b') {
+          this.optionsDisplay = this.optionsB;
+          this.isImportMenu = true;
+        } else {
+          this.optionsDisplay = this.options;
+          this.isImportMenu = false;
+        }
+      } // console.log(this.selectedBtns)
+      // console.log(eventArray)
+      // this.$delete(this.selectedBtns, lastClicked.at(-1))
+      // this.showInfo = true
+
 
       this.selectedOption = '';
 
@@ -2333,14 +2492,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             }
           }
 
+          console.log(unselectedBtns);
+
           for (var _i = 0, _unselectedBtns = unselectedBtns; _i < _unselectedBtns.length; _i++) {
             var btn = _unselectedBtns[_i];
             _this3.toothImages[btn] = _this3.$options.data(_this3.toothImages).toothImages[btn];
           }
         });
-      }
+      } // console.log(this.toothImages)
+
 
       this.$emit('btn-selected', this.selectedBtns);
+    },
+    removeImportStatus: function removeImportStatus(value) {
+      var eventArray = _toConsumableArray(new Set(value));
+
+      console.log(eventArray.at(-1));
+      console.log(this.manualUpperJaw);
+      this.$delete(this.manualUpperJaw, eventArray.at(-1));
+      console.log(this.manualUpperJaw);
     },
     checkOptionSelected: function checkOptionSelected() {
       if (!this.selectedOption) {
@@ -3794,7 +3964,7 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "upper-jaw d-flex justify-center py-3"
-  }, [_c("v-btn-toggle", {
+  }, [!_vm.isImportMenu ? _c("v-btn-toggle", {
     attrs: {
       multiple: "",
       "active-class": _vm.activeClass,
@@ -3843,9 +4013,46 @@ var render = function render() {
         }
       }], null, true)
     }, [_vm._v(" "), _c("span", [_vm._v(_vm._s(image.toothNo))])])], 1);
-  }), 1), _vm._v(" "), _c("v-dialog", {
+  }), 1) : _vm._l(_vm.toothImages, function (image, index) {
+    return _c("v-btn", {
+      key: index,
+      staticClass: "ma-0 pa-0 btnTgle",
+      staticStyle: {
+        "border-color": "transparent !important"
+      },
+      attrs: {
+        disabled: _vm.disabled,
+        icon: ""
+      },
+      on: {
+        click: function click($event) {
+          return _vm.changedBtnsStatus(index);
+        }
+      }
+    }, [_c("v-tooltip", {
+      attrs: {
+        top: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "activator",
+        fn: function fn(_ref2) {
+          var on = _ref2.on,
+              attrs = _ref2.attrs;
+          return [_c("v-img", _vm._g(_vm._b({
+            attrs: {
+              contain: "",
+              width: "40",
+              height: "40",
+              src: image.image
+            }
+          }, "v-img", attrs, false), on))];
+        }
+      }], null, true)
+    }, [_vm._v(" "), _c("span", [_vm._v(_vm._s(image.toothNo))])])], 1);
+  }), _vm._v(" "), _c("v-dialog", {
     attrs: {
-      width: "300"
+      width: "300",
+      scrollable: ""
     },
     on: {
       "click:outside": _vm.checkOptionSelected
@@ -3859,7 +4066,20 @@ var render = function render() {
     }
   }, [_c("v-card", {
     staticClass: "ma-0 pa-0"
-  }, [_c("v-radio-group", {
+  }, [_c("v-card-title", {
+    staticStyle: {
+      padding: "0 !important"
+    }
+  }, [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      icon: ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.showInfo = false;
+      }
+    }
+  }, [_c("v-icon", [_vm._v("mdi-close")])], 1)], 1), _vm._v(" "), _c("v-card-text", [_c("v-radio-group", {
     staticClass: "ma-0",
     attrs: {
       column: "",
@@ -3886,7 +4106,17 @@ var render = function render() {
         value: option.value
       }
     });
-  }), 1)], 1)], 1)], 1);
+  }), 1)], 1), _vm._v(" "), _vm.isImportMenu ? _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "red darken-1",
+      text: ""
+    },
+    on: {
+      click: function click($event) {
+        return _vm.removeImportStatus(_vm.upper_toggle_exclusive);
+      }
+    }
+  }, [_vm._v("\n          löschen\n        ")])], 1) : _vm._e()], 1)], 1)], 2);
 };
 
 var staticRenderFns = [];
@@ -8917,7 +9147,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-5a9d4489] {\n  background-color: lightgreen;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-5a9d4489] {\n  background-color: azure;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.v-btn[data-v-5a9d4489]::before {\n  background-color: transparent !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-5a9d4489] {\n  background-color: lightgreen;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-5a9d4489] {\n  background-color: azure;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.v-btn[data-v-5a9d4489]::before {\n  background-color: transparent !important;\n}\n.btnTgle[data-v-5a9d4489] {\n  min-width: 48px;\n  min-height: 48px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
