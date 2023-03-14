@@ -9,7 +9,6 @@
       v-if="!isImportMenu"
     >
       <v-btn :disabled="disabled"
-        
         v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0" 
         style="border-color: transparent !important;">
         <v-tooltip top>
@@ -101,6 +100,7 @@ export default {
     activeItemImport:'active-item-import',
     activeClass: 'active-item',
     isImportMenu: false,
+    clickedBtn: '',
     options: [
       {
         text: 'a',
@@ -312,7 +312,7 @@ export default {
     manualUpperJaw() {
       this.isImportMenu = true
 
-      console.log(this.selectedBtns)
+      // console.log(this.selectedBtns)
       // console.log(this.selectedOption)
       // console.log(this.manualUpperJaw)
 
@@ -322,19 +322,6 @@ export default {
           this.checkedOption(element.value)
         })
       }
-
-      // var elementOpt = document.querySelectorAll('.ma-0.pa-0.v-btn');
-      // console.log(elementOpt)
-
-      // elementOpt.forEach((element) => {
-      //   element.classList.remove('active-item');
-      //   element.classList.remove('v-btn--active');
-      // });
-
-      // elementOpt.classList.remove("active-item v-btn--active");
-      // console.log(this.upper_toggle_exclusive)
-
-      // this.upper_toggle_exclusive.pop()
 
     },
     apiCallSuccess() {
@@ -440,10 +427,12 @@ export default {
       let event = []
       event.push(eventz)
       this.upper_toggle_exclusive.push(eventz)
+      this.clickedBtn = eventz
 
       var eventArray = [...new Set(event)]
       
       var jawArray = [...new Set(this.manualUpperJaw)]
+      // var jawArray = [...new Set(this.selectedBtns)] 
       var newJawArray = []
       var newValueArray = []
 
@@ -453,13 +442,6 @@ export default {
       })
 
       //Find the clicked btn Start
-      var newSelectedBtns = []
-      var lastClicked = []
-      this.selectedBtns.forEach(element => {
-        newSelectedBtns.push(element.index);
-      })
-
-      lastClicked = this.diffArray(newSelectedBtns, eventArray)
       // console.log('jawArray');
       // console.log(jawArray);
       // console.log('eventArray');
@@ -468,15 +450,14 @@ export default {
       // console.log(newJawArray);
       // console.log('newValueArray');
       // console.log(newValueArray);
-      // console.log('lastClicked');
-      console.log(lastClicked);
-      // console.log(lastClicked.at(-1));
       //Find the clicked btn End
 
-      if(newJawArray.indexOf(eventArray.at(-1))) {
-        let index = newJawArray.indexOf(eventArray.at(-1));
-      // if(newJawArray.indexOf(lastClicked.at(-1))) {
-        // let index = newJawArray.indexOf(lastClicked.at(-1));
+      console.log(newJawArray.indexOf(eventz));
+
+      // if(newJawArray.indexOf(eventArray.at(-1))) {
+        // let index = newJawArray.indexOf(eventArray.at(-1));
+      if(newJawArray.indexOf(eventz) > -1) {
+        let index = newJawArray.indexOf(eventz);
 
         if(newValueArray[index] == 'a') {
           this.optionsDisplay = this.optionsA
@@ -534,25 +515,6 @@ export default {
         this.toothImages = this.$options.data(this.toothImages).toothImages
       }
 
-      /*if(event.length != this.selectedBtns.length) {
-        this.selectedBtns = this.selectedBtns.filter((value) => {
-          let unselectedBtns = []
-          for(let i=0; i<event.length; i++) {
-            if (value.index == event[i]) {
-              return value
-            } else {
-              unselectedBtns.push(value.index)
-            }
-          }
-          console.log(unselectedBtns)
-
-          for(let btn of unselectedBtns) {
-            console.log(btn)
-
-            this.toothImages[btn] = this.$options.data(this.toothImages).toothImages[btn]
-          }
-        })
-      }*/
     },
     diffArray(arr1, arr2) {
       function diff(a, b) {
@@ -679,13 +641,28 @@ export default {
     removeImportStatus(value) {
       var eventArray = [...new Set(value)]
 
-      console.log(eventArray.at(-1))
+      console.log('remove')
+      console.log(this.selectedBtns)
+      // console.log(this.clickedBtn)
 
-      console.log(this.manualUpperJaw)
+      // this.$delete(this.manualUpperJaw, eventArray.at(-1))
 
-      this.$delete(this.manualUpperJaw, eventArray.at(-1))
+      // this.$delete(this.manualUpperJaw, this.clickedBtn)
 
-      console.log(this.manualUpperJaw)
+      const arr = this.selectedBtns
+      var rem = []
+      
+      rem = arr.filter(arr => arr.index != this.clickedBtn);
+      // console.log(rem);
+
+      this.selectedBtns = rem
+      this.toothImages[this.clickedBtn] = this.$options.data(this.toothImages).toothImages[this.clickedBtn]
+
+      this.showInfo = false
+      
+      this.$emit('btn-selected', this.selectedBtns)
+
+      console.log('remove END')
     },
     checkOptionSelected() {
       if(!this.selectedOption) {
