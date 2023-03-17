@@ -78,7 +78,7 @@ import ww_38_36_46_48 from './assets/HiDrive/ww/mandible/ww_38-36_46-48.svg'
 
 import x_ix from './assets/HiDrive/x, ix/x.svg'
 import gap_closure from './assets/HiDrive/)(/)(.svg'
-import i_ from './assets/HiDrive/i-/i-.svg'
+import i_ from './assets/HiDrive/i-/i_n.svg'
 
 import kv_32_42 from './assets/HiDrive/K-X/KV/mandible/kv_32-42.svg'
 import kv_33_43 from './assets/HiDrive/K-X/KV/mandible/kv_33_43.svg'

@@ -543,7 +543,10 @@ var _validEntry = function validEntry(value) {
         '7.1': 'erneuerungsbedürftige Suprakonstruktion',
         '7.2': 'erneuerungsbedürftige Suprakonstruktion'
       },
-      faktors: 1,
+      // faktors: 1,
+      sliderValue: 1,
+      resetGozAmount: 1,
+      idGozSlider: '',
       ticksLabels: ['1', '2.3', '3.5'],
       totalGav: '0.00',
       totalBema: '0.00',
@@ -558,7 +561,8 @@ var _validEntry = function validEntry(value) {
       optGoz: [],
       RVShortcut: '',
       TPShortcut: '',
-      isTP: false
+      isTP: false,
+      selectedCaseId: ''
     };
   },
   watch: {},
@@ -797,7 +801,6 @@ var _validEntry = function validEntry(value) {
           }
         }
 
-        console.log(String(newKM));
         this.TPShortcut = String(newKM);
       }
 
@@ -829,7 +832,8 @@ var _validEntry = function validEntry(value) {
 
       this.dataRV_GAV_AAV = dataValues;
       this.optGoz = [];
-      this.dialogCalc = true; // console.log(this.planLabel)
+      this.dialogCalc = true;
+      this.selectedCaseId = idValue; // console.log(this.dataRV_GAV_AAV)
     },
     gozAmount: function gozAmount(amountGoz, factorValue) {
       return (parseFloat(factorValue) * parseFloat(amountGoz)).toFixed(2);
@@ -1290,23 +1294,30 @@ var _validEntry = function validEntry(value) {
       }
     },
     displayFak: function displayFak(faktors, amountGoz, solutionT) {
-      // console.log(document.getElementById('GAVAmount'+faktors).value)
+      console.log(document.getElementById('GAVSlider' + faktors).value);
+      console.log(faktors);
+      var newGozAmount = 0;
+
       if (solutionT == 'GAV') {
-        var newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSlider' + faktors).value]);
+        newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSlider' + faktors).value]);
         document.getElementById('GAVAmount' + faktors).innerHTML = newGozAmount;
+        this.idGozSlider = 'GAVAmount' + faktors;
       }
 
       if (solutionT == 'AAV') {
-        var _newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVSlider' + faktors).value]);
-
-        document.getElementById('AAVAmount' + faktors).innerHTML = _newGozAmount;
+        newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVSlider' + faktors).value]);
+        document.getElementById('AAVAmount' + faktors).innerHTML = newGozAmount;
+        this.idGozSlider = 'AAVAmount' + faktors;
       }
 
       if (solutionT == 'oAAV') {
-        var _newGozAmount2 = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('oAAVSlider' + faktors).value]);
-
-        document.getElementById('oAAVAmount' + faktors).innerHTML = _newGozAmount2;
+        newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('oAAVSlider' + faktors).value]);
+        document.getElementById('oAAVAmount' + faktors).innerHTML = newGozAmount;
+        this.idGozSlider = 'oAAVAmount' + faktors;
       }
+
+      this.resetGozAmount = amountGoz;
+      console.log(document.getElementById('GAVSlider' + faktors).value);
     },
     optGozActivate: function optGozActivate() {
       console.log(this.optGoz);
@@ -1409,7 +1420,11 @@ var _validEntry = function validEntry(value) {
       /** DISPLAY TEETH IMAGES END */
 
       this.displaySecond = false;
-      this.dialogCalc = false;
+      this.dialogCalc = false; // RESET SLIDER GOZ AMOUNT
+
+      this.sliderValue = 1;
+      var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1]);
+      document.getElementById(this.idGozSlider).innerHTML = oldGozAmount; // RESET SLIDER GOZ AMOUNT END
     },
     filteredData: function filteredData(item) {
       return this.expandedDataSet.filter(function (f) {
@@ -1592,6 +1607,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       activeItemImport: 'active-item-import',
       activeClass: 'active-item',
       isImportMenu: false,
+      clickedBtn: '',
       options: [{
         text: 'a',
         value: 'a'
@@ -1663,78 +1679,78 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         value: ')('
       }],
       optionsA: [{
-        text: 'aw',
+        text: 'aw : erneuerungsbedürftige Adhäsivbrücke (Anker)',
         value: 'aw'
       }, {
-        text: 'pw',
+        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
         value: 'pw'
       }, {
-        text: 'ww',
+        text: 'ww : erhaltungswürdiger Zahn mit weitgehender Zerstörung',
         value: 'ww'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsAb: [{
-        text: 'abw',
+        text: 'abw : erneuerungsbedürftige Adhäsivbrücke (Brückenglied)',
         value: 'abw'
       }],
       optionsE: [{
-        text: 'ew',
+        text: 'ew : ersetzter, aber erneuerungsbedürftiger Zahn',
         value: 'ew'
       }],
       optionsI: [{
-        text: 'ix',
+        text: 'ix : zu entfernendes Implantat',
         value: 'ix'
       }, {
-        text: 'sw',
+        text: 'sw : erneuerungsbedürftige Suprakonstruktion',
         value: 'sw'
       }],
       optionsK: [{
-        text: 'kw',
+        text: 'kw : erneuerungsbedürftige Krone',
         value: 'kw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsPK: [{
-        text: 'pw',
+        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
         value: 'pw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsR: [{
-        text: 'rw',
+        text: 'rw : erneuerungsbedürftige Wurzelstiftkappe',
         value: 'rw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsT: [{
-        text: 'tw',
+        text: 'tw : erneuerungsbedürftiges Teleskop',
         value: 'tw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsB: [{
-        text: 'bw',
+        text: 'bw : erneuerungsbedürfiges Brückenglied',
         value: 'bw'
       }]
     };
@@ -1759,11 +1775,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     manualMandible: function manualMandible() {
       var _this = this;
 
-      if (this.statusImport == true) {
-        this.activeClass = this.activeItemImport;
-      } else {
-        this.activeClass = this.activeItem;
-      }
+      this.isImportMenu = true;
 
       if (this.manualMandible.length > 0) {
         this.manualMandible.forEach(function (element) {
@@ -1870,6 +1882,70 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.showInfo = false;
       this.$emit('btn-selected', this.selectedBtns);
     },
+    changedBtnsStatus: function changedBtnsStatus(eventz) {
+      console.log('eventz');
+      console.log(eventz);
+      this.optionsDisplay = this.options;
+      this.isImportMenu = false;
+      var event = [];
+      event.push(eventz);
+      this.mandible_toggle_exclusive.push(eventz);
+      this.clickedBtn = eventz;
+
+      var jawArray = _toConsumableArray(new Set(this.manualMandible)); // var jawArray = [...new Set(this.selectedBtns)] 
+
+
+      var newJawArray = [];
+      var newValueArray = [];
+      jawArray.forEach(function (element) {
+        newValueArray.push(element.value);
+        newJawArray.push(element.index);
+      }); // if(newJawArray.indexOf(eventArray.at(-1))) {
+      // let index = newJawArray.indexOf(eventArray.at(-1));
+
+      if (newJawArray.indexOf(eventz) > -1) {
+        var index = newJawArray.indexOf(eventz);
+
+        if (newValueArray[index] == 'a') {
+          this.optionsDisplay = this.optionsA;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'ab') {
+          this.optionsDisplay = this.optionsAb;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'e') {
+          this.optionsDisplay = this.optionsE;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'i') {
+          this.optionsDisplay = this.optionsI;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'k') {
+          this.optionsDisplay = this.optionsK;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'pk') {
+          this.optionsDisplay = this.optionsPK;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'r') {
+          this.optionsDisplay = this.optionsR;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 't') {
+          this.optionsDisplay = this.optionsT;
+          this.isImportMenu = true;
+        } else if (newValueArray[index] == 'b') {
+          this.optionsDisplay = this.optionsB;
+          this.isImportMenu = true;
+        } else {
+          this.optionsDisplay = this.options;
+          this.isImportMenu = false;
+        }
+      }
+
+      this.showInfo = true;
+      this.selectedOption = '';
+
+      if (event.length < 1) {
+        this.toothImages = this.$options.data(this.toothImages).toothImages;
+      }
+    },
     changedBtns: function changedBtns(event) {
       var _this3 = this;
 
@@ -1943,6 +2019,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.$emit('btn-selected', this.selectedBtns);
     },
+    removeImportStatus: function removeImportStatus() {
+      var _this4 = this;
+
+      var arr = this.selectedBtns;
+      var rem = [];
+      rem = arr.filter(function (arr) {
+        return arr.index != _this4.clickedBtn;
+      }); // console.log(rem);
+
+      this.selectedBtns = rem;
+      this.toothImages[this.clickedBtn] = this.$options.data(this.toothImages).toothImages[this.clickedBtn];
+      this.showInfo = false;
+      this.$emit('btn-selected', this.selectedBtns);
+    },
     checkOptionSelected: function checkOptionSelected() {
       if (!this.selectedOption) {
         this.mandible_toggle_exclusive.pop();
@@ -2007,6 +2097,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       activeItemImport: 'active-item-import',
       activeClass: 'active-item',
       isImportMenu: false,
+      clickedBtn: '',
       options: [{
         text: 'a',
         value: 'a'
@@ -2164,8 +2255,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     manualUpperJaw: function manualUpperJaw() {
       var _this = this;
 
-      this.isImportMenu = true;
-      console.log(this.selectedBtns); // console.log(this.selectedOption)
+      this.isImportMenu = true; // console.log(this.selectedBtns)
+      // console.log(this.selectedOption)
       // console.log(this.manualUpperJaw)
 
       if (this.manualUpperJaw.length > 0) {
@@ -2174,16 +2265,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
           _this.checkedOption(element.value);
         });
-      } // var elementOpt = document.querySelectorAll('.ma-0.pa-0.v-btn');
-      // console.log(elementOpt)
-      // elementOpt.forEach((element) => {
-      //   element.classList.remove('active-item');
-      //   element.classList.remove('v-btn--active');
-      // });
-      // elementOpt.classList.remove("active-item v-btn--active");
-      // console.log(this.upper_toggle_exclusive)
-      // this.upper_toggle_exclusive.pop()
-
+      }
     },
     apiCallSuccess: function apiCallSuccess() {
       var _this2 = this;
@@ -2290,10 +2372,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var event = [];
       event.push(eventz);
       this.upper_toggle_exclusive.push(eventz);
+      this.clickedBtn = eventz;
 
       var eventArray = _toConsumableArray(new Set(event));
 
-      var jawArray = _toConsumableArray(new Set(this.manualUpperJaw));
+      var jawArray = _toConsumableArray(new Set(this.manualUpperJaw)); // var jawArray = [...new Set(this.selectedBtns)] 
+
 
       var newJawArray = [];
       var newValueArray = [];
@@ -2301,13 +2385,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         newValueArray.push(element.value);
         newJawArray.push(element.index);
       }); //Find the clicked btn Start
-
-      var newSelectedBtns = [];
-      var lastClicked = [];
-      this.selectedBtns.forEach(function (element) {
-        newSelectedBtns.push(element.index);
-      });
-      lastClicked = this.diffArray(newSelectedBtns, eventArray); // console.log('jawArray');
+      // console.log('jawArray');
       // console.log(jawArray);
       // console.log('eventArray');
       // console.log(eventArray);
@@ -2315,14 +2393,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       // console.log(newJawArray);
       // console.log('newValueArray');
       // console.log(newValueArray);
-      // console.log('lastClicked');
-
-      console.log(lastClicked); // console.log(lastClicked.at(-1));
       //Find the clicked btn End
 
-      if (newJawArray.indexOf(eventArray.at(-1))) {
-        var index = newJawArray.indexOf(eventArray.at(-1)); // if(newJawArray.indexOf(lastClicked.at(-1))) {
-        // let index = newJawArray.indexOf(lastClicked.at(-1));
+      console.log(newJawArray.indexOf(eventz)); // if(newJawArray.indexOf(eventArray.at(-1))) {
+      // let index = newJawArray.indexOf(eventArray.at(-1));
+
+      if (newJawArray.indexOf(eventz) > -1) {
+        var index = newJawArray.indexOf(eventz);
 
         if (newValueArray[index] == 'a') {
           this.optionsDisplay = this.optionsA;
@@ -2368,24 +2445,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       if (event.length < 1) {
         this.toothImages = this.$options.data(this.toothImages).toothImages;
       }
-      /*if(event.length != this.selectedBtns.length) {
-        this.selectedBtns = this.selectedBtns.filter((value) => {
-          let unselectedBtns = []
-          for(let i=0; i<event.length; i++) {
-            if (value.index == event[i]) {
-              return value
-            } else {
-              unselectedBtns.push(value.index)
-            }
-          }
-          console.log(unselectedBtns)
-           for(let btn of unselectedBtns) {
-            console.log(btn)
-             this.toothImages[btn] = this.$options.data(this.toothImages).toothImages[btn]
-          }
-        })
-      }*/
-
     },
     diffArray: function diffArray(arr1, arr2) {
       function diff(a, b) {
@@ -2505,12 +2564,26 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.$emit('btn-selected', this.selectedBtns);
     },
     removeImportStatus: function removeImportStatus(value) {
+      var _this4 = this;
+
       var eventArray = _toConsumableArray(new Set(value));
 
-      console.log(eventArray.at(-1));
-      console.log(this.manualUpperJaw);
-      this.$delete(this.manualUpperJaw, eventArray.at(-1));
-      console.log(this.manualUpperJaw);
+      console.log('remove');
+      console.log(this.selectedBtns); // console.log(this.clickedBtn)
+      // this.$delete(this.manualUpperJaw, eventArray.at(-1))
+      // this.$delete(this.manualUpperJaw, this.clickedBtn)
+
+      var arr = this.selectedBtns;
+      var rem = [];
+      rem = arr.filter(function (arr) {
+        return arr.index != _this4.clickedBtn;
+      }); // console.log(rem);
+
+      this.selectedBtns = rem;
+      this.toothImages[this.clickedBtn] = this.$options.data(this.toothImages).toothImages[this.clickedBtn];
+      this.showInfo = false;
+      this.$emit('btn-selected', this.selectedBtns);
+      console.log('remove END');
     },
     checkOptionSelected: function checkOptionSelected() {
       if (!this.selectedOption) {
@@ -3175,13 +3248,20 @@ var render = function render() {
         }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
+          staticClass: "text-left",
+          staticStyle: {
+            width: "150px"
+          }
         }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV]))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", [_c("v-slider", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV]))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
             attrs: {
               value: "1",
               "tick-labels": _vm.ticksLabels,
@@ -3190,24 +3270,31 @@ var render = function render() {
               ticks: "always",
               "tick-size": "4",
               "thumb-size": 36,
-              vertical: true,
-              id: "GAVSlider" + indexGAV
+              vertical: false,
+              id: "GAVSlider" + _vm.dataRV_GAV_AAV["GAV#"] + _vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV] + _vm.selectedCaseId
             },
             on: {
               change: function change($event) {
-                return _vm.displayFak(indexGAV, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "GAV");
+                return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"] + _vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV] + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "GAV");
               }
+            },
+            model: {
+              value: _vm.sliderValue,
+              callback: function callback($$v) {
+                _vm.sliderValue = $$v;
+              },
+              expression: "sliderValue"
             }
           })], 1), _vm._v(" "), _c("td", {
             staticClass: "clsGozAmount",
             attrs: {
-              id: "GAVAmount" + indexGAV
+              id: "GAVAmount" + _vm.dataRV_GAV_AAV["GAV#"] + _vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV] + _vm.selectedCaseId
             }
           }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "2.3")) + "\n                      ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 3788963016)
+    }], null, false, 1543597345)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3225,13 +3312,20 @@ var render = function render() {
         }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
+          staticClass: "text-left",
+          staticStyle: {
+            width: "150px"
+          }
         }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"], function (datasAAV, indexAAV) {
           return _c("tr", {
             key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-slider", {
+          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
             attrs: {
               value: "1",
               "tick-labels": _vm.ticksLabels,
@@ -3240,24 +3334,24 @@ var render = function render() {
               ticks: "always",
               "tick-size": "4",
               "thumb-size": 36,
-              vertical: true,
-              id: "AAVSlider" + indexAAV
+              vertical: false,
+              id: "AAVSlider" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
             },
             on: {
               change: function change($event) {
-                return _vm.displayFak(indexAAV, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "AAV");
+                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "AAV");
               }
             }
           })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
             staticClass: "clsGozAmount",
             attrs: {
-              id: "AAVAmount" + indexAAV
+              id: "AAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
             }
           }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 690876296)
+    }], null, false, 3965862388)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("\n                Optionale GOZ-Positionen\n              ")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3277,13 +3371,20 @@ var render = function render() {
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
+          staticClass: "text-left",
+          staticStyle: {
+            width: "150px"
+          }
         }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"], function (datasAAV, indexAAV) {
           return _c("tr", {
             key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-slider", {
+          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
             attrs: {
               value: "1",
               "tick-labels": _vm.ticksLabels,
@@ -3292,18 +3393,18 @@ var render = function render() {
               ticks: "always",
               "tick-size": "4",
               "thumb-size": 36,
-              vertical: true,
-              id: "oAAVSlider" + indexAAV
+              vertical: false,
+              id: "oAAVSlider" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
             },
             on: {
               change: function change($event) {
-                return _vm.displayFak(indexAAV, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "oAAV");
+                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "oAAV");
               }
             }
           })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
             staticClass: "clsGozAmountNo",
             attrs: {
-              id: "oAAVAmount" + indexAAV
+              id: "oAAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
             }
           }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-switch", {
             attrs: {
@@ -3325,7 +3426,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 4023111941)
+    }], null, false, 4175014361)
   }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
     attrs: {
       color: "green darken-1",
@@ -3652,7 +3753,7 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "lower-jaw d-flex justify-center py-3"
-  }, [_c("v-btn-toggle", {
+  }, [!_vm.isImportMenu ? _c("v-btn-toggle", {
     attrs: {
       multiple: "",
       "active-class": _vm.activeClass,
@@ -3702,9 +3803,47 @@ var render = function render() {
         }
       }], null, true)
     }, [_vm._v(" "), _c("span", [_vm._v(_vm._s(image.toothNo))])])], 1);
-  }), 1), _vm._v(" "), _c("v-dialog", {
+  }), 1) : _vm._l(_vm.toothImages, function (image, index) {
+    return _c("v-btn", {
+      key: index,
+      staticClass: "ma-0 pa-0 btnTgle",
+      staticStyle: {
+        "border-color": "transparent !important"
+      },
+      attrs: {
+        disabled: _vm.disabled,
+        icon: ""
+      },
+      on: {
+        click: function click($event) {
+          return _vm.changedBtnsStatus(index);
+        }
+      }
+    }, [_c("v-tooltip", {
+      attrs: {
+        bottom: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "activator",
+        fn: function fn(_ref2) {
+          var on = _ref2.on,
+              attrs = _ref2.attrs;
+          return [_c("v-img", _vm._g(_vm._b({
+            "class": /sw/.test(image.image) ? "rotate-180" : "",
+            attrs: {
+              contain: "",
+              width: "40",
+              height: "40",
+              src: image.image
+            }
+          }, "v-img", attrs, false), on))];
+        }
+      }], null, true)
+    }, [_vm._v(" "), _c("span", [_vm._v(_vm._s(image.toothNo))])])], 1);
+  }), _vm._v(" "), _c("v-dialog", {
     attrs: {
-      width: "300"
+      width: "300",
+      scrollable: ""
     },
     on: {
       "click:outside": _vm.checkOptionSelected
@@ -3718,7 +3857,20 @@ var render = function render() {
     }
   }, [_c("v-card", {
     staticClass: "ma-0 pa-0"
-  }, [_c("v-radio-group", {
+  }, [_c("v-card-title", {
+    staticStyle: {
+      padding: "0 !important"
+    }
+  }, [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      icon: ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.showInfo = false;
+      }
+    }
+  }, [_c("v-icon", [_vm._v("mdi-close")])], 1)], 1), _vm._v(" "), _c("v-card-text", [_c("v-radio-group", {
     staticClass: "ma-0",
     attrs: {
       column: "",
@@ -3745,7 +3897,17 @@ var render = function render() {
         value: option.value
       }
     });
-  }), 1)], 1)], 1)], 1);
+  }), 1)], 1), _vm._v(" "), _vm.isImportMenu ? _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "red darken-1",
+      text: ""
+    },
+    on: {
+      click: function click($event) {
+        return _vm.removeImportStatus();
+      }
+    }
+  }, [_vm._v("\n          löschen\n        ")])], 1) : _vm._e()], 1)], 1)], 2);
 };
 
 var staticRenderFns = [];
@@ -4264,8 +4426,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_HiDrive_x_ix_x_svg__WEBPACK_IMPORTED_MODULE_62___default = /*#__PURE__*/__webpack_require__.n(_assets_HiDrive_x_ix_x_svg__WEBPACK_IMPORTED_MODULE_62__);
 /* harmony import */ var _assets_HiDrive_svg__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./assets/HiDrive/)(/)(.svg */ "./resources/js/mixins/assets/HiDrive/)(/)(.svg");
 /* harmony import */ var _assets_HiDrive_svg__WEBPACK_IMPORTED_MODULE_63___default = /*#__PURE__*/__webpack_require__.n(_assets_HiDrive_svg__WEBPACK_IMPORTED_MODULE_63__);
-/* harmony import */ var _assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./assets/HiDrive/i-/i-.svg */ "./resources/js/mixins/assets/HiDrive/i-/i-.svg");
-/* harmony import */ var _assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default = /*#__PURE__*/__webpack_require__.n(_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64__);
+/* harmony import */ var _assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./assets/HiDrive/i-/i_n.svg */ "./resources/js/mixins/assets/HiDrive/i-/i_n.svg");
+/* harmony import */ var _assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default = /*#__PURE__*/__webpack_require__.n(_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64__);
 /* harmony import */ var _assets_HiDrive_K_X_KV_mandible_kv_32_42_svg__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./assets/HiDrive/K-X/KV/mandible/kv_32-42.svg */ "./resources/js/mixins/assets/HiDrive/K-X/KV/mandible/kv_32-42.svg");
 /* harmony import */ var _assets_HiDrive_K_X_KV_mandible_kv_32_42_svg__WEBPACK_IMPORTED_MODULE_65___default = /*#__PURE__*/__webpack_require__.n(_assets_HiDrive_K_X_KV_mandible_kv_32_42_svg__WEBPACK_IMPORTED_MODULE_65__);
 /* harmony import */ var _assets_HiDrive_K_X_KV_mandible_kv_33_43_svg__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./assets/HiDrive/K-X/KV/mandible/kv_33_43.svg */ "./resources/js/mixins/assets/HiDrive/K-X/KV/mandible/kv_33_43.svg");
@@ -5388,52 +5550,52 @@ __webpack_require__.r(__webpack_exports__);
       }],
       i_m_toothImages: [{
         toothNo: 48,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 47,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 46,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 45,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 44,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 43,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 42,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 41,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 31,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 32,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 33,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 34,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 35,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 36,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 37,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }, {
         toothNo: 38,
-        image: (_assets_HiDrive_i_i_svg__WEBPACK_IMPORTED_MODULE_64___default())
+        image: (_assets_HiDrive_i_i_n_svg__WEBPACK_IMPORTED_MODULE_64___default())
       }],
       gap_closure_toothImages: [{
         toothNo: 48,
@@ -9099,7 +9261,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-4744f107] {\n  background-color: lightgreen;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-4744f107] {\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.rotate-180[data-v-4744f107] {\n  transform: rotate(180deg);\n}\n.v-btn[data-v-4744f107]::before {\n  background-color: transparent !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-4744f107] {\n  background-color: lightgreen;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-4744f107] {\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.rotate-180[data-v-4744f107] {\n  transform: rotate(180deg);\n}\n.v-btn[data-v-4744f107]::before {\n  background-color: transparent !important;\n}\n.btnTgle[data-v-4744f107] {\n  min-width: 48px;\n  min-height: 48px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11491,6 +11653,16 @@ module.exports = "/images/ew_18-16_26-28.svg?29a880fa6e2614c01ef3cbd45fab5541";
 /***/ ((module) => {
 
 module.exports = "/images/i-.svg?43cdb71dec3507ed19385f88d9f55cc2";
+
+/***/ }),
+
+/***/ "./resources/js/mixins/assets/HiDrive/i-/i_n.svg":
+/*!*******************************************************!*\
+  !*** ./resources/js/mixins/assets/HiDrive/i-/i_n.svg ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+module.exports = "/images/i_n.svg?241757fd8832f23221a41b99c7abe79f";
 
 /***/ }),
 
