@@ -315,6 +315,7 @@ export default {
         value: 'bw'
       },
     ],
+    e_arr_update: [],
   }),
   // computed: {
   //   disabledBtns: {
@@ -390,10 +391,41 @@ export default {
   },
   methods: {
     checkedOption(value) {
-      this.selectedBtns.push( {
-        index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
-        value: value
-      })
+      this.e_arr_update = [...new Set(this.e_arr_update)]
+
+      if(this.isImportMenu
+        && value == 'e'
+      ) {
+        this.e_arr_update.push(this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1])
+      }
+
+      //if value is ew then change in selected btn push
+      if(this.isImportMenu
+        && value == 'ew'
+        && this.e_arr_update.indexOf(this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]) > -1
+      ) {
+        for(var e=0; e<this.e_arr_update.length; e++) {
+          // console.log(this.e_arr_update[e])
+          this.selectedBtns.push({
+            index: this.e_arr_update[e],
+            value: 'ew'
+          })
+          
+          this.toothImages[this.e_arr_update[e]] = this.ew_toothImages[this.e_arr_update[e]]
+        }
+      }
+      // Else original selected btn push
+      else {
+
+        this.selectedBtns.push({
+          index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
+          value: value
+        })
+      }
+      // this.selectedBtns.push( {
+      //   index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
+      //   value: value
+      // })
 
       if(value == 'b' || value == 'ab') {
         this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]] = this.b_ab_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]]

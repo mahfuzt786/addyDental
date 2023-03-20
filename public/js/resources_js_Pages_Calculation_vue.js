@@ -1294,8 +1294,8 @@ var _validEntry = function validEntry(value) {
       }
     },
     displayFak: function displayFak(faktors, amountGoz, solutionT) {
-      console.log(document.getElementById('GAVSlider' + faktors).value);
-      console.log(faktors);
+      // console.log(document.getElementById('GAVSlider'+faktors).value)
+      // console.log(faktors)
       var newGozAmount = 0;
 
       if (solutionT == 'GAV') {
@@ -1316,8 +1316,7 @@ var _validEntry = function validEntry(value) {
         this.idGozSlider = 'oAAVAmount' + faktors;
       }
 
-      this.resetGozAmount = amountGoz;
-      console.log(document.getElementById('GAVSlider' + faktors).value);
+      this.resetGozAmount = amountGoz; // console.log(document.getElementById('GAVSlider'+faktors).value)
     },
     optGozActivate: function optGozActivate() {
       console.log(this.optGoz);
@@ -2242,7 +2241,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       optionsB: [{
         text: 'bw : erneuerungsbedürfiges Brückenglied',
         value: 'bw'
-      }]
+      }],
+      e_arr_update: []
     };
   },
   watch: {
@@ -2316,10 +2316,34 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   methods: {
     checkedOption: function checkedOption(value) {
-      this.selectedBtns.push({
-        index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1],
-        value: value
-      });
+      // console.log(value)
+      // console.log(this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1])
+      // console.log(this.isImportMenu)
+      // convert all o ew for status update
+      this.e_arr_update = _toConsumableArray(new Set(this.e_arr_update));
+
+      if (this.isImportMenu && value == 'e') {
+        this.e_arr_update.push(this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]);
+      } //if value is ew then change in selected btn push
+
+
+      if (this.isImportMenu && value == 'ew' && this.e_arr_update.indexOf(this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]) > -1) {
+        for (var e = 0; e < this.e_arr_update.length; e++) {
+          // console.log(this.e_arr_update[e])
+          this.selectedBtns.push({
+            index: this.e_arr_update[e],
+            value: 'ew'
+          });
+          this.toothImages[this.e_arr_update[e]] = this.ew_toothImages[this.e_arr_update[e]];
+        }
+      } // Else original selected btn push
+      else {
+        // console.log(this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1])
+        this.selectedBtns.push({
+          index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1],
+          value: value
+        });
+      }
 
       if (value == 'b' || value == 'ab') {
         this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.b_ab_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
@@ -2365,16 +2389,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.$emit('btn-selected', this.selectedBtns);
     },
     changedBtnsStatus: function changedBtnsStatus(eventz) {
-      console.log('eventz');
-      console.log(eventz);
+      // console.log('eventz')
+      // console.log(eventz)
       this.optionsDisplay = this.options;
       this.isImportMenu = false;
       var event = [];
       event.push(eventz);
       this.upper_toggle_exclusive.push(eventz);
       this.clickedBtn = eventz;
-
-      var eventArray = _toConsumableArray(new Set(event));
 
       var jawArray = _toConsumableArray(new Set(this.manualUpperJaw)); // var jawArray = [...new Set(this.selectedBtns)] 
 
@@ -2384,18 +2406,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       jawArray.forEach(function (element) {
         newValueArray.push(element.value);
         newJawArray.push(element.index);
-      }); //Find the clicked btn Start
-      // console.log('jawArray');
-      // console.log(jawArray);
-      // console.log('eventArray');
-      // console.log(eventArray);
-      // console.log('newJawArray');
-      // console.log(newJawArray);
-      // console.log('newValueArray');
-      // console.log(newValueArray);
-      //Find the clicked btn End
-
-      console.log(newJawArray.indexOf(eventz)); // if(newJawArray.indexOf(eventArray.at(-1))) {
+      }); // if(newJawArray.indexOf(eventArray.at(-1))) {
       // let index = newJawArray.indexOf(eventArray.at(-1));
 
       if (newJawArray.indexOf(eventz) > -1) {
