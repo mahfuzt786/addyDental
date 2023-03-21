@@ -484,8 +484,8 @@
                         <th class="text-left">Leistungsbeschreibung</th>
                         <th class="text-left">Zahn/ Gebiet</th>
                         <th class="text-left">Anzahl</th>
-                        <th class="text-left">Faktor</th>
-                        <th class="text-left" style="width: 150px;">Betrag (€)</th>
+                        <th class="text-left" style="width: 150px;">Faktor</th>
+                        <th class="text-left">Betrag (€)</th>
                         <th class="text-left">Active / Not Active</th>
                       </tr>
                     </thead>
@@ -1971,6 +1971,8 @@
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
         document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
 
+        console.log(dialogRowIndex)
+
         /** DISPLAY TEETH IMAGES */
         var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
         dataRVs.forEach(element => {
@@ -2027,7 +2029,10 @@
         // RESET SLIDER GOZ AMOUNT
         this.sliderValue = 1
         var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1])
-        document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
+        if(this.idGozSlider !== '')
+        {
+          document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
+        }
         // RESET SLIDER GOZ AMOUNT END
       },
       filteredData(item) {

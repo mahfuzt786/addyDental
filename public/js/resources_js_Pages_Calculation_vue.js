@@ -1362,6 +1362,7 @@ var _validEntry = function validEntry(value) {
       this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2);
       document.getElementById("planen" + dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML;
       document.getElementById("planen" + dialogRowIndex).setAttribute("disabled", "disabled");
+      console.log(dialogRowIndex);
       /** DISPLAY TEETH IMAGES */
 
       var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
@@ -1423,7 +1424,11 @@ var _validEntry = function validEntry(value) {
 
       this.sliderValue = 1;
       var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1]);
-      document.getElementById(this.idGozSlider).innerHTML = oldGozAmount; // RESET SLIDER GOZ AMOUNT END
+
+      if (this.idGozSlider !== '') {
+        document.getElementById(this.idGozSlider).innerHTML = oldGozAmount;
+      } // RESET SLIDER GOZ AMOUNT END
+
     },
     filteredData: function filteredData(item) {
       return this.expandedDataSet.filter(function (f) {
@@ -1751,7 +1756,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       optionsB: [{
         text: 'bw : erneuerungsbedürfiges Brückenglied',
         value: 'bw'
-      }]
+      }],
+      e_arr_update: []
     };
   },
   // computed: {
@@ -1833,10 +1839,33 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   methods: {
     checkedOption: function checkedOption(value) {
-      this.selectedBtns.push({
-        index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1],
-        value: value
-      });
+      this.e_arr_update = _toConsumableArray(new Set(this.e_arr_update));
+
+      if (this.isImportMenu && value == 'e') {
+        this.e_arr_update.push(this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]);
+      } //if value is ew then change in selected btn push
+
+
+      if (this.isImportMenu && value == 'ew' && this.e_arr_update.indexOf(this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]) > -1) {
+        for (var e = 0; e < this.e_arr_update.length; e++) {
+          // console.log(this.e_arr_update[e])
+          this.selectedBtns.push({
+            index: this.e_arr_update[e],
+            value: 'ew'
+          });
+          this.toothImages[this.e_arr_update[e]] = this.ew_toothImages[this.e_arr_update[e]];
+        }
+      } // Else original selected btn push
+      else {
+        this.selectedBtns.push({
+          index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1],
+          value: value
+        });
+      } // this.selectedBtns.push( {
+      //   index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
+      //   value: value
+      // })
+
 
       if (value == 'b' || value == 'ab') {
         this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.b_ab_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
@@ -3380,12 +3409,12 @@ var render = function render() {
         }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left",
           staticStyle: {
             width: "150px"
           }
+        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"], function (datasAAV, indexAAV) {
@@ -3437,7 +3466,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 4175014361)
+    }], null, false, 1066560665)
   }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
     attrs: {
       color: "green darken-1",
