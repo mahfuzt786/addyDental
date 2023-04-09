@@ -6,6 +6,8 @@ import { InertiaProgress } from '@inertiajs/progress'
 import vuetify from './Plugins/vuetify'
 import { Link } from "@inertiajs/inertia-vue";
 import store from './store'
+import VueSimpleAlert from "vue-simple-alert"
+
 
 InertiaProgress.init({ color: "#4B5563" })
 createInertiaApp({
@@ -13,6 +15,8 @@ createInertiaApp({
     resolve: name => import(`./Pages/${name}`),
     setup({ el, App, props, plugin }) {
         Vue.use(plugin)
+        Vue.use(VueSimpleAlert)
+
         Vue.prototype.$route = route
         Vue.component("Link", Link);
         Vue.mixin({ methods: { route: window.route } });

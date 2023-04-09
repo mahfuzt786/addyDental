@@ -1350,21 +1350,52 @@
           this.overlay = true
 
           this.calculateValuesApi(input).then((response) => {
-            // console.log(response)
-            /*if(response.data[0].length>1) {
+            // console.log(input)
+            // console.log(JSON.stringify(input[0][18]))
+            // console.log(JSON.stringify(input[1][17]))
+            console.log(response.data[1])
+            console.log(response.data[0])
+
+            if(response.data.length>1) {
               let title = '';
               let text = '';
-              if(response.data[0][0]['region'] == 'OK')
+              let condition = ['"f"', '"x"', '"ew"', '"bw"', '"kx"','"swfb"'];
+              if(response.data[1][0]['Case Region'] == 'OK')
               {
-                title = 'Versorgung an [17+/27] erforderlich?';
+                // title = 'Versorgung an [17+/27] erforderlich?';
+                title = '';
+                if(condition.includes(JSON.stringify(input[0][18])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[1][17])) // == '"f"'
+                ) {
+                  title = 'Versorgung an [17] erforderlich?';
+                }
+
+                if(condition.includes(JSON.stringify(input[14][28])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[15][27])) // == '"f"'
+                ) {
+                  title = 'Versorgung an [27] erforderlich?';
+                }
                 text = 'Answer "Ja / Nein"';
               }
-              if(response.data[0][0]['region'] == 'UK')
+              if(response.data[1][0]['Case Region'] == 'UK')
               {
-                title = 'Versorgung an [37+/47] erforderlich?';
+                // title = 'Versorgung an [37+/47] erforderlich?';
+                title = '';
+
+                if(condition.includes(JSON.stringify(input[16][38])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[17][37])) // == '"f"'
+                ) {
+                  title = 'Versorgung an [37] erforderlich?';
+                }
+
+                if(condition.includes(JSON.stringify(input[31][48])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[30][47])) // == '"f"'
+                ) {
+                  title = 'Versorgung an [47] erforderlich?';
+                }
                 text = 'Answer "Ja / Nein"';
               }
-              if(response.data[0][0]['region'] == 'OK,UK')
+              if(response.data[1][0]['Case Region'] == 'OK,UK')
               {
                 title = 'Versorgung an [17+/27] erforderlich? <br/> Versorgung an [37+/47] erforderlich?';
                 text = 'Answer "Ja / Nein"';
@@ -1382,17 +1413,17 @@
               }).then((result) => {
 
                 if (result.value) { //3.1 [0]
-                  this.displayData(response.data[0])
-                }
-                else { // [1]
                   this.displayData(response.data[1])
+                }
+                else { // [1] 2.xers
+                  this.displayData(response.data[0])
                 }
               })
             }
             // if(response.data.length>1) {
-            else {*/
+            else {
               this.displayData(response.data)
-            // }
+            }
             // this.apiCallSuccess = true
           })
 
