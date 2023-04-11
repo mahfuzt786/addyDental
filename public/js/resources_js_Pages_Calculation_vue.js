@@ -508,7 +508,7 @@ var _validEntry = function validEntry(value) {
       disabled: false,
       resetBtns: false,
       dialogCalc: false,
-      dialogSolution: [],
+      // dialogSolution: [], // issues
       displaySecond: false,
       dataRV_GAV_AAV: [],
       manualUpperJaw: [],
@@ -1356,21 +1356,30 @@ var _validEntry = function validEntry(value) {
       console.log(this.optGoz);
     },
     displayPlanen: function displayPlanen(rowIndex) {
-      this.dialogSolution[rowIndex] = true;
+      console.log(rowIndex); // this.dialogSolution[rowIndex] = true;  // issue recheck
+
       this.dialogRow = rowIndex;
       this.displaySecond = rowIndex;
     },
-    closePlannen: function closePlannen(rowIndex) {
-      console.log(rowIndex);
-      this.dialogSolution[rowIndex] = false;
-      this.dialogSolution = [];
+    // closePlannen(rowIndex) {
+    //   console.log(rowIndex)
+    //   this.dialogSolution[rowIndex] = false;
+    //   this.dialogSolution = [];
+    // },
+    closeCalc: function closeCalc() {
+      //reset the radio btn selected
+      var ele = document.getElementsByName("RV_GAV_AAV");
+
+      for (var el = 0; el < ele.length; el++) {
+        ele[el].checked = false;
+      }
     },
     calcTable: function calcTable(dialogRowIndex) {
       var _this4 = this;
 
-      this.dialogSolution[dialogRowIndex] = false;
-      /** Add Toggle Selected Values */
+      // this.dialogSolution[dialogRowIndex] = false; // issue recheck
 
+      /** Add Toggle Selected Values */
       for (var op = 0; op < this.optGoz.length; op++) {
         var elementOpt = document.getElementById(this.optGoz[op]);
         elementOpt.classList.remove("clsGozAmountNo");
@@ -1394,8 +1403,8 @@ var _validEntry = function validEntry(value) {
 
       this.totalBema = parseFloat(parseFloat(this.totalBema) + parseFloat(clsBemaAmount)).toFixed(2);
       this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2);
-      document.getElementById("planen" + dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML;
-      document.getElementById("planen" + dialogRowIndex).setAttribute("disabled", "disabled");
+      document.getElementById("planen" + dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML; // document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
+
       console.log(dialogRowIndex);
       /** DISPLAY TEETH IMAGES */
 
@@ -3070,171 +3079,177 @@ var render = function render() {
             staticClass: "text-center"
           }, [_vm._v(_vm._s(data["Case Region"]))]) : _vm._e(), _vm._v(" "), index !== "Final" ? _c("td", {
             staticClass: "text-center"
-          }, [_c("v-btn", {
-            staticStyle: {
-              color: "blue"
-            },
+          }, [_c("v-dialog", {
             attrs: {
-              block: "",
-              id: "planen" + index
-            },
-            on: {
-              click: function click($event) {
-                return _vm.displayPlanen(index);
-              }
-            }
-          }, [_vm._v(" planen \n                        ")])], 1) : _vm._e(), _vm._v(" "), _c("v-dialog", {
-            attrs: {
+              transition: "dialog-top-transition",
               "max-width": "750",
               persistent: ""
             },
-            model: {
-              value: _vm.dialogSolution[index],
-              callback: function callback($$v) {
-                _vm.$set(_vm.dialogSolution, index, $$v);
-              },
-              expression: "dialogSolution[index]"
-            }
-          }, [_c("v-card", [_c("v-card-title", {
-            staticClass: "text-h5"
-          }, [_vm._v("\n                    " + _vm._s(data["Case Name"]) + ", " + _vm._s(data["Case Region"]) + "\n                  ")]), _vm._v(" "), _c("v-card-text", [index !== "Final" ? _c("v-simple-table", {
-            directives: [{
-              name: "show",
-              rawName: "v-show",
-              value: _vm.displaySecond === index,
-              expression: "displaySecond === index"
-            }],
-            staticClass: "my-2",
-            attrs: {
-              outlined: ""
-            },
             scopedSlots: _vm._u([{
-              key: "default",
-              fn: function fn() {
-                return [_c("tbody", [_c("tr", [_c("th", {
-                  staticClass: "text-center text-subtitle-1 font-weight-black"
-                }, [_vm._v("Regelversorgung")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["RV Details"], function (dataRV, indexRV) {
-                  return _c("div", {
-                    key: indexRV,
-                    staticStyle: {
-                      "margin-bottom": "15px",
-                      "margin-top": "5px"
+              key: "activator",
+              fn: function fn(_ref) {
+                var on = _ref.on,
+                    attrs = _ref.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  attrs: {
+                    color: "primary",
+                    id: "planen" + index
+                  },
+                  on: {
+                    click: function click($event) {
+                      return _vm.displayPlanen(index);
                     }
-                  }, [_c("input", {
-                    attrs: {
-                      type: "radio",
-                      name: "RV_GAV_AAV"
-                    },
-                    domProps: {
-                      value: indexRV
-                    },
-                    on: {
-                      change: function change($event) {
-                        return _vm.displayRVs("lblRV", "RV" + index + indexRV, "" + index + indexRV);
-                      }
-                    }
-                  }), _vm._v(" "), _c("label", {
-                    attrs: {
-                      "for": indexRV,
-                      id: "lblRV" + index + indexRV
-                    }
-                  }, [_vm._v(" " + _vm._s(dataRV["RV Solution Name"]))]), _vm._v(" "), _c("textarea", {
-                    staticStyle: {
-                      display: "none"
-                    },
-                    attrs: {
-                      id: "RV" + index + indexRV
-                    }
-                  }, [_vm._v(" " + _vm._s(dataRV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
-                }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
-                  staticClass: "text-center text-subtitle-1 font-weight-black"
-                }, [_vm._v("Gleichartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["GAV Details"], function (dataGAV, indexGAV) {
-                  return _c("div", {
-                    key: indexGAV,
-                    staticStyle: {
-                      "margin-bottom": "15px",
-                      "margin-top": "5px"
-                    }
-                  }, [_c("input", {
-                    attrs: {
-                      type: "radio",
-                      name: "RV_GAV_AAV"
-                    },
-                    domProps: {
-                      value: indexGAV
-                    },
-                    on: {
-                      change: function change($event) {
-                        return _vm.displayRVs("lblGAV", "GAV" + index + indexGAV, "" + index + indexGAV);
-                      }
-                    }
-                  }), _vm._v(" "), _c("label", {
-                    attrs: {
-                      "for": indexGAV,
-                      id: "lblGAV" + index + indexGAV
-                    }
-                  }, [_vm._v(" " + _vm._s(dataGAV["GAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
-                    staticStyle: {
-                      display: "none"
-                    },
-                    attrs: {
-                      id: "GAV" + index + indexGAV
-                    }
-                  }, [_vm._v(" " + _vm._s(dataGAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
-                }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
-                  staticClass: "text-center text-subtitle-1 font-weight-black"
-                }, [_vm._v("Andersartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["AAV Details"], function (dataAAV, indexAAV) {
-                  return _c("div", {
-                    key: indexAAV,
-                    staticStyle: {
-                      "margin-bottom": "15px",
-                      "margin-top": "5px"
-                    }
-                  }, [_c("input", {
-                    attrs: {
-                      type: "radio",
-                      name: "RV_GAV_AAV"
-                    },
-                    domProps: {
-                      value: indexAAV
-                    },
-                    on: {
-                      change: function change($event) {
-                        return _vm.displayRVs("lblAAV", "AAV" + index + indexAAV, "" + index + indexAAV);
-                      }
-                    }
-                  }), _vm._v(" "), _c("label", {
-                    attrs: {
-                      "for": indexAAV,
-                      id: "lblAAV" + index + indexAAV
-                    }
-                  }, [_vm._v(" " + _vm._s(dataAAV["AAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
-                    staticStyle: {
-                      display: "none"
-                    },
-                    attrs: {
-                      id: "AAV" + index + indexAAV
-                    }
-                  }, [_vm._v(" " + _vm._s(dataAAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
-                }), 0)])])];
-              },
-              proxy: true
-            }], null, true)
-          }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
-            attrs: {
-              color: "red darken-1",
-              text: ""
-            },
-            on: {
-              click: function click($event) {
-                return _vm.closePlannen(index);
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("planen")])];
               }
-            }
-          }, [_vm._v("\n                      abbrechen\n                    ")])], 1)], 1)], 1)], 1);
+            }, {
+              key: "default",
+              fn: function fn(dialogPlan) {
+                return [_c("v-card", [_c("v-card-title", {
+                  staticClass: "text-h5"
+                }, [_vm._v("\n                          " + _vm._s(data["Case Name"]) + ", " + _vm._s(data["Case Region"]) + "\n                        ")]), _vm._v(" "), _c("v-card-text", [index !== "Final" ? _c("v-simple-table", {
+                  staticClass: "my-2",
+                  attrs: {
+                    outlined: ""
+                  },
+                  scopedSlots: _vm._u([{
+                    key: "default",
+                    fn: function fn() {
+                      return [_c("tbody", [_c("tr", [_c("th", {
+                        staticClass: "text-center text-subtitle-1 font-weight-black"
+                      }, [_vm._v("Regelversorgung")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["RV Details"], function (dataRV, indexRV) {
+                        return _c("div", {
+                          key: indexRV,
+                          staticStyle: {
+                            "margin-bottom": "15px",
+                            "margin-top": "5px"
+                          }
+                        }, [_c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: "RV_GAV_AAV"
+                          },
+                          domProps: {
+                            value: indexRV
+                          },
+                          on: {
+                            change: function change($event) {
+                              _vm.displayRVs("lblRV", "RV" + index + indexRV, "" + index + indexRV);
+
+                              dialogPlan.value = false;
+                            }
+                          }
+                        }), _vm._v(" "), _c("label", {
+                          attrs: {
+                            "for": indexRV,
+                            id: "lblRV" + index + indexRV
+                          }
+                        }, [_vm._v(" " + _vm._s(dataRV["RV Solution Name"]))]), _vm._v(" "), _c("textarea", {
+                          staticStyle: {
+                            display: "none"
+                          },
+                          attrs: {
+                            id: "RV" + index + indexRV
+                          }
+                        }, [_vm._v(" " + _vm._s(dataRV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
+                      }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
+                        staticClass: "text-center text-subtitle-1 font-weight-black"
+                      }, [_vm._v("Gleichartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["GAV Details"], function (dataGAV, indexGAV) {
+                        return _c("div", {
+                          key: indexGAV,
+                          staticStyle: {
+                            "margin-bottom": "15px",
+                            "margin-top": "5px"
+                          }
+                        }, [_c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: "RV_GAV_AAV"
+                          },
+                          domProps: {
+                            value: indexGAV
+                          },
+                          on: {
+                            change: function change($event) {
+                              _vm.displayRVs("lblGAV", "GAV" + index + indexGAV, "" + index + indexGAV);
+
+                              dialogPlan.value = false;
+                            }
+                          }
+                        }), _vm._v(" "), _c("label", {
+                          attrs: {
+                            "for": indexGAV,
+                            id: "lblGAV" + index + indexGAV
+                          }
+                        }, [_vm._v(" " + _vm._s(dataGAV["GAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
+                          staticStyle: {
+                            display: "none"
+                          },
+                          attrs: {
+                            id: "GAV" + index + indexGAV
+                          }
+                        }, [_vm._v(" " + _vm._s(dataGAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
+                      }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
+                        staticClass: "text-center text-subtitle-1 font-weight-black"
+                      }, [_vm._v("Andersartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["AAV Details"], function (dataAAV, indexAAV) {
+                        return _c("div", {
+                          key: indexAAV,
+                          staticStyle: {
+                            "margin-bottom": "15px",
+                            "margin-top": "5px"
+                          }
+                        }, [_c("input", {
+                          attrs: {
+                            type: "radio",
+                            name: "RV_GAV_AAV"
+                          },
+                          domProps: {
+                            value: indexAAV
+                          },
+                          on: {
+                            change: function change($event) {
+                              _vm.displayRVs("lblAAV", "AAV" + index + indexAAV, "" + index + indexAAV);
+
+                              dialogPlan.value = false;
+                            }
+                          }
+                        }), _vm._v(" "), _c("label", {
+                          attrs: {
+                            "for": indexAAV,
+                            id: "lblAAV" + index + indexAAV
+                          }
+                        }, [_vm._v(" " + _vm._s(dataAAV["AAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
+                          staticStyle: {
+                            display: "none"
+                          },
+                          attrs: {
+                            id: "AAV" + index + indexAAV
+                          }
+                        }, [_vm._v(" " + _vm._s(dataAAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
+                      }), 0)])])];
+                    },
+                    proxy: true
+                  }], null, true)
+                }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", {
+                  staticClass: "justify-end"
+                }, [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+                  attrs: {
+                    color: "red darken-1",
+                    text: ""
+                  },
+                  on: {
+                    click: function click($event) {
+                      dialogPlan.value = false;
+                    }
+                  }
+                }, [_vm._v("\n                            abbrechen\n                          ")])], 1)], 1)];
+              }
+            }], null, true)
+          })], 1) : _vm._e()]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 3740366984)
+    }], null, false, 3580864510)
   }), _vm._v(" "), _c("v-dialog", {
     attrs: {
       "max-width": "750",
@@ -3518,6 +3533,8 @@ var render = function render() {
     },
     on: {
       click: function click($event) {
+        _vm.closeCalc();
+
         _vm.dialogCalc = false;
       }
     }

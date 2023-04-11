@@ -219,13 +219,102 @@
                   <td class="text-center" v-if="index !== 'Final'">{{data["Case Name"]}}</td>
                   <td class="text-center" v-if="index !== 'Final'">{{ data["Case Region"] }}</td>
                   <td class="text-center" v-if="index !== 'Final'"> 
-                          <v-btn
+                          <!-- <v-btn
                             block
                             :id="'planen'+index" @click=displayPlanen(index) style="color:blue;"> planen 
-                          </v-btn>
+                          </v-btn> -->
+
+                    <v-dialog
+                      transition="dialog-top-transition"
+                      max-width="750"
+                      persistent
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="primary"
+                          v-bind="attrs"
+                          v-on="on"
+                          :id="'planen'+index" @click=displayPlanen(index)
+                        >planen</v-btn>
+                      </template>
+                      <template v-slot:default="dialogPlan">
+                        <v-card>
+                          <v-card-title class="text-h5">
+                            {{data["Case Name"]}}, {{ data["Case Region"] }}
+                          </v-card-title>
+
+                          <v-card-text>
+                      
+                            <v-simple-table outlined class="my-2" v-if="index !== 'Final'">
+                              <template v-slot:default>
+                                <tbody>
+                                  <tr>
+                                    <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
+                                          <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + index + indexRV, ''+index +indexRV); dialogPlan.value = false" />
+                                          <label :for="indexRV" :id="'lblRV' + index + indexRV"> {{ dataRV['RV Solution Name']}}</label>
+                                          <textarea style="display:none;" :id="'RV' + index + indexRV" > {{dataRV}} </textarea>
+
+                                          <v-divider></v-divider>
+                                        </div>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
+                                          <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + index + indexGAV, ''+index + indexGAV); dialogPlan.value = false" />
+                                          <label :for="indexGAV" :id="'lblGAV' + index + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
+                                          <textarea style="display:none;" :id="'GAV' + index + indexGAV" > {{dataGAV}} </textarea>
+
+                                          <v-divider></v-divider>
+                                      </div>
+                                    </td>
+                                  </tr>
+
+                                  <tr>
+                                    <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
+                                          <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + index + indexAAV, ''+index + indexAAV); dialogPlan.value = false" />
+                                          <label :for="indexAAV" :id="'lblAAV' + index + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
+                                          <textarea style="display:none;" :id="'AAV' + index + indexAAV" > {{dataAAV}} </textarea>
+
+                                          <v-divider></v-divider>
+                                        </div>
+                                    </td>                          
+                                  </tr>
+
+                                </tbody>
+                              </template>
+                            </v-simple-table>
+
+                          </v-card-text>
+
+                          <v-card-actions class="justify-end">
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              color="red darken-1"
+                              text
+                              @click="dialogPlan.value = false"
+                            >
+                              abbrechen
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </template>
+                    </v-dialog>
                   </td>
 
-                  <v-dialog
+                  <!-- <v-dialog
                     v-model="dialogSolution[index]"
                     max-width="750"
                     persistent
@@ -239,13 +328,7 @@
                       
                       <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
                         <template v-slot:default>
-                          <!-- <thead>
-                            <tr>
-                              <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
-                              <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
-                              <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
-                            </tr>
-                          </thead> -->
+                          
                           <tbody>
                             <tr>
                               <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
@@ -300,13 +383,13 @@
 
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <!-- <v-btn
+                      <!- - <v-btn
                         color="red darken-1"
                         text
                         @click="dialogSolution[index] = false"
                       >
                         abbrechen
-                      </v-btn>  -->
+                      </v-btn>  - ->
 
                       <v-btn
                         color="red darken-1"
@@ -317,7 +400,7 @@
                       </v-btn> 
                     </v-card-actions>
                   </v-card>
-                  </v-dialog>
+                  </v-dialog> -->
 
                 </tr>
               </tbody>
@@ -543,7 +626,7 @@
                 <v-btn
                   color="red darken-1"
                   text
-                  @click="dialogCalc = false"
+                  @click="closeCalc(); dialogCalc = false"
                 >
                   abbrechen
                 </v-btn> 
@@ -1189,7 +1272,7 @@
       disabled: false,
       resetBtns: false,
       dialogCalc: false,
-      dialogSolution: [],
+      // dialogSolution: [], // issues
       displaySecond: false,
       dataRV_GAV_AAV: [],
       manualUpperJaw: [],
@@ -1246,7 +1329,6 @@
       TPShortcut: '',
       isTP: false,
       selectedCaseId:'',
-
     }),
     watch: {
       
@@ -1961,18 +2043,27 @@
         
       },
       displayPlanen(rowIndex) {
-
-        this.dialogSolution[rowIndex] = true;
+        console.log(rowIndex)
+        // this.dialogSolution[rowIndex] = true;  // issue recheck
         this.dialogRow = rowIndex;
         this.displaySecond = rowIndex;
       },
-      closePlannen(rowIndex) {
-        console.log(rowIndex)
-        this.dialogSolution[rowIndex] = false;
-        this.dialogSolution = [];
+      // closePlannen(rowIndex) {
+      //   console.log(rowIndex)
+      //   this.dialogSolution[rowIndex] = false;
+      //   this.dialogSolution = [];
+      // },
+      closeCalc() {
+        //reset the radio btn selected
+        var ele = document.getElementsByName("RV_GAV_AAV");
+
+        for(var el=0; el<ele.length; el++)
+        {
+          ele[el].checked = false;
+        }
       },
       calcTable(dialogRowIndex) {
-        this.dialogSolution[dialogRowIndex] = false;
+        // this.dialogSolution[dialogRowIndex] = false; // issue recheck
 
         /** Add Toggle Selected Values */
         for(var op=0; op<this.optGoz.length; op++) {
@@ -2000,7 +2091,7 @@
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
 
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
-        document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
+        // document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
 
         console.log(dialogRowIndex)
 
@@ -2065,6 +2156,8 @@
           document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
         }
         // RESET SLIDER GOZ AMOUNT END
+
+
       },
       filteredData(item) {
         return this.expandedDataSet.filter(f => f.caseId == item.caseId);
