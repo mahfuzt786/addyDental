@@ -1435,31 +1435,69 @@
             // console.log(input)
             // console.log(JSON.stringify(input[0][18]))
             // console.log(JSON.stringify(input[1][17]))
-            console.log(response.data[1])
-            console.log(response.data[0])
+            // console.log(response.data.length)
+            console.log(response.data)
+            // console.log(typeof(response.data[1]))
+            // console.log(typeof(response.data[1][0]))
+            console.log(response.data[1]['Final'].length)
+            console.log((response.data[1]['Final']))
 
             if(response.data.length>1) {
               let title = '';
               let text = '';
+
+              let title_UK = '';
+              let text_UK = '';
+
               let condition = ['"f"', '"x"', '"ew"', '"bw"', '"kx"','"swfb"'];
-              if(response.data[1][0]['Case Region'] == 'OK')
+              // if(response.data[1][0]['Case Region'] == 'OK')
+              if(response.data[1]['Final'][0]['region'] == 'OK')
               {
                 // title = 'Versorgung an [17+/27] erforderlich?';
                 title = '';
                 if(condition.includes(JSON.stringify(input[0][18])) // == '"f"'
                     && condition.includes(JSON.stringify(input[1][17])) // == '"f"'
                 ) {
-                  title = 'Versorgung an [17] erforderlich?';
+                  title = 'Versorgung an 17 erforderlich?';
                 }
 
                 if(condition.includes(JSON.stringify(input[14][28])) // == '"f"'
                     && condition.includes(JSON.stringify(input[15][27])) // == '"f"'
                 ) {
-                  title = 'Versorgung an [27] erforderlich?';
+                  title = 'Versorgung an 27 erforderlich?';
                 }
+
+                if(condition.includes(JSON.stringify(input[0][18]))
+                    && condition.includes(JSON.stringify(input[1][17]))
+                    && condition.includes(JSON.stringify(input[14][28]))
+                    && condition.includes(JSON.stringify(input[15][27]))
+                ) {
+                  title = 'Versorgung an 17 und 27 erforderlich?';
+                }
+
                 text = 'Answer "Ja / Nein"';
+
+                this.$fire({
+                  text: text,
+                  title: title,
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#A55',
+                  confirmButtonText: 'Ja',
+                  cancelButtonText: 'Nein'
+                }).then((result) => {
+
+                  if (result.value) { //3.1 [0]
+                    this.displayData(response.data[1])
+                  }
+                  else { // [1] 2.xers
+                    this.displayData(response.data[0])
+                  }
+                })
               }
-              if(response.data[1][0]['Case Region'] == 'UK')
+
+              if(response.data[1]['Final'][0]['region'] == 'UK')
               {
                 // title = 'Versorgung an [37+/47] erforderlich?';
                 title = '';
@@ -1467,40 +1505,255 @@
                 if(condition.includes(JSON.stringify(input[16][38])) // == '"f"'
                     && condition.includes(JSON.stringify(input[17][37])) // == '"f"'
                 ) {
-                  title = 'Versorgung an [37] erforderlich?';
+                  title = 'Versorgung an 37 erforderlich?';
                 }
 
                 if(condition.includes(JSON.stringify(input[31][48])) // == '"f"'
                     && condition.includes(JSON.stringify(input[30][47])) // == '"f"'
                 ) {
-                  title = 'Versorgung an [47] erforderlich?';
+                  title = 'Versorgung an 47 erforderlich?';
                 }
+
+                if(condition.includes(JSON.stringify(input[16][38]))
+                    && condition.includes(JSON.stringify(input[17][37]))
+                    && condition.includes(JSON.stringify(input[31][48]))
+                    && condition.includes(JSON.stringify(input[30][47]))
+                ) {
+                  title = 'Versorgung an 37 und 47 erforderlich?';
+                }
+
                 text = 'Answer "Ja / Nein"';
+
+                this.$fire({
+                  text: text,
+                  title: title,
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#A55',
+                  confirmButtonText: 'Ja',
+                  cancelButtonText: 'Nein'
+                }).then((result) => {
+
+                  if (result.value) { //3.1 [0]
+                    this.displayData(response.data[1])
+                  }
+                  else { // [1] 2.xers
+                    this.displayData(response.data[0])
+                  }
+                })
               }
-              if(response.data[1][0]['Case Region'] == 'OK,UK')
+              
+              if(response.data[1]['Final'][0]['region'] == 'OK,UK')
               {
-                title = 'Versorgung an [17+/27] erforderlich? <br/> Versorgung an [37+/47] erforderlich?';
+                // title = 'Versorgung an [17+/27] erforderlich? <br/> Versorgung an [37+/47] erforderlich?';
+                // text = 'Answer "Ja / Nein"';
+
+                title = '';
+                if(condition.includes(JSON.stringify(input[0][18])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[1][17])) // == '"f"'
+                ) {
+                  title = 'Versorgung an 17 erforderlich?';
+                }
+
+                if(condition.includes(JSON.stringify(input[14][28])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[15][27])) // == '"f"'
+                ) {
+                  title = 'Versorgung an 27 erforderlich?';
+                }
+
+                if(condition.includes(JSON.stringify(input[0][18]))
+                    && condition.includes(JSON.stringify(input[1][17]))
+                    && condition.includes(JSON.stringify(input[14][28]))
+                    && condition.includes(JSON.stringify(input[15][27]))
+                ) {
+                  title = 'Versorgung an 17 und 27 erforderlich?';
+                }
+
                 text = 'Answer "Ja / Nein"';
+
+                this.$fire({
+                  text: text,
+                  title: title,
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#A55',
+                  confirmButtonText: 'Ja',
+                  cancelButtonText: 'Nein'
+                }).then((result) => {
+
+                  if (result.value) { //3.1 [0]
+                    // this.displayData(response.data[1])
+                    console.log(response.data[1][0])
+
+                    //UK
+                    title_UK = '';
+
+                    if(condition.includes(JSON.stringify(input[16][38])) // == '"f"'
+                        && condition.includes(JSON.stringify(input[17][37])) // == '"f"'
+                    ) {
+                      title_UK = 'Versorgung an 37 erforderlich?';
+                    }
+
+                    if(condition.includes(JSON.stringify(input[31][48])) // == '"f"'
+                        && condition.includes(JSON.stringify(input[30][47])) // == '"f"'
+                    ) {
+                      title_UK = 'Versorgung an 47 erforderlich?';
+                    }
+
+                    if(condition.includes(JSON.stringify(input[16][38]))
+                        && condition.includes(JSON.stringify(input[17][37]))
+                        && condition.includes(JSON.stringify(input[31][48]))
+                        && condition.includes(JSON.stringify(input[30][47]))
+                    ) {
+                      title_UK = 'Versorgung an 37 und 47 erforderlich?';
+                    }
+
+                    text_UK = 'Answer "Ja / Nein"';
+
+                    this.$fire({
+                      text: text_UK,
+                      title: title_UK,
+                      type: 'question',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#A55',
+                      confirmButtonText: 'Ja',
+                      cancelButtonText: 'Nein'
+                    }).then((result_UK) => {
+
+                      if (result_UK.value) { //3.1 [0]
+                        this.displayData(response.data[1])
+                        // console.log(response.data[1][1])
+                      }
+                      else { // [1] 2.xers
+                        this.displayData(response.data[0])
+                        // console.log(response.data[0])
+                      }
+                    })
+
+                  }
+                  else { // [1] 2.xers
+                    // this.displayData(response.data[0])
+                    console.log(response.data[0])
+
+                    //UK
+                    title_UK = '';
+
+                    if(condition.includes(JSON.stringify(input[16][38])) // == '"f"'
+                        && condition.includes(JSON.stringify(input[17][37])) // == '"f"'
+                    ) {
+                      title_UK = 'Versorgung an 37 erforderlich?';
+                    }
+
+                    if(condition.includes(JSON.stringify(input[31][48])) // == '"f"'
+                        && condition.includes(JSON.stringify(input[30][47])) // == '"f"'
+                    ) {
+                      title_UK = 'Versorgung an 47 erforderlich?';
+                    }
+
+                    if(condition.includes(JSON.stringify(input[16][38]))
+                        && condition.includes(JSON.stringify(input[17][37]))
+                        && condition.includes(JSON.stringify(input[31][48]))
+                        && condition.includes(JSON.stringify(input[30][47]))
+                    ) {
+                      title_UK = 'Versorgung an 37 und 47 erforderlich?';
+                    }
+
+                    text_UK = 'Answer "Ja / Nein"';
+
+                    this.$fire({
+                      text: text_UK,
+                      title: title_UK,
+                      type: 'question',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#A55',
+                      confirmButtonText: 'Ja',
+                      cancelButtonText: 'Nein'
+                    }).then((result_UK) => {
+
+                      if (result_UK.value) { //3.1 [0]
+                        // this.displayData(response.data[1])
+                        console.log(response.data[1][1])
+                      }
+                      else { // [1] 2.xers
+                        // this.displayData(response.data[0])
+                        console.log(response.data[0])
+                      }
+                    })
+
+
+                  }
+                })
+
+                // //UK
+                // title_UK = '';
+
+                // if(condition.includes(JSON.stringify(input[16][38])) // == '"f"'
+                //     && condition.includes(JSON.stringify(input[17][37])) // == '"f"'
+                // ) {
+                //   title_UK = 'Versorgung an 37 erforderlich?';
+                // }
+
+                // if(condition.includes(JSON.stringify(input[31][48])) // == '"f"'
+                //     && condition.includes(JSON.stringify(input[30][47])) // == '"f"'
+                // ) {
+                //   title_UK = 'Versorgung an 47 erforderlich?';
+                // }
+
+                // if(condition.includes(JSON.stringify(input[16][38]))
+                //     && condition.includes(JSON.stringify(input[17][37]))
+                //     && condition.includes(JSON.stringify(input[31][48]))
+                //     && condition.includes(JSON.stringify(input[30][47]))
+                // ) {
+                //   title_UK = 'Versorgung an 37 und 47 erforderlich?';
+                // }
+
+                // text_UK = 'Answer "Ja / Nein"';
+
+                // this.$fire({
+                //   text: text_UK,
+                //   title: title_UK,
+                //   type: 'question',
+                //   showCancelButton: true,
+                //   confirmButtonColor: '#3085d6',
+                //   cancelButtonColor: '#A55',
+                //   confirmButtonText: 'Ja',
+                //   cancelButtonText: 'Nein'
+                // }).then((result_UK) => {
+
+                //   if (result_UK.value) { //3.1 [0]
+                //     // this.displayData(response.data[1])
+                //     console.log(response.data[1][1])
+                //   }
+                //   else { // [1] 2.xers
+                //     // this.displayData(response.data[0])
+                //     console.log(response.data[0])
+                //   }
+                // })
+
               }
 
-              this.$fire({
-                text: text,
-                title: title,
-                type: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#A55',
-                confirmButtonText: 'Ja',
-                cancelButtonText: 'Nein'
-              }).then((result) => {
+              // this.$fire({
+              //   text: text,
+              //   title: title,
+              //   type: 'question',
+              //   showCancelButton: true,
+              //   confirmButtonColor: '#3085d6',
+              //   cancelButtonColor: '#A55',
+              //   confirmButtonText: 'Ja',
+              //   cancelButtonText: 'Nein'
+              // }).then((result) => {
 
-                if (result.value) { //3.1 [0]
-                  this.displayData(response.data[1])
-                }
-                else { // [1] 2.xers
-                  this.displayData(response.data[0])
-                }
-              })
+              //   if (result.value) { //3.1 [0]
+              //     this.displayData(response.data[1])
+              //   }
+              //   else { // [1] 2.xers
+              //     this.displayData(response.data[0])
+              //   }
+              // })
             }
             // if(response.data.length>1) {
             else {
