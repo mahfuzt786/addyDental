@@ -1461,16 +1461,16 @@
                   title = 'Versorgung an 17 erforderlich?';
                 }
 
-                if(condition.includes(JSON.stringify(input[14][28])) // == '"f"'
-                    && condition.includes(JSON.stringify(input[15][27])) // == '"f"'
+                if(condition.includes(JSON.stringify(input[15][28])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[14][27])) // == '"f"'
                 ) {
                   title = 'Versorgung an 27 erforderlich?';
                 }
 
                 if(condition.includes(JSON.stringify(input[0][18]))
                     && condition.includes(JSON.stringify(input[1][17]))
-                    && condition.includes(JSON.stringify(input[14][28]))
-                    && condition.includes(JSON.stringify(input[15][27]))
+                    && condition.includes(JSON.stringify(input[15][28]))
+                    && condition.includes(JSON.stringify(input[14][27]))
                 ) {
                   title = 'Versorgung an 17 und 27 erforderlich?';
                 }
@@ -1556,16 +1556,16 @@
                   title = 'Versorgung an 17 erforderlich?';
                 }
 
-                if(condition.includes(JSON.stringify(input[14][28])) // == '"f"'
-                    && condition.includes(JSON.stringify(input[15][27])) // == '"f"'
+                if(condition.includes(JSON.stringify(input[15][28])) // == '"f"'
+                    && condition.includes(JSON.stringify(input[14][27])) // == '"f"'
                 ) {
                   title = 'Versorgung an 27 erforderlich?';
                 }
 
                 if(condition.includes(JSON.stringify(input[0][18]))
                     && condition.includes(JSON.stringify(input[1][17]))
-                    && condition.includes(JSON.stringify(input[14][28]))
-                    && condition.includes(JSON.stringify(input[15][27]))
+                    && condition.includes(JSON.stringify(input[15][28]))
+                    && condition.includes(JSON.stringify(input[14][27]))
                 ) {
                   title = 'Versorgung an 17 und 27 erforderlich?';
                 }
