@@ -25,6 +25,12 @@
       <v-btn text disabled class="ma-0 pa-0" style="border-color: transparent !important; color: black !important;">
         1
       </v-btn>
+
+      <v-divider
+        vertical
+        style="border: 1px solid;"
+      ></v-divider>
+
       <v-btn text disabled class="ma-0 pa-0" style="border-color: transparent !important; color: black !important;">
         1
       </v-btn>

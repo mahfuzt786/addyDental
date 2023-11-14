@@ -22,18 +22,20 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', function () {
-    return Inertia::render("Welcome");
+    // return Inertia::render("Welcome");
+    return Inertia::render("Calculation");
  })->name('/');
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
-// Route::get('home', function () {
+/*// Route::get('home', function () {
 //     return Inertia::render("Home");
 //  })->name('home');
 
 // Route::get('calculation', function () {
 //     return Inertia::render("Calculation");
-//  })->name('calculation');
+//  })->name('calculation');*/
+
 
 Route::get('calculation', [CalculateController::class, 'index'])->name('calculation');
 

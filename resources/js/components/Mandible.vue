@@ -6,11 +6,8 @@
       :active-class="activeClass"
       background-color="transparent"
       @change="changedBtns($event)"
-      v-if="!isImportMenu"
     >
-      <v-btn :disabled="disabled" 
-        v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0" 
-        style="border-color: transparent !important;">
+      <v-btn :disabled="disabled" v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0" style="border-color: transparent !important;">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-img contain width="40" height="40" :class="/sw/.test(image.image)?'rotate-180':''" :src="image.image" v-on="on" v-bind="attrs"></v-img>
@@ -19,21 +16,7 @@
         </v-tooltip>
       </v-btn>
     </v-btn-toggle>
-
-    <v-btn :disabled="disabled"
-      v-else
-      @click="changedBtnsStatus(index)"
-        v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0 btnTgle" 
-        style="border-color: transparent !important;">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-img contain width="40" height="40" :class="/sw/.test(image.image)?'rotate-180':''" :src="image.image" v-on="on" v-bind="attrs"></v-img>
-          </template>
-          <span>{{image.toothNo}}</span>
-        </v-tooltip>
-      </v-btn>
-
-    <!-- <v-dialog v-model="showInfo" @click:outside="checkOptionSelected" width="300">
+    <v-dialog v-model="showInfo" @click:outside="checkOptionSelected" width="300">
       <v-card class="ma-0 pa-0">
         <v-radio-group v-model="selectedOption" @change="checkedOption(selectedOption)" class="ma-0" column dense>
           <v-radio
@@ -44,48 +27,6 @@
             :value="option.value"
           ></v-radio>
         </v-radio-group>
-      </v-card>
-    </v-dialog> -->
-
-    <v-dialog v-model="showInfo" width="300" 
-      @click:outside="checkOptionSelected" 
-      scrollable
-    >
-      <v-card class="ma-0 pa-0">
-        <v-card-title style="padding: 0 !important;">
-          <v-spacer></v-spacer>
-          <v-btn
-            icon
-            @click="showInfo = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-
-        <v-card-text>
-          <v-radio-group v-model="selectedOption" @change="checkedOption(selectedOption)" class="ma-0" column dense>
-            <v-radio
-              class="font-weight-bold"
-              v-for="(option, index) in optionsDisplay"
-              :key="index"
-              :label="option.text"
-              :value="option.value"
-            >          
-            </v-radio>
-          </v-radio-group>
-        </v-card-text>
-
-        <v-card-actions v-if="isImportMenu">
-          <v-spacer></v-spacer>
-          <v-btn
-            color="red darken-1"
-            text
-            @click="removeImportStatus()"
-          >
-            löschen
-          </v-btn> 
-        </v-card-actions>
-
       </v-card>
     </v-dialog>
   </div>
@@ -114,7 +55,6 @@ export default {
     activeItemImport:'active-item-import',
     activeClass: 'active-item',
     isImportMenu: false,
-    clickedBtn: '',
     options: [
       {
         text: 'a',
@@ -211,111 +151,110 @@ export default {
     ],
     optionsA: [
       {
-        text: 'aw : erneuerungsbedürftige Adhäsivbrücke (Anker)',
+        text: 'aw',
         value: 'aw'
       },
       {
-        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
+        text: 'pw',
         value: 'pw'
       },
       {
-        text: 'ww : erhaltungswürdiger Zahn mit weitgehender Zerstörung',
+        text: 'ww',
         value: 'ww'
       },
       {
-        text: 'ur : unzureichende Retention',
+        text: 'ur',
         value: 'ur'
       },
       {
-        text: 'x : nicht erhaltungswürdiger Zahn',
+        text: 'x',
         value: 'x'
-      },
+      }
     ],
     optionsAb: [
       {
-        text: 'abw : erneuerungsbedürftige Adhäsivbrücke (Brückenglied)',
+        text: 'abw',
         value: 'abw'
       }
     ],
     optionsE: [
       {
-        text: 'ew : ersetzter, aber erneuerungsbedürftiger Zahn',
+        text: 'ew',
         value: 'ew'
       }
     ],
     optionsI: [
       {
-        text: 'ix : zu entfernendes Implantat',
+        text: 'ix',
         value: 'ix'
       },
       {
-        text: 'sw : erneuerungsbedürftige Suprakonstruktion',
+        text: 'sw',
         value: 'sw'
       },
     ],
     optionsK: [
       {
-        text: 'kw : erneuerungsbedürftige Krone',
+        text: 'kw',
         value: 'kw'
       },
       {
-        text: 'ur : unzureichende Retention',
+        text: 'ur',
         value: 'ur'
       },
       {
-        text: 'x : nicht erhaltungswürdiger Zahn',
+        text: 'x',
         value: 'x'
       },
     ],
     optionsPK: [
       {
-        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
+        text: 'pw',
         value: 'pw'
       },
       {
-        text: 'ur : unzureichende Retention',
+        text: 'ur',
         value: 'ur'
       },
       {
-        text: 'x : nicht erhaltungswürdiger Zahn',
+        text: 'x',
         value: 'x'
       },
     ],
     optionsR: [
       {
-        text: 'rw : erneuerungsbedürftige Wurzelstiftkappe',
+        text: 'rw',
         value: 'rw'
       },
       {
-        text: 'ur : unzureichende Retention',
+        text: 'ur',
         value: 'ur'
       },
       {
-        text: 'x : nicht erhaltungswürdiger Zahn',
+        text: 'x',
         value: 'x'
       },
     ],
     optionsT: [
       {
-        text: 'tw : erneuerungsbedürftiges Teleskop',
+        text: 'tw',
         value: 'tw'
       },
       {
-        text: 'ur : unzureichende Retention',
+        text: 'ur',
         value: 'ur'
       },
       {
-        text: 'x : nicht erhaltungswürdiger Zahn',
+        text: 'x',
         value: 'x'
       },
     ],
     optionsB: [
       {
-        text: 'bw : erneuerungsbedürfiges Brückenglied',
+        text: 'bw',
         value: 'bw'
       },
     ],
-    e_arr_update: [],
   }),
   // computed: {
   //   disabledBtns: {
@@ -335,7 +274,12 @@ export default {
       }
     },
     manualMandible() {
-      this.isImportMenu = true
+      if(this.statusImport == true) {
+        this.activeClass = this.activeItemImport
+      }
+      else {
+        this.activeClass = this.activeItem
+      }
 
       if(this.manualMandible.length>0) {
         this.manualMandible.forEach(element => {
@@ -391,42 +335,10 @@ export default {
   },
   methods: {
     checkedOption(value) {
-      this.e_arr_update = [...new Set(this.e_arr_update)]
-
-      if(this.isImportMenu
-        && value == 'e'
-      ) {
-        this.e_arr_update.push(this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1])
-      }
-
-      //if value is ew then change in selected btn push
-      if(this.isImportMenu
-        && value == 'ew'
-        && this.e_arr_update.indexOf(this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]) > -1
-      ) {
-        for(var e=0; e<this.e_arr_update.length; e++) {
-          // console.log(this.e_arr_update[e])
-          this.selectedBtns.push({
-            index: this.e_arr_update[e],
-            value: 'ew'
-          })
-          
-          this.toothImages[this.e_arr_update[e]] = this.ew_toothImages[this.e_arr_update[e]]
-        }
-      }
-      // Else original selected btn push
-      else {
-
-        this.selectedBtns.push({
-          index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
-          value: value
-        })
-      }
-      // this.selectedBtns.push( {
-      //   index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
-      //   value: value
-      // })
-
+      this.selectedBtns.push( {
+        index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1],
+        value: value
+      })
       if(value == 'b' || value == 'ab') {
         this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]] = this.b_ab_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]]
       } else if(value == 'bw' || value == 'abw') {
@@ -468,83 +380,6 @@ export default {
       }
       this.showInfo = false
       this.$emit('btn-selected', this.selectedBtns)
-    },
-    changedBtnsStatus(eventz) {
-      console.log('eventz')
-      console.log(eventz)
-      this.optionsDisplay = this.options
-      this.isImportMenu = false
-
-      let event = []
-      event.push(eventz)
-      this.mandible_toggle_exclusive.push(eventz)
-      this.clickedBtn = eventz
-      
-      var jawArray = [...new Set(this.manualMandible)]
-      // var jawArray = [...new Set(this.selectedBtns)] 
-      var newJawArray = []
-      var newValueArray = []
-
-      jawArray.forEach(element => {
-        newValueArray.push(element.value);
-        newJawArray.push(element.index);
-      })
-
-
-      // if(newJawArray.indexOf(eventArray.at(-1))) {
-        // let index = newJawArray.indexOf(eventArray.at(-1));
-      if(newJawArray.indexOf(eventz) > -1) {
-        let index = newJawArray.indexOf(eventz);
-
-        if(newValueArray[index] == 'a') {
-          this.optionsDisplay = this.optionsA
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'ab') {
-          this.optionsDisplay = this.optionsAb
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'e') {
-          this.optionsDisplay = this.optionsE
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'i') {
-          this.optionsDisplay = this.optionsI
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'k') {
-          this.optionsDisplay = this.optionsK
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'pk') {
-          this.optionsDisplay = this.optionsPK
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'r') {
-          this.optionsDisplay = this.optionsR
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 't') {
-          this.optionsDisplay = this.optionsT
-          this.isImportMenu = true
-        }
-        else if(newValueArray[index] == 'b') {
-          this.optionsDisplay = this.optionsB
-          this.isImportMenu = true
-        }
-        else {
-          this.optionsDisplay = this.options
-          this.isImportMenu = false
-        }
-      }
-
-      this.showInfo = true
-
-      this.selectedOption = ''
-      if(event.length < 1) {
-        this.toothImages = this.$options.data(this.toothImages).toothImages
-      }
-
     },
     changedBtns(event) {
       this.optionsDisplay = this.options
@@ -620,21 +455,6 @@ export default {
       }
       this.$emit('btn-selected', this.selectedBtns)
     },
-    removeImportStatus() {
-
-      const arr = this.selectedBtns
-      var rem = []
-      
-      rem = arr.filter(arr => arr.index != this.clickedBtn);
-      // console.log(rem);
-
-      this.selectedBtns = rem
-      this.toothImages[this.clickedBtn] = this.$options.data(this.toothImages).toothImages[this.clickedBtn]
-
-      this.showInfo = false
-      
-      this.$emit('btn-selected', this.selectedBtns)
-    },
     checkOptionSelected() {
       if(!this.selectedOption) {
         this.mandible_toggle_exclusive.pop()
@@ -659,10 +479,5 @@ export default {
 
 .v-btn::before {
   background-color: transparent !important;
-}
-
-.btnTgle {
-  min-width: 48px;
-  min-height: 48px;
 }
 </style>
