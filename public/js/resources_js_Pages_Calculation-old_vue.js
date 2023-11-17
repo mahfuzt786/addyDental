@@ -3514,7 +3514,10 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "lower-jaw d-flex justify-center py-3"
+    staticClass: "lower-jaw d-flex justify-center py-3",
+    staticStyle: {
+      "margin-top": "-200px"
+    }
   }, [_c("v-btn-toggle", {
     attrs: {
       multiple: "",
@@ -3722,7 +3725,9 @@ var render = function render() {
     }
   }, [_vm._v("\n      1\n    ")]), _vm._v(" "), _c("v-divider", {
     staticStyle: {
-      border: "1px solid"
+      border: "1px solid",
+      height: "345px",
+      "margin-top": "-100px"
     },
     attrs: {
       vertical: ""

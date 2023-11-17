@@ -1,5 +1,5 @@
 <template>
-  <div class="lower-jaw d-flex justify-center py-3">
+  <div class="lower-jaw d-flex justify-center py-3" style="margin-top: -200px;">
     <v-btn-toggle
       v-model="mandible_toggle_exclusive"
       multiple

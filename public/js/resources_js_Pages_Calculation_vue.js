@@ -1700,7 +1700,8 @@ var _validEntry = function validEntry(value) {
       this.displaySecond = false;
       this.dialogCalc = false; // RESET SLIDER GOZ AMOUNT
 
-      this.sliderValue = 1;
+      this.sliderValue = 1; // this.sliderValue = 0.5
+
       var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1]);
 
       if (this.idGozSlider !== '') {
@@ -2762,7 +2763,10 @@ var render = function render() {
       "max-width": "min-content"
     }
   }, [_c("div", {
-    staticClass: "d-flex mt-12 mb-5 pa-0"
+    staticClass: "d-flex mt-12 mb-5 pa-0",
+    staticStyle: {
+      "margin-top": "5px !important"
+    }
   }, [_c("span", {
     staticClass: "pr-1"
   }, [_vm._v("Befundeingabe "), _c("a", {
@@ -2783,7 +2787,10 @@ var render = function render() {
       expression: "calculated"
     }],
     staticClass: "align-center",
-    "class": _vm.calculated ? "d-flex" : ""
+    "class": _vm.calculated ? "d-flex" : "",
+    staticStyle: {
+      "background-color": "#eee"
+    }
   }, [_c("span", {
     staticClass: "px-3"
   }, [_vm._v("TP")]), _vm._v(" "), _c("div", {
@@ -2807,41 +2814,12 @@ var render = function render() {
       }
     }, [_vm._v("\n                " + _vm._s(btn.value) + "\n              ")]);
   }), 1)], 1)]), _vm._v(" "), _c("div", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.calculated,
-      expression: "calculated"
-    }],
-    staticClass: "align-center",
-    "class": _vm.calculated ? "d-flex" : ""
-  }, [_c("span", {
-    staticClass: "px-3"
-  }, [_vm._v("RV")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-center"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      tile: "",
-      "background-color": "transparent"
-    }
-  }, _vm._l(_vm.upperJawRV, function (btn) {
-    return _c("v-btn", {
-      key: btn.index,
-      staticClass: "ma-0 pa-0",
-      staticStyle: {
-        "border-color": "transparent !important",
-        color: "black !important"
-      },
-      attrs: {
-        text: "",
-        disabled: ""
-      }
-    }, [_vm._v("\n                " + _vm._s(btn.value) + "\n              ")]);
-  }), 1)], 1)]), _vm._v(" "), _c("div", {
     staticClass: "button-container"
   }, [_c("div", {
     staticClass: "d-flex align-center"
-  }, [_c("div", {
+  }, [_c("span", {
+    staticClass: "px-3"
+  }, [_vm._v("B")]), _vm._v(" "), _c("div", {
     staticClass: "d-flex justify-center"
   }, [_c("v-btn-toggle", {
     attrs: {
@@ -2915,7 +2893,9 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "d-flex align-center"
-  }, [_c("div", {
+  }, [_c("span", {
+    staticClass: "px-3"
+  }, [_vm._v("B")]), _vm._v(" "), _c("div", {
     staticClass: "d-flex justify-center"
   }, [_c("v-btn-toggle", {
     attrs: {
@@ -2943,38 +2923,10 @@ var render = function render() {
       expression: "calculated"
     }],
     staticClass: "align-center",
-    "class": _vm.calculated ? "d-flex" : ""
-  }, [_c("span", {
-    staticClass: "px-3"
-  }, [_vm._v("RV")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-center"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      tile: "",
-      "background-color": "transparent"
+    "class": _vm.calculated ? "d-flex" : "",
+    staticStyle: {
+      "background-color": "#eee"
     }
-  }, _vm._l(_vm.MandibleRV, function (btn) {
-    return _c("v-btn", {
-      key: btn.index,
-      staticClass: "ma-0 pa-0",
-      staticStyle: {
-        "border-color": "transparent !important",
-        color: "black !important"
-      },
-      attrs: {
-        text: "",
-        disabled: ""
-      }
-    }, [_vm._v("\n                " + _vm._s(btn.value) + "\n              ")]);
-  }), 1)], 1)]), _vm._v(" "), _c("div", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.calculated,
-      expression: "calculated"
-    }],
-    staticClass: "align-center",
-    "class": _vm.calculated ? "d-flex" : ""
   }, [_c("span", {
     staticClass: "px-3"
   }, [_vm._v("TP")]), _vm._v(" "), _c("div", {
@@ -3014,29 +2966,9 @@ var render = function render() {
           domProps: {
             innerHTML: _vm._s(_vm.euro)
           }
-        })])]), _vm._v(" "), _c("tr", [_c("td", {
+        })]), _vm._v(" "), _c("td", {
           staticClass: "backColorTable"
-        }, [_vm._v(" Honorar GOZ / GOA ")]), _vm._v(" "), _c("td", {
-          staticClass: "totalAmountGoz"
-        }, [_vm._v(" " + _vm._s(_vm.totalGav) + " "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })])]), _vm._v(" "), _c("tr", [_c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Labor gewerblich ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 € ")])]), _vm._v(" "), _c("tr", [_c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Eigenlabor ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })])]), _vm._v(" "), _c("tr", [_c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Summe ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalSumCalc) + " "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })])]), _vm._v(" "), _c("tr", [_c("td", {
+        }, [_vm._v(" Labor gewerblich ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 € ")]), _vm._v(" "), _c("td", {
           staticClass: "backColorTable"
         }, [_vm._v(" Festzuschusse ")]), _vm._v(" "), _vm.apiCallSuccess ? _c("td", [_vm._v(" " + _vm._s(_vm.totalAmount) + " "), _c("span", {
           domProps: {
@@ -3044,14 +2976,41 @@ var render = function render() {
           }
         })]) : _vm._e(), _vm._v(" "), !_vm.apiCallSuccess ? _c("td", [_vm._v(" XXX,XX ")]) : _vm._e()]), _vm._v(" "), _c("tr", [_c("td", {
           staticClass: "backColorTable"
-        }, [_vm._v(" Eigenanteil Patient ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 "), _c("span", {
+        }, [_vm._v(" Honorar GOZ / GOA ")]), _vm._v(" "), _c("td", {
+          staticClass: "totalAmountGoz"
+        }, [_vm._v(" " + _vm._s(_vm.totalGav) + " "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })]), _vm._v(" "), _c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Eigenlabor ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })]), _vm._v(" "), _c("td", {
+          staticClass: "backColorTable"
+        }, [_vm._v(" Behendlungskosten ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalSumCalc) + " "), _c("span", {
+          domProps: {
+            innerHTML: _vm._s(_vm.euro)
+          }
+        })]), _vm._v(" "), _c("td", {
+          staticClass: "backColorTable",
+          staticStyle: {
+            "font-weight": "bold"
+          }
+        }, [_vm._v(" Eigenanteil Patient ")]), _vm._v(" "), _c("td", {
+          staticStyle: {
+            "font-weight": "bold"
+          }
+        }, [_vm._v(" 0.00 "), _c("span", {
           domProps: {
             innerHTML: _vm._s(_vm.euro)
           }
         })])])])];
       },
       proxy: true
-    }], null, false, 4234990059)
+    }], null, false, 1709865460)
   })], 1) : _vm._e(), _vm._v(" "), _vm.calculated ? _c("div", {
     staticClass: "my-4"
   }, [_c("div", [_vm._v("Bonus: "), _c("span", {
@@ -3282,16 +3241,16 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA name"], function (datasRV, indexRV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"], function (datasRV, indexRV) {
           return _c("tr", {
             key: indexRV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
             staticClass: "clsBemaAmount"
           }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 2972806632)
+    }], null, false, 481002504)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["RV#"] ? _c("h3", [_vm._v("Optionale BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["RV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3302,6 +3261,8 @@ var render = function render() {
       fn: function fn() {
         return [_c("thead", [_c("tr", [_c("th", {
           staticClass: "text-left"
+        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
@@ -3310,17 +3271,10 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt name"], function (datasRV, indexRV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt Region"], function (datasRV, indexRV) {
           return _c("tr", {
             key: indexRV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt Region"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
-            staticClass: "oclsBemaAmountNo",
-            attrs: {
-              id: "oBEMAAmount" + _vm.dataRV_GAV_AAV["RV#"] + indexRV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt amount"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_c("v-switch", {
+          }, [_c("td", [_c("v-switch", {
             attrs: {
               color: "success",
               value: "oBEMAAmount" + _vm.dataRV_GAV_AAV["RV#"] + indexRV + _vm.selectedCaseId,
@@ -3336,11 +3290,16 @@ var render = function render() {
               },
               expression: "optBema"
             }
-          })], 1)]);
+          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt name"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
+            staticClass: "oclsBemaAmountNo",
+            attrs: {
+              id: "oBEMAAmount" + _vm.dataRV_GAV_AAV["RV#"] + indexRV + _vm.selectedCaseId
+            }
+          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt amount"][indexRV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 2822394577)
+    }], null, false, 1720174961)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3359,16 +3318,16 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"], function (datasGAV, indexGAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
             staticClass: "clsBemaAmount"
           }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 4141267848)
+    }], null, false, 3071124040)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("Optionale BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3379,6 +3338,8 @@ var render = function render() {
       fn: function fn() {
         return [_c("thead", [_c("tr", [_c("th", {
           staticClass: "text-left"
+        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
@@ -3387,17 +3348,10 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt name"], function (datasGAV, indexGAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt Region"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt Region"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
-            staticClass: "oclsBemaAmountGavNo",
-            attrs: {
-              id: "oBEMAAmountGav" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" \n                        " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt amount"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_c("v-switch", {
+          }, [_c("td", [_c("v-switch", {
             attrs: {
               color: "success",
               value: "oBEMAAmountGav" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId,
@@ -3410,11 +3364,16 @@ var render = function render() {
               },
               expression: "optBemaGav"
             }
-          })], 1)]);
+          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt name"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
+            staticClass: "oclsBemaAmountGavNo",
+            attrs: {
+              id: "oBEMAAmountGav" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
+            }
+          }, [_vm._v(" \n                        " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt amount"][indexGAV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 1962748531)
+    }], null, false, 2160677907)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3438,10 +3397,10 @@ var render = function render() {
           }
         }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"], function (datasGAV, indexGAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"][indexGAV]))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV]))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", {
             staticStyle: {
               width: "150px"
             }
@@ -3461,13 +3420,6 @@ var render = function render() {
               change: function change($event) {
                 return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "GAV");
               }
-            },
-            model: {
-              value: _vm.sliderValue,
-              callback: function callback($$v) {
-                _vm.sliderValue = $$v;
-              },
-              expression: "sliderValue"
             }
           })], 1), _vm._v(" "), _c("td", {
             staticClass: "clsGozAmount",
@@ -3478,7 +3430,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 3400725776)
+    }], null, false, 527474)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("Optionale GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3489,6 +3441,8 @@ var render = function render() {
       fn: function fn() {
         return [_c("thead", [_c("tr", [_c("th", {
           staticClass: "text-left"
+        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
@@ -3497,20 +3451,13 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"], function (datasGAV, indexGAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region Opt"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [datasGAV ? _c("td", [_vm._v(" " + _vm._s(indexGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(datasGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region Opt"][indexGAV]))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV]))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
-            staticClass: "clsGozOptAmountNo",
-            attrs: {
-              id: "oGAVGozAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" \n                        " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount Opt"][indexGAV], "2.3")) + "\n                      ")]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_c("v-switch", {
+          }, [datasGAV ? _c("td", [_c("v-switch", {
             attrs: {
               color: "success",
-              value: "oAAVAmount" + _vm.indexAAV,
+              value: "oGAVGozAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId,
               "hide-details": ""
             },
             on: {
@@ -3523,11 +3470,16 @@ var render = function render() {
               },
               expression: "optGoz"
             }
-          })], 1) : _vm._e()]);
+          })], 1) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(indexGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV]))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(datasGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV]))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
+            staticClass: "clsGozOptAmountNo",
+            attrs: {
+              id: "oGAVGozAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
+            }
+          }, [_vm._v(" \n                        " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount Opt"][indexGAV], "2.3")) + "\n                      ")]) : _vm._e()]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 2623265539)
+    }], null, false, 1891768870)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3551,10 +3503,10 @@ var render = function render() {
           }
         }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"], function (datasAAV, indexAAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"], function (datasAAV, indexAAV) {
           return _c("tr", {
             key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
             staticStyle: {
               width: "150px"
             }
@@ -3584,7 +3536,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 3965862388)
+    }], null, false, 2843495540)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("Optionale GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3595,6 +3547,8 @@ var render = function render() {
       fn: function fn() {
         return [_c("thead", [_c("tr", [_c("th", {
           staticClass: "text-left"
+        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
@@ -3602,44 +3556,11 @@ var render = function render() {
         }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left",
-          staticStyle: {
-            width: "150px"
-          }
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"], function (datasAAV, indexAAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"], function (datasAAV, indexAAV) {
           return _c("tr", {
             key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: false,
-              id: "oAAVSlider" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "oAAV");
-              }
-            }
-          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticClass: "clsGozAmountNo",
-            attrs: {
-              id: "oAAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-switch", {
+          }, [datasAAV ? _c("td", [_c("v-switch", {
             attrs: {
               color: "success",
               value: "oAAVAmount" + indexAAV,
@@ -3655,11 +3576,16 @@ var render = function render() {
               },
               expression: "optGoz"
             }
-          })], 1) : _vm._e()]);
+          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+            staticClass: "clsGozAmountNo",
+            attrs: {
+              id: "oAAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
+            }
+          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 1066560665)
+    }], null, false, 3120569422)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOÄ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3683,10 +3609,10 @@ var render = function render() {
           }
         }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOA name"], function (datasAAV, indexAAV) {
+        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOA Region"], function (datasAAV, indexAAV) {
           return _c("tr", {
             key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOA Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOA Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOA name"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOA Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
             staticStyle: {
               width: "150px"
             }
@@ -3716,7 +3642,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 2860002546)
+    }], null, false, 2301535922)
   }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
     attrs: {
       color: "green darken-1",
@@ -4044,7 +3970,10 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "lower-jaw d-flex justify-center py-3"
+    staticClass: "lower-jaw d-flex justify-center py-3",
+    staticStyle: {
+      "margin-top": "-200px"
+    }
   }, [_c("v-btn-toggle", {
     attrs: {
       multiple: "",
@@ -4252,7 +4181,9 @@ var render = function render() {
     }
   }, [_vm._v("\n      1\n    ")]), _vm._v(" "), _c("v-divider", {
     staticStyle: {
-      border: "1px solid"
+      border: "1px solid",
+      height: "345px",
+      "margin-top": "-100px"
     },
     attrs: {
       vertical: ""
@@ -9415,7 +9346,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\n  background-color: #eeeeee;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\n  background-color: white;\n  /* width: 275px !important;\n  margin-right: 25px !important; */\n}\n.table-container .backColorTable[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.3) !important;\n}\n.ubernehmen[data-v-09e82b30] {\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\n  border: 1px solid black;\n  text-align: left;\n  padding: 8px;\n}\nth[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\n  padding-right: 0px !important;\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\n  border-radius: 0px !important;\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\n  margin: 1rem !important;\n}\n.v-btn[data-v-09e82b30]::before {\n  background-color: transparent !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\n  background-color: #eeeeee;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\n  background-color: white;\n  /* width: 275px !important;\n  margin-right: 25px !important; */\n}\n.table-container .backColorTable[data-v-09e82b30] {\n  /* background-color: rgba(255, 209, 220, 0.3) !important; */\n  background-color: #cfe2f3;\n}\n.ubernehmen[data-v-09e82b30] {\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\n  border: 1px solid black;\n  text-align: left;\n  padding: 8px;\n}\nth[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\n  padding-right: 0px !important;\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\n  border-radius: 0px !important;\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\n  margin: 1rem !important;\n}\n.v-btn[data-v-09e82b30]::before {\n  background-color: transparent !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

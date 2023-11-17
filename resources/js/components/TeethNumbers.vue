@@ -28,7 +28,7 @@
 
       <v-divider
         vertical
-        style="border: 1px solid;"
+        style="border: 1px solid; height: 345px; margin-top: -100px;"
       ></v-divider>
 
       <v-btn text disabled class="ma-0 pa-0" style="border-color: transparent !important; color: black !important;">
