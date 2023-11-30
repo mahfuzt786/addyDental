@@ -3443,6 +3443,8 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
+        }, [_vm._v("Makro-Name")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
@@ -3450,6 +3452,11 @@ var render = function render() {
         }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left",
+          staticStyle: {
+            width: "150px"
+          }
+        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region Opt"], function (datasGAV, indexGAV) {
           return _c("tr", {
@@ -3470,7 +3477,61 @@ var render = function render() {
               },
               expression: "optGoz"
             }
-          })], 1) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(indexGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV]))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(datasGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV]))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
+          })], 1) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(indexGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Opt"][indexGAV], function (datasGAVGoz, indexGAVGoz) {
+            return _c("tr", {
+              key: indexGAVGoz,
+              staticStyle: {
+                height: "120px !important"
+              }
+            }, [datasGAVGoz ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Opt"][indexGAV][indexGAVGoz]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV], function (datasGAVGozN, indexGAVGozN) {
+            return _c("tr", {
+              key: indexGAVGozN
+            }, [datasGAVGozN ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV][indexGAVGozN]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(datasGAV, function (datasGAVGozR, indexGAVGozR) {
+            return _c("tr", {
+              key: indexGAVGozR,
+              staticStyle: {
+                height: "120px !important"
+              }
+            }, [datasGAVGozR ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(datasGAV[indexGAVGozR]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV], function (datasGAVGozQ, indexGAVGozQ) {
+            return _c("tr", {
+              key: indexGAVGozQ,
+              staticStyle: {
+                height: "120px !important"
+              }
+            }, [datasGAVGozQ ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV][indexGAVGozQ]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
+            attrs: {
+              value: "1",
+              "tick-labels": _vm.ticksLabels,
+              max: 2,
+              step: "1",
+              ticks: "always",
+              "tick-size": "4",
+              "thumb-size": 36,
+              vertical: true,
+              id: "oAAVSlider" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
+            },
+            on: {
+              change: function change($event) {
+                return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount Opt"][indexGAV], "oAAV");
+              }
+            }
+          })], 1) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
             staticClass: "clsGozOptAmountNo",
             attrs: {
               id: "oGAVGozAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
@@ -3479,7 +3540,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 1891768870)
+    }], null, false, 499628323)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3549,6 +3610,8 @@ var render = function render() {
           staticClass: "text-left"
         }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
+        }, [_vm._v("Makro-Name")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left"
         }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
@@ -3556,6 +3619,11 @@ var render = function render() {
         }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+          staticClass: "text-left",
+          staticStyle: {
+            width: "150px"
+          }
+        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
           staticClass: "text-left"
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"], function (datasAAV, indexAAV) {
           return _c("tr", {
@@ -3576,16 +3644,70 @@ var render = function render() {
               },
               expression: "optGoz"
             }
-          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Opt"][indexAAV], function (datasAAVGoz, indexAAVGoz) {
+            return _c("tr", {
+              key: indexAAVGoz,
+              staticStyle: {
+                height: "120px !important"
+              }
+            }, [datasAAVGoz ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Opt"][indexAAV][indexAAVGoz]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV], function (datasAAVGozN, indexAAVGozN) {
+            return _c("tr", {
+              key: indexAAVGozN
+            }, [datasAAVGozN ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV][indexAAVGozN]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(datasAAV, function (datasAAVGozR, indexAAVGozR) {
+            return _c("tr", {
+              key: indexAAVGozR,
+              staticStyle: {
+                height: "120px !important"
+              }
+            }, [datasAAVGozR ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(datasAAV[indexAAVGozR]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV], function (datasAAVGozQ, indexAAVGozQ) {
+            return _c("tr", {
+              key: indexAAVGozQ,
+              staticStyle: {
+                height: "120px !important"
+              }
+            }, [datasAAVGozQ ? _c("td", {
+              staticClass: "insideTable"
+            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV][indexAAVGozQ]))]) : _vm._e()]);
+          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
+            attrs: {
+              value: "1",
+              "tick-labels": _vm.ticksLabels,
+              max: 2,
+              step: "1",
+              ticks: "always",
+              "tick-size": "4",
+              "thumb-size": 36,
+              vertical: true,
+              id: "oAAVSlider" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
+            },
+            on: {
+              change: function change($event) {
+                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "oAAV");
+              }
+            }
+          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
             staticClass: "clsGozAmountNo",
             attrs: {
               id: "oAAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
             }
-          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
+          }, [_vm._v(" \n                        " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 3120569422)
+    }], null, false, 932837311)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOÄ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -9346,7 +9468,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\n  background-color: #eeeeee;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\n  background-color: white;\n  /* width: 275px !important;\n  margin-right: 25px !important; */\n}\n.table-container .backColorTable[data-v-09e82b30] {\n  /* background-color: rgba(255, 209, 220, 0.3) !important; */\n  background-color: #cfe2f3;\n}\n.ubernehmen[data-v-09e82b30] {\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\n  border: 1px solid black;\n  text-align: left;\n  padding: 8px;\n}\nth[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\n  padding-right: 0px !important;\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\n  border-radius: 0px !important;\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\n  margin: 1rem !important;\n}\n.v-btn[data-v-09e82b30]::before {\n  background-color: transparent !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\n  background-color: #eeeeee;\n  width: -moz-fit-content;\n  width: fit-content;\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\n  background-color: white;\n  /* width: 275px !important;\n  margin-right: 25px !important; */\n}\n.table-container .backColorTable[data-v-09e82b30] {\n  /* background-color: rgba(255, 209, 220, 0.3) !important; */\n  background-color: #cfe2f3;\n}\n.ubernehmen[data-v-09e82b30] {\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\n  border: 1px solid black;\n  text-align: left;\n  padding: 8px;\n}\nth[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\n  padding-right: 0px !important;\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\n  border-radius: 0px !important;\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\n  margin: 1rem !important;\n}\n.v-btn[data-v-09e82b30]::before {\n  background-color: transparent !important;\n}\ntd.insideTable[data-v-09e82b30] {\n  border: none;\n  margin-bottom: 5px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

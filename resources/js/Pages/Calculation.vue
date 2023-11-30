@@ -639,11 +639,12 @@
                     <thead>
                       <tr>
                         <th class="text-left">Active / Not Active</th>
+                        <th class="text-left">Makro-Name</th>
                         <th class="text-left">GOZ-Nr.</th>
                         <th class="text-left">Leistungsbeschreibung</th>
                         <th class="text-left">Zahn/ Gebiet</th>
                         <th class="text-left">Anzahl</th>
-                        <!-- <th class="text-left" style="width: 150px;">Faktor</th> -->
+                        <th class="text-left" style="width: 150px;">Faktor</th>
                         <th class="text-left">Betrag (€)</th>
                       </tr>
                     </thead>
@@ -659,12 +660,33 @@
                           ></v-switch>
                         </td>
                         <td v-if="datasGAV"> {{indexGAV}}</td>
-                        <!-- <td v-if="datasGAV"> {{datasGAV}}</td>
-                        <td v-if="datasGAV"> {{dataRV_GAV_AAV['GAV Solution GOZ Region Opt'][indexGAV]}}</td> -->
-                        <td v-if="datasGAV"> {{dataRV_GAV_AAV['GAV Solution GOZ name Opt'][indexGAV]}}</td>
-                        <td v-if="datasGAV"> {{datasGAV}}</td>
-                        <td v-if="datasGAV"> {{dataRV_GAV_AAV['GAV Solution GOZ Quantity Opt'][indexGAV]}}</td>
-                        <!-- <td v-if="datasGAV" style="width: 150px;">
+                        <td v-if="datasGAV"> 
+                          <!-- {{dataRV_GAV_AAV['GAV Solution GOZ Opt'][indexGAV]}} -->
+                            <tr v-for="(datasGAVGoz, indexGAVGoz) in dataRV_GAV_AAV['GAV Solution GOZ Opt'][indexGAV]" :key="indexGAVGoz" style="height: 120px !important;">
+                              <td v-if="datasGAVGoz" class="insideTable"> {{dataRV_GAV_AAV['GAV Solution GOZ Opt'][indexGAV][indexGAVGoz]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasGAV"> 
+                          <!-- {{dataRV_GAV_AAV['GAV Solution GOZ name Opt'][indexGAV]}} -->
+                            <tr v-for="(datasGAVGozN, indexGAVGozN) in dataRV_GAV_AAV['GAV Solution GOZ name Opt'][indexGAV]" :key="indexGAVGozN">
+                              <td v-if="datasGAVGozN" class="insideTable"> {{dataRV_GAV_AAV['GAV Solution GOZ name Opt'][indexGAV][indexGAVGozN]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasGAV"> 
+                          <!-- {{ datasGAV }} -->
+
+                            <tr v-for="(datasGAVGozR, indexGAVGozR) in datasGAV" :key="indexGAVGozR" style="height: 120px !important;">
+                              <td v-if="datasGAVGozR" class="insideTable"> {{datasGAV[indexGAVGozR]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasGAV">
+                            <!-- {{dataRV_GAV_AAV['GAV Solution GOZ Quantity Opt'][indexGAV]}} -->
+
+                            <tr v-for="(datasGAVGozQ, indexGAVGozQ) in dataRV_GAV_AAV['GAV Solution GOZ Quantity Opt'][indexGAV]" :key="indexGAVGozQ" style="height: 120px !important;">
+                              <td v-if="datasGAVGozQ" class="insideTable"> {{dataRV_GAV_AAV['GAV Solution GOZ Quantity Opt'][indexGAV][indexGAVGozQ]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasGAV" style="width: 150px;">
                           <v-slider
                             value="1"
                             :tick-labels="ticksLabels"
@@ -673,12 +695,12 @@
                             ticks="always"
                             tick-size="4"
                             :thumb-size="36"
-                            :vertical="false"
+                            :vertical="true"
                             v-on:change="displayFak(dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId, dataRV_GAV_AAV['GAV Solution GOZ amount Opt'][indexGAV], 'oAAV')"
                             :id="'oAAVSlider'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"
                           >
                           </v-slider>
-                        </td> -->
+                        </td>
                         <td v-if="datasGAV" class="clsGozOptAmountNo" :id="'oGAVGozAmount'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"> 
                           {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount Opt'][indexGAV], '2.3') }}
                         </td>
@@ -742,11 +764,12 @@
                     <thead>
                       <tr>
                         <th class="text-left">Active / Not Active</th>
+                        <th class="text-left">Makro-Name</th>
                         <th class="text-left">GOZ-Nr.</th>
                         <th class="text-left">Leistungsbeschreibung</th>
                         <th class="text-left">Zahn/ Gebiet</th>
                         <th class="text-left">Anzahl</th>
-                        <!-- <th class="text-left" style="width: 150px;">Faktor</th> -->
+                        <th class="text-left" style="width: 150px;">Faktor</th>
                         <th class="text-left">Betrag (€)</th>
                       </tr>
                     </thead>
@@ -762,12 +785,34 @@
                           ></v-switch>
                         </td>
                         <td v-if="datasAAV"> {{indexAAV}}</td>
-                        <!-- <td v-if="datasAAV"> {{datasAAV}}</td>
-                        <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Region Opt'][indexAAV]}}</td> -->
-                        <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ name Opt'][indexAAV]}}</td>
-                        <td v-if="datasAAV"> {{datasAAV}}</td>
-                        <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV]}}</td>
-                        <!-- <td v-if="datasAAV" style="width: 150px;">
+                        <td v-if="datasAAV"> 
+                          <!-- {{dataRV_GAV_AAV['AAV Solution GOZ Opt'][indexAAV]}} -->
+                            <tr v-for="(datasAAVGoz, indexAAVGoz) in dataRV_GAV_AAV['AAV Solution GOZ Opt'][indexAAV]" :key="indexAAVGoz" style="height: 120px !important;">
+                              <td v-if="datasAAVGoz" class="insideTable"> {{dataRV_GAV_AAV['AAV Solution GOZ Opt'][indexAAV][indexAAVGoz]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasAAV"> 
+                          <!-- {{dataRV_GAV_AAV['AAV Solution GOZ name Opt'][indexAAV]}} -->
+
+                            <tr v-for="(datasAAVGozN, indexAAVGozN) in dataRV_GAV_AAV['AAV Solution GOZ name Opt'][indexAAV]" :key="indexAAVGozN">
+                              <td v-if="datasAAVGozN" class="insideTable"> {{dataRV_GAV_AAV['AAV Solution GOZ name Opt'][indexAAV][indexAAVGozN]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasAAV"> 
+                          <!-- {{ datasAAV }} -->
+
+                            <tr v-for="(datasAAVGozR, indexAAVGozR) in datasAAV" :key="indexAAVGozR" style="height: 120px !important;">
+                              <td v-if="datasAAVGozR" class="insideTable"> {{datasAAV[indexAAVGozR]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasAAV">
+                            <!-- {{dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV]}} -->
+
+                            <tr v-for="(datasAAVGozQ, indexAAVGozQ) in dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV]" :key="indexAAVGozQ" style="height: 120px !important;">
+                              <td v-if="datasAAVGozQ" class="insideTable"> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity Opt'][indexAAV][indexAAVGozQ]}}</td>
+                            </tr>
+                        </td>
+                        <td v-if="datasAAV" style="width: 150px;">
                           <v-slider
                             value="1"
                             :tick-labels="ticksLabels"
@@ -776,13 +821,14 @@
                             ticks="always"
                             tick-size="4"
                             :thumb-size="36"
-                            :vertical="false"
+                            :vertical="true"
                             v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], 'oAAV')"
                             :id="'oAAVSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
                           >
                           </v-slider>
-                        </td> -->
-                        <td v-if="datasAAV" class="clsGozAmountNo" :id="'oAAVAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], '2.3') }}
+                        </td>
+                        <td v-if="datasAAV" class="clsGozAmountNo" :id="'oAAVAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> 
+                          {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], '2.3') }}
                         </td>
                       </tr>
                     </tbody>
@@ -2732,6 +2778,11 @@ thead {
 
 .v-btn::before {
   background-color: transparent !important;
+}
+
+td.insideTable {
+  border: none;
+  margin-bottom: 5px;
 }
 
 </style>

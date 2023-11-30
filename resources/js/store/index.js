@@ -23,15 +23,14 @@ export default new Vuex.Store({
       // console.log('values', JSON.stringify(input))
       const formData = new FormData();
       formData.append('data', JSON.stringify(input));
-      // formData.append('testdata', token_send);
 
-      // console.log('values', formData)
+      // imp to load output in different structure for test and Addy
+      formData.append('ENVIRONMENT', 'PROD');
 
-
-      // return axios.post('http://localhost/dental-api/', formData)
-
+      return axios.post('http://localhost/dental-api/', formData)
       // return axios.post('https://www.alegralabs.com/syed/dental-api/', formData)
-      return axios.post('http://localhost/dental-api-QA/', formData)
+      
+      // return axios.post('http://localhost/dental-api-QA/', formData)
 
     },
     getStatusImport(_) {
