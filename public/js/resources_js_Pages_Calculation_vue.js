@@ -564,10 +564,53 @@ var _validEntry = function validEntry(value) {
       RVShortcut: '',
       TPShortcut: '',
       isTP: false,
-      selectedCaseId: ''
+      selectedCaseId: '',
+      showCaseQuesRV: false,
+      showCaseQuesGAV: false,
+      showCaseQuesAAV: false,
+      optBemaRV: null,
+      optBemaValuesRV: [],
+      // optBemaRVJa: null,
+      optBemaRVJa: [],
+      optBemaRVJa2: [],
+      optBemaRVSecond: false,
+      // optBemaRVSecond2: false,
+      optBemaRVSecond2: [],
+      // optBemaRVShow: false,
+      // optGozRVShow: false,
+      optBemaRVShow: [],
+      optGozRVShow: [],
+      optBemaGozRV: [],
+      optBemaNameRV: [],
+      optBemaPriceRV: [],
+      optGozGAV: null,
+      optGozAAV: null,
+      optGozSelected: [],
+      isPlannen: false,
+      Total_case: 0,
+      caseBemaOpt: [{
+        '18a_Name': 'Vorbereiten eines endodontisch behandelten Zahnes zur Aufnahme einer Krone, mit Verankerung im Wurzelkanal durch einen konfektionierten Stift- oder Schraubenaufbau, einzeitig',
+        '18a_Price': '54.68',
+        '18b_Name': 'Vorbereiten eines endodontisch behandelten Zahnes zur Aufnahme einer Krone, mit Verankerung im Wurzelkanal durch einen gegossenen Stiftaufbau, zweizeitig',
+        '18b_Price': '87.49',
+        '2195_Name': '...',
+        '2195_Price': '1',
+        '2197_Name': 'Adhäsive Befestigung (plastischer Aufbau, Stift, Inlay, Krone, Teilkrone, Veneer etc.)',
+        '2197_Price': '7.31'
+      }],
+      itemsMaterial: ["Zirkon monolithisch einfach", "Zirkon monolithisch multilayer", "Zirkon monolithisch multilayer bemalt", "Zirkon vollverblendet", "Emax", "NEM vollverblendet", "Gold vollverblendet"]
     };
   },
   watch: {},
+  filters: {
+    truncate: function truncate(value) {
+      if (value && value.length > 25) {
+        value = value.substring(0, 22) + '...';
+      }
+
+      return value;
+    }
+  },
   mounted: function mounted() {// var data = sessionStorage.getItem("testData");
     // this.decryptedId = CryptoJS.AES.decrypt(window.sessionStorage["testData"].toString(), 'secret key')
     // this.decryptedId = this.decryptedId.toString(CryptoJS.enc.Utf8);
@@ -592,7 +635,7 @@ var _validEntry = function validEntry(value) {
           return Number(a) + Number(b);
         }, 0).toFixed(2);
       } else {
-        return 'XXX,XX';
+        return '0.00';
       }
     },
     invalidEntries: function invalidEntries() {
@@ -674,12 +717,8 @@ var _validEntry = function validEntry(value) {
         this.overlay = true;
         this.calculateValuesApi(input).then(function (response) {
           // console.log(input)
-          // console.log(JSON.stringify(input[0][18]))
-          // console.log(JSON.stringify(input[1][17]))
-          // console.log(response.data.length)
-          console.log(response.data); // console.log(typeof(response.data[1]))
-          // console.log(typeof(response.data[1][0]))
-          // console.log(response.data[1]['Final'].length)
+          // console.log(response)
+          console.log(response.data); // console.log(response.data[1]['Final'].length)
           // console.log((response.data[1]['Final']))
 
           if (response.data.length > 1) {
@@ -989,7 +1028,9 @@ var _validEntry = function validEntry(value) {
       //     })
       //   }
       // });
-      this.tableData = responseData; // this.apiCallSuccess = true //to change teeth images
+      this.tableData = responseData;
+      this.Total_case = responseData['Total_case']; // get for Next button
+      // this.apiCallSuccess = true //to change teeth images
 
       this.dataRV_GAV_AAV = [];
       this.overlay = false;
@@ -1083,7 +1124,216 @@ var _validEntry = function validEntry(value) {
       this.optBema = [];
       this.optBemaGav = [];
       this.dialogCalc = true;
-      this.selectedCaseId = idValue; // console.log(this.dataRV_GAV_AAV)
+      this.selectedCaseId = idValue; // FOR Case questions
+      // console.log(this.dataRV_GAV_AAV)
+
+      this.optBemaValuesRV = [];
+
+      if (label == 'lblRV') {
+        if (dataValues['RV Solution BEMA Opt Region'] !== '') {
+          if (dataValues['RV Solution BEMA Region']['20a'] !== undefined) {
+            var textOpt = dataValues['RV Solution BEMA Region']['20a'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '20a' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['RV Solution BEMA Region']['20b'] !== undefined) {
+            var textOpt = dataValues['RV Solution BEMA Region']['20b'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '20b' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['RV Solution BEMA Region']['20c'] !== undefined) {
+            var textOpt = dataValues['RV Solution BEMA Region']['20c'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '20c' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['RV Solution BEMA Region']['91a'] !== undefined) {
+            var textOpt = dataValues['RV Solution BEMA Region']['91a'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91a' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['RV Solution BEMA Region']['91b'] !== undefined) {
+            var textOpt = dataValues['RV Solution BEMA Region']['91b'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91b' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['RV Solution BEMA Region']['91d'] !== undefined) {
+            var textOpt = dataValues['RV Solution BEMA Region']['91d'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+        }
+
+        if (this.optBemaValuesRV.length > 0) {
+          this.showCaseQuesRV = true;
+        }
+      }
+
+      if (label == 'lblGAV') {
+        if (dataValues['GAV Solution BEMA Opt Region'] !== '') {
+          if (dataValues['GAV Solution BEMA Region']['20a'] !== undefined) {
+            var textOpt = dataValues['GAV Solution BEMA Region']['20a'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '20a' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution BEMA Region']['20b'] !== undefined) {
+            var textOpt = dataValues['GAV Solution BEMA Region']['20b'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '20b' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution BEMA Region']['20c'] !== undefined) {
+            var textOpt = dataValues['GAV Solution BEMA Region']['20c'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '20c' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution BEMA Region']['91a'] !== undefined) {
+            var textOpt = dataValues['GAV Solution BEMA Region']['91a'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91a' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution BEMA Region']['91b'] !== undefined) {
+            var textOpt = dataValues['GAV Solution BEMA Region']['91b'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91b' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution BEMA Region']['91d'] !== undefined) {
+            var textOpt = dataValues['GAV Solution BEMA Region']['91d'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+        }
+
+        if (dataValues['GAV Solution GOZ Region'] !== '') {
+          if (dataValues['GAV Solution GOZ Region']['2210'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['2210'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['2220'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['2220'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['5010'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['5010'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['5040'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['5040'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+        }
+
+        if (this.optBemaValuesRV.length > 0) {
+          this.showCaseQuesGAV = true;
+        }
+      }
+
+      if (label == 'lblAAV') {
+        if (dataValues['AAV Solution GOZ Region'] !== '') {
+          if (dataValues['AAV Solution GOZ Region']['2210'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['2210'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['2220'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['2220'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['5010'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['5010'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['5040'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['5040'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
+              this.optBemaValuesRV.push(textOpt[to].trim());
+            }
+          }
+        }
+
+        if (this.optBemaValuesRV.length > 0) {
+          this.showCaseQuesAAV = true;
+        }
+      }
     },
     gozAmount: function gozAmount(amountGoz, factorValue) {
       return (parseFloat(factorValue) * parseFloat(amountGoz)).toFixed(2);
@@ -1580,6 +1830,9 @@ var _validEntry = function validEntry(value) {
       this.dialogRow = rowIndex;
       this.displaySecond = rowIndex;
     },
+    cancelPlanen: function cancelPlanen(rowIndex) {
+      console.log(rowIndex);
+    },
     // closePlannen(rowIndex) {
     //   console.log(rowIndex)
     //   this.dialogSolution[rowIndex] = false;
@@ -1707,7 +1960,17 @@ var _validEntry = function validEntry(value) {
       if (this.idGozSlider !== '') {
         document.getElementById(this.idGozSlider).innerHTML = oldGozAmount;
       } // RESET SLIDER GOZ AMOUNT END
+      // optgoz radio
 
+
+      if (this.optGozGAV) {// this.optGozSelected = true
+      }
+
+      if (this.optGozAAV) {// this.optGozSelected = true
+      }
+
+      this.isPlannen = true;
+      console.log(this.isPlannen);
     },
     filteredData: function filteredData(item) {
       return this.expandedDataSet.filter(function (f) {
@@ -1718,7 +1981,46 @@ var _validEntry = function validEntry(value) {
       return this.secondExpandedDataSet.filter(function (f) {
         return f.RVId == item.RVId;
       });
-    }
+    },
+    displayOptsBemaRV: function displayOptsBemaRV() {
+      if (this.optBemaRV == 'yes') {
+        this.optBemaRVSecond = true;
+      } else {
+        this.optBemaRVSecond = false; // this.optBemaRVSecond2[region] = false
+        // this.optBemaRVShow[region]    = false
+        // this.optGozRVShow[region]     = false
+      }
+    },
+    dispoptBemaRVSecond: function dispoptBemaRVSecond(region) {
+      if (this.optBemaRVJa[region] == 'gegossen') {
+        this.optBemaGozRV[region] = '18b';
+        this.optBemaNameRV[region] = this.caseBemaOpt[0]['18b_Name'];
+        this.optBemaPriceRV[region] = this.caseBemaOpt[0]['18b_Price'];
+        this.optBemaRVSecond2[region] = false;
+        this.optBemaRVShow[region] = true;
+        this.optGozRVShow[region] = false;
+      } else {
+        this.optBemaRVSecond2[region] = true;
+        this.optBemaRVShow[region] = false;
+        this.optGozRVShow[region] = false;
+      }
+    },
+    dispoptBemaRVSecond2: function dispoptBemaRVSecond2(region) {
+      if (this.optBemaRVJa2[region] == 'stift') {
+        this.optBemaGozRV[region] = '18a';
+        this.optBemaNameRV[region] = this.caseBemaOpt[0]['18a_Name'];
+        this.optBemaPriceRV[region] = this.caseBemaOpt[0]['18a_Price'];
+        this.optBemaRVShow[region] = true;
+        this.optGozRVShow[region] = false;
+      } else {
+        this.optBemaGozRV[region] = '2195, 2197';
+        this.optBemaNameRV[region] = this.caseBemaOpt[0]['2197_Name'];
+        this.optBemaPriceRV[region] = this.caseBemaOpt[0]['2197_Price'];
+        this.optBemaRVShow[region] = false;
+        this.optGozRVShow[region] = true;
+      }
+    },
+    weiterCall: function weiterCall() {}
   })
 });
 
@@ -2970,11 +3272,11 @@ var render = function render() {
           staticClass: "backColorTable"
         }, [_vm._v(" Labor gewerblich ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 € ")]), _vm._v(" "), _c("td", {
           staticClass: "backColorTable"
-        }, [_vm._v(" Festzuschusse ")]), _vm._v(" "), _vm.apiCallSuccess ? _c("td", [_vm._v(" " + _vm._s(_vm.totalAmount) + " "), _c("span", {
+        }, [_vm._v(" Festzuschusse ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalAmount) + " "), _c("span", {
           domProps: {
             innerHTML: _vm._s(_vm.euro)
           }
-        })]) : _vm._e(), _vm._v(" "), !_vm.apiCallSuccess ? _c("td", [_vm._v(" XXX,XX ")]) : _vm._e()]), _vm._v(" "), _c("tr", [_c("td", {
+        })])]), _vm._v(" "), _c("tr", [_c("td", {
           staticClass: "backColorTable"
         }, [_vm._v(" Honorar GOZ / GOA ")]), _vm._v(" "), _c("td", {
           staticClass: "totalAmountGoz"
@@ -2990,7 +3292,7 @@ var render = function render() {
           }
         })]), _vm._v(" "), _c("td", {
           staticClass: "backColorTable"
-        }, [_vm._v(" Behendlungskosten ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalSumCalc) + " "), _c("span", {
+        }, [_vm._v(" Behandlungskosten ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalSumCalc) + " "), _c("span", {
           domProps: {
             innerHTML: _vm._s(_vm.euro)
           }
@@ -2999,7 +3301,7 @@ var render = function render() {
           staticStyle: {
             "font-weight": "bold"
           }
-        }, [_vm._v(" Eigenanteil Patient ")]), _vm._v(" "), _c("td", {
+        }, [_vm._v(" Eigenanteil ")]), _vm._v(" "), _c("td", {
           staticStyle: {
             "font-weight": "bold"
           }
@@ -3010,7 +3312,7 @@ var render = function render() {
         })])])])];
       },
       proxy: true
-    }], null, false, 1709865460)
+    }], null, false, 3860779569)
   })], 1) : _vm._e(), _vm._v(" "), _vm.calculated ? _c("div", {
     staticClass: "my-4"
   }, [_c("div", [_vm._v("Bonus: "), _c("span", {
@@ -3032,11 +3334,11 @@ var render = function render() {
         }, [_vm._v("Versorgung")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.tableData, function (data, index) {
           return _c("tr", {
             key: index
-          }, [index !== "Final" ? _c("td", {
+          }, [index !== "Final" && index !== "Total_case" ? _c("td", {
             staticClass: "text-center"
-          }, [_vm._v(_vm._s(data["Case Name"]))]) : _vm._e(), _vm._v(" "), index !== "Final" ? _c("td", {
+          }, [_vm._v(_vm._s(data["Case Name"]))]) : _vm._e(), _vm._v(" "), index !== "Final" && index !== "Total_case" ? _c("td", {
             staticClass: "text-center"
-          }, [_vm._v(_vm._s(data["Case Region"]))]) : _vm._e(), _vm._v(" "), index !== "Final" ? _c("td", {
+          }, [_vm._v(_vm._s(data["Case Region"]))]) : _vm._e(), _vm._v(" "), index !== "Final" && index !== "Total_case" ? _c("td", {
             staticClass: "text-center"
           }, [_c("v-dialog", {
             attrs: {
@@ -3059,7 +3361,18 @@ var render = function render() {
                       return _vm.displayPlanen(index);
                     }
                   }
-                }, "v-btn", attrs, false), on), [_vm._v("planen")])];
+                }, "v-btn", attrs, false), on), [_vm._v("planen")]), _vm._v(" "), _c("v-btn", {
+                  attrs: {
+                    color: "red darken-1",
+                    text: "",
+                    id: "cancelPlanen" + index
+                  },
+                  on: {
+                    click: function click($event) {
+                      return _vm.cancelPlanen(index);
+                    }
+                  }
+                }, [_vm._v("ábbrechen")])];
               }
             }, {
               key: "default",
@@ -3208,7 +3521,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 3580864510)
+    }], null, false, 1729150266)
   }), _vm._v(" "), _c("v-dialog", {
     attrs: {
       "max-width": "750",
@@ -3244,63 +3557,242 @@ var render = function render() {
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"], function (datasRV, indexRV) {
           return _c("tr", {
             key: indexRV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref2) {
+                var on = _ref2.on,
+                    attrs = _ref2.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV], 25)) + "\n                            ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
             staticClass: "clsBemaAmount"
           }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 481002504)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["RV#"] ? _c("h3", [_vm._v("Optionale BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["RV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
+    }], null, false, 2440112376)
+  }) : _vm._e(), _vm._v(" "), _vm.showCaseQuesRV ? _c("div", [_c("hr"), _vm._v(" "), _c("v-radio-group", {
     attrs: {
-      outlined: ""
+      row: ""
+    },
+    on: {
+      change: function change($event) {
+        return _vm.displayOptsBemaRV();
+      }
     },
     scopedSlots: _vm._u([{
-      key: "default",
+      key: "label",
       fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt Region"], function (datasRV, indexRV) {
-          return _c("tr", {
-            key: indexRV
-          }, [_c("td", [_c("v-switch", {
-            attrs: {
-              color: "success",
-              value: "oBEMAAmount" + _vm.dataRV_GAV_AAV["RV#"] + indexRV + _vm.selectedCaseId,
-              "hide-details": ""
-            },
-            on: {
-              change: _vm.optRVBemaActivate
-            },
-            model: {
-              value: _vm.optBema,
-              callback: function callback($$v) {
-                _vm.optBema = $$v;
-              },
-              expression: "optBema"
-            }
-          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt name"][indexRV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
-            staticClass: "oclsBemaAmountNo",
-            attrs: {
-              id: "oBEMAAmount" + _vm.dataRV_GAV_AAV["RV#"] + indexRV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Opt amount"][indexRV]) + " ")])]);
-        }), 0)];
+        return [_c("h4", [_vm._v(" Werden Stift(e) benötigt? ")])];
       },
       proxy: true
-    }], null, false, 1720174961)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
+    }], null, false, 2112335337),
+    model: {
+      value: _vm.optBemaRV,
+      callback: function callback($$v) {
+        _vm.optBemaRV = $$v;
+      },
+      expression: "optBemaRV"
+    }
+  }, [_vm._v(" "), _c("v-radio", {
+    attrs: {
+      label: "Ja",
+      value: "yes"
+    }
+  }), _vm._v(" "), _c("v-radio", {
+    attrs: {
+      label: "Nein",
+      value: "no"
+    }
+  })], 1), _vm._v(" "), _vm._l(_vm.optBemaValuesRV, function (bemaRegion) {
+    return _c("div", {
+      key: bemaRegion
+    }, [_vm.optBemaRVSecond ? _c("v-radio-group", {
+      attrs: {
+        row: ""
+      },
+      on: {
+        change: function change($event) {
+          return _vm.dispoptBemaRVSecond(bemaRegion);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "label",
+        fn: function fn() {
+          return [_c("h4", [_vm._v(" " + _vm._s(bemaRegion) + " ")])];
+        },
+        proxy: true
+      }], null, true),
+      model: {
+        value: _vm.optBemaRVJa[bemaRegion],
+        callback: function callback($$v) {
+          _vm.$set(_vm.optBemaRVJa, bemaRegion, $$v);
+        },
+        expression: "optBemaRVJa[bemaRegion]"
+      }
+    }, [_vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "gegossen",
+        value: "gegossen",
+        name: bemaRegion
+      }
+    }), _vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "konfektioniert",
+        value: "konfektioniert",
+        name: bemaRegion
+      }
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVSecond2[bemaRegion] ? _c("v-radio-group", {
+      attrs: {
+        row: ""
+      },
+      on: {
+        change: function change($event) {
+          return _vm.dispoptBemaRVSecond2(bemaRegion);
+        }
+      },
+      model: {
+        value: _vm.optBemaRVJa2[bemaRegion],
+        callback: function callback($$v) {
+          _vm.$set(_vm.optBemaRVJa2, bemaRegion, $$v);
+        },
+        expression: "optBemaRVJa2[bemaRegion]"
+      }
+    }, [_c("v-radio", {
+      attrs: {
+        label: "Metallischer Stift- oder Schraubenaufbau",
+        value: "stift"
+      }
+    }), _vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "Glasfaser",
+        value: "glasfaser"
+      }
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
+      staticClass: "my-2",
+      attrs: {
+        outlined: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "default",
+        fn: function fn() {
+          return [_c("thead", [_c("tr", [_c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref3) {
+                var on = _ref3.on,
+                    attrs = _ref3.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.optBemaPriceRV[bemaRegion]) + " ")])])])];
+        },
+        proxy: true
+      }], null, true)
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optGozRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
+      staticClass: "my-2",
+      attrs: {
+        outlined: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "default",
+        fn: function fn() {
+          return [_c("thead", [_c("tr", [_c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref4) {
+                var on = _ref4.on,
+                    attrs = _ref4.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
+            attrs: {
+              value: "1",
+              "tick-labels": _vm.ticksLabels,
+              max: 2,
+              step: "1",
+              ticks: "always",
+              "tick-size": "4",
+              "thumb-size": 36,
+              vertical: false,
+              id: "GAVSliderGoz"
+            },
+            on: {
+              change: function change($event) {
+                return _vm.displayFak("id", "GAV");
+              }
+            }
+          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion], "2.3")) + " ")])])])];
+        },
+        proxy: true
+      }], null, true)
+    })], 1) : _vm._e()], 1);
+  })], 2) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
       outlined: ""
@@ -3321,59 +3813,34 @@ var render = function render() {
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref5) {
+                var on = _ref5.on,
+                    attrs = _ref5.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV], 25)) + "\n                            ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
             staticClass: "clsBemaAmount"
           }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV]) + " ")])]);
         }), 0)];
       },
       proxy: true
-    }], null, false, 3071124040)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("Optionale BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt Region"], function (datasGAV, indexGAV) {
-          return _c("tr", {
-            key: indexGAV
-          }, [_c("td", [_c("v-switch", {
-            attrs: {
-              color: "success",
-              value: "oBEMAAmountGav" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId,
-              "hide-details": ""
-            },
-            model: {
-              value: _vm.optBemaGav,
-              callback: function callback($$v) {
-                _vm.optBemaGav = $$v;
-              },
-              expression: "optBemaGav"
-            }
-          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt name"][indexGAV]) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
-            staticClass: "oclsBemaAmountGavNo",
-            attrs: {
-              id: "oBEMAAmountGav" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" \n                        " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Opt amount"][indexGAV]) + " ")])]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 2160677907)
+    }], null, false, 1214513528)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3400,7 +3867,28 @@ var render = function render() {
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"], function (datasGAV, indexGAV) {
           return _c("tr", {
             key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV]))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", {
+          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref6) {
+                var on = _ref6.on,
+                    attrs = _ref6.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV], 25)) + "\n                            ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", {
             staticStyle: {
               width: "150px"
             }
@@ -3414,7 +3902,7 @@ var render = function render() {
               "tick-size": "4",
               "thumb-size": 36,
               vertical: false,
-              id: "GAVSlider" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
+              id: "GAVSliderGoz" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
             },
             on: {
               change: function change($event) {
@@ -3430,7 +3918,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 527474)
+    }], null, false, 2157758914)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("Optionale GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3481,7 +3969,7 @@ var render = function render() {
             return _c("tr", {
               key: indexGAVGoz,
               staticStyle: {
-                height: "120px !important"
+                height: "36px !important"
               }
             }, [datasGAVGoz ? _c("td", {
               staticClass: "insideTable"
@@ -3491,12 +3979,33 @@ var render = function render() {
               key: indexGAVGozN
             }, [datasGAVGozN ? _c("td", {
               staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV][indexGAVGozN]))]) : _vm._e()]);
+            }, [_c("v-tooltip", {
+              attrs: {
+                top: "",
+                color: "success"
+              },
+              scopedSlots: _vm._u([{
+                key: "activator",
+                fn: function fn(_ref7) {
+                  var on = _ref7.on,
+                      attrs = _ref7.attrs;
+                  return [_c("v-btn", _vm._g(_vm._b({
+                    staticStyle: {
+                      "text-transform": "none !important",
+                      height: "0px !important"
+                    },
+                    attrs: {
+                      text: ""
+                    }
+                  }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV][indexGAVGozN], 25)) + "\n                                  ")])];
+                }
+              }], null, true)
+            }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV][indexGAVGozN]) + " ")])])], 1) : _vm._e()]);
           }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(datasGAV, function (datasGAVGozR, indexGAVGozR) {
             return _c("tr", {
               key: indexGAVGozR,
               staticStyle: {
-                height: "120px !important"
+                height: "36px !important"
               }
             }, [datasGAVGozR ? _c("td", {
               staticClass: "insideTable"
@@ -3505,7 +4014,7 @@ var render = function render() {
             return _c("tr", {
               key: indexGAVGozQ,
               staticStyle: {
-                height: "120px !important"
+                height: "36px !important"
               }
             }, [datasGAVGozQ ? _c("td", {
               staticClass: "insideTable"
@@ -3540,8 +4049,227 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 499628323)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
+    }], null, false, 1399651880)
+  }) : _vm._e(), _vm._v(" "), _vm.showCaseQuesGAV ? _c("div", [_c("hr"), _vm._v(" "), _c("v-radio-group", {
+    attrs: {
+      row: ""
+    },
+    on: {
+      change: function change($event) {
+        return _vm.displayOptsBemaRV();
+      }
+    },
+    scopedSlots: _vm._u([{
+      key: "label",
+      fn: function fn() {
+        return [_c("h4", [_vm._v(" Werden Stift(e) benötigt? ")])];
+      },
+      proxy: true
+    }], null, false, 2112335337),
+    model: {
+      value: _vm.optBemaRV,
+      callback: function callback($$v) {
+        _vm.optBemaRV = $$v;
+      },
+      expression: "optBemaRV"
+    }
+  }, [_vm._v(" "), _c("v-radio", {
+    attrs: {
+      label: "Ja",
+      value: "yes"
+    }
+  }), _vm._v(" "), _c("v-radio", {
+    attrs: {
+      label: "Nein",
+      value: "no"
+    }
+  })], 1), _vm._v(" "), _vm._l(_vm.optBemaValuesRV, function (bemaRegion) {
+    return _c("div", {
+      key: bemaRegion
+    }, [_vm.optBemaRVSecond ? _c("v-radio-group", {
+      attrs: {
+        row: ""
+      },
+      on: {
+        change: function change($event) {
+          return _vm.dispoptBemaRVSecond(bemaRegion);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "label",
+        fn: function fn() {
+          return [_c("h4", [_vm._v(" " + _vm._s(bemaRegion) + " ")])];
+        },
+        proxy: true
+      }], null, true),
+      model: {
+        value: _vm.optBemaRVJa[bemaRegion],
+        callback: function callback($$v) {
+          _vm.$set(_vm.optBemaRVJa, bemaRegion, $$v);
+        },
+        expression: "optBemaRVJa[bemaRegion]"
+      }
+    }, [_vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "gegossen",
+        value: "gegossen",
+        name: bemaRegion
+      }
+    }), _vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "konfektioniert",
+        value: "konfektioniert",
+        name: bemaRegion
+      }
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVSecond2[bemaRegion] ? _c("v-radio-group", {
+      attrs: {
+        row: ""
+      },
+      on: {
+        change: function change($event) {
+          return _vm.dispoptBemaRVSecond2(bemaRegion);
+        }
+      },
+      model: {
+        value: _vm.optBemaRVJa2[bemaRegion],
+        callback: function callback($$v) {
+          _vm.$set(_vm.optBemaRVJa2, bemaRegion, $$v);
+        },
+        expression: "optBemaRVJa2[bemaRegion]"
+      }
+    }, [_c("v-radio", {
+      attrs: {
+        label: "Metallischer Stift- oder Schraubenaufbau",
+        value: "stift"
+      }
+    }), _vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "Glasfaser",
+        value: "glasfaser"
+      }
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
+      staticClass: "my-2",
+      attrs: {
+        outlined: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "default",
+        fn: function fn() {
+          return [_c("thead", [_c("tr", [_c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref8) {
+                var on = _ref8.on,
+                    attrs = _ref8.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.optBemaPriceRV[bemaRegion]) + " ")])])])];
+        },
+        proxy: true
+      }], null, true)
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optGozRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
+      staticClass: "my-2",
+      attrs: {
+        outlined: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "default",
+        fn: function fn() {
+          return [_c("thead", [_c("tr", [_c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref9) {
+                var on = _ref9.on,
+                    attrs = _ref9.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", {
+            staticStyle: {
+              width: "150px"
+            }
+          }, [_c("v-slider", {
+            attrs: {
+              value: "1",
+              "tick-labels": _vm.ticksLabels,
+              max: 2,
+              step: "1",
+              ticks: "always",
+              "tick-size": "4",
+              "thumb-size": 36,
+              vertical: false,
+              id: "GAVSliderGoz"
+            },
+            on: {
+              change: function change($event) {
+                return _vm.displayFak("id", "GAV");
+              }
+            }
+          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion], "2.3")) + " ")])])])];
+        },
+        proxy: true
+      }], null, true)
+    })], 1) : _vm._e()], 1);
+  }), _vm._v(" "), _c("v-col", {
+    staticClass: "d-flex",
+    attrs: {
+      cols: "12",
+      sm: "6"
+    }
+  }, [_c("v-select", {
+    attrs: {
+      items: _vm.itemsMaterial,
+      label: "Material",
+      outlined: ""
+    }
+  })], 1)], 2) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
       outlined: ""
@@ -3567,7 +4295,28 @@ var render = function render() {
         }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"], function (datasAAV, indexAAV) {
           return _c("tr", {
             key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref10) {
+                var on = _ref10.on,
+                    attrs = _ref10.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV], 25)) + "\n                            ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV]) + " ")])])], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
             staticStyle: {
               width: "150px"
             }
@@ -3597,7 +4346,7 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 2843495540)
+    }], null, false, 4279404758)
   }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("Optionale GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
     staticClass: "my-2",
     attrs: {
@@ -3648,7 +4397,7 @@ var render = function render() {
             return _c("tr", {
               key: indexAAVGoz,
               staticStyle: {
-                height: "120px !important"
+                height: "36px !important"
               }
             }, [datasAAVGoz ? _c("td", {
               staticClass: "insideTable"
@@ -3658,12 +4407,33 @@ var render = function render() {
               key: indexAAVGozN
             }, [datasAAVGozN ? _c("td", {
               staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV][indexAAVGozN]))]) : _vm._e()]);
+            }, [_c("v-tooltip", {
+              attrs: {
+                top: "",
+                color: "success"
+              },
+              scopedSlots: _vm._u([{
+                key: "activator",
+                fn: function fn(_ref11) {
+                  var on = _ref11.on,
+                      attrs = _ref11.attrs;
+                  return [_c("v-btn", _vm._g(_vm._b({
+                    staticStyle: {
+                      "text-transform": "none !important",
+                      height: "0px !important"
+                    },
+                    attrs: {
+                      text: ""
+                    }
+                  }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV][indexAAVGozN], 25)) + "\n                                  ")])];
+                }
+              }], null, true)
+            }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV][indexAAVGozN]) + " ")])])], 1) : _vm._e()]);
           }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(datasAAV, function (datasAAVGozR, indexAAVGozR) {
             return _c("tr", {
               key: indexAAVGozR,
               staticStyle: {
-                height: "120px !important"
+                height: "36px !important"
               }
             }, [datasAAVGozR ? _c("td", {
               staticClass: "insideTable"
@@ -3672,7 +4442,7 @@ var render = function render() {
             return _c("tr", {
               key: indexAAVGozQ,
               staticStyle: {
-                height: "120px !important"
+                height: "36px !important"
               }
             }, [datasAAVGozQ ? _c("td", {
               staticClass: "insideTable"
@@ -3707,34 +4477,189 @@ var render = function render() {
         }), 0)];
       },
       proxy: true
-    }], null, false, 932837311)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOÄ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
+    }], null, false, 799421906)
+  }) : _vm._e(), _vm._v(" "), _vm.showCaseQuesAAV ? _c("div", [_c("hr"), _vm._v(" "), _c("v-radio-group", {
     attrs: {
-      outlined: ""
+      row: ""
+    },
+    on: {
+      change: function change($event) {
+        return _vm.displayOptsBemaRV();
+      }
     },
     scopedSlots: _vm._u([{
-      key: "default",
+      key: "label",
       fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("GOÄ-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left",
-          staticStyle: {
-            width: "150px"
-          }
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOA Region"], function (datasAAV, indexAAV) {
-          return _c("tr", {
-            key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOA name"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOA Region"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
+        return [_c("h4", [_vm._v(" Werden Stift(e) benötigt? ")])];
+      },
+      proxy: true
+    }], null, false, 2112335337),
+    model: {
+      value: _vm.optBemaRV,
+      callback: function callback($$v) {
+        _vm.optBemaRV = $$v;
+      },
+      expression: "optBemaRV"
+    }
+  }, [_vm._v(" "), _c("v-radio", {
+    attrs: {
+      label: "Ja",
+      value: "yes"
+    }
+  }), _vm._v(" "), _c("v-radio", {
+    attrs: {
+      label: "Nein",
+      value: "no"
+    }
+  })], 1), _vm._v(" "), _vm._l(_vm.optBemaValuesRV, function (bemaRegion) {
+    return _c("div", {
+      key: bemaRegion
+    }, [_vm.optBemaRVSecond ? _c("v-radio-group", {
+      attrs: {
+        row: ""
+      },
+      on: {
+        change: function change($event) {
+          return _vm.dispoptBemaRVSecond(bemaRegion);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "label",
+        fn: function fn() {
+          return [_c("h4", [_vm._v(" " + _vm._s(bemaRegion) + " ")])];
+        },
+        proxy: true
+      }], null, true),
+      model: {
+        value: _vm.optBemaRVJa[bemaRegion],
+        callback: function callback($$v) {
+          _vm.$set(_vm.optBemaRVJa, bemaRegion, $$v);
+        },
+        expression: "optBemaRVJa[bemaRegion]"
+      }
+    }, [_vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "gegossen",
+        value: "gegossen",
+        name: bemaRegion
+      }
+    }), _vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "konfektioniert",
+        value: "konfektioniert",
+        name: bemaRegion
+      }
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVSecond2[bemaRegion] ? _c("v-radio-group", {
+      attrs: {
+        row: ""
+      },
+      on: {
+        change: function change($event) {
+          return _vm.dispoptBemaRVSecond2(bemaRegion);
+        }
+      },
+      model: {
+        value: _vm.optBemaRVJa2[bemaRegion],
+        callback: function callback($$v) {
+          _vm.$set(_vm.optBemaRVJa2, bemaRegion, $$v);
+        },
+        expression: "optBemaRVJa2[bemaRegion]"
+      }
+    }, [_c("v-radio", {
+      attrs: {
+        label: "Metallischer Stift- oder Schraubenaufbau",
+        value: "stift"
+      }
+    }), _vm._v(" "), _c("v-radio", {
+      attrs: {
+        label: "Glasfaser",
+        value: "glasfaser"
+      }
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
+      staticClass: "my-2",
+      attrs: {
+        outlined: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "default",
+        fn: function fn() {
+          return [_c("thead", [_c("tr", [_c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref12) {
+                var on = _ref12.on,
+                    attrs = _ref12.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.optBemaPriceRV[bemaRegion]) + " ")])])])];
+        },
+        proxy: true
+      }], null, true)
+    })], 1) : _vm._e(), _vm._v(" "), _vm.optGozRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
+      staticClass: "my-2",
+      attrs: {
+        outlined: ""
+      },
+      scopedSlots: _vm._u([{
+        key: "default",
+        fn: function fn() {
+          return [_c("thead", [_c("tr", [_c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
+            staticClass: "text-left"
+          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
+            attrs: {
+              top: "",
+              color: "success"
+            },
+            scopedSlots: _vm._u([{
+              key: "activator",
+              fn: function fn(_ref13) {
+                var on = _ref13.on,
+                    attrs = _ref13.attrs;
+                return [_c("v-btn", _vm._g(_vm._b({
+                  staticStyle: {
+                    "text-transform": "none !important",
+                    height: "0px !important"
+                  },
+                  attrs: {
+                    text: ""
+                  }
+                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
+              }
+            }], null, true)
+          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", {
             staticStyle: {
               width: "150px"
             }
@@ -3748,24 +4673,31 @@ var render = function render() {
               "tick-size": "4",
               "thumb-size": 36,
               vertical: false,
-              id: "AAVSliderGoa" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
+              id: "GAVSliderGoz"
             },
             on: {
               change: function change($event) {
-                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "AAV");
+                return _vm.displayFak("id", "GAV");
               }
             }
-          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticClass: "clsGoaAmount",
-            attrs: {
-              id: "AAVAmountGoa" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOA amount"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 2301535922)
-  }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion], "2.3")) + " ")])])])];
+        },
+        proxy: true
+      }], null, true)
+    })], 1) : _vm._e()], 1);
+  }), _vm._v(" "), _c("v-col", {
+    staticClass: "d-flex",
+    attrs: {
+      cols: "12",
+      sm: "6"
+    }
+  }, [_c("v-select", {
+    attrs: {
+      items: _vm.itemsMaterial,
+      label: "Material",
+      outlined: ""
+    }
+  })], 1)], 2) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
     attrs: {
       color: "green darken-1",
       text: ""
@@ -3852,7 +4784,17 @@ var render = function render() {
     on: {
       click: _vm.apiCall
     }
-  }, [_vm._v("Zahnersatz planen")])], 1) : _vm._e()]), _vm._v(" "), _c("v-dialog", {
+  }, [_vm._v("Zahnersatz planen")])], 1) : _vm._e(), _vm._v(" "), _vm.isPlannen ? _c("div", {
+    staticClass: "d-flex col-2 pa-0 festzuschüsse-berechnen"
+  }, [_c("v-btn", {
+    attrs: {
+      elevation: "0",
+      color: "#BBDEFB"
+    },
+    on: {
+      click: _vm.weiterCall
+    }
+  }, [_vm._v("Weiter")])], 1) : _vm._e()]), _vm._v(" "), _c("v-dialog", {
     attrs: {
       width: "500"
     },
