@@ -568,8 +568,12 @@ var _validEntry = function validEntry(value) {
       showCaseQuesRV: false,
       showCaseQuesGAV: false,
       showCaseQuesAAV: false,
+      showOptGozGAV: false,
+      showOptGozGAV_: false,
       optBemaRV: null,
       optBemaValuesRV: [],
+      optGozValuesGAV: [],
+      optGozValuesGAV_: [],
       // optBemaRVJa: null,
       optBemaRVJa: [],
       optBemaRVJa2: [],
@@ -580,9 +584,18 @@ var _validEntry = function validEntry(value) {
       // optGozRVShow: false,
       optBemaRVShow: [],
       optGozRVShow: [],
+      optBemaGozArr: [],
+      optGAVGozArr: [],
+      optGAVGozArr_: [],
       optBemaGozRV: [],
       optBemaNameRV: [],
       optBemaPriceRV: [],
+      optGozGAVval: [],
+      optGozNameGAV: [],
+      optGozPriceGAV: [],
+      optGozGAVval_: [],
+      optGozNameGAV_: [],
+      optGozPriceGAV_: [],
       optGozGAV: null,
       optGozAAV: null,
       optGozSelected: [],
@@ -593,12 +606,32 @@ var _validEntry = function validEntry(value) {
         '18a_Price': '54.68',
         '18b_Name': 'Vorbereiten eines endodontisch behandelten Zahnes zur Aufnahme einer Krone, mit Verankerung im Wurzelkanal durch einen gegossenen Stiftaufbau, zweizeitig',
         '18b_Price': '87.49',
-        '2195_Name': '...',
-        '2195_Price': '1',
+        '2195_Name': 'Vorbereitung eines zerstörten Zahnes durch einen Schraubenaufbau oder Glasfaserstift o. Ä. zur Aufnahme einer Krone',
+        '2195_Price': '16.88',
         '2197_Name': 'Adhäsive Befestigung (plastischer Aufbau, Stift, Inlay, Krone, Teilkrone, Veneer etc.)',
-        '2197_Price': '7.31'
+        '2197_Price': '7.32',
+        '2180_Name': 'Vorbereitung eines zerstörten Zahnes mit plastischem Aufbaumaterial zur Aufnahme einer Krone',
+        '2180_Price': '8.44',
+        '0080_Name': 'Intraorale Oberflächenanästhesie, je Kieferhälfte oder Frontzahnbereich',
+        '0080_Price': '1.69',
+        '0090_Name': 'Intraorale Infiltrationsanästhesie',
+        '0090_Price': '3.374',
+        '9040_Name': 'Freilegen eines Implantats, und Einfügen eines oder mehrerer Aufbauelemente (z. B. eines Gingivaformers) bei einem zweiphasigen Implantatsystem',
+        '9040_Price': '35.21'
       }],
-      itemsMaterial: ["Zirkon monolithisch einfach", "Zirkon monolithisch multilayer", "Zirkon monolithisch multilayer bemalt", "Zirkon vollverblendet", "Emax", "NEM vollverblendet", "Gold vollverblendet"]
+      itemsMaterial: ["Zirkon monolithisch einfach", "Zirkon monolithisch multilayer", "Zirkon monolithisch multilayer bemalt", "Zirkon vollverblendet", "Emax", "NEM vollverblendet", "Gold vollverblendet"],
+      OptGozGAVselected: [],
+      // opt GOZ GAV op 1
+      OptGozGAVselected_: [],
+      // opt GOZ GAV op 2
+      displayOptGozGavs: false,
+      displayOptGozGavs_: false,
+      showOptGozGAVTable: [],
+      // opt GOZ GAV op 1
+      showOptGozGAV_Table: [],
+      // opt GOZ GAV op 2
+      OptGozGAVselectedReg: [],
+      OptGozGAVselectedReg_: []
     };
   },
   watch: {},
@@ -1127,7 +1160,18 @@ var _validEntry = function validEntry(value) {
       this.selectedCaseId = idValue; // FOR Case questions
       // console.log(this.dataRV_GAV_AAV)
 
-      this.optBemaValuesRV = [];
+      this.optBemaValuesRV = []; // this.showOptGozGAV = false // make opt GOZ GAV false for all
+      // reset and display different in RV, GAV, AAV for opt GOZ
+
+      this.optGozValuesGAV = [];
+      this.optGozValuesGAV_ = [];
+      this.OptGozGAVselected = [];
+      this.displayOptGozGavs = false;
+      this.displayOptGozGavs_ = false;
+      this.showOptGozGAVTable = [];
+      this.showOptGozGAV_Table = [];
+      this.OptGozGAVselectedReg = [];
+      this.OptGozGAVselectedReg_ = [];
 
       if (label == 'lblRV') {
         if (dataValues['RV Solution BEMA Opt Region'] !== '') {
@@ -1137,6 +1181,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '20a' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1146,6 +1192,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '20b' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1155,6 +1203,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '20c' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1164,6 +1214,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '91a' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1173,6 +1225,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '91b' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1182,12 +1236,31 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
         }
 
         if (this.optBemaValuesRV.length > 0) {
           this.showCaseQuesRV = true;
+          this.showCaseQuesGAV = false;
+          this.showCaseQuesAAV = false;
+        } // For opt GOZ GAV
+
+
+        if (this.optGozValuesGAV.length > 0) {
+          this.optGAVGozArr = [0, 1];
+          this.optGozGAVval = ['2180', '2197'];
+          this.optGozNameGAV = [this.caseBemaOpt[0]['2180_Name'], this.caseBemaOpt[0]['2197_Name']];
+          this.optGozPriceGAV = [this.caseBemaOpt[0]['2180_Price'], this.caseBemaOpt[0]['2197_Price']];
+        }
+
+        if (this.optGozValuesGAV_.length > 0) {
+          this.optGAVGozArr_ = [0];
+          this.optGozGAVval_ = ['2197'];
+          this.optGozNameGAV_ = [this.caseBemaOpt[0]['2197_Name']];
+          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']];
         }
       }
 
@@ -1199,6 +1272,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '20a' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1208,6 +1283,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '20b' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1217,6 +1294,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '20c' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1226,6 +1305,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '91a' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1235,6 +1316,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '91b' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
 
@@ -1244,6 +1327,8 @@ var _validEntry = function validEntry(value) {
             for (var to = 0; to < textOpt.length; to++) {
               // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
               this.optBemaValuesRV.push(textOpt[to].trim());
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
         }
@@ -1288,6 +1373,77 @@ var _validEntry = function validEntry(value) {
 
         if (this.optBemaValuesRV.length > 0) {
           this.showCaseQuesGAV = true;
+          this.showCaseQuesRV = false;
+          this.showCaseQuesAAV = false;
+        } // For opt GOZ GAV
+
+
+        if (dataValues['GAV Solution GOZ Region Opt'] !== '') {
+          if (dataValues['GAV Solution GOZ Region']['2210'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['2210'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['2220'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['2220'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['5010'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['5010'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['5040'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['5040'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['2200'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['2200'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['GAV Solution GOZ Region']['5000'] !== undefined) {
+            var textOpt = dataValues['GAV Solution GOZ Region']['5000'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+        }
+
+        if (this.optGozValuesGAV.length > 0) {
+          this.optGAVGozArr = [0, 1];
+          this.optGozGAVval = ['2180', '2197'];
+          this.optGozNameGAV = [this.caseBemaOpt[0]['2180_Name'], this.caseBemaOpt[0]['2197_Name']];
+          this.optGozPriceGAV = [this.caseBemaOpt[0]['2180_Price'], this.caseBemaOpt[0]['2197_Price']];
+        }
+
+        if (this.optGozValuesGAV_.length > 0) {
+          this.optGAVGozArr_ = [0];
+          this.optGozGAVval_ = ['2197'];
+          this.optGozNameGAV_ = [this.caseBemaOpt[0]['2197_Name']];
+          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']];
         }
       }
 
@@ -1332,7 +1488,116 @@ var _validEntry = function validEntry(value) {
 
         if (this.optBemaValuesRV.length > 0) {
           this.showCaseQuesAAV = true;
+          this.showCaseQuesRV = false;
+          this.showCaseQuesGAV = false;
+        } // For opt GOZ AAV
+
+
+        if (dataValues['AAV Solution GOZ Region Opt'] !== '') {
+          if (dataValues['AAV Solution GOZ Region']['2210'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['2210'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['2220'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['2220'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['5010'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['5010'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['5040'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['5040'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['2200'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['2200'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['5000'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['5000'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim());
+              this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
         }
+
+        if (this.optGozValuesGAV.length > 0) {
+          this.optGAVGozArr = [0, 1, 2];
+          this.optGozGAVval = ['0080', '0090', '9040'];
+          this.optGozNameGAV = [this.caseBemaOpt[0]['0080_Name'], this.caseBemaOpt[0]['0090_Name'], this.caseBemaOpt[0]['9040_Name']];
+          this.optGozPriceGAV = [this.caseBemaOpt[0]['0080_Price'], this.caseBemaOpt[0]['0090_Price'], this.caseBemaOpt[0]['9040_Price']];
+        }
+
+        if (this.optGozValuesGAV_.length > 0) {
+          this.optGAVGozArr_ = [0];
+          this.optGozGAVval_ = ['2197'];
+          this.optGozNameGAV_ = [this.caseBemaOpt[0]['2197_Name']];
+          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']];
+        }
+      }
+    },
+    optGozGavCall: function optGozGavCall() {
+      console.log(this.OptGozGAVselected);
+
+      if (this.OptGozGAVselected.indexOf("Aufbaufüllung") !== -1) {
+        this.displayOptGozGavs = true;
+      }
+
+      if (this.OptGozGAVselected.indexOf("Aufbaufüllung") == -1) {
+        this.displayOptGozGavs = false;
+      }
+
+      if (this.OptGozGAVselected_.indexOf("Adhäsive") !== -1) {
+        this.displayOptGozGavs_ = true;
+      }
+
+      if (this.OptGozGAVselected_.indexOf("Adhäsive") == -1) {
+        this.displayOptGozGavs_ = false;
+      }
+    },
+    optGozGavCallReg: function optGozGavCallReg(region) {
+      if (this.OptGozGAVselectedReg.indexOf(region) !== -1) {
+        this.showOptGozGAVTable[region] = true;
+      }
+
+      if (this.OptGozGAVselectedReg.indexOf(region) == -1) {
+        this.showOptGozGAVTable[region] = false;
+      }
+
+      if (this.OptGozGAVselectedReg_.indexOf(region) !== -1) {
+        this.showOptGozGAV_Table[region] = true;
+      }
+
+      if (this.OptGozGAVselectedReg_.indexOf(region) == -1) {
+        this.showOptGozGAV_Table[region] = false;
       }
     },
     gozAmount: function gozAmount(amountGoz, factorValue) {
@@ -2013,9 +2278,10 @@ var _validEntry = function validEntry(value) {
         this.optBemaRVShow[region] = true;
         this.optGozRVShow[region] = false;
       } else {
-        this.optBemaGozRV[region] = '2195, 2197';
-        this.optBemaNameRV[region] = this.caseBemaOpt[0]['2197_Name'];
-        this.optBemaPriceRV[region] = this.caseBemaOpt[0]['2197_Price'];
+        this.optBemaGozArr[region] = [0, 1];
+        this.optBemaGozRV[region] = ['2195', '2197'];
+        this.optBemaNameRV[region] = [this.caseBemaOpt[0]['2195_Name'], this.caseBemaOpt[0]['2197_Name']];
+        this.optBemaPriceRV[region] = [this.caseBemaOpt[0]['2195_Price'], this.caseBemaOpt[0]['2197_Price']];
         this.optBemaRVShow[region] = false;
         this.optGozRVShow[region] = true;
       }
@@ -3051,1811 +3317,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function render() {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("admin-layout", [_c("div", {
-    staticClass: "home-page mx-8 my-4"
-  }, [_c("div", {
-    staticClass: "d-flex align-center justify-space-between ma-0 pa-0"
-  }), _vm._v(" "), _c("div", {
-    staticClass: "ma-auto",
-    staticStyle: {
-      "max-width": "min-content"
-    }
-  }, [_c("div", {
-    staticClass: "d-flex mt-12 mb-5 pa-0",
-    staticStyle: {
-      "margin-top": "5px !important"
-    }
-  }, [_c("span", {
-    staticClass: "pr-1"
-  }, [_vm._v("Befundeingabe "), _c("a", {
-    on: {
-      click: function click($event) {
-        _vm.showInfo = true;
-      }
-    }
-  }, [_vm._v("info")])])]), _vm._v(" "), _c("div", {
-    staticClass: "reset-btn"
-  }), _vm._v(" "), _c("div", {
-    staticClass: "my-3"
-  }, [_c("div", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.calculated,
-      expression: "calculated"
-    }],
-    staticClass: "align-center",
-    "class": _vm.calculated ? "d-flex" : "",
-    staticStyle: {
-      "background-color": "#eee"
-    }
-  }, [_c("span", {
-    staticClass: "px-3"
-  }, [_vm._v("TP")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-center"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      tile: "",
-      "background-color": "transparent"
-    }
-  }, _vm._l(_vm.upperJawTP, function (btn) {
-    return _c("v-btn", {
-      key: btn.index,
-      staticClass: "ma-0 pa-0",
-      staticStyle: {
-        "border-color": "transparent !important",
-        color: "black !important"
-      },
-      attrs: {
-        text: "",
-        disabled: ""
-      }
-    }, [_vm._v("\n                " + _vm._s(btn.value) + "\n              ")]);
-  }), 1)], 1)]), _vm._v(" "), _c("div", {
-    staticClass: "button-container"
-  }, [_c("div", {
-    staticClass: "d-flex align-center"
-  }, [_c("span", {
-    staticClass: "px-3"
-  }, [_vm._v("B")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-center"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      tile: "",
-      "background-color": "transparent"
-    }
-  }, _vm._l(_vm.upperJawSelected, function (btn) {
-    return _c("v-btn", {
-      key: btn.index,
-      staticClass: "ma-0 pa-0 text-lowercase",
-      staticStyle: {
-        "border-color": "transparent !important",
-        color: "black !important"
-      },
-      attrs: {
-        text: "",
-        disabled: ""
-      }
-    }, [_vm._v("\n                  " + _vm._s(btn.value) + "\n                ")]);
-  }), 1)], 1), _vm._v(" "), _c("span", {
-    staticClass: "px-3"
-  }, [_c("span", {
-    staticClass: "mdi mdi-application-import",
-    staticStyle: {
-      cursor: "pointer"
-    },
-    on: {
-      click: function click($event) {
-        _vm.importDialog = true;
-      }
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "mdi mdi-trash-can-outline",
-    staticStyle: {
-      cursor: "pointer",
-      color: "darkred",
-      "font-size": "24px"
-    },
-    on: {
-      click: _vm.resetLoad
-    }
-  })])]), _vm._v(" "), _c("div", {
-    staticClass: "px-8 py-2"
-  }, [_c("UpperJaw", {
-    attrs: {
-      resetBtns: _vm.resetBtns,
-      disabled: _vm.disabled,
-      manualUpperJaw: _vm.manualUpperJaw,
-      upperJawRV: _vm.isTP ? _vm.upperJawTP : _vm.upperJawRV,
-      apiCallSuccess: _vm.apiCallSuccess,
-      statusImport: _vm.statusImport
-    },
-    on: {
-      "btn-selected": function btnSelected($event) {
-        return _vm.upperJawSelectedBtn($event);
-      }
-    }
-  }), _vm._v(" "), _c("TeethNumbers"), _vm._v(" "), _c("Mandible", {
-    attrs: {
-      resetBtns: _vm.resetBtns,
-      disabled: _vm.disabled,
-      manualMandible: _vm.manualMandible,
-      MandibleRV: _vm.isTP ? _vm.MandibleTP : _vm.MandibleRV,
-      apiCallSuccess: _vm.apiCallSuccess,
-      statusImport: _vm.statusImport
-    },
-    on: {
-      "btn-selected": function btnSelected($event) {
-        return _vm.MandibleSelectedBtn($event);
-      }
-    }
-  })], 1), _vm._v(" "), _c("div", {
-    staticClass: "d-flex align-center"
-  }, [_c("span", {
-    staticClass: "px-3"
-  }, [_vm._v("B")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-center"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      tile: "",
-      "background-color": "transparent"
-    }
-  }, _vm._l(_vm.MandibleSelected, function (btn) {
-    return _c("v-btn", {
-      key: btn.index,
-      staticClass: "ma-0 pa-0 text-lowercase",
-      staticStyle: {
-        "border-color": "transparent !important",
-        color: "black !important"
-      },
-      attrs: {
-        text: "",
-        disabled: ""
-      }
-    }, [_vm._v("\n                  " + _vm._s(btn.value) + "\n                ")]);
-  }), 1)], 1)])]), _vm._v(" "), _c("div", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.calculated,
-      expression: "calculated"
-    }],
-    staticClass: "align-center",
-    "class": _vm.calculated ? "d-flex" : "",
-    staticStyle: {
-      "background-color": "#eee"
-    }
-  }, [_c("span", {
-    staticClass: "px-3"
-  }, [_vm._v("TP")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-center"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      tile: "",
-      "background-color": "transparent"
-    }
-  }, _vm._l(_vm.MandibleTP, function (btn) {
-    return _c("v-btn", {
-      key: btn.index,
-      staticClass: "ma-0 pa-0",
-      staticStyle: {
-        "border-color": "transparent !important",
-        color: "black !important"
-      },
-      attrs: {
-        text: "",
-        disabled: ""
-      }
-    }, [_vm._v("\n                " + _vm._s(btn.value) + "\n              ")]);
-  }), 1)], 1)])]), _vm._v(" "), _vm.calculated ? _c("div", {
-    staticClass: "table-container my-3"
-  }, [_c("v-simple-table", {
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("tbody", [_c("tr", [_c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Honorar BEMA ")]), _vm._v(" "), _c("td", {
-          staticClass: "totalAmountBema"
-        }, [_vm._v(" " + _vm._s(_vm.totalBema) + " "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })]), _vm._v(" "), _c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Labor gewerblich ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 € ")]), _vm._v(" "), _c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Festzuschusse ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalAmount) + " "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })])]), _vm._v(" "), _c("tr", [_c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Honorar GOZ / GOA ")]), _vm._v(" "), _c("td", {
-          staticClass: "totalAmountGoz"
-        }, [_vm._v(" " + _vm._s(_vm.totalGav) + " "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })]), _vm._v(" "), _c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Eigenlabor ")]), _vm._v(" "), _c("td", [_vm._v(" 0.00 "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })]), _vm._v(" "), _c("td", {
-          staticClass: "backColorTable"
-        }, [_vm._v(" Behandlungskosten ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.totalSumCalc) + " "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })]), _vm._v(" "), _c("td", {
-          staticClass: "backColorTable",
-          staticStyle: {
-            "font-weight": "bold"
-          }
-        }, [_vm._v(" Eigenanteil ")]), _vm._v(" "), _c("td", {
-          staticStyle: {
-            "font-weight": "bold"
-          }
-        }, [_vm._v(" 0.00 "), _c("span", {
-          domProps: {
-            innerHTML: _vm._s(_vm.euro)
-          }
-        })])])])];
-      },
-      proxy: true
-    }], null, false, 3860779569)
-  })], 1) : _vm._e(), _vm._v(" "), _vm.calculated ? _c("div", {
-    staticClass: "my-4"
-  }, [_c("div", [_vm._v("Bonus: "), _c("span", {
-    staticClass: "font-weight-black"
-  }, [_vm._v(_vm._s(_vm.bonus) + "%")])]), _vm._v(" "), _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-center text-subtitle-1 font-weight-black"
-        }, [_vm._v("Case")]), _vm._v(" "), _c("th", {
-          staticClass: "text-center text-subtitle-1 font-weight-black"
-        }, [_vm._v("Zahn/Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-center text-subtitle-1 font-weight-black"
-        }, [_vm._v("Versorgung")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.tableData, function (data, index) {
-          return _c("tr", {
-            key: index
-          }, [index !== "Final" && index !== "Total_case" ? _c("td", {
-            staticClass: "text-center"
-          }, [_vm._v(_vm._s(data["Case Name"]))]) : _vm._e(), _vm._v(" "), index !== "Final" && index !== "Total_case" ? _c("td", {
-            staticClass: "text-center"
-          }, [_vm._v(_vm._s(data["Case Region"]))]) : _vm._e(), _vm._v(" "), index !== "Final" && index !== "Total_case" ? _c("td", {
-            staticClass: "text-center"
-          }, [_c("v-dialog", {
-            attrs: {
-              transition: "dialog-top-transition",
-              "max-width": "750",
-              persistent: ""
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref) {
-                var on = _ref.on,
-                    attrs = _ref.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  attrs: {
-                    color: "primary",
-                    id: "planen" + index
-                  },
-                  on: {
-                    click: function click($event) {
-                      return _vm.displayPlanen(index);
-                    }
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("planen")]), _vm._v(" "), _c("v-btn", {
-                  attrs: {
-                    color: "red darken-1",
-                    text: "",
-                    id: "cancelPlanen" + index
-                  },
-                  on: {
-                    click: function click($event) {
-                      return _vm.cancelPlanen(index);
-                    }
-                  }
-                }, [_vm._v("ábbrechen")])];
-              }
-            }, {
-              key: "default",
-              fn: function fn(dialogPlan) {
-                return [_c("v-card", [_c("v-card-title", {
-                  staticClass: "text-h5"
-                }, [_vm._v("\n                          " + _vm._s(data["Case Name"]) + ", " + _vm._s(data["Case Region"]) + "\n                        ")]), _vm._v(" "), _c("v-card-text", [index !== "Final" ? _c("v-simple-table", {
-                  staticClass: "my-2",
-                  attrs: {
-                    outlined: ""
-                  },
-                  scopedSlots: _vm._u([{
-                    key: "default",
-                    fn: function fn() {
-                      return [_c("tbody", [_c("tr", [_c("th", {
-                        staticClass: "text-center text-subtitle-1 font-weight-black"
-                      }, [_vm._v("Regelversorgung")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["RV Details"], function (dataRV, indexRV) {
-                        return _c("div", {
-                          key: indexRV,
-                          staticStyle: {
-                            "margin-bottom": "15px",
-                            "margin-top": "5px"
-                          }
-                        }, [_c("input", {
-                          attrs: {
-                            type: "radio",
-                            name: "RV_GAV_AAV"
-                          },
-                          domProps: {
-                            value: indexRV
-                          },
-                          on: {
-                            change: function change($event) {
-                              _vm.displayRVs("lblRV", "RV" + index + indexRV, "" + index + indexRV);
-
-                              dialogPlan.value = false;
-                            }
-                          }
-                        }), _vm._v(" "), _c("label", {
-                          attrs: {
-                            "for": indexRV,
-                            id: "lblRV" + index + indexRV
-                          }
-                        }, [_vm._v(" " + _vm._s(dataRV["RV Solution Name"]))]), _vm._v(" "), _c("textarea", {
-                          staticStyle: {
-                            display: "none"
-                          },
-                          attrs: {
-                            id: "RV" + index + indexRV
-                          }
-                        }, [_vm._v(" " + _vm._s(dataRV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
-                      }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
-                        staticClass: "text-center text-subtitle-1 font-weight-black"
-                      }, [_vm._v("Gleichartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["GAV Details"], function (dataGAV, indexGAV) {
-                        return _c("div", {
-                          key: indexGAV,
-                          staticStyle: {
-                            "margin-bottom": "15px",
-                            "margin-top": "5px"
-                          }
-                        }, [_c("input", {
-                          attrs: {
-                            type: "radio",
-                            name: "RV_GAV_AAV"
-                          },
-                          domProps: {
-                            value: indexGAV
-                          },
-                          on: {
-                            change: function change($event) {
-                              _vm.displayRVs("lblGAV", "GAV" + index + indexGAV, "" + index + indexGAV);
-
-                              dialogPlan.value = false;
-                            }
-                          }
-                        }), _vm._v(" "), _c("label", {
-                          attrs: {
-                            "for": indexGAV,
-                            id: "lblGAV" + index + indexGAV
-                          }
-                        }, [_vm._v(" " + _vm._s(dataGAV["GAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
-                          staticStyle: {
-                            display: "none"
-                          },
-                          attrs: {
-                            id: "GAV" + index + indexGAV
-                          }
-                        }, [_vm._v(" " + _vm._s(dataGAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
-                      }), 0)]), _vm._v(" "), _c("tr", [_c("th", {
-                        staticClass: "text-center text-subtitle-1 font-weight-black"
-                      }, [_vm._v("Andersartiger Zahnersatz")])]), _vm._v(" "), _c("tr", [_c("td", _vm._l(data["AAV Details"], function (dataAAV, indexAAV) {
-                        return _c("div", {
-                          key: indexAAV,
-                          staticStyle: {
-                            "margin-bottom": "15px",
-                            "margin-top": "5px"
-                          }
-                        }, [_c("input", {
-                          attrs: {
-                            type: "radio",
-                            name: "RV_GAV_AAV"
-                          },
-                          domProps: {
-                            value: indexAAV
-                          },
-                          on: {
-                            change: function change($event) {
-                              _vm.displayRVs("lblAAV", "AAV" + index + indexAAV, "" + index + indexAAV);
-
-                              dialogPlan.value = false;
-                            }
-                          }
-                        }), _vm._v(" "), _c("label", {
-                          attrs: {
-                            "for": indexAAV,
-                            id: "lblAAV" + index + indexAAV
-                          }
-                        }, [_vm._v(" " + _vm._s(dataAAV["AAV Solution Name"]))]), _vm._v(" "), _c("textarea", {
-                          staticStyle: {
-                            display: "none"
-                          },
-                          attrs: {
-                            id: "AAV" + index + indexAAV
-                          }
-                        }, [_vm._v(" " + _vm._s(dataAAV) + " ")]), _vm._v(" "), _c("v-divider")], 1);
-                      }), 0)])])];
-                    },
-                    proxy: true
-                  }], null, true)
-                }) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", {
-                  staticClass: "justify-end"
-                }, [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
-                  attrs: {
-                    color: "red darken-1",
-                    text: ""
-                  },
-                  on: {
-                    click: function click($event) {
-                      dialogPlan.value = false;
-                    }
-                  }
-                }, [_vm._v("\n                            abbrechen\n                          ")])], 1)], 1)];
-              }
-            }], null, true)
-          })], 1) : _vm._e()]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 1729150266)
-  }), _vm._v(" "), _c("v-dialog", {
-    attrs: {
-      "max-width": "750",
-      persistent: ""
-    },
-    model: {
-      value: _vm.dialogCalc,
-      callback: function callback($$v) {
-        _vm.dialogCalc = $$v;
-      },
-      expression: "dialogCalc"
-    }
-  }, [_c("v-card", [_c("v-card-title", {
-    staticClass: "text-h5"
-  }), _vm._v(" "), _c("v-card-text", [_vm.dataRV_GAV_AAV["RV#"] ? _c("h3", [_vm._v("BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["RV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"], function (datasRV, indexRV) {
-          return _c("tr", {
-            key: indexRV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexRV))]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref2) {
-                var on = _ref2.on,
-                    attrs = _ref2.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV], 25)) + "\n                            ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasRV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV]) + " ")]), _vm._v(" "), _c("td", {
-            staticClass: "clsBemaAmount"
-          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV]) + " ")])]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 2440112376)
-  }) : _vm._e(), _vm._v(" "), _vm.showCaseQuesRV ? _c("div", [_c("hr"), _vm._v(" "), _c("v-radio-group", {
-    attrs: {
-      row: ""
-    },
-    on: {
-      change: function change($event) {
-        return _vm.displayOptsBemaRV();
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "label",
-      fn: function fn() {
-        return [_c("h4", [_vm._v(" Werden Stift(e) benötigt? ")])];
-      },
-      proxy: true
-    }], null, false, 2112335337),
-    model: {
-      value: _vm.optBemaRV,
-      callback: function callback($$v) {
-        _vm.optBemaRV = $$v;
-      },
-      expression: "optBemaRV"
-    }
-  }, [_vm._v(" "), _c("v-radio", {
-    attrs: {
-      label: "Ja",
-      value: "yes"
-    }
-  }), _vm._v(" "), _c("v-radio", {
-    attrs: {
-      label: "Nein",
-      value: "no"
-    }
-  })], 1), _vm._v(" "), _vm._l(_vm.optBemaValuesRV, function (bemaRegion) {
-    return _c("div", {
-      key: bemaRegion
-    }, [_vm.optBemaRVSecond ? _c("v-radio-group", {
-      attrs: {
-        row: ""
-      },
-      on: {
-        change: function change($event) {
-          return _vm.dispoptBemaRVSecond(bemaRegion);
-        }
-      },
-      scopedSlots: _vm._u([{
-        key: "label",
-        fn: function fn() {
-          return [_c("h4", [_vm._v(" " + _vm._s(bemaRegion) + " ")])];
-        },
-        proxy: true
-      }], null, true),
-      model: {
-        value: _vm.optBemaRVJa[bemaRegion],
-        callback: function callback($$v) {
-          _vm.$set(_vm.optBemaRVJa, bemaRegion, $$v);
-        },
-        expression: "optBemaRVJa[bemaRegion]"
-      }
-    }, [_vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "gegossen",
-        value: "gegossen",
-        name: bemaRegion
-      }
-    }), _vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "konfektioniert",
-        value: "konfektioniert",
-        name: bemaRegion
-      }
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVSecond2[bemaRegion] ? _c("v-radio-group", {
-      attrs: {
-        row: ""
-      },
-      on: {
-        change: function change($event) {
-          return _vm.dispoptBemaRVSecond2(bemaRegion);
-        }
-      },
-      model: {
-        value: _vm.optBemaRVJa2[bemaRegion],
-        callback: function callback($$v) {
-          _vm.$set(_vm.optBemaRVJa2, bemaRegion, $$v);
-        },
-        expression: "optBemaRVJa2[bemaRegion]"
-      }
-    }, [_c("v-radio", {
-      attrs: {
-        label: "Metallischer Stift- oder Schraubenaufbau",
-        value: "stift"
-      }
-    }), _vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "Glasfaser",
-        value: "glasfaser"
-      }
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
-      staticClass: "my-2",
-      attrs: {
-        outlined: ""
-      },
-      scopedSlots: _vm._u([{
-        key: "default",
-        fn: function fn() {
-          return [_c("thead", [_c("tr", [_c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref3) {
-                var on = _ref3.on,
-                    attrs = _ref3.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.optBemaPriceRV[bemaRegion]) + " ")])])])];
-        },
-        proxy: true
-      }], null, true)
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optGozRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
-      staticClass: "my-2",
-      attrs: {
-        outlined: ""
-      },
-      scopedSlots: _vm._u([{
-        key: "default",
-        fn: function fn() {
-          return [_c("thead", [_c("tr", [_c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref4) {
-                var on = _ref4.on,
-                    attrs = _ref4.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: false,
-              id: "GAVSliderGoz"
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak("id", "GAV");
-              }
-            }
-          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion], "2.3")) + " ")])])])];
-        },
-        proxy: true
-      }], null, true)
-    })], 1) : _vm._e()], 1);
-  })], 2) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("BEMA-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"], function (datasGAV, indexGAV) {
-          return _c("tr", {
-            key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref5) {
-                var on = _ref5.on,
-                    attrs = _ref5.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV], 25)) + "\n                            ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV) + " ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV]) + " ")]), _vm._v(" "), _c("td", {
-            staticClass: "clsBemaAmount"
-          }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV]) + " ")])]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 1214513528)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left",
-          staticStyle: {
-            width: "150px"
-          }
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"], function (datasGAV, indexGAV) {
-          return _c("tr", {
-            key: indexGAV
-          }, [_c("td", [_vm._v(" " + _vm._s(indexGAV))]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref6) {
-                var on = _ref6.on,
-                    attrs = _ref6.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV], 25)) + "\n                            ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(datasGAV))]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]), _vm._v(" "), _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: false,
-              id: "GAVSliderGoz" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "GAV");
-              }
-            }
-          })], 1), _vm._v(" "), _c("td", {
-            staticClass: "clsGozAmount",
-            attrs: {
-              id: "GAVAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV], "2.3")) + "\n                      ")])]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 2157758914)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("h3", [_vm._v("Optionale GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["GAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Makro-Name")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left",
-          staticStyle: {
-            width: "150px"
-          }
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region Opt"], function (datasGAV, indexGAV) {
-          return _c("tr", {
-            key: indexGAV
-          }, [datasGAV ? _c("td", [_c("v-switch", {
-            attrs: {
-              color: "success",
-              value: "oGAVGozAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId,
-              "hide-details": ""
-            },
-            on: {
-              change: _vm.optGozActivate
-            },
-            model: {
-              value: _vm.optGoz,
-              callback: function callback($$v) {
-                _vm.optGoz = $$v;
-              },
-              expression: "optGoz"
-            }
-          })], 1) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", [_vm._v(" " + _vm._s(indexGAV))]) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Opt"][indexGAV], function (datasGAVGoz, indexGAVGoz) {
-            return _c("tr", {
-              key: indexGAVGoz,
-              staticStyle: {
-                height: "36px !important"
-              }
-            }, [datasGAVGoz ? _c("td", {
-              staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Opt"][indexGAV][indexGAVGoz]))]) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV], function (datasGAVGozN, indexGAVGozN) {
-            return _c("tr", {
-              key: indexGAVGozN
-            }, [datasGAVGozN ? _c("td", {
-              staticClass: "insideTable"
-            }, [_c("v-tooltip", {
-              attrs: {
-                top: "",
-                color: "success"
-              },
-              scopedSlots: _vm._u([{
-                key: "activator",
-                fn: function fn(_ref7) {
-                  var on = _ref7.on,
-                      attrs = _ref7.attrs;
-                  return [_c("v-btn", _vm._g(_vm._b({
-                    staticStyle: {
-                      "text-transform": "none !important",
-                      height: "0px !important"
-                    },
-                    attrs: {
-                      text: ""
-                    }
-                  }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV][indexGAVGozN], 25)) + "\n                                  ")])];
-                }
-              }], null, true)
-            }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name Opt"][indexGAV][indexGAVGozN]) + " ")])])], 1) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(datasGAV, function (datasGAVGozR, indexGAVGozR) {
-            return _c("tr", {
-              key: indexGAVGozR,
-              staticStyle: {
-                height: "36px !important"
-              }
-            }, [datasGAVGozR ? _c("td", {
-              staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(datasGAV[indexGAVGozR]))]) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV], function (datasGAVGozQ, indexGAVGozQ) {
-            return _c("tr", {
-              key: indexGAVGozQ,
-              staticStyle: {
-                height: "36px !important"
-              }
-            }, [datasGAVGozQ ? _c("td", {
-              staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity Opt"][indexGAV][indexGAVGozQ]))]) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: true,
-              id: "oAAVSlider" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["GAV Solution GOZ amount Opt"][indexGAV], "oAAV");
-              }
-            }
-          })], 1) : _vm._e(), _vm._v(" "), datasGAV ? _c("td", {
-            staticClass: "clsGozOptAmountNo",
-            attrs: {
-              id: "oGAVGozAmount" + _vm.dataRV_GAV_AAV["GAV#"] + indexGAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" \n                        " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount Opt"][indexGAV], "2.3")) + "\n                      ")]) : _vm._e()]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 1399651880)
-  }) : _vm._e(), _vm._v(" "), _vm.showCaseQuesGAV ? _c("div", [_c("hr"), _vm._v(" "), _c("v-radio-group", {
-    attrs: {
-      row: ""
-    },
-    on: {
-      change: function change($event) {
-        return _vm.displayOptsBemaRV();
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "label",
-      fn: function fn() {
-        return [_c("h4", [_vm._v(" Werden Stift(e) benötigt? ")])];
-      },
-      proxy: true
-    }], null, false, 2112335337),
-    model: {
-      value: _vm.optBemaRV,
-      callback: function callback($$v) {
-        _vm.optBemaRV = $$v;
-      },
-      expression: "optBemaRV"
-    }
-  }, [_vm._v(" "), _c("v-radio", {
-    attrs: {
-      label: "Ja",
-      value: "yes"
-    }
-  }), _vm._v(" "), _c("v-radio", {
-    attrs: {
-      label: "Nein",
-      value: "no"
-    }
-  })], 1), _vm._v(" "), _vm._l(_vm.optBemaValuesRV, function (bemaRegion) {
-    return _c("div", {
-      key: bemaRegion
-    }, [_vm.optBemaRVSecond ? _c("v-radio-group", {
-      attrs: {
-        row: ""
-      },
-      on: {
-        change: function change($event) {
-          return _vm.dispoptBemaRVSecond(bemaRegion);
-        }
-      },
-      scopedSlots: _vm._u([{
-        key: "label",
-        fn: function fn() {
-          return [_c("h4", [_vm._v(" " + _vm._s(bemaRegion) + " ")])];
-        },
-        proxy: true
-      }], null, true),
-      model: {
-        value: _vm.optBemaRVJa[bemaRegion],
-        callback: function callback($$v) {
-          _vm.$set(_vm.optBemaRVJa, bemaRegion, $$v);
-        },
-        expression: "optBemaRVJa[bemaRegion]"
-      }
-    }, [_vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "gegossen",
-        value: "gegossen",
-        name: bemaRegion
-      }
-    }), _vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "konfektioniert",
-        value: "konfektioniert",
-        name: bemaRegion
-      }
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVSecond2[bemaRegion] ? _c("v-radio-group", {
-      attrs: {
-        row: ""
-      },
-      on: {
-        change: function change($event) {
-          return _vm.dispoptBemaRVSecond2(bemaRegion);
-        }
-      },
-      model: {
-        value: _vm.optBemaRVJa2[bemaRegion],
-        callback: function callback($$v) {
-          _vm.$set(_vm.optBemaRVJa2, bemaRegion, $$v);
-        },
-        expression: "optBemaRVJa2[bemaRegion]"
-      }
-    }, [_c("v-radio", {
-      attrs: {
-        label: "Metallischer Stift- oder Schraubenaufbau",
-        value: "stift"
-      }
-    }), _vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "Glasfaser",
-        value: "glasfaser"
-      }
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
-      staticClass: "my-2",
-      attrs: {
-        outlined: ""
-      },
-      scopedSlots: _vm._u([{
-        key: "default",
-        fn: function fn() {
-          return [_c("thead", [_c("tr", [_c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref8) {
-                var on = _ref8.on,
-                    attrs = _ref8.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.optBemaPriceRV[bemaRegion]) + " ")])])])];
-        },
-        proxy: true
-      }], null, true)
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optGozRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
-      staticClass: "my-2",
-      attrs: {
-        outlined: ""
-      },
-      scopedSlots: _vm._u([{
-        key: "default",
-        fn: function fn() {
-          return [_c("thead", [_c("tr", [_c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref9) {
-                var on = _ref9.on,
-                    attrs = _ref9.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: false,
-              id: "GAVSliderGoz"
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak("id", "GAV");
-              }
-            }
-          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion], "2.3")) + " ")])])])];
-        },
-        proxy: true
-      }], null, true)
-    })], 1) : _vm._e()], 1);
-  }), _vm._v(" "), _c("v-col", {
-    staticClass: "d-flex",
-    attrs: {
-      cols: "12",
-      sm: "6"
-    }
-  }, [_c("v-select", {
-    attrs: {
-      items: _vm.itemsMaterial,
-      label: "Material",
-      outlined: ""
-    }
-  })], 1)], 2) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left",
-          staticStyle: {
-            width: "150px"
-          }
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"], function (datasAAV, indexAAV) {
-          return _c("tr", {
-            key: indexAAV
-          }, [datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref10) {
-                var on = _ref10.on,
-                    attrs = _ref10.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                              " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV], 25)) + "\n                            ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV]) + " ")])])], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(datasAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: false,
-              id: "AAVSlider" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "AAV");
-              }
-            }
-          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticClass: "clsGozAmount",
-            attrs: {
-              id: "AAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 4279404758)
-  }) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("h3", [_vm._v("Optionale GOZ-Positionen")]) : _vm._e(), _vm._v(" "), _vm.dataRV_GAV_AAV["AAV#"] ? _c("v-simple-table", {
-    staticClass: "my-2",
-    attrs: {
-      outlined: ""
-    },
-    scopedSlots: _vm._u([{
-      key: "default",
-      fn: function fn() {
-        return [_c("thead", [_c("tr", [_c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Active / Not Active")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Makro-Name")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left",
-          staticStyle: {
-            width: "150px"
-          }
-        }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-          staticClass: "text-left"
-        }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region Opt"], function (datasAAV, indexAAV) {
-          return _c("tr", {
-            key: indexAAV
-          }, [datasAAV ? _c("td", [_c("v-switch", {
-            attrs: {
-              color: "success",
-              value: "oAAVAmount" + indexAAV,
-              "hide-details": ""
-            },
-            on: {
-              change: _vm.optGozActivate
-            },
-            model: {
-              value: _vm.optGoz,
-              callback: function callback($$v) {
-                _vm.optGoz = $$v;
-              },
-              expression: "optGoz"
-            }
-          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", [_vm._v(" " + _vm._s(indexAAV))]) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Opt"][indexAAV], function (datasAAVGoz, indexAAVGoz) {
-            return _c("tr", {
-              key: indexAAVGoz,
-              staticStyle: {
-                height: "36px !important"
-              }
-            }, [datasAAVGoz ? _c("td", {
-              staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Opt"][indexAAV][indexAAVGoz]))]) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV], function (datasAAVGozN, indexAAVGozN) {
-            return _c("tr", {
-              key: indexAAVGozN
-            }, [datasAAVGozN ? _c("td", {
-              staticClass: "insideTable"
-            }, [_c("v-tooltip", {
-              attrs: {
-                top: "",
-                color: "success"
-              },
-              scopedSlots: _vm._u([{
-                key: "activator",
-                fn: function fn(_ref11) {
-                  var on = _ref11.on,
-                      attrs = _ref11.attrs;
-                  return [_c("v-btn", _vm._g(_vm._b({
-                    staticStyle: {
-                      "text-transform": "none !important",
-                      height: "0px !important"
-                    },
-                    attrs: {
-                      text: ""
-                    }
-                  }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV][indexAAVGozN], 25)) + "\n                                  ")])];
-                }
-              }], null, true)
-            }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name Opt"][indexAAV][indexAAVGozN]) + " ")])])], 1) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(datasAAV, function (datasAAVGozR, indexAAVGozR) {
-            return _c("tr", {
-              key: indexAAVGozR,
-              staticStyle: {
-                height: "36px !important"
-              }
-            }, [datasAAVGozR ? _c("td", {
-              staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(datasAAV[indexAAVGozR]))]) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", _vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV], function (datasAAVGozQ, indexAAVGozQ) {
-            return _c("tr", {
-              key: indexAAVGozQ,
-              staticStyle: {
-                height: "36px !important"
-              }
-            }, [datasAAVGozQ ? _c("td", {
-              staticClass: "insideTable"
-            }, [_vm._v(" " + _vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity Opt"][indexAAV][indexAAVGozQ]))]) : _vm._e()]);
-          }), 0) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: true,
-              id: "oAAVSlider" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId, _vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "oAAV");
-              }
-            }
-          })], 1) : _vm._e(), _vm._v(" "), datasAAV ? _c("td", {
-            staticClass: "clsGozAmountNo",
-            attrs: {
-              id: "oAAVAmount" + _vm.dataRV_GAV_AAV["AAV#"] + indexAAV + _vm.selectedCaseId
-            }
-          }, [_vm._v(" \n                        " + _vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount Opt"][indexAAV], "2.3")) + "\n                      ")]) : _vm._e()]);
-        }), 0)];
-      },
-      proxy: true
-    }], null, false, 799421906)
-  }) : _vm._e(), _vm._v(" "), _vm.showCaseQuesAAV ? _c("div", [_c("hr"), _vm._v(" "), _c("v-radio-group", {
-    attrs: {
-      row: ""
-    },
-    on: {
-      change: function change($event) {
-        return _vm.displayOptsBemaRV();
-      }
-    },
-    scopedSlots: _vm._u([{
-      key: "label",
-      fn: function fn() {
-        return [_c("h4", [_vm._v(" Werden Stift(e) benötigt? ")])];
-      },
-      proxy: true
-    }], null, false, 2112335337),
-    model: {
-      value: _vm.optBemaRV,
-      callback: function callback($$v) {
-        _vm.optBemaRV = $$v;
-      },
-      expression: "optBemaRV"
-    }
-  }, [_vm._v(" "), _c("v-radio", {
-    attrs: {
-      label: "Ja",
-      value: "yes"
-    }
-  }), _vm._v(" "), _c("v-radio", {
-    attrs: {
-      label: "Nein",
-      value: "no"
-    }
-  })], 1), _vm._v(" "), _vm._l(_vm.optBemaValuesRV, function (bemaRegion) {
-    return _c("div", {
-      key: bemaRegion
-    }, [_vm.optBemaRVSecond ? _c("v-radio-group", {
-      attrs: {
-        row: ""
-      },
-      on: {
-        change: function change($event) {
-          return _vm.dispoptBemaRVSecond(bemaRegion);
-        }
-      },
-      scopedSlots: _vm._u([{
-        key: "label",
-        fn: function fn() {
-          return [_c("h4", [_vm._v(" " + _vm._s(bemaRegion) + " ")])];
-        },
-        proxy: true
-      }], null, true),
-      model: {
-        value: _vm.optBemaRVJa[bemaRegion],
-        callback: function callback($$v) {
-          _vm.$set(_vm.optBemaRVJa, bemaRegion, $$v);
-        },
-        expression: "optBemaRVJa[bemaRegion]"
-      }
-    }, [_vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "gegossen",
-        value: "gegossen",
-        name: bemaRegion
-      }
-    }), _vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "konfektioniert",
-        value: "konfektioniert",
-        name: bemaRegion
-      }
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVSecond2[bemaRegion] ? _c("v-radio-group", {
-      attrs: {
-        row: ""
-      },
-      on: {
-        change: function change($event) {
-          return _vm.dispoptBemaRVSecond2(bemaRegion);
-        }
-      },
-      model: {
-        value: _vm.optBemaRVJa2[bemaRegion],
-        callback: function callback($$v) {
-          _vm.$set(_vm.optBemaRVJa2, bemaRegion, $$v);
-        },
-        expression: "optBemaRVJa2[bemaRegion]"
-      }
-    }, [_c("v-radio", {
-      attrs: {
-        label: "Metallischer Stift- oder Schraubenaufbau",
-        value: "stift"
-      }
-    }), _vm._v(" "), _c("v-radio", {
-      attrs: {
-        label: "Glasfaser",
-        value: "glasfaser"
-      }
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optBemaRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
-      staticClass: "my-2",
-      attrs: {
-        outlined: ""
-      },
-      scopedSlots: _vm._u([{
-        key: "default",
-        fn: function fn() {
-          return [_c("thead", [_c("tr", [_c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("BEMA-Nr.")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref12) {
-                var on = _ref12.on,
-                    attrs = _ref12.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.optBemaPriceRV[bemaRegion]) + " ")])])])];
-        },
-        proxy: true
-      }], null, true)
-    })], 1) : _vm._e(), _vm._v(" "), _vm.optGozRVShow[bemaRegion] ? _c("div", [_c("v-simple-table", {
-      staticClass: "my-2",
-      attrs: {
-        outlined: ""
-      },
-      scopedSlots: _vm._u([{
-        key: "default",
-        fn: function fn() {
-          return [_c("thead", [_c("tr", [_c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("GOZ-Nr.")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Leistungsbeschreibung")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Zahn/ Gebiet")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Anzahl")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Faktor")]), _vm._v(" "), _c("th", {
-            staticClass: "text-left"
-          }, [_vm._v("Betrag (€)")])])]), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", [_vm._v(" " + _vm._s(_vm.optBemaGozRV[bemaRegion]) + " ")]), _vm._v(" "), _c("td", [_c("v-tooltip", {
-            attrs: {
-              top: "",
-              color: "success"
-            },
-            scopedSlots: _vm._u([{
-              key: "activator",
-              fn: function fn(_ref13) {
-                var on = _ref13.on,
-                    attrs = _ref13.attrs;
-                return [_c("v-btn", _vm._g(_vm._b({
-                  staticStyle: {
-                    "text-transform": "none !important",
-                    height: "0px !important"
-                  },
-                  attrs: {
-                    text: ""
-                  }
-                }, "v-btn", attrs, false), on), [_vm._v("\n                                    " + _vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion], 25)) + "\n                                  ")])];
-              }
-            }], null, true)
-          }, [_vm._v(" "), _c("span", [_vm._v(" " + _vm._s(_vm.optBemaNameRV[bemaRegion]) + " ")])])], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(bemaRegion) + " ")]), _vm._v(" "), _c("td", [_vm._v(" 1 ")]), _vm._v(" "), _c("td", {
-            staticStyle: {
-              width: "150px"
-            }
-          }, [_c("v-slider", {
-            attrs: {
-              value: "1",
-              "tick-labels": _vm.ticksLabels,
-              max: 2,
-              step: "1",
-              ticks: "always",
-              "tick-size": "4",
-              "thumb-size": 36,
-              vertical: false,
-              id: "GAVSliderGoz"
-            },
-            on: {
-              change: function change($event) {
-                return _vm.displayFak("id", "GAV");
-              }
-            }
-          })], 1), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion], "2.3")) + " ")])])])];
-        },
-        proxy: true
-      }], null, true)
-    })], 1) : _vm._e()], 1);
-  }), _vm._v(" "), _c("v-col", {
-    staticClass: "d-flex",
-    attrs: {
-      cols: "12",
-      sm: "6"
-    }
-  }, [_c("v-select", {
-    attrs: {
-      items: _vm.itemsMaterial,
-      label: "Material",
-      outlined: ""
-    }
-  })], 1)], 2) : _vm._e()], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      color: "green darken-1",
-      text: ""
-    },
-    on: {
-      click: function click($event) {
-        return _vm.calcTable(_vm.dialogRow);
-      }
-    }
-  }, [_vm._v("\n                speichern\n              ")]), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      color: "red darken-1",
-      text: ""
-    },
-    on: {
-      click: function click($event) {
-        _vm.closeCalc();
-
-        _vm.dialogCalc = false;
-      }
-    }
-  }, [_vm._v("\n                abbrechen\n              ")])], 1)], 1)], 1), _vm._v(" "), _c("v-overlay", {
-    attrs: {
-      value: _vm.overlay
-    }
-  }, [_c("v-progress-circular", {
-    attrs: {
-      size: 70,
-      width: 7,
-      color: "primary",
-      indeterminate: ""
-    }
-  })], 1)], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
-    staticClass: "d-flex ubernehmen"
-  }, [_c("v-text-field", {
-    staticClass: "mr-4",
-    attrs: {
-      label: "Befundeingabe",
-      rules: _vm.errorMsg ? [_vm.errorMsg] : [_vm.rules.validEntry],
-      dense: "",
-      outlined: "",
-      readonly: _vm.disabled
-    },
-    model: {
-      value: _vm.findingsEntries,
-      callback: function callback($$v) {
-        _vm.findingsEntries = $$v;
-      },
-      expression: "findingsEntries"
-    }
-  }), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      elevation: "0",
-      color: "#BBDEFB"
-    },
-    on: {
-      click: _vm.calculateFindingsEntries
-    }
-  }, [_vm._v("Übernehmen")])], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
-    staticClass: "d-flex col-2 pa-0 bonus"
-  }, [_c("v-select", {
-    attrs: {
-      label: "Bonus",
-      items: _vm.bonusOptions,
-      "item-text": "text",
-      "item-value": "value",
-      dense: "",
-      outlined: ""
-    },
-    model: {
-      value: _vm.bonus,
-      callback: function callback($$v) {
-        _vm.bonus = $$v;
-      },
-      expression: "bonus"
-    }
-  })], 1) : _vm._e(), _vm._v(" "), !_vm.calculated ? _c("div", {
-    staticClass: "d-flex col-2 pa-0 festzuschüsse-berechnen"
-  }, [_c("v-btn", {
-    attrs: {
-      elevation: "0",
-      color: "#BBDEFB"
-    },
-    on: {
-      click: _vm.apiCall
-    }
-  }, [_vm._v("Zahnersatz planen")])], 1) : _vm._e(), _vm._v(" "), _vm.isPlannen ? _c("div", {
-    staticClass: "d-flex col-2 pa-0 festzuschüsse-berechnen"
-  }, [_c("v-btn", {
-    attrs: {
-      elevation: "0",
-      color: "#BBDEFB"
-    },
-    on: {
-      click: _vm.weiterCall
-    }
-  }, [_vm._v("Weiter")])], 1) : _vm._e()]), _vm._v(" "), _c("v-dialog", {
-    attrs: {
-      width: "500"
-    },
-    model: {
-      value: _vm.showInfo,
-      callback: function callback($$v) {
-        _vm.showInfo = $$v;
-      },
-      expression: "showInfo"
-    }
-  }, [_c("Information")], 1), _vm._v(" "), _c("v-dialog", {
-    attrs: {
-      width: "500"
-    },
-    model: {
-      value: _vm.importDialog,
-      callback: function callback($$v) {
-        _vm.importDialog = $$v;
-      },
-      expression: "importDialog"
-    }
-  }, [_c("v-card", [_c("v-card-title", {
-    staticClass: "text-h5"
-  }, [_vm._v("\n          Import Status\n        ")]), _vm._v(" "), _c("v-card-text", [_c("v-text-field", {
-    staticClass: "mr-4",
-    attrs: {
-      dense: "",
-      outlined: "",
-      readonly: _vm.disabled
-    },
-    model: {
-      value: _vm.findingsEntriesImport,
-      callback: function callback($$v) {
-        _vm.findingsEntriesImport = $$v;
-      },
-      expression: "findingsEntriesImport"
-    }
-  })], 1), _vm._v(" "), _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      color: "green darken-1",
-      text: ""
-    },
-    on: {
-      click: _vm.calculateFindingsImport
-    }
-  }, [_vm._v("\n            speichern\n          ")]), _vm._v(" "), _c("v-btn", {
-    attrs: {
-      color: "red darken-1",
-      text: ""
-    },
-    on: {
-      click: function click($event) {
-        _vm.importDialog = false;
-      }
-    }
-  }, [_vm._v("\n            abbrechen\n          ")])], 1)], 1)], 1)], 1)]);
-};
-
-var staticRenderFns = [];
-render._withStripped = true;
-
+var render=function render(){var _vm=this,_c=_vm._self._c;return _c("admin-layout",[_c("div",{staticClass:"home-page mx-8 my-4"},[_c("div",{staticClass:"d-flex align-center justify-space-between ma-0 pa-0"}),_vm._v(" "),_c("div",{staticClass:"ma-auto",staticStyle:{"max-width":"min-content"}},[_c("div",{staticClass:"d-flex mt-12 mb-5 pa-0",staticStyle:{"margin-top":"5px !important"}},[_c("span",{staticClass:"pr-1"},[_vm._v("Befundeingabe "),_c("a",{on:{click:function click($event){_vm.showInfo=true;}}},[_vm._v("info")])])]),_vm._v(" "),_c("div",{staticClass:"reset-btn"}),_vm._v(" "),_c("div",{staticClass:"my-3"},[_c("div",{directives:[{name:"show",rawName:"v-show",value:_vm.calculated,expression:"calculated"}],staticClass:"align-center","class":_vm.calculated?"d-flex":"",staticStyle:{"background-color":"#eee"}},[_c("span",{staticClass:"px-3"},[_vm._v("TP")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.upperJawTP,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                "+_vm._s(btn.value)+"\n              ")]);}),1)],1)]),_vm._v(" "),_c("div",{staticClass:"button-container"},[_c("div",{staticClass:"d-flex align-center"},[_c("span",{staticClass:"px-3"},[_vm._v("B")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.upperJawSelected,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0 text-lowercase",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                  "+_vm._s(btn.value)+"\n                ")]);}),1)],1),_vm._v(" "),_c("span",{staticClass:"px-3"},[_c("span",{staticClass:"mdi mdi-application-import",staticStyle:{cursor:"pointer"},on:{click:function click($event){_vm.importDialog=true;}}}),_vm._v(" "),_c("span",{staticClass:"mdi mdi-trash-can-outline",staticStyle:{cursor:"pointer",color:"darkred","font-size":"24px"},on:{click:_vm.resetLoad}})])]),_vm._v(" "),_c("div",{staticClass:"px-8 py-2"},[_c("UpperJaw",{attrs:{resetBtns:_vm.resetBtns,disabled:_vm.disabled,manualUpperJaw:_vm.manualUpperJaw,upperJawRV:_vm.isTP?_vm.upperJawTP:_vm.upperJawRV,apiCallSuccess:_vm.apiCallSuccess,statusImport:_vm.statusImport},on:{"btn-selected":function btnSelected($event){return _vm.upperJawSelectedBtn($event);}}}),_vm._v(" "),_c("TeethNumbers"),_vm._v(" "),_c("Mandible",{attrs:{resetBtns:_vm.resetBtns,disabled:_vm.disabled,manualMandible:_vm.manualMandible,MandibleRV:_vm.isTP?_vm.MandibleTP:_vm.MandibleRV,apiCallSuccess:_vm.apiCallSuccess,statusImport:_vm.statusImport},on:{"btn-selected":function btnSelected($event){return _vm.MandibleSelectedBtn($event);}}})],1),_vm._v(" "),_c("div",{staticClass:"d-flex align-center"},[_c("span",{staticClass:"px-3"},[_vm._v("B")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.MandibleSelected,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0 text-lowercase",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                  "+_vm._s(btn.value)+"\n                ")]);}),1)],1)])]),_vm._v(" "),_c("div",{directives:[{name:"show",rawName:"v-show",value:_vm.calculated,expression:"calculated"}],staticClass:"align-center","class":_vm.calculated?"d-flex":"",staticStyle:{"background-color":"#eee"}},[_c("span",{staticClass:"px-3"},[_vm._v("TP")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.MandibleTP,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                "+_vm._s(btn.value)+"\n              ")]);}),1)],1)])]),_vm._v(" "),_vm.calculated?_c("div",{staticClass:"table-container my-3"},[_c("v-simple-table",{attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("tbody",[_c("tr",[_c("td",{staticClass:"backColorTable"},[_vm._v(" Honorar BEMA ")]),_vm._v(" "),_c("td",{staticClass:"totalAmountBema"},[_vm._v(" "+_vm._s(_vm.totalBema)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Labor gewerblich ")]),_vm._v(" "),_c("td",[_vm._v(" 0.00 € ")]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Festzuschusse ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.totalAmount)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})])]),_vm._v(" "),_c("tr",[_c("td",{staticClass:"backColorTable"},[_vm._v(" Honorar GOZ / GOA ")]),_vm._v(" "),_c("td",{staticClass:"totalAmountGoz"},[_vm._v(" "+_vm._s(_vm.totalGav)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Eigenlabor ")]),_vm._v(" "),_c("td",[_vm._v(" 0.00 "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Behandlungskosten ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.totalSumCalc)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable",staticStyle:{"font-weight":"bold"}},[_vm._v(" Eigenanteil ")]),_vm._v(" "),_c("td",{staticStyle:{"font-weight":"bold"}},[_vm._v(" 0.00 "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})])])])];},proxy:true}],null,false,3860779569)})],1):_vm._e(),_vm._v(" "),_vm.calculated?_c("div",{staticClass:"my-4"},[_c("div",[_vm._v("Bonus: "),_c("span",{staticClass:"font-weight-black"},[_vm._v(_vm._s(_vm.bonus)+"%")])]),_vm._v(" "),_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Case")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Zahn/Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Versorgung")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.tableData,function(data,index){return _c("tr",{key:index},[index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center"},[_vm._v(_vm._s(data["Case Name"]))]):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center"},[_vm._v(_vm._s(data["Case Region"]))]):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center"},[_c("v-dialog",{attrs:{transition:"dialog-top-transition","max-width":"750",persistent:""},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref){var on=_ref.on,attrs=_ref.attrs;return[_c("v-btn",_vm._g(_vm._b({attrs:{color:"primary",id:"planen"+index},on:{click:function click($event){return _vm.displayPlanen(index);}}},"v-btn",attrs,false),on),[_vm._v("planen")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:"",id:"cancelPlanen"+index},on:{click:function click($event){return _vm.cancelPlanen(index);}}},[_vm._v("Abbrechen")])];}},{key:"default",fn:function fn(dialogPlan){return[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"},[_vm._v("\n                          "+_vm._s(data["Case Name"])+", "+_vm._s(data["Case Region"])+"\n                        ")]),_vm._v(" "),_c("v-card-text",[index!=="Final"?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("tbody",[_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Regelversorgung")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["RV Details"],function(dataRV,indexRV){return _c("div",{key:indexRV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexRV},on:{change:function change($event){_vm.displayRVs("lblRV","RV"+index+indexRV,""+index+indexRV);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexRV,id:"lblRV"+index+indexRV}},[_vm._v(" "+_vm._s(dataRV["RV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"RV"+index+indexRV}},[_vm._v(" "+_vm._s(dataRV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)]),_vm._v(" "),_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Gleichartiger Zahnersatz")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["GAV Details"],function(dataGAV,indexGAV){return _c("div",{key:indexGAV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexGAV},on:{change:function change($event){_vm.displayRVs("lblGAV","GAV"+index+indexGAV,""+index+indexGAV);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexGAV,id:"lblGAV"+index+indexGAV}},[_vm._v(" "+_vm._s(dataGAV["GAV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"GAV"+index+indexGAV}},[_vm._v(" "+_vm._s(dataGAV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)]),_vm._v(" "),_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Andersartiger Zahnersatz")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["AAV Details"],function(dataAAV,indexAAV){return _c("div",{key:indexAAV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexAAV},on:{change:function change($event){_vm.displayRVs("lblAAV","AAV"+index+indexAAV,""+index+indexAAV);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexAAV,id:"lblAAV"+index+indexAAV}},[_vm._v(" "+_vm._s(dataAAV["AAV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"AAV"+index+indexAAV}},[_vm._v(" "+_vm._s(dataAAV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)])])];},proxy:true}],null,true)}):_vm._e()],1),_vm._v(" "),_c("v-card-actions",{staticClass:"justify-end"},[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){dialogPlan.value=false;}}},[_vm._v("\n                            abbrechen\n                          ")])],1)],1)];}}],null,true)})],1):_vm._e()]);}),0)];},proxy:true}],null,false,2793809595)}),_vm._v(" "),_c("v-dialog",{attrs:{"max-width":"750",persistent:""},model:{value:_vm.dialogCalc,callback:function callback($$v){_vm.dialogCalc=$$v;},expression:"dialogCalc"}},[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"}),_vm._v(" "),_c("v-card-text",[_vm.dataRV_GAV_AAV["RV#"]?_c("h3",[_vm._v("BEMA-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"],function(datasRV,indexRV){return _c("tr",{key:indexRV},[_c("td",[_vm._v(" "+_vm._s(indexRV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref2){var on=_ref2.on,attrs=_ref2.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasRV)+" ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV])+" ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmount"},[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV])+" ")])]);}),0)];},proxy:true}],null,false,2440112376)}):_vm._e(),_vm._v(" "),_vm.showCaseQuesRV?_c("div",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV();}},model:{value:_vm.optBemaRV,callback:function callback($$v){_vm.optBemaRV=$$v;},expression:"optBemaRV"}})],1),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref3){var on=_ref3.on,attrs=_ref3.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+" ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref4){var on=_ref4.on,attrs=_ref4.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);})],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("div",[_vm.dataRV_GAV_AAV["RV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_c("hr"),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Aufbaufüllung(en)?",value:"Aufbaufüllung"},on:{change:function change($event){return _vm.optGozGavCall();}},model:{value:_vm.OptGozGAVselected,callback:function callback($$v){_vm.OptGozGAVselected=$$v;},expression:"OptGozGAVselected"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(region);}},model:{value:_vm.OptGozGAVselectedReg[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg,region,$$v);},expression:"OptGozGAVselectedReg[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref5){var on=_ref5.on,attrs=_ref5.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                      "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                    ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive"},on:{change:function change($event){return _vm.optGozGavCall();}},model:{value:_vm.OptGozGAVselected_,callback:function callback($$v){_vm.OptGozGAVselected_=$$v;},expression:"OptGozGAVselected_"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(region);}},model:{value:_vm.OptGozGAVselectedReg_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_,region,$$v);},expression:"OptGozGAVselectedReg_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref6){var on=_ref6.on,attrs=_ref6.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                      "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                    ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("BEMA-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"],function(datasGAV,indexGAV){return _c("tr",{key:indexGAV},[_c("td",[_vm._v(" "+_vm._s(indexGAV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref7){var on=_ref7.on,attrs=_ref7.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasGAV)+" ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV])+" ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmount"},[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV])+" ")])]);}),0)];},proxy:true}],null,false,1214513528)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("GOZ-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left",staticStyle:{width:"150px"}},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"],function(datasGAV,indexGAV){return _c("tr",{key:indexGAV},[_c("td",[_vm._v(" "+_vm._s(indexGAV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref8){var on=_ref8.on,attrs=_ref8.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasGAV))]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"+_vm.dataRV_GAV_AAV["GAV#"]+indexGAV+_vm.selectedCaseId},on:{change:function change($event){return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"]+indexGAV+_vm.selectedCaseId,_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV],"GAV");}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGozAmount",attrs:{id:"GAVAmount"+_vm.dataRV_GAV_AAV["GAV#"]+indexGAV+_vm.selectedCaseId}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV],"2.3"))+"\n                      ")])]);}),0)];},proxy:true}],null,false,2157758914)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("div",[_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_c("hr"),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Aufbaufüllung(en)?",value:"Aufbaufüllung"},on:{change:function change($event){return _vm.optGozGavCall();}},model:{value:_vm.OptGozGAVselected,callback:function callback($$v){_vm.OptGozGAVselected=$$v;},expression:"OptGozGAVselected"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(region);}},model:{value:_vm.OptGozGAVselectedReg[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg,region,$$v);},expression:"OptGozGAVselectedReg[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref9){var on=_ref9.on,attrs=_ref9.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive"},on:{change:function change($event){return _vm.optGozGavCall();}},model:{value:_vm.OptGozGAVselected_,callback:function callback($$v){_vm.OptGozGAVselected_=$$v;},expression:"OptGozGAVselected_"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(region);}},model:{value:_vm.OptGozGAVselectedReg_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_,region,$$v);},expression:"OptGozGAVselectedReg_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref10){var on=_ref10.on,attrs=_ref10.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesGAV?_c("div",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV();}},model:{value:_vm.optBemaRV,callback:function callback($$v){_vm.optBemaRV=$$v;},expression:"optBemaRV"}})],1),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref11){var on=_ref11.on,attrs=_ref11.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+" ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref12){var on=_ref12.on,attrs=_ref12.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),_vm._v(" "),_c("v-col",{staticClass:"d-flex",attrs:{cols:"12",sm:"6"}},[_c("v-select",{attrs:{items:_vm.itemsMaterial,label:"Material",outlined:""}})],1)],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("h3",[_vm._v("GOZ-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left",staticStyle:{width:"150px"}},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"],function(datasAAV,indexAAV){return _c("tr",{key:indexAAV},[datasAAV?_c("td",[_vm._v(" "+_vm._s(indexAAV))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref13){var on=_ref13.on,attrs=_ref13.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV])+" ")])])],1):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_vm._v(" "+_vm._s(datasAAV))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVSlider"+_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.selectedCaseId},on:{change:function change($event){return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.selectedCaseId,_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV],"AAV");}}})],1):_vm._e(),_vm._v(" "),datasAAV?_c("td",{staticClass:"clsGozAmount",attrs:{id:"AAVAmount"+_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.selectedCaseId}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV],"2.3"))+"\n                      ")]):_vm._e()]);}),0)];},proxy:true}],null,false,4279404758)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("div",[_vm.dataRV_GAV_AAV["AAV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Freilegung(en)?",value:"Aufbaufüllung"},on:{change:function change($event){return _vm.optGozGavCall();}},model:{value:_vm.OptGozGAVselected,callback:function callback($$v){_vm.OptGozGAVselected=$$v;},expression:"OptGozGAVselected"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(region);}},model:{value:_vm.OptGozGAVselectedReg[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg,region,$$v);},expression:"OptGozGAVselectedReg[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref14){var on=_ref14.on,attrs=_ref14.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                      "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                    ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive"},on:{change:function change($event){return _vm.optGozGavCall();}},model:{value:_vm.OptGozGAVselected_,callback:function callback($$v){_vm.OptGozGAVselected_=$$v;},expression:"OptGozGAVselected_"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(region);}},model:{value:_vm.OptGozGAVselectedReg_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_,region,$$v);},expression:"OptGozGAVselectedReg_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref15){var on=_ref15.on,attrs=_ref15.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                      "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                    ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesAAV?_c("div",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV();}},model:{value:_vm.optBemaRV,callback:function callback($$v){_vm.optBemaRV=$$v;},expression:"optBemaRV"}})],1),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref16){var on=_ref16.on,attrs=_ref16.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+" ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref17){var on=_ref17.on,attrs=_ref17.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"},on:{change:function change($event){return _vm.displayFak("id","GAV");}}})],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),_vm._v(" "),_c("v-col",{staticClass:"d-flex",attrs:{cols:"12",sm:"6"}},[_c("v-select",{attrs:{items:_vm.itemsMaterial,label:"Material",outlined:""}})],1)],2):_vm._e()],1),_vm._v(" "),_c("v-card-actions",[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"green darken-1",text:""},on:{click:function click($event){return _vm.calcTable(_vm.dialogRow);}}},[_vm._v("\n                speichern\n              ")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){_vm.closeCalc();_vm.dialogCalc=false;}}},[_vm._v("\n                abbrechen\n              ")])],1)],1)],1),_vm._v(" "),_c("v-overlay",{attrs:{value:_vm.overlay}},[_c("v-progress-circular",{attrs:{size:70,width:7,color:"primary",indeterminate:""}})],1)],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex ubernehmen"},[_c("v-text-field",{staticClass:"mr-4",attrs:{label:"Befundeingabe",rules:_vm.errorMsg?[_vm.errorMsg]:[_vm.rules.validEntry],dense:"",outlined:"",readonly:_vm.disabled},model:{value:_vm.findingsEntries,callback:function callback($$v){_vm.findingsEntries=$$v;},expression:"findingsEntries"}}),_vm._v(" "),_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.calculateFindingsEntries}},[_vm._v("Übernehmen")])],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex col-2 pa-0 bonus"},[_c("v-select",{attrs:{label:"Bonus",items:_vm.bonusOptions,"item-text":"text","item-value":"value",dense:"",outlined:""},model:{value:_vm.bonus,callback:function callback($$v){_vm.bonus=$$v;},expression:"bonus"}})],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.apiCall}},[_vm._v("Zahnersatz planen")])],1):_vm._e(),_vm._v(" "),_vm.isPlannen?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.weiterCall}},[_vm._v("Weiter")])],1):_vm._e()]),_vm._v(" "),_c("v-dialog",{attrs:{width:"500"},model:{value:_vm.showInfo,callback:function callback($$v){_vm.showInfo=$$v;},expression:"showInfo"}},[_c("Information")],1),_vm._v(" "),_c("v-dialog",{attrs:{width:"500"},model:{value:_vm.importDialog,callback:function callback($$v){_vm.importDialog=$$v;},expression:"importDialog"}},[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"},[_vm._v("\n          Import Status\n        ")]),_vm._v(" "),_c("v-card-text",[_c("v-text-field",{staticClass:"mr-4",attrs:{dense:"",outlined:"",readonly:_vm.disabled},model:{value:_vm.findingsEntriesImport,callback:function callback($$v){_vm.findingsEntriesImport=$$v;},expression:"findingsEntriesImport"}})],1),_vm._v(" "),_c("v-card-actions",[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"green darken-1",text:""},on:{click:_vm.calculateFindingsImport}},[_vm._v("\n            speichern\n          ")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){_vm.importDialog=false;}}},[_vm._v("\n            abbrechen\n          ")])],1)],1)],1)],1)]);};var staticRenderFns=[];render._withStripped=true;
 
 /***/ }),
 
