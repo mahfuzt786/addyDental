@@ -419,7 +419,7 @@
                   </template>
                 </v-simple-table>
 
-              <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
+                <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
                 <!-- <h3 v-if="dataRV_GAV_AAV['RV#']">Optionale BEMA-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['RV#']" outlined class="my-2">
                   <template v-slot:default>
@@ -509,7 +509,6 @@
                       ></v-radio>
                     </v-radio-group>
 
-
                     <!-- For konfektioniert -->
                     <v-radio-group
                       v-model="optBemaRVJa2[bemaRegion]"
@@ -526,7 +525,6 @@
                         value="glasfaser"
                       ></v-radio>
                     </v-radio-group>
-
 
                     <div v-if="optBemaRVShow[bemaRegion]">
                       <v-simple-table outlined class="my-2">
@@ -846,6 +844,7 @@
                   </template>
                 </v-simple-table>
 
+                <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
                 <!-- <h3 v-if="dataRV_GAV_AAV['GAV#']">Optionale BEMA-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['GAV#']" outlined class="my-2">
                   <template v-slot:default>
@@ -924,20 +923,20 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="false"
-                            v-on:change="displayFak(dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId, dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], 'GAV')"
+                            v-on:change="displayFak(dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId, dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], 'GAVGOZ')"
                             :id="'GAVSliderGoz'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"
                           >
                           </v-slider>
                           
                         </td>
-                        <!-- <td class="clsGozAmount" :id="'GAVAmount'+ dataRV_GAV_AAV['GAV#'] +dataRV_GAV_AAV['GAV Solution GOZ Region'][indexGAV]+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], '2.3') }} -->
-                        <td class="clsGozAmount" :id="'GAVAmount'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], '2.3') }}
+                        <td class="clsGozAmount" :id="'GAVGOZAmount'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], '2.3') }}
                         </td>
                       </tr>
                     </tbody>
                   </template>
                 </v-simple-table>
 
+                <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
                 <!-- <h3 v-if="dataRV_GAV_AAV['GAV#']">Optionale GOZ-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['GAV#']" outlined class="my-2">
                   <template v-slot:default>
@@ -1432,15 +1431,12 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="false"
-                            v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAV')"
-                            :id="'AAVSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
+                            v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAVGOZ')"
+                            :id="'AAVGOZSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
                           >
                           </v-slider>
-
-                          <!-- <input type="range" min="1" max="3" step="1" v-model="faktors"> -->
-                          <!-- {{gozTotalCalc(dataRV_GAV_AAV['GAV Solution GOZ amount'])}} -->
                         </td>
-                        <td v-if="datasAAV" class="clsGozAmount" :id="'AAVAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
+                        <td v-if="datasAAV" class="clsGozAmount" :id="'AAVGOZAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
                         </td>
                       </tr>
                     </tbody>
@@ -1449,6 +1445,8 @@
 
                 <div v-if="dataRV_GAV_AAV['AAV#']">
                 <h3 v-if="dataRV_GAV_AAV['AAV#']">Behandlungsoptionen</h3>
+
+                <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
                 <!-- <v-simple-table v-if="dataRV_GAV_AAV['AAV#']" outlined class="my-2">
                   <template v-slot:default>
                     <thead>
@@ -1707,6 +1705,7 @@
                 </div>
                 </div>
 
+                <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
                 <!-- <h3 v-if="dataRV_GAV_AAV['AAV#']">GOÄ-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['AAV#']" outlined class="my-2">
                   <template v-slot:default>
@@ -4154,21 +4153,23 @@
         }
       },
       displayFak(faktors, amountGoz, solutionT) {
-        console.log(document.getElementById('GAVSlider'+faktors).value)
+        // console.log(document.getElementById('GAVSlider'+faktors).value)
         console.log(faktors)
+        console.log(amountGoz)
+        console.log(solutionT)
 
         var newGozAmount = 0;
 
-        if(solutionT == 'GAV') {
-          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSlider'+faktors).value])
-          document.getElementById('GAVAmount'+faktors).innerHTML = newGozAmount
-          this.idGozSlider = 'GAVAmount'+faktors
+        if(solutionT == 'GAVGOZ') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSliderGoz'+faktors).value])
+          document.getElementById('GAVGOZAmount'+faktors).innerHTML = newGozAmount
+          this.idGozSlider = 'GAVGOZAmount'+faktors
         }
 
-        if(solutionT == 'AAV') {
-          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVSlider'+faktors).value])
-          document.getElementById('AAVAmount'+faktors).innerHTML = newGozAmount
-          this.idGozSlider = 'AAVAmount'+faktors
+        if(solutionT == 'AAVGOZ') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVGOZSlider'+faktors).value])
+          document.getElementById('AAVGOZAmount'+faktors).innerHTML = newGozAmount
+          this.idGozSlider = 'AAVGOZAmount'+faktors
         }
 
         if(solutionT == 'oAAV') {
