@@ -359,94 +359,6 @@
                     </v-dialog>
                   </td>
 
-                  <!-- <v-dialog
-                    v-model="dialogSolution[index]"
-                    max-width="750"
-                    persistent
-                  >
-                  <v-card>
-                    <v-card-title class="text-h5">
-                      {{data["Case Name"]}}, {{ data["Case Region"] }}
-                    </v-card-title>
-
-                    <v-card-text>
-                      
-                      <v-simple-table outlined class="my-2" v-show="displaySecond === index" v-if="index !== 'Final'">
-                        <template v-slot:default>
-                          
-                          <tbody>
-                            <tr>
-                              <th class="text-center text-subtitle-1 font-weight-black">Regelversorgung</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div v-for="(dataRV, indexRV) in data['RV Details']" :key="indexRV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexRV" name="RV_GAV_AAV" v-on:change="displayRVs('lblRV', 'RV' + index + indexRV, ''+index +indexRV)" />
-                                    <label :for="indexRV" :id="'lblRV' + index + indexRV"> {{ dataRV['RV Solution Name']}}</label>
-                                    <textarea style="display:none;" :id="'RV' + index + indexRV" > {{dataRV}} </textarea>
-
-                                    <v-divider></v-divider>
-                                  </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <th class="text-center text-subtitle-1 font-weight-black">Gleichartiger Zahnersatz</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div v-for="(dataGAV, indexGAV) in data['GAV Details']" :key="indexGAV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexGAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblGAV', 'GAV' + index + indexGAV, ''+index + indexGAV)" />
-                                    <label :for="indexGAV" :id="'lblGAV' + index + indexGAV"> {{ dataGAV['GAV Solution Name'] }}</label>
-                                    <textarea style="display:none;" :id="'GAV' + index + indexGAV" > {{dataGAV}} </textarea>
-
-                                    <v-divider></v-divider>
-                                </div>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <th class="text-center text-subtitle-1 font-weight-black">Andersartiger Zahnersatz</th>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div v-for="(dataAAV, indexAAV) in data['AAV Details']" :key="indexAAV" style="margin-bottom: 15px; margin-top: 5px;">
-                                    <input type="radio" :value="indexAAV" name="RV_GAV_AAV" v-on:change="displayRVs('lblAAV', 'AAV' + index + indexAAV, ''+index + indexAAV)" />
-                                    <label :for="indexAAV" :id="'lblAAV' + index + indexAAV"> {{ dataAAV['AAV Solution Name'] }}</label>
-                                    <textarea style="display:none;" :id="'AAV' + index + indexAAV" > {{dataAAV}} </textarea>
-
-                                    <v-divider></v-divider>
-                                  </div>
-                              </td>                          
-                            </tr>
-
-                          </tbody>
-                        </template>
-                      </v-simple-table>
-
-                    </v-card-text>
-
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <!- - <v-btn
-                        color="red darken-1"
-                        text
-                        @click="dialogSolution[index] = false"
-                      >
-                        abbrechen
-                      </v-btn>  - ->
-
-                      <v-btn
-                        color="red darken-1"
-                        text
-                        @click="closePlannen(index)"
-                      >
-                        abbrechen
-                      </v-btn> 
-                    </v-card-actions>
-                  </v-card>
-                  </v-dialog> -->
-
                 </tr>
               </tbody>
 
@@ -507,6 +419,7 @@
                   </template>
                 </v-simple-table>
 
+              <!-- DON'T DELETE. MAY REQUIRE AGAIN -->
                 <!-- <h3 v-if="dataRV_GAV_AAV['RV#']">Optionale BEMA-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['RV#']" outlined class="my-2">
                   <template v-slot:default>
@@ -1893,7 +1806,6 @@
                       ></v-radio>
                     </v-radio-group>
 
-
                     <!-- For konfektioniert -->
                     <v-radio-group
                       v-model="optBemaRVJa2[bemaRegion]"
@@ -2767,16 +2679,12 @@
       optGozValuesGAV_: [],
 
 
-      // optBemaRVJa: null,
       optBemaRVJa: [],
       optBemaRVJa2: [],
 
       optBemaRVSecond: false,
-      // optBemaRVSecond2: false,
       optBemaRVSecond2: [],
 
-      // optBemaRVShow: false,
-      // optGozRVShow: false,
       optBemaRVShow: [],
       optGozRVShow: [],
 
@@ -2795,8 +2703,6 @@
       optGozNameGAV_: [],
       optGozPriceGAV_: [],
 
-      optGozGAV: null,
-      optGozAAV: null,
       optGozSelected: [],
       isPlannen: false,
       Total_case: 0,
@@ -3318,29 +3224,6 @@
 
         /** Reset Images **/
         this.apiCallSuccess = false
-        /*this.upperJawRV = this.upperJawRV.map((teethAll) => {
-            teethAll.value = ''
-          return teethAll
-        })
-
-        this.MandibleRV = this.MandibleRV.map((teethAll) => {
-            teethAll.value = ''
-          return teethAll
-        })
-
-        this.upperJawTP = this.upperJawTP.map((teethAll) => {
-            teethAll.value = ''
-          return teethAll
-        })
-
-        this.MandibleTP = this.MandibleTP.map((teethAll) => {
-            teethAll.value = ''
-          return teethAll
-        })*/
-
-        // this.resetBtns = true
-        // this.RVShortcut = ''
-        // this.TPShortcut = ''
 
         if(label == 'lblRV') {
           this.planLabel = label+ids
@@ -4313,11 +4196,6 @@
       cancelPlanen(rowIndex) {
         console.log(rowIndex)
       },
-      // closePlannen(rowIndex) {
-      //   console.log(rowIndex)
-      //   this.dialogSolution[rowIndex] = false;
-      //   this.dialogSolution = [];
-      // },
       closeCalc() {
         //reset the radio btn selected
         var ele = document.getElementsByName("RV_GAV_AAV");
@@ -4441,13 +4319,7 @@
         }
         // RESET SLIDER GOZ AMOUNT END
 
-        // optgoz radio
-        if(this.optGozGAV) {
-          // this.optGozSelected = true
-        }
-        if(this.optGozAAV) {
-          // this.optGozSelected = true
-        }
+        
 
         this.isPlannen = true
         console.log(this.isPlannen)
@@ -4461,6 +4333,7 @@
       },
 
       displayOptsBemaRV() {
+        console.log(this.optBemaRV)
         if(this.optBemaRV == 'yes') {
           this.optBemaRVSecond = true
         }
@@ -4527,11 +4400,9 @@
 }
 .table-container {
   background-color: white;
-  /* width: 275px !important;
-  margin-right: 25px !important; */
+  
 }
 .table-container .backColorTable {
-  /* background-color: rgba(255, 209, 220, 0.3) !important; */
   background-color: #cfe2f3;
 }
 .ubernehmen {
