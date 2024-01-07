@@ -3298,6 +3298,7 @@
         this.OptGozGAVselectedReg = []
         this.OptGozGAVselectedReg_ = []
 
+        
         if(label == 'lblRV') {
           if(dataValues['RV Solution BEMA Opt Region'] !== '') {
             if( dataValues['RV Solution BEMA Region']['20a'] !== undefined
@@ -3603,6 +3604,7 @@
           }
 
         }
+        
 
         if(label == 'lblAAV') {
           if( dataValues['AAV Solution GOZ Region'] !== ''
@@ -3657,6 +3659,11 @@
           }
 
           // For opt GOZ AAV
+          console.log('AAV GOZ opt')
+          console.log(dataValues['AAV Solution GOZ Region'])
+          // console.log(this.optGozValuesGAV)
+          // console.log(this.optGozValuesGAV_)
+
           if(dataValues['AAV Solution GOZ Region Opt'] !== '') {
 
             if( dataValues['AAV Solution GOZ Region']['2210'] !== undefined
@@ -3664,8 +3671,17 @@
                 var textOpt = dataValues['AAV Solution GOZ Region']['2210'].split(",");
 
                 for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
+                }
+            }
+            if( dataValues['AAV Solution GOZ Region']['2270'] !== undefined
+            ) {
+                var textOpt = dataValues['AAV Solution GOZ Region']['2270'].split(",");
+
+                for(var to=0; to<textOpt.length; to++) {
+                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
 
@@ -3674,7 +3690,7 @@
                 var textOpt = dataValues['AAV Solution GOZ Region']['2220'].split(",");
 
                 for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
@@ -3684,7 +3700,7 @@
                 var textOpt = dataValues['AAV Solution GOZ Region']['5010'].split(",");
 
                 for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
@@ -3694,7 +3710,7 @@
                 var textOpt = dataValues['AAV Solution GOZ Region']['5040'].split(",");
 
                 for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
@@ -3704,7 +3720,7 @@
                 var textOpt = dataValues['AAV Solution GOZ Region']['2200'].split(",");
 
                 for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
@@ -3714,26 +3730,26 @@
                 var textOpt = dataValues['AAV Solution GOZ Region']['5000'].split(",");
 
                 for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                  // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
 
           }
 
-            if(this.optGozValuesGAV.length>0) {
-            this.optGAVGozArr     = [0, 1, 2]
-            this.optGozGAVval     = ['0080', '0090', '9040']
-            this.optGozNameGAV    = [this.caseBemaOpt[0]['0080_Name'], this.caseBemaOpt[0]['0090_Name'], this.caseBemaOpt[0]['9040_Name']]
-            this.optGozPriceGAV   = [this.caseBemaOpt[0]['0080_Price'], this.caseBemaOpt[0]['0090_Price'], this.caseBemaOpt[0]['9040_Price']]
-            }
+          if(this.optGozValuesGAV.length>0) {
+          this.optGAVGozArr     = [0, 1, 2]
+          this.optGozGAVval     = ['0080', '0090', '9040']
+          this.optGozNameGAV    = [this.caseBemaOpt[0]['0080_Name'], this.caseBemaOpt[0]['0090_Name'], this.caseBemaOpt[0]['9040_Name']]
+          this.optGozPriceGAV   = [this.caseBemaOpt[0]['0080_Price'], this.caseBemaOpt[0]['0090_Price'], this.caseBemaOpt[0]['9040_Price']]
+          }
 
-            if(this.optGozValuesGAV_.length>0) {
-            this.optGAVGozArr_     = [0]
-            this.optGozGAVval_     = ['2197']
-            this.optGozNameGAV_    = [this.caseBemaOpt[0]['2197_Name']]
-            this.optGozPriceGAV_   = [this.caseBemaOpt[0]['2197_Price']]
-            }
+          if(this.optGozValuesGAV_.length>0) {
+          this.optGAVGozArr_     = [0]
+          this.optGozGAVval_     = ['2197']
+          this.optGozNameGAV_    = [this.caseBemaOpt[0]['2197_Name']]
+          this.optGozPriceGAV_   = [this.caseBemaOpt[0]['2197_Price']]
+          }
         }
 
       },

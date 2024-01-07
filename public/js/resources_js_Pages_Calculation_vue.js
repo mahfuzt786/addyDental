@@ -1468,13 +1468,25 @@ var _validEntry = function validEntry(value) {
         } // For opt GOZ AAV
 
 
+        console.log('AAV GOZ opt');
+        console.log(dataValues['AAV Solution GOZ Region']); // console.log(this.optGozValuesGAV)
+        // console.log(this.optGozValuesGAV_)
+
         if (dataValues['AAV Solution GOZ Region Opt'] !== '') {
           if (dataValues['AAV Solution GOZ Region']['2210'] !== undefined) {
             var textOpt = dataValues['AAV Solution GOZ Region']['2210'].split(",");
 
             for (var to = 0; to < textOpt.length; to++) {
-              this.optGozValuesGAV.push(textOpt[to].trim());
+              // this.optGozValuesGAV.push( textOpt[to].trim() )
               this.optGozValuesGAV_.push(textOpt[to].trim());
+            }
+          }
+
+          if (dataValues['AAV Solution GOZ Region']['2270'] !== undefined) {
+            var textOpt = dataValues['AAV Solution GOZ Region']['2270'].split(",");
+
+            for (var to = 0; to < textOpt.length; to++) {
+              this.optGozValuesGAV.push(textOpt[to].trim()); // this.optGozValuesGAV_.push( textOpt[to].trim() )
             }
           }
 
@@ -1482,7 +1494,7 @@ var _validEntry = function validEntry(value) {
             var textOpt = dataValues['AAV Solution GOZ Region']['2220'].split(",");
 
             for (var to = 0; to < textOpt.length; to++) {
-              this.optGozValuesGAV.push(textOpt[to].trim());
+              // this.optGozValuesGAV.push( textOpt[to].trim() )
               this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
@@ -1491,7 +1503,7 @@ var _validEntry = function validEntry(value) {
             var textOpt = dataValues['AAV Solution GOZ Region']['5010'].split(",");
 
             for (var to = 0; to < textOpt.length; to++) {
-              this.optGozValuesGAV.push(textOpt[to].trim());
+              // this.optGozValuesGAV.push( textOpt[to].trim() )
               this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
@@ -1500,7 +1512,7 @@ var _validEntry = function validEntry(value) {
             var textOpt = dataValues['AAV Solution GOZ Region']['5040'].split(",");
 
             for (var to = 0; to < textOpt.length; to++) {
-              this.optGozValuesGAV.push(textOpt[to].trim());
+              // this.optGozValuesGAV.push( textOpt[to].trim() )
               this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
@@ -1509,7 +1521,7 @@ var _validEntry = function validEntry(value) {
             var textOpt = dataValues['AAV Solution GOZ Region']['2200'].split(",");
 
             for (var to = 0; to < textOpt.length; to++) {
-              this.optGozValuesGAV.push(textOpt[to].trim());
+              // this.optGozValuesGAV.push( textOpt[to].trim() )
               this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
@@ -1518,7 +1530,7 @@ var _validEntry = function validEntry(value) {
             var textOpt = dataValues['AAV Solution GOZ Region']['5000'].split(",");
 
             for (var to = 0; to < textOpt.length; to++) {
-              this.optGozValuesGAV.push(textOpt[to].trim());
+              // this.optGozValuesGAV.push( textOpt[to].trim() )
               this.optGozValuesGAV_.push(textOpt[to].trim());
             }
           }
