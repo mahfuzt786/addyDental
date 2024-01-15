@@ -156,50 +156,6 @@
         </div>
 
         <div class="table-container my-3" v-if="calculated">
-          <!-- <v-simple-table outlined>
-            <template v-slot:default>
-            <tbody>
-              <tr>
-                <td class="backColorTable"> Honorar BEMA </td>
-                <td class="totalAmountBema"> {{ totalBema }} <span v-html="euro"></span> </td>
-              </tr>
-
-              <tr>
-                <td class="backColorTable"> Honorar GOZ / GOA </td>
-                <td class="totalAmountGoz"> {{totalGav}} <span v-html="euro"></span> </td>
-              </tr>
-
-              <tr>
-                <td class="backColorTable"> Labor gewerblich </td>
-                <td> 0.00 € </td>
-              </tr>
-
-              <tr>
-                <td class="backColorTable"> Eigenlabor </td>
-                <td> 0.00 <span v-html="euro"></span> </td>
-              </tr>
-
-              <tr>
-                <td class="backColorTable"> Summe </td>
-                <td> {{totalSumCalc}} <span v-html="euro"></span> </td>
-              </tr>
-
-              <tr>
-                <td class="backColorTable"> Festzuschusse </td>
-                <td v-if="apiCallSuccess"> {{totalAmount}} <span v-html="euro"></span> </td>
-                <td v-if="!apiCallSuccess"> XXX,XX </td>
-              </tr>
-
-              <tr>
-                <td class="backColorTable"> Eigenanteil Patient </td>
-                <td> 0.00 <span v-html="euro"></span> </td>
-              </tr>
-
-              </tbody>
-
-              </template>
-
-          </v-simple-table> -->
 
           <v-simple-table outlined>
             <template v-slot:default>
@@ -266,59 +222,10 @@
                       max-width="750"
                       persistent
                     >
-                      <template v-slot:activator="{ on, attrs }">
-                        <div class="d-flex justify-space-around">
-                        <!-- <div> -->
-                          <v-btn
-                            v-bind="attrs"
-                            v-on="on"
-                            @click=displayPlanen(index)
-                            fab
-                            dark
-                            small
-                            color="#004d81"
-                            v-if="!showCasePencil[index]"
-                          >
-                            <v-icon dark>
-                              mdi-pencil
-                            </v-icon>
-                          </v-btn>
-
-                          <v-btn
-                            v-bind="attrs"
-                            v-on="on"
-                            @click="displayRVs(reOpenLabel[index], reOpenidValue[index], reOpenids[index], reOpenCaseid[index]); dialogPlan.value = false"
-                            fab
-                            dark
-                            small
-                            color="#004d81"
-                            v-if="showCasePencil[index]"
-                          >
-                            <v-icon dark>
-                              mdi-pencil
-                            </v-icon>
-                          </v-btn>
-                          
-
-                          <v-btn
-                            @click=cancelPlanen(index)
-                            fab
-                            dark
-                            small
-                            color="#b51700"
-                            v-if="Total_case > 1 && showCaseTrash"
-                          >
-                            <v-icon dark>
-                              mdi-trash-can-outline
-                            </v-icon>
-                          </v-btn>
-
-                        </div>
-                        
-                      </template>
 
                       <!-- Main solution display table with radio -->
                       <template v-slot:default="dialogPlan">
+                      <!-- <template v-slot:activator="{ dialogPlan, on, attrs }"> -->
                         <v-card>
                           <v-card-title class="text-h5">
                             {{data["Case Name"]}}, {{ data["Case Region"] }}
@@ -392,6 +299,59 @@
                           </v-card-actions>
                         </v-card>
                       </template>
+                      <!-- END Main solution display table with radio -->
+
+                      <!-- Action Buttons -->
+                      <template v-slot:activator="{ on, attrs }">
+                        <div class="d-flex justify-space-around">
+                          <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                            @click=displayPlanen(index)
+                            fab
+                            dark
+                            x-small
+                            color="#004d81"
+                            v-if="!showCasePencil[index]"
+                          >
+                            <v-icon dark>
+                              mdi-pencil
+                            </v-icon>
+                          </v-btn>
+
+                          <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="displayRVs(reOpenLabel[index], reOpenidValue[index], reOpenids[index], reOpenCaseid[index])"
+                            fab
+                            dark
+                            x-small
+                            color="#004d81"
+                            v-if="showCasePencil[index]"
+                          >
+                            <v-icon dark>
+                              mdi-pencil
+                            </v-icon>
+                          </v-btn>
+                          
+
+                          <v-btn
+                            @click=cancelPlanen(index)
+                            fab
+                            dark
+                            x-small
+                            color="#b51700"
+                            v-if="Total_case > 1 && showCaseTrash"
+                          >
+                            <v-icon dark>
+                              mdi-trash-can-outline
+                            </v-icon>
+                          </v-btn>
+
+                        </div>
+                      </template>
+                      <!-- END Action Buttons -->
+
                     </v-dialog>
                   </td>
 
@@ -1467,10 +1427,12 @@
                             :vertical="false"
                             v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAVGOZ')"
                             :id="'AAVGOZSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
+                            v-if="indexAAV !== '0500' && indexAAV !== '0510' && indexAAV !== '0520' && indexAAV !== '0530'"
                           >
                           </v-slider>
                         </td>
-                        <td v-if="datasAAV" class="clsGozAmount" :id="'AAVGOZAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
+                        <td  class="clsGozAmount" :id="'AAVGOZAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> 
+                          {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
                         </td>
                       </tr>
                     </tbody>
@@ -3291,7 +3253,6 @@
         this.optBemaGav= []
         this.dialogCalc = true // show the individual solution
         this.selectedCaseId = idValue
-
         
 
         // FOR Case questions
@@ -3616,7 +3577,6 @@
           }
 
         }
-        
 
         if(label == 'lblAAV') {
           if( dataValues['AAV Solution GOZ Region'] !== ''
@@ -4234,8 +4194,6 @@
           document.getElementById('AAVAdhAmount'+faktors).innerHTML = newGozAmount
           this.idGozSlider = 'AAVAdhAmount'+faktors
         }
-
-
 
         if(solutionT == 'oAAV') {
           newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('oAAVSlider'+faktors).value])
