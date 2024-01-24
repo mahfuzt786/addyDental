@@ -162,29 +162,29 @@
             <tbody>
               <tr>
                 <td class="backColorTable"> Honorar BEMA </td>
-                <td class="totalAmountBema"> {{ totalBema }} <span v-html="euro"></span> </td>
+                <td class="totalAmountBema" style="width: 110px !important;"> {{ totalBemaDisp }} <span v-html="euro"></span> </td>
 
                 <td class="backColorTable"> Labor gewerblich </td>
-                <td> 0.00 € </td>
+                <td style="width: 110px !important;"> 0.00 € </td>
 
-                <td class="backColorTable"> Festzuschusse </td>
+                <td class="backColorTable"> Festzuschüsse </td>
                 <!-- <td v-if="apiCallSuccess"> {{totalAmount}} <span v-html="euro"></span> </td> -->
                 <!-- <td v-if="!apiCallSuccess"> 0.00 </td> -->
-                <td> {{totalAmount}} <span v-html="euro"></span> </td>
+                <td style="width: 110px !important;"> {{ totalAmountFDisp }} <span v-html="euro"></span> </td>
               </tr>
 
               <tr>
                 <td class="backColorTable"> Honorar GOZ / GOA </td>
-                <td class="totalAmountGoz"> {{totalGav}} <span v-html="euro"></span> </td>
+                <td class="totalAmountGoz" style="width: 110px !important;"> {{ totalGavDisp }} <span v-html="euro"></span> </td>
 
                 <td class="backColorTable"> Eigenlabor </td>
-                <td> 0.00 <span v-html="euro"></span> </td>
+                <td style="width: 110px !important;"> 0.00 <span v-html="euro"></span> </td>
 
                 <td class="backColorTable"> Behandlungskosten </td>
-                <td> {{totalSumCalc}} <span v-html="euro"></span> </td>
+                <td style="width: 110px !important;"> {{ totalSumCalcDisp }} <span v-html="euro"></span> </td>
 
                 <td class="backColorTable" style="font-weight: bold;"> Eigenanteil </td>
-                <td style="font-weight: bold;"> 0.00 <span v-html="euro"></span> </td>
+                <td style="font-weight: bold; width: 110px !important;"> 0.00 <span v-html="euro"></span> </td>
               </tr>
 
               </tbody>
@@ -204,7 +204,7 @@
                   <th class="text-center text-subtitle-1 font-weight-black">Case</th>
                   <th class="text-center text-subtitle-1 font-weight-black">Zahn/Gebiet</th>
                   <th class="text-center text-subtitle-1 font-weight-black">Versorgung</th> 
-                  <th class="text-center text-subtitle-1 font-weight-black">Aktion</th> 
+                  <th class="text-center text-subtitle-1 font-weight-black" style="width: 105px !important;">Aktion</th> 
                 </tr>
               </thead>
               <tbody>
@@ -215,7 +215,7 @@
                       :id="'planen'+index"
                   >
                   </td>
-                  <td class="text-center" v-if="index !== 'Final' && index !== 'Total_case' ">
+                  <td class="text-center" v-if="index !== 'Final' && index !== 'Total_case' " style="width: 105px !important;">
 
                     <v-dialog
                       transition="dialog-top-transition"
@@ -304,7 +304,7 @@
                       <!-- Action Buttons -->
                       <template v-slot:activator="{ on, attrs }">
                         <div class="d-flex justify-space-around">
-                          <v-btn
+                          <!-- <v-btn
                             v-bind="attrs"
                             v-on="on"
                             @click=displayPlanen(index)
@@ -317,23 +317,36 @@
                             <v-icon dark>
                               mdi-pencil
                             </v-icon>
-                          </v-btn>
-
+                          </v-btn> -->
                           <v-btn
                             v-bind="attrs"
                             v-on="on"
-                            @click="displayRVs(reOpenLabel[index], reOpenidValue[index], reOpenids[index], reOpenCaseid[index])"
+                            @click=displayPlanen(index)
                             fab
                             dark
                             x-small
                             color="#004d81"
-                            v-if="showCasePencil[index]"
+                            v-if=" showCasePencil.indexOf(index) == -1"
                           >
                             <v-icon dark>
                               mdi-pencil
                             </v-icon>
                           </v-btn>
-                          
+
+                          <v-btn
+                            @click="displayRVs(reOpenLabel[index], reOpenidValue[index], reOpenids[index], reOpenCaseid[index])"
+                            fab
+                            dark
+                            x-small
+                            color="#004d81"
+                            v-if=" showCasePencil.indexOf(index) !== -1"
+                          >
+                            <v-icon dark>
+                              mdi-pencil
+                            </v-icon>
+                          </v-btn>
+
+                          <v-spacer></v-spacer>                          
 
                           <v-btn
                             @click=cancelPlanen(index)
@@ -347,6 +360,19 @@
                               mdi-trash-can-outline
                             </v-icon>
                           </v-btn>
+
+                          <!-- <v-btn
+                            @click=cancelPlanen(index)
+                            fab
+                            dark
+                            x-small
+                            color="#b51700"
+                            v-if="Total_case > 1 && showCaseTrash.indexOf(index) !== -1"
+                          >
+                            <v-icon dark>
+                              mdi-trash-can-outline
+                            </v-icon>
+                          </v-btn> -->
 
                         </div>
                       </template>
@@ -480,6 +506,7 @@
                       label="Stift(e)?"
                       value="yes"
                       v-on:change="displayOptsBemaRV()"
+                      class="lblStrong"
                     ></v-checkbox>
                   </v-col>
 
@@ -638,6 +665,7 @@
                       label="Aufbaufüllung(en)?"
                       value="Aufbaufüllung"
                       v-on:change="optGozGavCall()"
+                      class="lblStrong"
                     ></v-checkbox>
                   </v-col>
                 </v-row>
@@ -723,6 +751,7 @@
                       label="Adhäsive Kronenbefestigung(en)?"
                       value="Adhäsive"
                       v-on:change="optGozGavCall()"
+                      class="lblStrong"
                     ></v-checkbox>
                   </v-col>
                 </v-row>
@@ -1032,6 +1061,7 @@
                         label="Aufbaufüllung(en)?"
                         value="Aufbaufüllung"
                         v-on:change="optGozGavCall()"
+                        class="lblStrong"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -1118,6 +1148,7 @@
                         label="Adhäsive Kronenbefestigung(en)?"
                         value="Adhäsive"
                         v-on:change="optGozGavCall()"
+                        class="lblStrong"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -1223,6 +1254,7 @@
                       label="Stift(e)?"
                       value="yes"
                       v-on:change="displayOptsBemaRV()"
+                      class="lblStrong"
                     ></v-checkbox>
                   </v-col>
 
@@ -1540,6 +1572,7 @@
                         label="Freilegung(en)?"
                         value="Aufbaufüllung"
                         v-on:change="optGozGavCall()"
+                        class="lblStrong"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -1625,6 +1658,7 @@
                         label="Adhäsive Kronenbefestigung(en)?"
                         value="Adhäsive"
                         v-on:change="optGozGavCall()"
+                        class="lblStrong"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -1772,6 +1806,7 @@
                       label="Stift(e)?"
                       value="yes"
                       v-on:change="displayOptsBemaRV()"
+                      class="lblStrong"
                     ></v-checkbox>
                   </v-col>
 
@@ -2638,10 +2673,22 @@
         '2.3',
         '3.5',
       ],
-      totalGav: '0.00',
-      totalBema: '0.00',
-      totalSumCalc: '0.00',
-      euro: '&euro;',
+      totalGav          : '0.00',
+      totalBema         : '0.00',
+      totalSumCalc      : '0.00',
+      totalAmountF      : '0.00',
+      euro              : '&euro;',
+      
+      totalBemaArr      : [],
+      totalAmountFArr   : [],
+      totalGavArr       : [],
+      totalSumCalcArr   : [],
+
+      totalBemaDisp     : '0.00',
+      totalAmountFDisp  : '0.00',
+      totalGavDisp      : '0.00',
+      totalSumCalcDisp  : '0.00',
+
       overlay: false,
       dialogRow: 0,
       checkbox: true,
@@ -2733,8 +2780,8 @@
       OptGozGAVselectedReg: [],
       OptGozGAVselectedReg_: [],
 
-      // showCaseTrash: [],
       showCaseTrash: false,
+      // showCaseTrash: [],
       showCasePencil: [],
       reOpenLabel:[],
       reOpenidValue:[],
@@ -3270,7 +3317,6 @@
         this.showOptGozGAV_Table = []
         this.OptGozGAVselectedReg = []
         this.OptGozGAVselectedReg_ = []
-
         
         if(label == 'lblRV') {
           if(dataValues['RV Solution BEMA Opt Region'] !== '') {
@@ -3631,8 +3677,16 @@
           }
 
           // For opt GOZ AAV
-
           if(dataValues['AAV Solution GOZ Region Opt'] !== '') {
+
+            if( dataValues['AAV Solution GOZ Region Opt']['Freilegung'] !== undefined
+            ) {
+                var textOpt = dataValues['AAV Solution GOZ Region Opt']['Freilegung']['0080'].split(",");
+
+                for(var to=0; to<textOpt.length; to++) {
+                  this.optGozValuesGAV.push( textOpt[to].trim() )
+                }
+            }
 
             if( dataValues['AAV Solution GOZ Region']['2210'] !== undefined
             ) {
@@ -3641,15 +3695,6 @@
                 for(var to=0; to<textOpt.length; to++) {
                   // this.optGozValuesGAV.push( textOpt[to].trim() )
                   this.optGozValuesGAV_.push( textOpt[to].trim() )
-                }
-            }
-            if( dataValues['AAV Solution GOZ Region']['2270'] !== undefined
-            ) {
-                var textOpt = dataValues['AAV Solution GOZ Region']['2270'].split(",");
-
-                for(var to=0; to<textOpt.length; to++) {
-                  this.optGozValuesGAV.push( textOpt[to].trim() )
-                  // this.optGozValuesGAV_.push( textOpt[to].trim() )
                 }
             }
 
@@ -4218,8 +4263,46 @@
         this.displaySecond = rowIndex;
       },
       cancelPlanen(rowIndex) {
-        console.log('case')
-        console.log(rowIndex)
+        // this.showCaseTrash.splice(rowIndex, 1)
+        this.showCasePencil.splice(rowIndex, 1)
+
+        document.getElementById("planen"+rowIndex).innerHTML = ''
+
+        this.totalBemaArr[rowIndex]     = '0.00'
+        this.totalAmountFArr[rowIndex]  = '0.00'
+        this.totalGavArr[rowIndex]      = '0.00'
+        this.totalSumCalcArr[rowIndex]  = '0.00'
+
+        this.totalTableCalc()
+      },
+      totalTableCalc() {
+        var tempBemaArr     = 0.00
+        var tempAmountFArr  = 0.00
+        var tempGavArr      = 0.00
+        var tempSumCalcArr  = 0.00
+        for(var si=0; si<this.totalBemaArr.length; si++) {
+          tempBemaArr += parseFloat(this.totalBemaArr[si])
+        }
+
+        for(var si=0; si<this.totalAmountFArr.length; si++) {
+          tempAmountFArr += parseFloat(this.totalAmountFArr[si])
+        }
+
+        for(var si=0; si<this.totalGavArr.length; si++) {
+          tempGavArr += parseFloat(this.totalGavArr[si])
+        }
+
+        for(var si=0; si<this.totalSumCalcArr.length; si++) {
+          tempSumCalcArr += parseFloat(this.totalSumCalcArr[si])
+        }
+
+        this.totalBemaDisp      = parseFloat(tempBemaArr).toFixed(2)
+        this.totalAmountFDisp   = parseFloat(tempAmountFArr).toFixed(2)
+        this.totalGavDisp       = parseFloat(tempGavArr).toFixed(2)
+        this.totalSumCalcDisp   = parseFloat(tempSumCalcArr).toFixed(2)
+
+        console.log(tempBemaArr)
+        console.log(this.totalBemaArr)
       },
       closeCalc() {
         //reset the radio btn selected
@@ -4264,6 +4347,14 @@
         let clsGozAmount = 0;
         let clsBemaAmount = 0;
 
+        // FOR DELETE
+        this.totalBema      = 0
+        this.totalAmountF   = 0
+        this.totalGav       = 0
+        this.totalSumCalc   = 0
+
+        // END FOR DELETE
+
         for(var gozI=0; gozI<collectionGoz.length; gozI++) {
           clsGozAmount += parseFloat(collectionGoz[gozI].innerText)
         }
@@ -4275,14 +4366,26 @@
         this.totalBema = parseFloat(parseFloat(this.totalBema) + parseFloat(clsBemaAmount)).toFixed(2)
 
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
+        this.totalAmountF = this.totalAmount
+
+        this.totalBemaArr[dialogRowIndex]     = this.totalBema
+        this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF
+        this.totalGavArr[dialogRowIndex]      = this.totalGav
+        this.totalSumCalcArr[dialogRowIndex]  = this.totalSumCalc
+
+        this.totalTableCalc()
 
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
         this.showCaseTrash = true
-        this.showCasePencil[dialogRowIndex] = true
+        // this.showCaseTrash.push(dialogRowInde                    x)
+        this.showCasePencil.push(dialogRowIndex)
         // document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
 
-        console.log('showCaseTrash')
-        console.log(dialogRowIndex)
+        // remove duplicates from the showCase Trash, showCasePencil array
+        // this.showCaseTrash = [...new Set(this.showCaseTrash)]
+
+        var filteredArray = [...new Set(this.showCasePencil)]
+        this.showCasePencil = filteredArray
 
         /** DISPLAY TEETH IMAGES */
         var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
@@ -4356,7 +4459,6 @@
       filteredHistoryData(item) {
         return this.secondExpandedDataSet.filter(f => f.RVId == item.RVId);
       },
-
       displayOptsBemaRV() {
         if(this.optBemaRV == 'yes') {
           this.optBemaRVSecond = true
@@ -4388,7 +4490,6 @@
           this.optGozRVShow[region]     = false
         }
       },
-
       dispoptBemaRVSecond2(region) {
         if(this.optBemaRVJa2[region] == 'stift') {
           this.optBemaGozRV[region]     = '18a'
@@ -4409,7 +4510,6 @@
         }
 
       },
-
       weiterCall() {
         
       }
@@ -4479,5 +4579,9 @@ td.insideTable {
   border: none;
   margin-bottom: 5px;
 }
+.lblStrong {
+  font-weight: bold;
+}
+
 
 </style>
