@@ -174,7 +174,7 @@
               </tr>
 
               <tr>
-                <td class="backColorTable"> Honorar GOZ / GOA </td>
+                <td class="backColorTable"> Honorar GOZ / GOÄ </td>
                 <td class="totalAmountGoz" style="width: 110px !important;"> {{ totalGavDisp }} <span v-html="euro"></span> </td>
 
                 <td class="backColorTable"> Eigenlabor </td>
@@ -210,7 +210,7 @@
               <tbody>
                 <tr v-for="(data, index) in tableData" :key="index">
                   <td class="text-center" v-if="index !== 'Final' && index !== 'Total_case' ">{{data["Case Name"]}}</td>
-                  <td class="text-center" v-if="index !== 'Final' && index !== 'Total_case' ">{{ data["Case Region"] }}</td>
+                  <td class="text-center" v-if="index !== 'Final' && index !== 'Total_case' " :id="'case_region_'+index">{{ data["Case Region"] }}</td>
                   <td class="text-center" v-if="index !== 'Final' && index !== 'Total_case' "
                       :id="'planen'+index"
                   >
@@ -399,7 +399,6 @@
               </v-card-title>
 
               <v-card-text>
-
                 <!-- Start RV -->
                 <h3 v-if="dataRV_GAV_AAV['RV#']">BEMA-Positionen</h3>
                 <v-simple-table v-if="dataRV_GAV_AAV['RV#']" outlined class="my-2">
@@ -475,46 +474,211 @@
                       </tr>
                     </tbody>
                   </template>
-                </v-simple-table> -->
+                </v-simple-table> -->               
+
+                <div v-if="dataRV_GAV_AAV['RV#']">
+                  <h3 v-if="dataRV_GAV_AAV['RV#']">Behandlungsoptionen</h3>
+                  <hr/>
+
+                  <v-row v-if="dataRV_GAV_AAV['RV#']">
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                    >
+                      <v-checkbox
+                        v-model="OptGozGAVselected_RV[dialogRow]"
+                        label="Aufbaufüllung(en)?"
+                        :value="'Aufbaufüllung_RV' + dialogRow"
+                        :name="'Aufbaufüllung_RV' + dialogRow"
+                        :id="'Aufbaufüllung_RV' + dialogRow"
+                        v-on:change="optGozGavCall(dialogRow)"
+                        class="lblStrong"
+                      ></v-checkbox>
+                    
+                    </v-col>
+                  </v-row>
+
+                  <div v-if="displayOptGozGavs_RV[dialogRow]">
+                    <div v-for="region in optGozValuesGAV" :key="region">
+                        
+                        <v-checkbox
+                          v-model="OptGozGAVselectedReg_RV[region]"
+                          :label="region"
+                          :value="region"
+                          v-on:change="optGozGavCallReg(dialogRow, region)"
+                        ></v-checkbox>
+
+                        <!-- Aufbaufüllung -->
+                        <div v-if="showOptGozGAVTable_RV[region]">
+                          <v-simple-table outlined class="my-2">
+                            <template v-slot:default>
+                              <thead>
+                                <tr>
+                                  <th class="text-left">GOZ-Nr.</th>
+                                  <th class="text-left">Leistungsbeschreibung</th>
+                                  <th class="text-left">Zahn/ Gebiet</th>
+                                  <th class="text-left">Anzahl</th>
+                                  <th class="text-left">Faktor</th>
+                                  <th class="text-left">Betrag (€)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr v-for="bemaRegion in optGAVGozArr" :key="bemaRegion">
+                                  <td> {{ optGozGAVval[bemaRegion] }} </td>
+                                  <td>
+                                    <v-tooltip top color="success">
+                                      <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                          text
+                                          v-bind="attrs"
+                                          v-on="on"
+                                          style="text-transform: none !important; height: 0px !important;"
+                                        >
+                                          {{ optGozNameGAV[bemaRegion]|truncate(25) }}
+                                        </v-btn>
+                                      </template>
+                                      <span> {{ optGozNameGAV[bemaRegion] }} </span>
+                                    </v-tooltip>
+                                  </td>
+                                  <td> {{ region }} </td>
+                                  <td> 1 </td>
+                                  <td style="width: 150px;">
+                                    <v-slider
+                                      value="1"
+                                      :tick-labels="ticksLabels"
+                                      :max="2"
+                                      step="1"
+                                      ticks="always"
+                                      tick-size="4"
+                                      :thumb-size="36"
+                                      :vertical="false"
+                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'RV', optGozPriceGAV[bemaRegion], 'RVAuf')"
+                                      :id="'RVAufSlider'+optGozGAVval[bemaRegion]+region+'RV'"
+                                    >
+                                    </v-slider>
+                                  </td>
+                                  <td class="clsGoaAmountNo" :id="'RVAufAmount'+optGozGAVval[bemaRegion]+region+'RV'"> {{ gozAmount(optGozPriceGAV[bemaRegion], '2.3') }} </td>
+                                  
+                                </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>
+                        </div>
+
+                    </div>
+                  </div>
+
+                  <v-row v-if="dataRV_GAV_AAV['RV#']">
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                    >
+                      <v-checkbox
+                        v-model="OptGozGAVselected_RV_[dialogRow]"
+                        label="Adhäsive Kronenbefestigung(en)?"
+                        :value="'Adhäsive_RV' + dialogRow"
+                        :name="'Adhäsive_RV' + dialogRow"
+                        :id="'Adhäsive_RV' + dialogRow"
+                        v-on:change="optGozGavCall_(dialogRow)"
+                        class="lblStrong"
+                      ></v-checkbox>
+                    </v-col>
+                  </v-row>
+                  <div v-if="displayOptGozGavs_RV_[dialogRow]">
+                    <div v-for="region in optGozValuesGAV_" :key="region">
+                        <v-checkbox
+                          v-model="OptGozGAVselectedReg_RV_[region]"
+                          :label="region"
+                          :value="region"
+                          v-on:change="optGozGavCallReg(dialogRow, region)"
+                        ></v-checkbox>
+
+                        <!-- Adhäsive -->
+                        <div v-if="showOptGozGAV_Table_RV[region]">
+                          <v-simple-table outlined class="my-2">
+                            <template v-slot:default>
+                              <thead>
+                                <tr>
+                                  <th class="text-left">GOZ-Nr.</th>
+                                  <th class="text-left">Leistungsbeschreibung</th>
+                                  <th class="text-left">Zahn/ Gebiet</th>
+                                  <th class="text-left">Anzahl</th>
+                                  <th class="text-left">Faktor</th>
+                                  <th class="text-left">Betrag (€)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr v-for="bemaRegion in optGAVGozArr_" :key="bemaRegion">
+                                  <td> {{ optGozGAVval_[bemaRegion] }} </td>
+                                  <td>
+                                    <v-tooltip top color="success">
+                                      <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                          text
+                                          v-bind="attrs"
+                                          v-on="on"
+                                          style="text-transform: none !important; height: 0px !important;"
+                                        >
+                                          {{ optGozNameGAV_[bemaRegion]|truncate(25) }}
+                                        </v-btn>
+                                      </template>
+                                      <span> {{ optGozNameGAV_[bemaRegion] }} </span>
+                                    </v-tooltip>
+                                  </td>
+                                  <td> {{ region }} </td>
+                                  <td> 1 </td>
+                                  <td style="width: 150px;">
+                                    <v-slider
+                                      value="1"
+                                      :tick-labels="ticksLabels"
+                                      :max="2"
+                                      step="1"
+                                      ticks="always"
+                                      tick-size="4"
+                                      :thumb-size="36"
+                                      :vertical="false"
+                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'RV', optGozPriceGAV_[bemaRegion], 'RVAdh')"
+                                      :id="'RVAdhSlider'+optGozGAVval_[bemaRegion]+region+'RV'"
+                                    >
+                                    </v-slider>
+                                    
+                                  </td>
+                                  <td class="clsGoaAmountNo" :id="'RVAdhAmount'+optGozGAVval_[bemaRegion]+region+'RV'"> {{ gozAmount(optGozPriceGAV_[bemaRegion], '2.3') }} </td>
+                                  
+                                </tr>
+                              </tbody>
+                            </template>
+                          </v-simple-table>
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
 
                 <div v-if="showCaseQuesRV">
-                  <!-- <v-radio-group
-                    v-model="optBemaRV"
-                    row
-                    v-on:change="displayOptsBemaRV()"
-                  >
-                    <template v-slot:label>
-                      <h4> Stift(e)? </h4>
-                    </template>
-                    <v-radio
-                      label="Ja"
-                      value="yes"
-                    ></v-radio>
-                    <v-radio
-                      label="Nein"
-                      value="no"
-                    ></v-radio>
-                  </v-radio-group> -->
-
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    md="4"
-                  >
-                    <v-checkbox
-                      v-model="optBemaRV"
-                      label="Stift(e)?"
-                      value="yes"
-                      v-on:change="displayOptsBemaRV()"
-                      class="lblStrong"
-                    ></v-checkbox>
-                  </v-col>
+                  <v-row v-if="dataRV_GAV_AAV['RV#']">
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                    >
+                      <v-checkbox
+                        v-model="optBemaRV[dialogRow]"
+                        label="Stift(e)?"
+                        value="yes"
+                        v-on:change="displayOptsBemaRV(dialogRow)"
+                        class="lblStrong"
+                      ></v-checkbox>
+                    </v-col>
+                  </v-row>
 
                   <div v-for="bemaRegion in optBemaValuesRV" :key="bemaRegion">
                     <v-radio-group
                       v-model="optBemaRVJa[bemaRegion]"
                       row
-                      v-if="optBemaRVSecond"
+                      v-if="optBemaRVSecond[dialogRow]"
                       v-on:change="dispoptBemaRVSecond(bemaRegion)"
                     >
                       <template v-slot:label>
@@ -647,184 +811,6 @@
                     </div>
 
                   </div>
-                  
-                </div>
-
-                <div v-if="dataRV_GAV_AAV['RV#']">
-                <h3 v-if="dataRV_GAV_AAV['RV#']">Behandlungsoptionen</h3>
-                <hr/>
-
-                <v-row v-if="dataRV_GAV_AAV['RV#']">
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    md="4"
-                  >
-                    <v-checkbox
-                      v-model="OptGozGAVselected"
-                      label="Aufbaufüllung(en)?"
-                      value="Aufbaufüllung"
-                      v-on:change="optGozGavCall()"
-                      class="lblStrong"
-                    ></v-checkbox>
-                  </v-col>
-                </v-row>
-
-                <div v-if="displayOptGozGavs">
-                  <div v-for="region in optGozValuesGAV" :key="region">
-                      
-                      <v-checkbox
-                        v-model="OptGozGAVselectedReg[region]"
-                        :label="region"
-                        :value="region"
-                        v-on:change="optGozGavCallReg(region)"
-                      ></v-checkbox>
-
-                      <!-- Aufbaufüllung -->
-                      <div v-if="showOptGozGAVTable[region]">
-                        <v-simple-table outlined class="my-2">
-                          <template v-slot:default>
-                            <thead>
-                              <tr>
-                                <th class="text-left">GOZ-Nr.</th>
-                                <th class="text-left">Leistungsbeschreibung</th>
-                                <th class="text-left">Zahn/ Gebiet</th>
-                                <th class="text-left">Anzahl</th>
-                                <th class="text-left">Faktor</th>
-                                <th class="text-left">Betrag (€)</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr v-for="bemaRegion in optGAVGozArr" :key="bemaRegion">
-                                <td> {{ optGozGAVval[bemaRegion] }} </td>
-                                <td>
-                                  <v-tooltip top color="success">
-                                    <template v-slot:activator="{ on, attrs }">
-                                      <v-btn
-                                        text
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        style="text-transform: none !important; height: 0px !important;"
-                                      >
-                                        {{ optGozNameGAV[bemaRegion]|truncate(25) }}
-                                      </v-btn>
-                                    </template>
-                                    <span> {{ optGozNameGAV[bemaRegion] }} </span>
-                                  </v-tooltip>
-                                </td>
-                                <td> {{ region }} </td>
-                                <td> 1 </td>
-                                <td style="width: 150px;">
-                                  <v-slider
-                                    value="1"
-                                    :tick-labels="ticksLabels"
-                                    :max="2"
-                                    step="1"
-                                    ticks="always"
-                                    tick-size="4"
-                                    :thumb-size="36"
-                                    :vertical="false"
-                                    v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'RV', optGozPriceGAV[bemaRegion], 'RVAuf')"
-                                    :id="'RVAufSlider'+optGozGAVval[bemaRegion]+region+'RV'"
-                                  >
-                                  </v-slider>
-                                </td>
-                                <td class="clsGoaAmountNo" :id="'RVAufAmount'+optGozGAVval[bemaRegion]+region+'RV'"> {{ gozAmount(optGozPriceGAV[bemaRegion], '2.3') }} </td>
-                                
-                              </tr>
-                            </tbody>
-                          </template>
-                        </v-simple-table>
-                      </div>
-
-                  </div>
-                </div>
-
-                <v-row v-if="dataRV_GAV_AAV['RV#']">
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    md="4"
-                  >
-                    <v-checkbox
-                      v-model="OptGozGAVselected_"
-                      label="Adhäsive Kronenbefestigung(en)?"
-                      value="Adhäsive"
-                      v-on:change="optGozGavCall()"
-                      class="lblStrong"
-                    ></v-checkbox>
-                  </v-col>
-                </v-row>
-                <div v-if="displayOptGozGavs_">
-                  <div v-for="region in optGozValuesGAV_" :key="region">
-                      
-                      <v-checkbox
-                        v-model="OptGozGAVselectedReg_[region]"
-                        :label="region"
-                        :value="region"
-                        v-on:change="optGozGavCallReg(region)"
-                      ></v-checkbox>
-
-                      <!-- Adhäsive -->
-                      <div v-if="showOptGozGAV_Table[region]">
-                        <v-simple-table outlined class="my-2">
-                          <template v-slot:default>
-                            <thead>
-                              <tr>
-                                <th class="text-left">GOZ-Nr.</th>
-                                <th class="text-left">Leistungsbeschreibung</th>
-                                <th class="text-left">Zahn/ Gebiet</th>
-                                <th class="text-left">Anzahl</th>
-                                <th class="text-left">Faktor</th>
-                                <th class="text-left">Betrag (€)</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr v-for="bemaRegion in optGAVGozArr_" :key="bemaRegion">
-                                <td> {{ optGozGAVval_[bemaRegion] }} </td>
-                                <td>
-                                  <v-tooltip top color="success">
-                                    <template v-slot:activator="{ on, attrs }">
-                                      <v-btn
-                                        text
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        style="text-transform: none !important; height: 0px !important;"
-                                      >
-                                        {{ optGozNameGAV_[bemaRegion]|truncate(25) }}
-                                      </v-btn>
-                                    </template>
-                                    <span> {{ optGozNameGAV_[bemaRegion] }} </span>
-                                  </v-tooltip>
-                                </td>
-                                <td> {{ region }} </td>
-                                <td> 1 </td>
-                                <td style="width: 150px;">
-                                  <v-slider
-                                    value="1"
-                                    :tick-labels="ticksLabels"
-                                    :max="2"
-                                    step="1"
-                                    ticks="always"
-                                    tick-size="4"
-                                    :thumb-size="36"
-                                    :vertical="false"
-                                    v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'RV', optGozPriceGAV_[bemaRegion], 'RVAdh')"
-                                    :id="'RVAdhSlider'+optGozGAVval_[bemaRegion]+region+'RV'"
-                                  >
-                                  </v-slider>
-                                  
-                                </td>
-                                <td class="clsGoaAmountNo" :id="'RVAdhAmount'+optGozGAVval_[bemaRegion]+region+'RV'"> {{ gozAmount(optGozPriceGAV_[bemaRegion], '2.3') }} </td>
-                                
-                              </tr>
-                            </tbody>
-                          </template>
-                        </v-simple-table>
-                      </div>
-
-                  </div>
-                </div>
                 </div>
 
                 <!-- End RV -->
@@ -1057,27 +1043,30 @@
                       md="4"
                     >
                       <v-checkbox
-                        v-model="OptGozGAVselected"
+                        v-model="OptGozGAVselected_GAV[dialogRow]"
                         label="Aufbaufüllung(en)?"
-                        value="Aufbaufüllung"
-                        v-on:change="optGozGavCall()"
+                        :value="'Aufbaufüllung_GAV' + dialogRow"
+                        :name="'Aufbaufüllung_GAV' + dialogRow"
+                        :id="'Aufbaufüllung_GAV' + dialogRow"
+                        v-on:change="optGozGavCall(dialogRow)"
                         class="lblStrong"
                       ></v-checkbox>
+
                     </v-col>
                   </v-row>
 
-                  <div v-if="displayOptGozGavs">
+                  <div v-if="displayOptGozGavs_GAV[dialogRow]">
                     <div v-for="region in optGozValuesGAV" :key="region">
                         
                         <v-checkbox
-                          v-model="OptGozGAVselectedReg[region]"
+                          v-model="OptGozGAVselectedReg_GAV[region]"
                           :label="region"
                           :value="region"
-                          v-on:change="optGozGavCallReg(region)"
+                          v-on:change="optGozGavCallReg(dialogRow, region)"
                         ></v-checkbox>
 
                         <!-- Aufbaufüllung -->
-                        <div v-if="showOptGozGAVTable[region]">
+                        <div v-if="showOptGozGAVTable_GAV[region]">
                           <v-simple-table outlined class="my-2">
                             <template v-slot:default>
                               <thead>
@@ -1143,27 +1132,30 @@
                       sm="4"
                       md="4"
                     >
-                      <v-checkbox
-                        v-model="OptGozGAVselected_"
-                        label="Adhäsive Kronenbefestigung(en)?"
-                        value="Adhäsive"
-                        v-on:change="optGozGavCall()"
-                        class="lblStrong"
-                      ></v-checkbox>
+                    <v-checkbox
+                      v-model="OptGozGAVselected_GAV_[dialogRow]"
+                      label="Adhäsive Kronenbefestigung(en)?"
+                      :value="'Adhäsive_GAV' + dialogRow"
+                      :name="'Adhäsive_GAV' + dialogRow"
+                      :id="'Adhäsive_GAV' + dialogRow"
+                      v-on:change="optGozGavCall_(dialogRow)"
+                      class="lblStrong"
+                    ></v-checkbox>
+
                     </v-col>
                   </v-row>
-                  <div v-if="displayOptGozGavs_">
+                  <div v-if="displayOptGozGavs_GAV_[dialogRow]">
                     <div v-for="region in optGozValuesGAV_" :key="region">
                         
                         <v-checkbox
-                          v-model="OptGozGAVselectedReg_[region]"
+                          v-model="OptGozGAVselectedReg_GAV_[region]"
                           :label="region"
                           :value="region"
-                          v-on:change="optGozGavCallReg(region)"
+                          v-on:change="optGozGavCallReg(dialogRow, region)"
                         ></v-checkbox>
 
                         <!-- Adhäsive -->
-                        <div v-if="showOptGozGAV_Table[region]">
+                        <div v-if="showOptGozGAV_Table_GAV[region]">
                           <v-simple-table outlined class="my-2">
                             <template v-slot:default>
                               <thead>
@@ -1225,44 +1217,27 @@
                 </div>
                 
                 <div v-if="showCaseQuesGAV">
-                  <!-- <v-radio-group
-                    v-model="optBemaRV"
-                    row
-                    v-on:change="displayOptsBemaRV()"
-                  >
-                    <template v-slot:label>
-                      <! -- <h4> Werden Stift(e) benötigt? </h4> -- >
-                      <h4> Stift(e)? </h4>
-                    </template>
-                    <v-radio
-                      label="Ja"
-                      value="yes"
-                    ></v-radio>
-                    <v-radio
-                      label="Nein"
-                      value="no"
-                    ></v-radio>
-                  </v-radio-group> -->
-
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    md="4"
-                  >
-                    <v-checkbox
-                      v-model="optBemaRV"
-                      label="Stift(e)?"
-                      value="yes"
-                      v-on:change="displayOptsBemaRV()"
-                      class="lblStrong"
-                    ></v-checkbox>
-                  </v-col>
+                  <v-row v-if="dataRV_GAV_AAV['GAV#']">
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                    >
+                      <v-checkbox
+                        v-model="optBemaRV[dialogRow]"
+                        label="Stift(e)?"
+                        value="yes"
+                        v-on:change="displayOptsBemaRV(dialogRow)"
+                        class="lblStrong"
+                      ></v-checkbox>
+                    </v-col>
+                  </v-row>
 
                   <div v-for="bemaRegion in optBemaValuesRV" :key="bemaRegion">
                     <v-radio-group
                       v-model="optBemaRVJa[bemaRegion]"
                       row
-                      v-if="optBemaRVSecond"
+                      v-if="optBemaRVSecond[dialogRow]"
                       v-on:change="dispoptBemaRVSecond(bemaRegion)"
                     >
                       <template v-slot:label>
@@ -1568,27 +1543,29 @@
                       md="4"
                     >
                       <v-checkbox
-                        v-model="OptGozGAVselected"
+                        v-model="OptGozGAVselected_AAV[dialogRow]"
                         label="Freilegung(en)?"
-                        value="Aufbaufüllung"
-                        v-on:change="optGozGavCall()"
+                        :value="'Aufbaufüllung_AAV' + dialogRow"
+                        :name="'Aufbaufüllung_AAV' + dialogRow"
+                        :id="'Aufbaufüllung_AAV' + dialogRow"
+                        v-on:change="optGozGavCall(dialogRow)"
                         class="lblStrong"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
 
-                  <div v-if="displayOptGozGavs">
+                  <div v-if="displayOptGozGavs_AAV[dialogRow]">
                     <div v-for="region in optGozValuesGAV" :key="region">
                         
                         <v-checkbox
-                          v-model="OptGozGAVselectedReg[region]"
+                          v-model="OptGozGAVselectedReg_AAV[region]"
                           :label="region"
                           :value="region"
-                          v-on:change="optGozGavCallReg(region)"
+                          v-on:change="optGozGavCallReg(dialogRow, region)"
                         ></v-checkbox>
 
-                        <!-- Aufbaufüllung -->
-                        <div v-if="showOptGozGAVTable[region]">
+                        <!-- Aufbaufüllung/ Freilegung (AAV) -->
+                        <div v-if="showOptGozGAVTable_AAV[region]">
                           <v-simple-table outlined class="my-2">
                             <template v-slot:default>
                               <thead>
@@ -1654,26 +1631,28 @@
                       md="4"
                     >
                       <v-checkbox
-                        v-model="OptGozGAVselected_"
+                        v-model="OptGozGAVselected_AAV_[dialogRow]"
                         label="Adhäsive Kronenbefestigung(en)?"
-                        value="Adhäsive"
-                        v-on:change="optGozGavCall()"
+                        :value="'Adhäsive_AAV' + dialogRow"
+                        :name="'Adhäsive_AAV' + dialogRow"
+                        :id="'Adhäsive_AAV' + dialogRow"
+                        v-on:change="optGozGavCall_(dialogRow)"
                         class="lblStrong"
                       ></v-checkbox>
                     </v-col>
                   </v-row>
-                  <div v-if="displayOptGozGavs_">
+                  <div v-if="displayOptGozGavs_AAV_[dialogRow]">
                     <div v-for="region in optGozValuesGAV_" :key="region">
                         
                         <v-checkbox
-                          v-model="OptGozGAVselectedReg_[region]"
+                          v-model="OptGozGAVselectedReg_AAV_[region]"
                           :label="region"
                           :value="region"
-                          v-on:change="optGozGavCallReg(region)"
+                          v-on:change="optGozGavCallReg(dialogRow, region)"
                         ></v-checkbox>
 
                         <!-- Adhäsive -->
-                        <div v-if="showOptGozGAV_Table[region]">
+                        <div v-if="showOptGozGAV_Table_AAV[region]">
                           <v-simple-table outlined class="my-2">
                             <template v-slot:default>
                               <thead>
@@ -1777,44 +1756,27 @@
                 </v-simple-table> -->
                 
                 <div v-if="showCaseQuesAAV">
-
-                  <!-- <v-radio-group
-                    v-model="optBemaRV"
-                    row
-                    v-on:change="displayOptsBemaRV()"
-                  >
-                    <template v-slot:label>
-                      <h4> Stift(e)? </h4>
-                    </template>
-                    <v-radio
-                      label="Ja"
-                      value="yes"
-                    ></v-radio>
-                    <v-radio
-                      label="Nein"
-                      value="no"
-                    ></v-radio>
-                  </v-radio-group> -->
-
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    md="4"
-                  >
-                    <v-checkbox
-                      v-model="optBemaRV"
-                      label="Stift(e)?"
-                      value="yes"
-                      v-on:change="displayOptsBemaRV()"
-                      class="lblStrong"
-                    ></v-checkbox>
-                  </v-col>
+                  <v-row v-if="dataRV_GAV_AAV['AAV#']">
+                    <v-col
+                      cols="12"
+                      sm="4"
+                      md="4"
+                    >
+                      <v-checkbox
+                        v-model="optBemaRV[dialogRow]"
+                        label="Stift(e)?"
+                        value="yes"
+                        v-on:change="displayOptsBemaRV(dialogRow)"
+                        class="lblStrong"
+                      ></v-checkbox>
+                    </v-col>
+                  </v-row>
 
                   <div v-for="bemaRegion in optBemaValuesRV" :key="bemaRegion">
                     <v-radio-group
                       v-model="optBemaRVJa[bemaRegion]"
                       row
-                      v-if="optBemaRVSecond"
+                      v-if="optBemaRVSecond[dialogRow]"
                       v-on:change="dispoptBemaRVSecond(bemaRegion)"
                     >
                       <template v-slot:label>
@@ -2702,7 +2664,7 @@
       TPShortcut: '',
       isTP: false,
       selectedCaseId:'',
-
+      case_region_: '',
       
       showCaseQuesRV: false,
       showCaseQuesGAV: false,
@@ -2711,16 +2673,17 @@
       showOptGozGAV: false,
       showOptGozGAV_: false,
 
-      optBemaRV: null,
+      // optBemaRV: null,
+      optBemaRV: [],
       optBemaValuesRV: [],
       optGozValuesGAV: [],
       optGozValuesGAV_: [],
 
-
       optBemaRVJa: [],
       optBemaRVJa2: [],
 
-      optBemaRVSecond: false,
+      // optBemaRVSecond: false,
+      optBemaRVSecond: [],
       optBemaRVSecond2: [],
 
       optBemaRVShow: [],
@@ -2780,6 +2743,33 @@
       OptGozGAVselectedReg: [],
       OptGozGAVselectedReg_: [],
 
+      OptGozGAVselected_RV: [],
+      displayOptGozGavs_RV: [],
+      OptGozGAVselected_RV_: [],
+      displayOptGozGavs_RV_: [],
+      OptGozGAVselectedReg_RV: [],
+      OptGozGAVselectedReg_RV_: [],
+      showOptGozGAVTable_RV: [],  // opt GOZ GAV op 1
+      showOptGozGAV_Table_RV: [],  // opt GOZ GAV op 2
+
+      OptGozGAVselected_GAV: [],
+      displayOptGozGavs_GAV: [],
+      OptGozGAVselected_GAV_: [],
+      displayOptGozGavs_GAV_: [],
+      OptGozGAVselectedReg_GAV: [],
+      OptGozGAVselectedReg_GAV_: [],
+      showOptGozGAVTable_GAV: [],  // opt GOZ GAV op 1
+      showOptGozGAV_Table_GAV: [],  // opt GOZ GAV op 2
+
+      OptGozGAVselected_AAV: [],
+      displayOptGozGavs_AAV: [],
+      OptGozGAVselected_AAV_: [],
+      displayOptGozGavs_AAV_: [],
+      OptGozGAVselectedReg_AAV: [],
+      OptGozGAVselectedReg_AAV_: [],
+      showOptGozGAVTable_AAV: [],  // opt GOZ GAV op 1
+      showOptGozGAV_Table_AAV: [],  // opt GOZ GAV op 2
+
       showCaseTrash: false,
       // showCaseTrash: [],
       showCasePencil: [],
@@ -2823,7 +2813,7 @@
         if(this.tableData['Final'] && 
           this.tableData['Final'].length > 0
         ) {
-          return (this.tableData['Final'].map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0)).toFixed(2)
+          return ((this.tableData['Final'].map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0))/this.tableData['Total_case']).toFixed(2)
         } else {
           return '0.00'
         }
@@ -3226,15 +3216,28 @@
         // this.apiCallSuccess = true //to change teeth images
         this.dataRV_GAV_AAV = []
         this.overlay = false
+
+        //('Aufbaufüllung_RV')
+        for(var case_=0; case_<this.Total_case; case_++) {
+          this.OptGozGAVselected_RV[case_] = null
+          this.OptGozGAVselected_RV_[case_] = null
+
+          this.OptGozGAVselected_GAV[case_] = null
+          this.OptGozGAVselected_GAV_[case_] = null
+
+          this.OptGozGAVselected_AAV[case_] = null
+          this.OptGozGAVselected_AAV_[case_] = null
+        }
       },
       displayRVs(label, idValue, ids, caseId) {
         let dataValues = JSON.parse(document.getElementById(idValue).value)
 
-        // console.log(dataValues['GAV Solution shortcuts'])
         this.reOpenLabel[caseId]   = label
         this.reOpenidValue[caseId] = idValue
         this.reOpenids[caseId]     = ids
         this.reOpenCaseid[caseId]  = caseId
+
+        this.dialogRow = caseId;
 
         /** Reset Images **/
         this.apiCallSuccess = false
@@ -3242,11 +3245,14 @@
         if(label == 'lblRV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
+          this.case_region_ = dataValues['RV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
         }
 
         if(label == 'lblGAV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
+          this.case_region_ = dataValues['GAV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+
           // this.TPShortcut = dataValues['GAV Solution shortcuts'];
           // this.TPShortcut = dataValues['TP Solution shortcuts'];
 
@@ -3765,40 +3771,192 @@
           }
         }
 
+        // console.log('Aufbaufüllung_RV')
+        // // console.log(caseId)
+        // console.log(document.getElementById("Aufbaufüllung_RV"+caseId))
+        // // console.log(document.getElementById("Aufbaufüllung_RV"+caseId).checked)
+        // console.log(this.OptGozGAVselected_RV)
+        // // if(document.getElementById("Aufbaufüllung_RV"+caseId) !== null
+        // if(this.OptGozGAVselected_RV[caseId] == null && document.getElementById("Aufbaufüllung_RV"+caseId) !== null
+        // ) {
+        //   console.log('qqqqqqqqq')
+
+        //   document.getElementById("Aufbaufüllung_RV"+caseId).checked = false
+        // }
+        // console.log('Aufbaufüllung_RV__')
+
       },
-      optGozGavCall() {
-        if(this.OptGozGAVselected.indexOf("Aufbaufüllung") !== -1
+      optGozGavCall(solNo) {
+        // console.log(solNo)
+        console.log('solNo')
+        console.log(this.OptGozGAVselected_RV)
+        console.log(this.OptGozGAVselected_RV_)
+        // console.log(document.getElementById("Aufbaufüllung_RV"+solNo).checked)
+        console.log('solNo__')
+
+
+        // if(document.getElementById("Aufbaufüllung_RV"+solNo).checked == true) {
+        //   this.OptGozGAVselected_RV[solNo] = true
+
+        // }
+        // if(document.getElementById("Aufbaufüllung_RV"+solNo).checked == false) {
+        //   this.OptGozGAVselected_RV[solNo] = false
+        // }
+
+
+        // document.getElementsByName("Aufbaufüllung_RV"+solNo).checked = true
+
+        if(this.OptGozGAVselected_RV[solNo] == "Aufbaufüllung_RV"+solNo
         ) {
-          this.displayOptGozGavs = true
+          this.displayOptGozGavs_RV[solNo] = true
         }
-        if(this.OptGozGAVselected.indexOf("Aufbaufüllung") == -1
+        else {
+          this.displayOptGozGavs_RV[solNo] = false
+        }
+
+        // if(this.OptGozGAVselected_RV.indexOf("Aufbaufüllung_RV"+solNo) !== -1
+        // ) {
+        //   this.displayOptGozGavs_RV[solNo] = true
+        // }
+        // if(this.OptGozGAVselected_RV.indexOf("Aufbaufüllung_RV"+solNo) == -1
+        // ) {
+        //   this.displayOptGozGavs_RV[solNo] = false
+        // }
+
+        // if(this.OptGozGAVselected.indexOf("Aufbaufüllung") !== -1
+        // ) {
+        //   this.displayOptGozGavs = true
+        // }
+        // if(this.OptGozGAVselected.indexOf("Aufbaufüllung") == -1
+        // ) {
+        //   this.displayOptGozGavs = false
+        // }
+
+        // if(this.OptGozGAVselected_.indexOf("Adhäsive") !== -1) {
+        //   this.displayOptGozGavs_ = true
+        // }
+        // if(this.OptGozGAVselected_.indexOf("Adhäsive") == -1
+        // ) {
+        //   this.displayOptGozGavs_ = false
+        // }
+
+        if(this.OptGozGAVselected_GAV[solNo] == "Aufbaufüllung_GAV"+solNo
         ) {
-          this.displayOptGozGavs = false
+          this.displayOptGozGavs_GAV[solNo] = true
+        }
+        else {
+          this.displayOptGozGavs_GAV[solNo] = false
         }
 
 
-        if(this.OptGozGAVselected_.indexOf("Adhäsive") !== -1) {
-          this.displayOptGozGavs_ = true
-        }
-        if(this.OptGozGAVselected_.indexOf("Adhäsive") == -1
+        if(this.OptGozGAVselected_AAV[solNo] == "Aufbaufüllung_AAV"+solNo
         ) {
-          this.displayOptGozGavs_ = false
+          this.displayOptGozGavs_AAV[solNo] = true
+        }
+        else {
+          this.displayOptGozGavs_AAV[solNo] = false
         }
       },
-      optGozGavCallReg(region) {
-        if(this.OptGozGAVselectedReg.indexOf(region) !== -1) {
-          this.showOptGozGAVTable[region] = true
+      optGozGavCall_(solNo) {
+        console.log(solNo)
+        console.log(this.OptGozGAVselected_RV_)
+
+        // if(this.OptGozGAVselected_RV[solNo] == "Aufbaufüllung_RV"+solNo
+        // ) {
+        //   this.displayOptGozGavs_RV[solNo] = true
+        // }
+        // else {
+        //   this.displayOptGozGavs_RV[solNo] = false
+        // }
+        
+
+        if(this.OptGozGAVselected_RV_.indexOf("Adhäsive_RV"+solNo) !== -1) {
+          this.displayOptGozGavs_RV_[solNo] = true
         }
-        if(this.OptGozGAVselectedReg.indexOf(region) == -1) {
-          this.showOptGozGAVTable[region] = false
+        if(this.OptGozGAVselected_RV_.indexOf("Adhäsive_RV"+solNo) == -1
+        ) {
+          this.displayOptGozGavs_RV_[solNo] = false
         }
 
-        if(this.OptGozGAVselectedReg_.indexOf(region) !== -1) {
-          this.showOptGozGAV_Table[region] = true
+
+        if(this.OptGozGAVselected_GAV_.indexOf("Adhäsive_GAV"+solNo) !== -1) {
+          this.displayOptGozGavs_GAV_[solNo] = true
         }
-        if(this.OptGozGAVselectedReg_.indexOf(region) == -1) {
-          this.showOptGozGAV_Table[region] = false
+        if(this.OptGozGAVselected_GAV_.indexOf("Adhäsive_GAV"+solNo) == -1
+        ) {
+          this.displayOptGozGavs_GAV_[solNo] = false
         }
+
+        if(this.OptGozGAVselected_AAV_.indexOf("Adhäsive_AAV"+solNo) !== -1) {
+          this.displayOptGozGavs_AAV_[solNo] = true
+        }
+        if(this.OptGozGAVselected_AAV_.indexOf("Adhäsive_AAV"+solNo) == -1
+        ) {
+          this.displayOptGozGavs_AAV_[solNo] = false
+        }
+      },
+      optGozGavCallReg(dialogRow, region) {
+        if(this.OptGozGAVselectedReg_RV_.indexOf(region) !== -1) {
+          this.showOptGozGAV_Table_RV[region] = true
+        }
+        if(this.OptGozGAVselectedReg_RV_.indexOf(region) == -1) {
+          this.showOptGozGAV_Table_RV[region] = false
+        }
+
+        if(this.OptGozGAVselectedReg_RV.indexOf(region) !== -1) {
+          this.showOptGozGAVTable_RV[region] = true
+        }
+        if(this.OptGozGAVselectedReg_RV.indexOf(region) == -1) {
+          this.showOptGozGAVTable_RV[region] = false
+        }
+
+        // console.log(this.OptGozGAVselectedReg_RV)
+        // console.log(this.OptGozGAVselectedReg_RV_)
+
+
+        if(this.OptGozGAVselectedReg_GAV_.indexOf(region) !== -1) {
+          this.showOptGozGAV_Table_GAV[region] = true
+        }
+        if(this.OptGozGAVselectedReg_GAV_.indexOf(region) == -1) {
+          this.showOptGozGAV_Table_GAV[region] = false
+        }
+
+        if(this.OptGozGAVselectedReg_GAV.indexOf(region) !== -1) {
+          this.showOptGozGAVTable_GAV[region] = true
+        }
+        if(this.OptGozGAVselectedReg_GAV.indexOf(region) == -1) {
+          this.showOptGozGAVTable_GAV[region] = false
+        }
+
+
+        if(this.OptGozGAVselectedReg_AAV_.indexOf(region) !== -1) {
+          this.showOptGozGAV_Table_AAV[region] = true
+        }
+        if(this.OptGozGAVselectedReg_AAV_.indexOf(region) == -1) {
+          this.showOptGozGAV_Table_AAV[region] = false
+        }
+
+        if(this.OptGozGAVselectedReg_AAV.indexOf(region) !== -1) {
+          this.showOptGozGAVTable_AAV[region] = true
+        }
+        if(this.OptGozGAVselectedReg_AAV.indexOf(region) == -1) {
+          this.showOptGozGAVTable_AAV[region] = false
+        }
+
+
+        // if(this.OptGozGAVselectedReg.indexOf(region) !== -1) {
+        //   this.showOptGozGAVTable[region] = true
+        // }
+        // if(this.OptGozGAVselectedReg.indexOf(region) == -1) {
+        //   this.showOptGozGAVTable[region] = false
+        // }
+
+        // if(this.OptGozGAVselectedReg_.indexOf(region) !== -1) {
+        //   this.showOptGozGAV_Table[region] = true
+        // }
+        // if(this.OptGozGAVselectedReg_.indexOf(region) == -1) {
+        //   this.showOptGozGAV_Table[region] = false
+        // }
       },
       gozAmount(amountGoz, factorValue) {
 
@@ -4263,8 +4421,12 @@
         this.displaySecond = rowIndex;
       },
       cancelPlanen(rowIndex) {
+        var index_ = this.showCasePencil.indexOf(rowIndex);
+        if (index_ > -1) {
+          this.showCasePencil.splice(index_, 1)
+        }
+
         // this.showCaseTrash.splice(rowIndex, 1)
-        this.showCasePencil.splice(rowIndex, 1)
 
         document.getElementById("planen"+rowIndex).innerHTML = ''
 
@@ -4272,14 +4434,22 @@
         this.totalAmountFArr[rowIndex]  = '0.00'
         this.totalGavArr[rowIndex]      = '0.00'
         this.totalSumCalcArr[rowIndex]  = '0.00'
-
+        
         this.totalTableCalc()
+
+        // reset opt checkboxes
+        this.displayOptGozGavs_RV[rowIndex] = false
+        this.displayOptGozGavs_RV_[rowIndex] = false
+
+        this.closeCalc() // reset the main solution display radio buttons
+
       },
       totalTableCalc() {
         var tempBemaArr     = 0.00
         var tempAmountFArr  = 0.00
         var tempGavArr      = 0.00
         var tempSumCalcArr  = 0.00
+
         for(var si=0; si<this.totalBemaArr.length; si++) {
           tempBemaArr += parseFloat(this.totalBemaArr[si])
         }
@@ -4301,8 +4471,10 @@
         this.totalGavDisp       = parseFloat(tempGavArr).toFixed(2)
         this.totalSumCalcDisp   = parseFloat(tempSumCalcArr).toFixed(2)
 
-        console.log(tempBemaArr)
-        console.log(this.totalBemaArr)
+        // console.log(tempAmountFArr)
+        // console.log(this.totalAmountFArr)
+        // console.log(this.totalAmountFArr.length)
+
       },
       closeCalc() {
         //reset the radio btn selected
@@ -4312,6 +4484,7 @@
         {
           ele[el].checked = false;
         }
+
       },
       calcTable(dialogRowIndex) {
         // this.dialogSolution[dialogRowIndex] = false; // issue recheck
@@ -4368,6 +4541,8 @@
         this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
         this.totalAmountF = this.totalAmount
 
+        // Einanteil is gesamkosten minus subsidies = festzuschuss
+
         this.totalBemaArr[dialogRowIndex]     = this.totalBema
         this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF
         this.totalGavArr[dialogRowIndex]      = this.totalGav
@@ -4376,10 +4551,10 @@
         this.totalTableCalc()
 
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
+        document.getElementById("case_region_"+dialogRowIndex).innerHTML = this.case_region_
         this.showCaseTrash = true
-        // this.showCaseTrash.push(dialogRowInde                    x)
+        // this.showCaseTrash.push(dialogRowIndex)
         this.showCasePencil.push(dialogRowIndex)
-        // document.getElementById("planen"+dialogRowIndex).setAttribute("disabled", "disabled");
 
         // remove duplicates from the showCase Trash, showCasePencil array
         // this.showCaseTrash = [...new Set(this.showCaseTrash)]
@@ -4452,6 +4627,8 @@
 
         this.isPlannen = true
 
+        console.log(this.OptGozGAVselected_)
+
       },
       filteredData(item) {
         return this.expandedDataSet.filter(f => f.caseId == item.caseId);
@@ -4459,12 +4636,12 @@
       filteredHistoryData(item) {
         return this.secondExpandedDataSet.filter(f => f.RVId == item.RVId);
       },
-      displayOptsBemaRV() {
-        if(this.optBemaRV == 'yes') {
-          this.optBemaRVSecond = true
+      displayOptsBemaRV(rowIndex) {
+        if(this.optBemaRV[rowIndex] == 'yes') {
+          this.optBemaRVSecond[rowIndex] = true
         }
         else {
-          this.optBemaRVSecond = false
+          this.optBemaRVSecond[rowIndex] = false
 
           // this.optBemaRVSecond2[region] = false
           
