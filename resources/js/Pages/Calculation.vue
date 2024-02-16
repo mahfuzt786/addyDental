@@ -169,7 +169,6 @@
 
                 <td class="backColorTable"> Festzuschüsse </td>
                 <!-- <td v-if="apiCallSuccess"> {{totalAmount}} <span v-html="euro"></span> </td> -->
-                <!-- <td v-if="!apiCallSuccess"> 0.00 </td> -->
                 <td style="width: 110px !important;"> {{ totalAmountFDisp }} <span v-html="euro"></span> </td>
               </tr>
 
@@ -495,10 +494,8 @@
                         v-on:change="optGozGavCall(dialogRow)"
                         class="lblStrong"
                       ></v-checkbox>
-                    
                     </v-col>
                   </v-row>
-
                   <div v-if="displayOptGozGavs_RV[dialogRow]">
                     <div v-for="region in optGozValuesGAV" :key="region">
                         
@@ -2791,30 +2788,25 @@
         }
     },
     mounted() {
-      // var data = sessionStorage.getItem("testData");
-
-      // this.decryptedId = CryptoJS.AES.decrypt(window.sessionStorage["testData"].toString(), 'secret key')
-      // this.decryptedId = this.decryptedId.toString(CryptoJS.enc.Utf8);
-
-      // if(data == '')
-      // {
-      //   this.$router.push("/");
-      // }
-
-      // this.getStatusImport().then((response) => {
-      //   this.findingsEntriesImport = response.data
-      // })
+      
     },
     computed: {
       // ...mapGetters(["isLoggedIn"]),
       totalAmount() {
         console.log(this.tableData);
+        var amountArray = []
 
         if(this.tableData['Final'] && 
           this.tableData['Final'].length > 0
         ) {
           return ((this.tableData['Final'].map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0))/this.tableData['Total_case']).toFixed(2)
-        } else {
+          // for(var cal=0; cal< this.tableData['Final'].length; cal++) {
+          //   amountArray[cal] = this.tableData['Final'][cal]['price']
+          // }
+
+          // return amountArray
+        } 
+        else {
           return '0.00'
         }
       },
@@ -3217,7 +3209,7 @@
         this.dataRV_GAV_AAV = []
         this.overlay = false
 
-        //('Aufbaufüllung_RV')
+        //('Aufbaufüllung_RV') reset
         for(var case_=0; case_<this.Total_case; case_++) {
           this.OptGozGAVselected_RV[case_] = null
           this.OptGozGAVselected_RV_[case_] = null
@@ -3245,13 +3237,17 @@
         if(label == 'lblRV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
-          this.case_region_ = dataValues['RV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+          if(dataValues['RV Solution BEMA Region']['19']) {
+            this.case_region_ = dataValues['RV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+          }
         }
 
         if(label == 'lblGAV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
-          this.case_region_ = dataValues['GAV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+          if(dataValues['GAV Solution BEMA Region']['19']) {
+            this.case_region_ = dataValues['GAV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+          }
 
           // this.TPShortcut = dataValues['GAV Solution shortcuts'];
           // this.TPShortcut = dataValues['TP Solution shortcuts'];
@@ -3771,40 +3767,13 @@
           }
         }
 
-        // console.log('Aufbaufüllung_RV')
-        // // console.log(caseId)
-        // console.log(document.getElementById("Aufbaufüllung_RV"+caseId))
-        // // console.log(document.getElementById("Aufbaufüllung_RV"+caseId).checked)
-        // console.log(this.OptGozGAVselected_RV)
-        // // if(document.getElementById("Aufbaufüllung_RV"+caseId) !== null
-        // if(this.OptGozGAVselected_RV[caseId] == null && document.getElementById("Aufbaufüllung_RV"+caseId) !== null
-        // ) {
-        //   console.log('qqqqqqqqq')
-
-        //   document.getElementById("Aufbaufüllung_RV"+caseId).checked = false
-        // }
-        // console.log('Aufbaufüllung_RV__')
-
       },
       optGozGavCall(solNo) {
         // console.log(solNo)
         console.log('solNo')
         console.log(this.OptGozGAVselected_RV)
-        console.log(this.OptGozGAVselected_RV_)
-        // console.log(document.getElementById("Aufbaufüllung_RV"+solNo).checked)
+        console.log(this.OptGozGAVselectedReg_RV)
         console.log('solNo__')
-
-
-        // if(document.getElementById("Aufbaufüllung_RV"+solNo).checked == true) {
-        //   this.OptGozGAVselected_RV[solNo] = true
-
-        // }
-        // if(document.getElementById("Aufbaufüllung_RV"+solNo).checked == false) {
-        //   this.OptGozGAVselected_RV[solNo] = false
-        // }
-
-
-        // document.getElementsByName("Aufbaufüllung_RV"+solNo).checked = true
 
         if(this.OptGozGAVselected_RV[solNo] == "Aufbaufüllung_RV"+solNo
         ) {
@@ -3813,32 +3782,7 @@
         else {
           this.displayOptGozGavs_RV[solNo] = false
         }
-
-        // if(this.OptGozGAVselected_RV.indexOf("Aufbaufüllung_RV"+solNo) !== -1
-        // ) {
-        //   this.displayOptGozGavs_RV[solNo] = true
-        // }
-        // if(this.OptGozGAVselected_RV.indexOf("Aufbaufüllung_RV"+solNo) == -1
-        // ) {
-        //   this.displayOptGozGavs_RV[solNo] = false
-        // }
-
-        // if(this.OptGozGAVselected.indexOf("Aufbaufüllung") !== -1
-        // ) {
-        //   this.displayOptGozGavs = true
-        // }
-        // if(this.OptGozGAVselected.indexOf("Aufbaufüllung") == -1
-        // ) {
-        //   this.displayOptGozGavs = false
-        // }
-
-        // if(this.OptGozGAVselected_.indexOf("Adhäsive") !== -1) {
-        //   this.displayOptGozGavs_ = true
-        // }
-        // if(this.OptGozGAVselected_.indexOf("Adhäsive") == -1
-        // ) {
-        //   this.displayOptGozGavs_ = false
-        // }
+        
 
         if(this.OptGozGAVselected_GAV[solNo] == "Aufbaufüllung_GAV"+solNo
         ) {
@@ -3860,14 +3804,6 @@
       optGozGavCall_(solNo) {
         console.log(solNo)
         console.log(this.OptGozGAVselected_RV_)
-
-        // if(this.OptGozGAVselected_RV[solNo] == "Aufbaufüllung_RV"+solNo
-        // ) {
-        //   this.displayOptGozGavs_RV[solNo] = true
-        // }
-        // else {
-        //   this.displayOptGozGavs_RV[solNo] = false
-        // }
         
 
         if(this.OptGozGAVselected_RV_.indexOf("Adhäsive_RV"+solNo) !== -1) {
@@ -3903,15 +3839,13 @@
           this.showOptGozGAV_Table_RV[region] = false
         }
 
+  
         if(this.OptGozGAVselectedReg_RV.indexOf(region) !== -1) {
           this.showOptGozGAVTable_RV[region] = true
         }
         if(this.OptGozGAVselectedReg_RV.indexOf(region) == -1) {
           this.showOptGozGAVTable_RV[region] = false
         }
-
-        // console.log(this.OptGozGAVselectedReg_RV)
-        // console.log(this.OptGozGAVselectedReg_RV_)
 
 
         if(this.OptGozGAVselectedReg_GAV_.indexOf(region) !== -1) {
@@ -3942,21 +3876,7 @@
         if(this.OptGozGAVselectedReg_AAV.indexOf(region) == -1) {
           this.showOptGozGAVTable_AAV[region] = false
         }
-
-
-        // if(this.OptGozGAVselectedReg.indexOf(region) !== -1) {
-        //   this.showOptGozGAVTable[region] = true
-        // }
-        // if(this.OptGozGAVselectedReg.indexOf(region) == -1) {
-        //   this.showOptGozGAVTable[region] = false
-        // }
-
-        // if(this.OptGozGAVselectedReg_.indexOf(region) !== -1) {
-        //   this.showOptGozGAV_Table[region] = true
-        // }
-        // if(this.OptGozGAVselectedReg_.indexOf(region) == -1) {
-        //   this.showOptGozGAV_Table[region] = false
-        // }
+        
       },
       gozAmount(amountGoz, factorValue) {
 
@@ -4426,9 +4346,7 @@
           this.showCasePencil.splice(index_, 1)
         }
 
-        // this.showCaseTrash.splice(rowIndex, 1)
-
-        document.getElementById("planen"+rowIndex).innerHTML = ''
+        document.getElementById("planen"+rowIndex).innerHTML = 'Keine Planung'
 
         this.totalBemaArr[rowIndex]     = '0.00'
         this.totalAmountFArr[rowIndex]  = '0.00'
@@ -4438,32 +4356,85 @@
         this.totalTableCalc()
 
         // reset opt checkboxes
-        this.displayOptGozGavs_RV[rowIndex] = false
-        this.displayOptGozGavs_RV_[rowIndex] = false
+        this.displayOptGozGavs_RV[rowIndex]     = []
+        this.displayOptGozGavs_RV_[rowIndex]    = []
+        this.OptGozGAVselectedReg_RV[rowIndex]  = []
+        this.OptGozGAVselectedReg_RV_[rowIndex] = []
+        this.showOptGozGAVTable_RV[rowIndex]    = []  // opt GOZ GAV op 1
+        this.showOptGozGAV_Table_RV[rowIndex]   = []  // opt GOZ GAV op 2
+
+        this.displayOptGozGavs_GAV[rowIndex]      = []
+        this.displayOptGozGavs_GAV_[rowIndex]     = []
+        this.OptGozGAVselectedReg_GAV[rowIndex]   = []
+        this.OptGozGAVselectedReg_GAV_[rowIndex]  = []
+        this.showOptGozGAVTable_GAV[rowIndex]     = []  // opt GOZ GAV op 1
+        this.showOptGozGAV_Table_GAV[rowIndex]    = []  // opt GOZ GAV op 2
+
+        this.displayOptGozGavs_AAV[rowIndex]      = []
+        this.displayOptGozGavs_AAV_[rowIndex]     = []
+        this.OptGozGAVselectedReg_AAV[rowIndex]   = []
+        this.OptGozGAVselectedReg_AAV_[rowIndex]  = []
+        this.showOptGozGAVTable_AAV[rowIndex]     = []  // opt GOZ GAV op 1
+        this.showOptGozGAV_Table_AAV[rowIndex]    = []  // opt GOZ GAV op 2
+
+        //('Aufbaufüllung_RV') reset
+        this.OptGozGAVselected_RV[rowIndex] = null
+        this.OptGozGAVselected_RV_[rowIndex] = null
+
+        this.OptGozGAVselected_GAV[rowIndex] = null
+        this.OptGozGAVselected_GAV_[rowIndex] = null
+
+        this.OptGozGAVselected_AAV[rowIndex] = null
+        this.OptGozGAVselected_AAV_[rowIndex] = null
+
+        this.optGozGavCall(rowIndex)
+        this.optGozGavCall_(rowIndex)
+
+        // stift reset
+        this.optBemaRV[rowIndex] = []
+        this.optBemaRVShow = []
+        this.optGozRVShow = []
+        this.optBemaRVJa = []
+        this.optBemaRVJa2= []
+        this.optBemaRVSecond= []
+        this.optBemaRVSecond2= []
+        this.displayOptsBemaRV(rowIndex)
 
         this.closeCalc() // reset the main solution display radio buttons
 
       },
-      totalTableCalc() {
+      totalTableCalc() { // Final calc before display in the table
         var tempBemaArr     = 0.00
         var tempAmountFArr  = 0.00
         var tempGavArr      = 0.00
         var tempSumCalcArr  = 0.00
 
         for(var si=0; si<this.totalBemaArr.length; si++) {
-          tempBemaArr += parseFloat(this.totalBemaArr[si])
+          if(this.totalBemaArr[si]
+          ) {
+            tempBemaArr += parseFloat(this.totalBemaArr[si])
+          }
         }
 
         for(var si=0; si<this.totalAmountFArr.length; si++) {
-          tempAmountFArr += parseFloat(this.totalAmountFArr[si])
+          if(this.totalAmountFArr[si]
+          ) {
+            tempAmountFArr += parseFloat(this.totalAmountFArr[si])
+          }
         }
 
         for(var si=0; si<this.totalGavArr.length; si++) {
-          tempGavArr += parseFloat(this.totalGavArr[si])
+          if(this.totalGavArr[si]
+          ) {
+            tempGavArr += parseFloat(this.totalGavArr[si])
+          }
         }
 
         for(var si=0; si<this.totalSumCalcArr.length; si++) {
-          tempSumCalcArr += parseFloat(this.totalSumCalcArr[si])
+          if(this.totalSumCalcArr[si]
+          ) {
+            tempSumCalcArr += parseFloat(this.totalSumCalcArr[si])
+          }
         }
 
         this.totalBemaDisp      = parseFloat(tempBemaArr).toFixed(2)
@@ -4472,8 +4443,6 @@
         this.totalSumCalcDisp   = parseFloat(tempSumCalcArr).toFixed(2)
 
         // console.log(tempAmountFArr)
-        // console.log(this.totalAmountFArr)
-        // console.log(this.totalAmountFArr.length)
 
       },
       closeCalc() {
@@ -4513,6 +4482,82 @@
             elementOptB.classList.remove("oclsBemaAmountGavNo");
           }
         }
+        
+        // "Aufbaufüllung"
+        this.showOptGozGAVTable_RV.filter((value, region) => {
+            console.log(value);
+            console.log(region);
+
+            if(value &&
+              this.OptGozGAVselected_RV[dialogRowIndex]
+            ) {
+              var elementOpt = document.getElementById('RVAufAmount2180'+region+'RV');
+              elementOpt.classList.add("clsGozAmount");
+              elementOpt.classList.remove("clsGoaAmountNo");
+
+              var elementOpt2 = document.getElementById('RVAufAmount2197'+region+'RV');
+              elementOpt2.classList.add("clsGozAmount");
+              elementOpt2.classList.remove("clsGoaAmountNo");
+            }
+        });
+        this.showOptGozGAVTable_GAV.filter((value, region) => {
+            if(value &&
+              this.OptGozGAVselected_GAV[dialogRowIndex]
+            ) {
+              var elementOpt = document.getElementById('GAVAufAmount2180'+region+'GAV');
+              elementOpt.classList.add("clsGozAmount");
+              elementOpt.classList.remove("clsGoaAmountNo");
+
+              var elementOpt2 = document.getElementById('GAVAufAmount2197'+region+'GAV');
+              elementOpt2.classList.add("clsGozAmount");
+              elementOpt2.classList.remove("clsGoaAmountNo");
+            }
+        });
+        this.showOptGozGAVTable_AAV.filter((value, region) => {
+            if(value &&
+              this.OptGozGAVselected_AAV[dialogRowIndex]
+            ) {
+              var elementOpt = document.getElementById('AAVAufAmount2180'+region+'AAV');
+              elementOpt.classList.add("clsGozAmount");
+              elementOpt.classList.remove("clsGoaAmountNo");
+
+              var elementOpt2 = document.getElementById('AAVAufAmount2197'+region+'AAV');
+              elementOpt2.classList.add("clsGozAmount");
+              elementOpt2.classList.remove("clsGoaAmountNo");
+            }
+        });
+        // "Aufbaufüllung" END
+
+        // "Adhäsive"
+        this.showOptGozGAV_Table_RV.filter((value, region) => {
+            if(value &&
+              this.OptGozGAVselected_RV_[dialogRowIndex]
+            ) {
+              var elementOpt = document.getElementById('RVAdhAmount2197'+region+'RV');
+              elementOpt.classList.add("clsGozAmount");
+              elementOpt.classList.remove("clsGoaAmountNo");              
+            }
+        });
+        this.showOptGozGAV_Table_GAV.filter((value, region) => {
+            if(value &&
+              this.OptGozGAVselected_GAV_[dialogRowIndex]
+            ) {
+              var elementOpt = document.getElementById('GAVAdhAmount2197'+region+'GAV');
+              elementOpt.classList.add("clsGozAmount");
+              elementOpt.classList.remove("clsGoaAmountNo");              
+            }
+        });
+        this.showOptGozGAV_Table_AAV.filter((value, region) => {
+            if(value &&
+              this.OptGozGAVselected_AAV_[dialogRowIndex]
+            ) {
+              var elementOpt = document.getElementById('AAVAdhAmount2197'+region+'AAV');
+              elementOpt.classList.add("clsGozAmount");
+              elementOpt.classList.remove("clsGoaAmountNo");              
+            }
+        });
+        // "Adhäsive" END
+        
 
         const collectionGoz = document.getElementsByClassName("clsGozAmount");
         const collectionBema = document.getElementsByClassName("clsBemaAmount");
@@ -4544,14 +4589,18 @@
         // Einanteil is gesamkosten minus subsidies = festzuschuss
 
         this.totalBemaArr[dialogRowIndex]     = this.totalBema
-        this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF
+        // this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF[dialogRowIndex] // RECHECK
+        this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF // RECHECK
         this.totalGavArr[dialogRowIndex]      = this.totalGav
         this.totalSumCalcArr[dialogRowIndex]  = this.totalSumCalc
 
         this.totalTableCalc()
 
         document.getElementById("planen"+dialogRowIndex).innerHTML = document.getElementById(this.planLabel).innerHTML
-        document.getElementById("case_region_"+dialogRowIndex).innerHTML = this.case_region_
+        if(this.case_region_ !== '') {
+          document.getElementById("case_region_"+dialogRowIndex).innerHTML = this.case_region_
+        }
+
         this.showCaseTrash = true
         // this.showCaseTrash.push(dialogRowIndex)
         this.showCasePencil.push(dialogRowIndex)
@@ -4627,8 +4676,6 @@
 
         this.isPlannen = true
 
-        console.log(this.OptGozGAVselected_)
-
       },
       filteredData(item) {
         return this.expandedDataSet.filter(f => f.caseId == item.caseId);
@@ -4643,10 +4690,14 @@
         else {
           this.optBemaRVSecond[rowIndex] = false
 
-          // this.optBemaRVSecond2[region] = false
-          
-          // this.optBemaRVShow[region]    = false
-          // this.optGozRVShow[region]     = false
+          // reset stift
+          this.optBemaRVShow    = []
+          this.optGozRVShow     = []
+          this.optBemaRVJa      = []
+          this.optBemaRVJa2     = []
+          this.optBemaRVSecond  = []
+          this.optBemaRVSecond2 = []
+
         }
       },
       dispoptBemaRVSecond(region) {
