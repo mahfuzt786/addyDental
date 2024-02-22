@@ -550,7 +550,7 @@
                                       tick-size="4"
                                       :thumb-size="36"
                                       :vertical="false"
-                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'RV', optGozPriceGAV[bemaRegion], 'RVAuf')"
+                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'RV', optGozPriceGAV[bemaRegion], 'RVAuf', dialogRow)"
                                       :id="'RVAufSlider'+optGozGAVval[bemaRegion]+region+'RV'"
                                     >
                                     </v-slider>
@@ -636,7 +636,7 @@
                                       tick-size="4"
                                       :thumb-size="36"
                                       :vertical="false"
-                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'RV', optGozPriceGAV_[bemaRegion], 'RVAdh')"
+                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'RV', optGozPriceGAV_[bemaRegion], 'RVAdh', dialogRow)"
                                       :id="'RVAdhSlider'+optGozGAVval_[bemaRegion]+region+'RV'"
                                     >
                                     </v-slider>
@@ -742,7 +742,7 @@
                               </td>
                               <td> {{ bemaRegion }} </td>
                               <td> 1 </td>
-                              <td> {{ optBemaPriceRV[bemaRegion] }} </td>
+                              <td class="clsBemaAmountNo" :id="'RVstiftAmountB'+optBemaGozRV[bemaRegion][index]+bemaRegion+'RV'"> {{ optBemaPriceRV[bemaRegion] }} </td>
                               
                             </tr>
                           </tbody>
@@ -793,7 +793,7 @@
                                   tick-size="4"
                                   :thumb-size="36"
                                   :vertical="false"
-                                  v-on:change="displayFak(optBemaGozRV[bemaRegion][index]+bemaRegion+'RV', optBemaPriceRV[bemaRegion][index], 'RVstift')"
+                                  v-on:change="displayFak(optBemaGozRV[bemaRegion][index]+bemaRegion+'RV', optBemaPriceRV[bemaRegion][index], 'RVstift', dialogRow)"
                                   :id="'RVstiftSlider'+optBemaGozRV[bemaRegion][index]+bemaRegion+'RV'"
                                 >
                                 </v-slider>
@@ -901,7 +901,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(datasGAV, indexGAV) in dataRV_GAV_AAV['GAV Solution GOZ Region']" :key="indexGAV">
+                      <tr v-for="(datasGAV, indexGAV) in dataRV_GAV_AAV['GAV Solution GOZ Region']" :key="datasGAV">
                         <td> {{indexGAV}}</td>
                         <td>
                           <v-tooltip top color="success">
@@ -922,7 +922,7 @@
                         <td> {{dataRV_GAV_AAV['GAV Solution GOZ Quantity'][indexGAV]}}</td>
                         <td style="width: 150px;">
                           <v-slider
-                            value="1"
+                            :value="idGozSliderArr[dataRV_GAV_AAV['GAV#'] +datasGAV+dialogRow+'GAV']"
                             :tick-labels="ticksLabels"
                             :max="2"
                             step="1"
@@ -930,13 +930,15 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="false"
-                            v-on:change="displayFak(dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId, dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], 'GAVGOZ')"
-                            :id="'GAVSliderGoz'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"
+                            v-on:change="displayFak(dataRV_GAV_AAV['GAV#'] +datasGAV+dialogRow+'GAV', dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], 'GAVGOZ', dialogRow)"
+                            :id="'GAVSliderGoz'+ dataRV_GAV_AAV['GAV#'] +datasGAV+dialogRow+'GAV'"
                           >
                           </v-slider>
                           
                         </td>
-                        <td class="clsGozAmount" :id="'GAVGOZAmount'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], '2.3') }}
+                        <td class="clsGozAmount" :id="'GAVGOZAmount'+ dataRV_GAV_AAV['GAV#'] +datasGAV+dialogRow+'GAV'"> 
+                          {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], ticksLabels[idGozSliderArr[dataRV_GAV_AAV['GAV#'] +datasGAV+dialogRow+'GAV']]) }}
+                        <!-- <td class="clsGozAmount" :id="'GAVGOZAmount'+ dataRV_GAV_AAV['GAV#'] +indexGAV+selectedCaseId"> {{ gozAmount(dataRV_GAV_AAV['GAV Solution GOZ amount'][indexGAV], '2.3') }} -->
                         </td>
                       </tr>
                     </tbody>
@@ -1106,7 +1108,7 @@
                                       tick-size="4"
                                       :thumb-size="36"
                                       :vertical="false"
-                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'GAV', optGozPriceGAV[bemaRegion], 'GAVAuf')"
+                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'GAV', optGozPriceGAV[bemaRegion], 'GAVAuf', dialogRow)"
                                       :id="'GAVAufSlider'+optGozGAVval[bemaRegion]+region+'GAV'"
                                     >
                                     </v-slider>
@@ -1195,7 +1197,7 @@
                                       tick-size="4"
                                       :thumb-size="36"
                                       :vertical="false"
-                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'GAV', optGozPriceGAV_[bemaRegion], 'GAVAdh')"
+                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'GAV', optGozPriceGAV_[bemaRegion], 'GAVAdh', dialogRow)"
                                       :id="'GAVAdhSlider'+optGozGAVval_[bemaRegion]+region+'GAV'"
                                     >
                                     </v-slider>
@@ -1301,7 +1303,7 @@
                               </td>
                               <td> {{ bemaRegion }} </td>
                               <td> 1 </td>
-                              <td> {{ optBemaPriceRV[bemaRegion] }} </td>
+                              <td class="clsBemaAmountNo" :id="'GAVstiftAmountB'+optBemaGozRV[bemaRegion][index]+bemaRegion+'GAV'"> {{ optBemaPriceRV[bemaRegion] }} </td>
                               
                             </tr>
                           </tbody>
@@ -1352,7 +1354,7 @@
                                   tick-size="4"
                                   :thumb-size="36"
                                   :vertical="false"
-                                  v-on:change="displayFak(optBemaGozRV[bemaRegion][index]+bemaRegion+'GAV', optBemaPriceRV[bemaRegion][index], 'GAVstift')"
+                                  v-on:change="displayFak(optBemaGozRV[bemaRegion][index]+bemaRegion+'GAV', optBemaPriceRV[bemaRegion][index], 'GAVstift', dialogRow)"
                                   :id="'GAVstiftSlider'+optBemaGozRV[bemaRegion][index]+bemaRegion+'GAV'"
                                 >
                                 </v-slider>
@@ -1421,7 +1423,7 @@
                         <td v-if="datasAAV"> {{dataRV_GAV_AAV['AAV Solution GOZ Quantity'][indexAAV]}}</td>
                         <td v-if="datasAAV" style="width: 150px;">
                           <v-slider
-                            value="1"
+                            :value="idGozSliderArr[dataRV_GAV_AAV['AAV#'] +indexAAV+dialogRow+'AAV']"
                             :tick-labels="ticksLabels"
                             :max="2"
                             step="1"
@@ -1429,15 +1431,19 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="false"
-                            v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAVGOZ')"
-                            :id="'AAVGOZSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
-                            v-if="indexAAV !== '0500' && indexAAV !== '0510' && indexAAV !== '0520' && indexAAV !== '0530'"
+                            v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+dialogRow+'AAV', dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAVGOZ', dialogRow)"
+                            :id="'AAVGOZSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+dialogRow+'AAV'"
+                              v-if="indexAAV !== '0500' && indexAAV !== '0510' && indexAAV !== '0520' && indexAAV !== '0530'"
                           >
                           </v-slider>
                         </td>
-                        <td  class="clsGozAmount" :id="'AAVGOZAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> 
-                          {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
+                        <td  class="clsGozAmount" :id="'AAVGOZAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+dialogRow+'AAV'"> 
+                          <!-- {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], ticksLabels[idGozSliderArr[dataRV_GAV_AAV['AAV#'] +indexAAV+dialogRow+'AAV']]) }} -->
+                          {{ idGozSliderAmountArr[dataRV_GAV_AAV['AAV#'] +indexAAV+dialogRow+'AAV'] }}
                         </td>
+                        <!-- <td  class="clsGozAmount" :id="'AAVGOZAmount'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"> 
+                          {{ gozAmount(dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], '2.3') }}
+                        </td> -->
                       </tr>
                     </tbody>
                   </template>
@@ -1520,7 +1526,7 @@
                               tick-size="4"
                               :thumb-size="36"
                               :vertical="true"
-                              v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], 'oAAV')"
+                              v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount Opt'][indexAAV], 'oAAV', dialogRow)"
                               :id="'oAAVSlider'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
                             >
                             </v-slider>
@@ -1605,7 +1611,7 @@
                                       tick-size="4"
                                       :thumb-size="36"
                                       :vertical="false"
-                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'AAV', optGozPriceGAV[bemaRegion], 'AAVAuf')"
+                                      v-on:change="displayFak(optGozGAVval[bemaRegion]+region+'AAV', optGozPriceGAV[bemaRegion], 'AAVAuf', dialogRow)"
                                       :id="'AAVAufSlider'+optGozGAVval[bemaRegion]+region+'AAV'"
                                     >
                                     </v-slider>
@@ -1692,7 +1698,7 @@
                                       tick-size="4"
                                       :thumb-size="36"
                                       :vertical="false"
-                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'AAV', optGozPriceGAV_[bemaRegion], 'AAVAdh')"
+                                      v-on:change="displayFak(optGozGAVval_[bemaRegion]+region+'AAV', optGozPriceGAV_[bemaRegion], 'AAVAdh', dialogRow)"
                                       :id="'AAVAdhSlider'+optGozGAVval_[bemaRegion]+region+'AAV'"
                                     >
                                     </v-slider>
@@ -1740,7 +1746,7 @@
                             tick-size="4"
                             :thumb-size="36"
                             :vertical="false"
-                            v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAV')"
+                            v-on:change="displayFak(dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId, dataRV_GAV_AAV['AAV Solution GOZ amount'][indexAAV], 'AAV', dialogRow)"
                             :id="'AAVSliderGoa'+ dataRV_GAV_AAV['AAV#'] +indexAAV+selectedCaseId"
                           >
                           </v-slider>
@@ -1840,7 +1846,7 @@
                               </td>
                               <td> {{ bemaRegion }} </td>
                               <td> 1 </td>
-                              <td> {{ optBemaPriceRV[bemaRegion] }} </td>
+                              <td class="clsBemaAmountNo" :id="'AAVstiftAmountB'+optBemaGozRV[bemaRegion][index]+bemaRegion+'AAV'"> {{ optBemaPriceRV[bemaRegion] }} </td>
                               
                             </tr>
                           </tbody>
@@ -1891,7 +1897,7 @@
                                   tick-size="4"
                                   :thumb-size="36"
                                   :vertical="false"
-                                  v-on:change="displayFak(optBemaGozRV[bemaRegion][index]+bemaRegion+'AAV', optBemaPriceRV[bemaRegion][index], 'AAVstift')"
+                                  v-on:change="displayFak(optBemaGozRV[bemaRegion][index]+bemaRegion+'AAV', optBemaPriceRV[bemaRegion][index], 'AAVstift', dialogRow)"
                                   :id="'AAVstiftSlider'+optBemaGozRV[bemaRegion][index]+bemaRegion+'AAV'"
                                 >
                                 </v-slider>
@@ -2627,6 +2633,8 @@
       sliderValue: 1,
       resetGozAmount: 1,
       idGozSlider: '',
+      idGozSliderArr: [],
+      idGozSliderAmountArr: [],
       ticksLabels: [
         '1',
         '2.3',
@@ -3422,6 +3430,20 @@
         }
 
         if(label == 'lblGAV') {
+          // // FOR GOZ SLIDER issue          
+          // console.log(dataValues)
+
+          for(var gr=0; gr<Object.values(dataValues['GAV Solution GOZ Region']).length; gr++) {
+            var toCheck = (dataValues['GAV#']+Object.values(dataValues['GAV Solution GOZ Region'])[gr]+caseId+'GAV')
+            // console.log(toCheck)
+            // console.log(this.idGozSliderArr[toCheck])
+
+            if(this.idGozSliderArr[toCheck] == undefined
+            ) {
+              this.idGozSliderArr[toCheck] = '1';
+            }
+          }
+
           if(dataValues['GAV Solution BEMA Opt Region'] !== '') {
             if( dataValues['GAV Solution BEMA Region']['20a'] !== undefined
             ) {
@@ -3627,6 +3649,27 @@
         }
 
         if(label == 'lblAAV') {
+          // // FOR GOZ SLIDER issue
+          console.log(this.idGozSliderArr)
+          // console.log(dataValues['AAV Solution GOZ amount'])
+
+          for(var gr=0; gr<Object.values(dataValues['AAV Solution GOZ Region']).length; gr++) {
+            var toCheck = (dataValues['AAV#']+Object.keys(dataValues['AAV Solution GOZ Region'])[gr]+caseId+'AAV')
+            console.log(toCheck)
+
+            if(this.idGozSliderArr[toCheck] == undefined
+            ) {
+              this.idGozSliderArr[toCheck] = '1';
+            }
+
+            // REcalculate the Amount based on slider values
+            var newGozAmountAAV = Object.values(dataValues['AAV Solution GOZ amount'])[gr]
+            var AmountAAVCalc = this.gozAmount(newGozAmountAAV, this.ticksLabels[this.idGozSliderArr[toCheck]] )
+
+            // document.getElementById('AAVGOZAmount'+toCheck).innerHTML = AmountAAVCalc
+
+          }
+
           if( dataValues['AAV Solution GOZ Region'] !== ''
           ) {
             if( dataValues['AAV Solution GOZ Region']['2210'] !== undefined
@@ -4245,7 +4288,7 @@
           this.disabled = true
         }
       },
-      displayFak(faktors, amountGoz, solutionT) {
+      displayFak(faktors, amountGoz, solutionT, dialogRow) {
         // console.log(document.getElementById('GAVSlider'+faktors).value)
 
         var newGozAmount = 0;
@@ -4254,12 +4297,15 @@
           newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVSliderGoz'+faktors).value])
           document.getElementById('GAVGOZAmount'+faktors).innerHTML = newGozAmount
           this.idGozSlider = 'GAVGOZAmount'+faktors
+          this.idGozSliderArr[faktors] = document.getElementById('GAVSliderGoz'+faktors).value
         }
 
         if(solutionT == 'AAVGOZ') {
           newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVGOZSlider'+faktors).value])
           document.getElementById('AAVGOZAmount'+faktors).innerHTML = newGozAmount
           this.idGozSlider = 'AAVGOZAmount'+faktors
+          this.idGozSliderArr[faktors] = document.getElementById('AAVGOZSlider'+faktors).value
+          this.idGozSliderAmountArr[faktors] = document.getElementById('AAVGOZAmount'+faktors)
         }
 
         if(solutionT == 'RVstift') {
@@ -4491,6 +4537,8 @@
             if(value &&
               this.OptGozGAVselected_RV[dialogRowIndex]
             ) {
+              console.log('value');
+
               var elementOpt = document.getElementById('RVAufAmount2180'+region+'RV');
               elementOpt.classList.add("clsGozAmount");
               elementOpt.classList.remove("clsGoaAmountNo");
@@ -4517,13 +4565,17 @@
             if(value &&
               this.OptGozGAVselected_AAV[dialogRowIndex]
             ) {
-              var elementOpt = document.getElementById('AAVAufAmount2180'+region+'AAV');
+              var elementOpt = document.getElementById('AAVAufAmount0080'+region+'AAV');
               elementOpt.classList.add("clsGozAmount");
               elementOpt.classList.remove("clsGoaAmountNo");
 
-              var elementOpt2 = document.getElementById('AAVAufAmount2197'+region+'AAV');
+              var elementOpt2 = document.getElementById('AAVAufAmount0090'+region+'AAV');
               elementOpt2.classList.add("clsGozAmount");
               elementOpt2.classList.remove("clsGoaAmountNo");
+
+              var elementOpt3 = document.getElementById('AAVAufAmount9040'+region+'AAV');
+              elementOpt3.classList.add("clsGozAmount");
+              elementOpt3.classList.remove("clsGoaAmountNo");
             }
         });
         // "Aufbaufüllung" END
@@ -4557,6 +4609,12 @@
             }
         });
         // "Adhäsive" END
+
+
+        //Stift
+        console.log('optBemaValuesRV')
+        console.log(this.optBemaValuesRV)
+        //Stift END
         
 
         const collectionGoz = document.getElementsByClassName("clsGozAmount");
@@ -4667,10 +4725,13 @@
         // RESET SLIDER GOZ AMOUNT
         this.sliderValue = 1
         // this.sliderValue = 0.5
+
         var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1])
+        // console.log(oldGozAmount)
+        // console.log(this.idGozSlider)
         if(this.idGozSlider !== '')
         {
-          document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
+          // document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
         }
         // RESET SLIDER GOZ AMOUNT END
 
