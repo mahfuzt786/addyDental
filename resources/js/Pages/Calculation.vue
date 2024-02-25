@@ -303,20 +303,7 @@
                       <!-- Action Buttons -->
                       <template v-slot:activator="{ on, attrs }">
                         <div class="d-flex justify-space-around">
-                          <!-- <v-btn
-                            v-bind="attrs"
-                            v-on="on"
-                            @click=displayPlanen(index)
-                            fab
-                            dark
-                            x-small
-                            color="#004d81"
-                            v-if="!showCasePencil[index]"
-                          >
-                            <v-icon dark>
-                              mdi-pencil
-                            </v-icon>
-                          </v-btn> -->
+                          
                           <v-btn
                             v-bind="attrs"
                             v-on="on"
@@ -326,6 +313,8 @@
                             x-small
                             color="#004d81"
                             v-if=" showCasePencil.indexOf(index) == -1"
+                            :id="'btnCasePencil'+index"
+                            :disabled=false
                           >
                             <v-icon dark>
                               mdi-pencil
@@ -339,6 +328,8 @@
                             x-small
                             color="#004d81"
                             v-if=" showCasePencil.indexOf(index) !== -1"
+                            :id="'btnCasePencilSec'+index"
+                            :disabled=false
                           >
                             <v-icon dark>
                               mdi-pencil
@@ -354,24 +345,13 @@
                             x-small
                             color="#b51700"
                             v-if="Total_case > 1 && showCaseTrash"
+                            :id="'btnCaseTrash'+index"
+                            :disabled=false
                           >
                             <v-icon dark>
                               mdi-trash-can-outline
                             </v-icon>
                           </v-btn>
-
-                          <!-- <v-btn
-                            @click=cancelPlanen(index)
-                            fab
-                            dark
-                            x-small
-                            color="#b51700"
-                            v-if="Total_case > 1 && showCaseTrash.indexOf(index) !== -1"
-                          >
-                            <v-icon dark>
-                              mdi-trash-can-outline
-                            </v-icon>
-                          </v-btn> -->
 
                         </div>
                       </template>
@@ -1995,6 +1975,93 @@
         <div v-if="isPlannen" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
           <v-btn @click="weiterCall" class="" elevation="0" color="#BBDEFB">Weiter</v-btn>
         </div>
+
+        <div v-if="weiterActivate" style="border: 1px solid; padding: 10px; margin-top: 30px;">
+          
+          <v-row>
+            <v-col
+              cols="12"
+              sm="12"
+              md="12"
+            >
+              <v-checkbox
+                v-model="optBemaRV[dialogRow]"
+                label="Beseitigung grober Artikulations- und Okklusionsstörungen vor Eingliederung von Prothesen und Brücken"
+                value="89"
+                class="lblStrong"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+
+          <v-simple-table outlined class="my-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">BEMA-Nr.</th>
+                  <th class="text-left">Leistungsbeschreibung</th>
+                  <th class="text-left">Anzahl</th>
+                  <th class="text-left">Betrag (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center"> 89 </td>
+                  <td class="text-center">
+                    <v-tooltip top color="success">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          text
+                          v-bind="attrs"
+                          v-on="on"
+                          style="text-transform: none !important; height: 0px !important;"
+                        >
+                          {{ caseBemaOpt[0]['89_Name']|truncate(25) }}
+                        </v-btn>
+                      </template>
+                      <span> {{ caseBemaOpt[0]['89_Name'] }} </span>
+                    </v-tooltip>
+                  </td>
+                  <td class="text-center"> 1 </td>
+                  <td class="text-center"> 17.5</td>
+                </tr>
+              </tbody>
+
+            </template>
+          </v-simple-table>
+
+          <h3>Eigenlabor</h3>
+          <v-simple-table outlined class="my-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Region</th>
+                  <th class="text-left">Produkt</th>
+                  <th class="text-left">Anzahl</th>
+                  <th class="text-left">Betrag (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center"> 18a </td>
+                  <td class="text-center">
+                  
+                    <v-select
+                      :items="Eigenlabor_18a"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px;"
+                    ></v-select>
+                  
+                  </td>
+                  <td class="text-center"> 1</td>
+                  <td class="text-center"> 10 </td>
+                </tr>
+              </tbody>
+
+            </template>
+          </v-simple-table>
+
+        </div>
         
       </div>
       <v-dialog v-model="showInfo" width="500">
@@ -2730,6 +2797,8 @@
                     '0090_Price': '3.374',
                     '9040_Name': 'Freilegen eines Implantats, und Einfügen eines oder mehrerer Aufbauelemente (z. B. eines Gingivaformers) bei einem zweiphasigen Implantatsystem',
                     '9040_Price': '35.21',
+                    '89_Name': 'Beseitigung grober Artikulations- und Okklusionsstörungen vor Eingliederung von Prothesen und Brücken',
+                    '89_Price': '17.5',
                   }],
       itemsMaterial: ["Zirkon monolithisch einfach",
                       "Zirkon monolithisch multilayer",
@@ -2782,6 +2851,10 @@
       reOpenidValue:[],
       reOpenids:[],
       reOpenCaseid: [],
+
+      weiterActivate: false,
+      Eigenlabor_18a: ["Dentsply Radix Anker Standard Edelstahl",
+                      "Dentsply Radix Anker Titan"],
 
     }),
     watch: {
@@ -3655,7 +3728,7 @@
 
           for(var gr=0; gr<Object.values(dataValues['AAV Solution GOZ Region']).length; gr++) {
             var toCheck = (dataValues['AAV#']+Object.keys(dataValues['AAV Solution GOZ Region'])[gr]+caseId+'AAV')
-            console.log(toCheck)
+            // console.log(toCheck)
 
             if(this.idGozSliderArr[toCheck] == undefined
             ) {
@@ -3666,7 +3739,7 @@
             var newGozAmountAAV = Object.values(dataValues['AAV Solution GOZ amount'])[gr]
             var AmountAAVCalc = this.gozAmount(newGozAmountAAV, this.ticksLabels[this.idGozSliderArr[toCheck]] )
 
-            // document.getElementById('AAVGOZAmount'+toCheck).innerHTML = AmountAAVCalc
+            this.idGozSliderAmountArr[toCheck] = AmountAAVCalc;
 
           }
 
@@ -4305,7 +4378,7 @@
           document.getElementById('AAVGOZAmount'+faktors).innerHTML = newGozAmount
           this.idGozSlider = 'AAVGOZAmount'+faktors
           this.idGozSliderArr[faktors] = document.getElementById('AAVGOZSlider'+faktors).value
-          this.idGozSliderAmountArr[faktors] = document.getElementById('AAVGOZAmount'+faktors)
+          this.idGozSliderAmountArr[faktors] = newGozAmount
         }
 
         if(solutionT == 'RVstift') {
@@ -4447,6 +4520,8 @@
         this.displayOptsBemaRV(rowIndex)
 
         this.closeCalc() // reset the main solution display radio buttons
+
+        this.checkWeiterBtn() // Reset Go to General questions
 
       },
       totalTableCalc() { // Final calc before display in the table
@@ -4735,7 +4810,8 @@
         }
         // RESET SLIDER GOZ AMOUNT END
 
-        this.isPlannen = true
+        // GO TO GENERAL QUESTION
+        this.checkWeiterBtn()
 
       },
       filteredData(item) {
@@ -4799,9 +4875,35 @@
         }
 
       },
+      checkWeiterBtn() {
+        // GO TO GENERAL QUESTION
+        if(Number(this.totalSumCalcDisp) > 0 ) {
+          this.isPlannen = true
+        }
+        else {
+          this.isPlannen = false
+        }
+      },
       weiterCall() {
-        
-      }
+        for(var tc=0; tc<this.Total_case; tc++) {
+          if(document.getElementById('btnCasePencil'+tc) !== null) {
+            document.getElementById('btnCasePencil'+tc).disabled = true
+            document.getElementById('btnCasePencil'+tc).style = 'background-color: #5e5e5e'
+          }
+
+          if(document.getElementById('btnCasePencilSec'+tc) !== null) {
+            document.getElementById('btnCasePencilSec'+tc).disabled = true
+            document.getElementById('btnCasePencilSec'+tc).style = 'background-color: #5e5e5e'
+          }
+
+          if(document.getElementById('btnCaseTrash'+tc) !== null) {
+            document.getElementById('btnCaseTrash'+tc).disabled = true
+            document.getElementById('btnCaseTrash'+tc).style = 'background-color: #700'
+          }
+        }
+
+        this.weiterActivate = true
+      },
     }
   }
 </script>
