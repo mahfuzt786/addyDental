@@ -571,10 +571,12 @@ var _validEntry = function validEntry(value) {
       totalAmountFArr: [],
       totalGavArr: [],
       totalSumCalcArr: [],
+      totalEigenlaborArr: [],
       totalBemaDisp: '0.00',
       totalAmountFDisp: '0.00',
       totalGavDisp: '0.00',
       totalSumCalcDisp: '0.00',
+      totalEigenlaborDisp: '0.00',
       overlay: false,
       dialogRow: 0,
       checkbox: true,
@@ -622,6 +624,7 @@ var _validEntry = function validEntry(value) {
       isPlannen: false,
       Total_case: 0,
       caseBemaOpt: [{
+        //For GOZ price:  (punc * point value in cent)/100
         '18a_Name': 'Vorbereiten eines endodontisch behandelten Zahnes zur Aufnahme einer Krone, mit Verankerung im Wurzelkanal durch einen konfektionierten Stift- oder Schraubenaufbau, einzeitig',
         '18a_Price': '54.68',
         '18b_Name': 'Vorbereiten eines endodontisch behandelten Zahnes zur Aufnahme einer Krone, mit Verankerung im Wurzelkanal durch einen gegossenen Stiftaufbau, zweizeitig',
@@ -639,7 +642,17 @@ var _validEntry = function validEntry(value) {
         '9040_Name': 'Freilegen eines Implantats, und Einfügen eines oder mehrerer Aufbauelemente (z. B. eines Gingivaformers) bei einem zweiphasigen Implantatsystem',
         '9040_Price': '35.21',
         '89_Name': 'Beseitigung grober Artikulations- und Okklusionsstörungen vor Eingliederung von Prothesen und Brücken',
-        '89_Price': '17.5'
+        '89_Price': '17.5',
+        '7b_Name': 'Vorbereitende Maßnahmen: Abformung, Bissnahme für das Erstellen von Modellen des Ober- und Unterkiefers zur diagnostischen Auswertung und Planung sowie schriftliche Niederlegung',
+        '7b_Price': '20.78',
+        '8010_Name': 'Registrieren der gelenkbezüglichen Zentrallage des Unterkiefers, auch Stützstiftregistrierung, je Registrat',
+        '8010_Price': '10.12',
+        '8020_Name': 'Arbiträre Scharnierachsenbestimmung (eingeschlossen sind die arbiträre Scharnierachsenbestimmung, das Anlegen eines Übertragungsbogens, Koordinieren eines Übertragungsbogens mit einem Artikulator)',
+        '8020_Price': '16.87',
+        '98a_Name': 'Abformung mit individuellem oder individualisiertem Löffel, je Kiefer',
+        '98a_Price': '31.71',
+        '0065_Name': 'Optisch-elektronische Abformung einschließlich vorbereitender Maßnahmen, einfache digitale Bissregistrierung und Archivierung, je Kieferhälfte oder Frontzahnbereich',
+        '0065_Price': '4.50'
       }],
       itemsMaterial: ["Zirkon monolithisch einfach", "Zirkon monolithisch multilayer", "Zirkon monolithisch multilayer bemalt", "Zirkon vollverblendet", "Emax", "NEM vollverblendet", "Gold vollverblendet"],
       OptGozGAVselected: [],
@@ -692,7 +705,62 @@ var _validEntry = function validEntry(value) {
       reOpenids: [],
       reOpenCaseid: [],
       weiterActivate: false,
-      Eigenlabor_18a: ["Dentsply Radix Anker Standard Edelstahl", "Dentsply Radix Anker Titan"]
+      displayWeiter89: false,
+      displayWeiter7b: false,
+      displayWeiter8010: false,
+      displayWeiterAbf: false,
+      displayWeiterAbf65: false,
+      displayWeiterAbf98a: false,
+      displayWeiter98a: false,
+      displayWeiter0065: false,
+      chkBoxGQ89: [],
+      chkBoxGQ89_: false,
+      chkBoxGQ7b: [],
+      chkBoxGQ7b_: false,
+      chkBoxGQ8010: [],
+      chkBoxGQ8010_: false,
+      chkBoxGQAbf: [],
+      chkBoxGQAbf_: false,
+      chkBoxGQ98a: [],
+      chkBoxGQ0065: [],
+      optWeiterAbfFirst: [],
+      optWeiterAbfSecond: [],
+      sliderWeiter0065: '',
+      sliderWeiter8010: '',
+      sliderWeiter8020: '',
+      weiterActivateElab: false,
+      Eigenlabor_Desc_7b_B: ["Abformung (Alginat), Bissregistrat und Herstellung von Diagnostik-/Planungsmodellen des Ober- und Unterkiefers (BELII)"],
+      Eigenlabor_Desc_18a_B: ["Radix Anker Standard Edelstahl (Dentsply)", "Radix Anker Titan (Dentsply)"],
+      Eigenlabor_Desc_19_B: ["Protemp 4 (3M)"],
+      Eigenlabor_Desc_2195_G: ["DT Light Post (VDW)", "RelyX™ Fiber Post Stifte (3M)", "EnaPost Glasfaser-Wurzelstift 2% (Medicom)"],
+      Eigenlabor_Desc_9010_G1: ["Straumann Bonelevel Tapered (Straumann)"],
+      Eigenlabor_Desc_9010_G2: ["PH-Seide 4/0 FS2 0,45m (Johnson & Johnson)"],
+      Eigenlabor_Desc_9010_G3: ["Sterile RC Verschlussschraube - Höhe 0.5 mm - Ti (Straumann)"],
+      Eigenlabor_Gr_7b_B: 'Diagnostik-/Planungsmodelle',
+      Eigenlabor_Gr_18a_B: 'Metallischer Stift- oder Schraubenaufbau',
+      Eigenlabor_Gr_19_B: 'Provisorium',
+      Eigenlabor_Gr_2195_G: 'Glasfaserstift',
+      Eigenlabor_Gr_9010_G1: 'Implantat',
+      Eigenlabor_Gr_9010_G2: 'Nahtmaterial',
+      Eigenlabor_Gr_9010_G3: 'Verschlussschraube',
+      Eigenlabor_Arr_7b_B: [],
+      Eigenlabor_Arr_18a_B: [],
+      Eigenlabor_Arr_19_B: [],
+      Eigenlabor_Arr_19_B_Q: [],
+      Eigenlabor_Arr_2195_G: [],
+      Eigenlabor_Arr_9010_G1: [],
+      Eigenlabor_Arr_9010_G_Q: [],
+      // Eigenlabor_Arr_9010_G2:  [],
+      // Eigenlabor_Arr_9010_G3:  [],
+      Eigenlabor_Amt_7b_B: ['50.00'],
+      Eigenlabor_Amt_18a_B: ['10.00', '15.00'],
+      Eigenlabor_Amt_19_B: ['0.00'],
+      Eigenlabor_Amt_2195_G: ['30.00', '35.00', '40.00'],
+      Eigenlabor_Amt_9010_G1: ['223.00'],
+      Eigenlabor_Amt_9010_G2: ['10.00'],
+      Eigenlabor_Amt_9010_G3: ['10.00'],
+      Eigenlabor_Desc_18a_B_sel: 'Radix Anker Standard Edelstahl (Dentsply)',
+      Eigenlabor_Desc_2195_G_sel: 'DT Light Post (VDW)'
     };
   },
   watch: {},
@@ -1118,6 +1186,8 @@ var _validEntry = function validEntry(value) {
 
         if (dataValues['RV Solution BEMA Region']['19']) {
           this.case_region_ = dataValues['RV Solution BEMA Region']['19']; // As 19 always has the original region values either than AAV
+
+          this.Eigenlabor_Arr_19_B_Q = dataValues['RV Solution BEMA Quantity']['19']; // As 19 always has the original region values either than AAV
         }
       }
 
@@ -1127,6 +1197,8 @@ var _validEntry = function validEntry(value) {
 
         if (dataValues['GAV Solution BEMA Region']['19']) {
           this.case_region_ = dataValues['GAV Solution BEMA Region']['19']; // As 19 always has the original region values either than AAV
+
+          this.Eigenlabor_Arr_19_B_Q = dataValues['GAV Solution BEMA Quantity']['19']; // As 19 always has the original region values either than AAV
         } // this.TPShortcut = dataValues['GAV Solution shortcuts'];
         // this.TPShortcut = dataValues['TP Solution shortcuts'];
 
@@ -1157,6 +1229,8 @@ var _validEntry = function validEntry(value) {
         this.RVShortcut = dataValues['RV Solution shortcuts']; // this.TPShortcut = dataValues['AAV Solution shortcuts'];
         // this.TPShortcut = dataValues['TP Solution shortcuts'];
 
+        this.Eigenlabor_Arr_9010_G1 = dataValues['AAV Solution GOZ Region']['9010'];
+        this.Eigenlabor_Arr_9010_G_Q = dataValues['AAV Solution GOZ Quantity']['9010'];
         var _newKM = '';
 
         for (var _tp in dataValues['TP Solution shortcuts']) {
@@ -1184,7 +1258,9 @@ var _validEntry = function validEntry(value) {
       this.optBemaGav = [];
       this.dialogCalc = true; // show the individual solution
 
-      this.selectedCaseId = idValue; // FOR Case questions
+      this.selectedCaseId = idValue;
+      this.Eigenlabor_Arr_19_B = this.case_region_; //  For eigen calc
+      // FOR Case questions
       // console.log(this.dataRV_GAV_AAV)
 
       this.optBemaValuesRV = []; // this.showOptGozGAV = false // make opt GOZ GAV false for all
@@ -1273,14 +1349,27 @@ var _validEntry = function validEntry(value) {
           this.showCaseQuesRV = true;
           this.showCaseQuesGAV = false;
           this.showCaseQuesAAV = false;
-        } // For opt GOZ GAV
+        } // For opt GOZ RV
 
 
         if (this.optGozValuesGAV.length > 0) {
           this.optGAVGozArr = [0, 1];
           this.optGozGAVval = ['2180', '2197'];
           this.optGozNameGAV = [this.caseBemaOpt[0]['2180_Name'], this.caseBemaOpt[0]['2197_Name']];
-          this.optGozPriceGAV = [this.caseBemaOpt[0]['2180_Price'], this.caseBemaOpt[0]['2197_Price']];
+          this.optGozPriceGAV = [this.caseBemaOpt[0]['2180_Price'], this.caseBemaOpt[0]['2197_Price']]; // SET Auf Slider default
+
+          for (var gv = 0; gv < this.optGozValuesGAV.length; gv++) {
+            var toCheck_2180 = '2180' + this.optGozValuesGAV[gv] + 'RV';
+            var toCheck_2197 = '2197' + this.optGozValuesGAV[gv] + 'RV';
+
+            if (this.idGozSliderArr[toCheck_2180] == undefined) {
+              this.idGozSliderArr[toCheck_2180] = '1';
+            }
+
+            if (this.idGozSliderArr[toCheck_2197] == undefined) {
+              this.idGozSliderArr[toCheck_2197] = '1';
+            }
+          }
         }
 
         if (this.optGozValuesGAV_.length > 0) {
@@ -1288,15 +1377,22 @@ var _validEntry = function validEntry(value) {
           this.optGozGAVval_ = ['2197'];
           this.optGozNameGAV_ = [this.caseBemaOpt[0]['2197_Name']];
           this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']];
+        } // SET Adh Slider default
+
+
+        for (var gv = 0; gv < this.optGozValuesGAV_.length; gv++) {
+          var toCheck_2197 = '2197' + this.optGozValuesGAV_[gv] + 'RV_';
+
+          if (this.idGozSliderArr[toCheck_2197] == undefined) {
+            this.idGozSliderArr[toCheck_2197] = '1';
+          }
         }
       }
 
       if (label == 'lblGAV') {
-        // // FOR GOZ SLIDER issue          
-        // console.log(dataValues)
+        // // FOR GOZ SLIDER issue
         for (var gr = 0; gr < Object.values(dataValues['GAV Solution GOZ Region']).length; gr++) {
-          var toCheck = dataValues['GAV#'] + Object.values(dataValues['GAV Solution GOZ Region'])[gr] + caseId + 'GAV'; // console.log(toCheck)
-          // console.log(this.idGozSliderArr[toCheck])
+          var toCheck = dataValues['GAV#'] + Object.values(dataValues['GAV Solution GOZ Region'])[gr] + caseId + 'GAV';
 
           if (this.idGozSliderArr[toCheck] == undefined) {
             this.idGozSliderArr[toCheck] = '1';
@@ -1474,21 +1570,40 @@ var _validEntry = function validEntry(value) {
           this.optGAVGozArr = [0, 1];
           this.optGozGAVval = ['2180', '2197'];
           this.optGozNameGAV = [this.caseBemaOpt[0]['2180_Name'], this.caseBemaOpt[0]['2197_Name']];
-          this.optGozPriceGAV = [this.caseBemaOpt[0]['2180_Price'], this.caseBemaOpt[0]['2197_Price']];
+          this.optGozPriceGAV = [this.caseBemaOpt[0]['2180_Price'], this.caseBemaOpt[0]['2197_Price']]; // SET Auf Slider default
+
+          for (var gv = 0; gv < this.optGozValuesGAV.length; gv++) {
+            var toCheck_2180 = '2180' + this.optGozValuesGAV[gv] + 'GAV';
+            var toCheck_2197 = '2197' + this.optGozValuesGAV[gv] + 'GAV';
+
+            if (this.idGozSliderArr[toCheck_2180] == undefined) {
+              this.idGozSliderArr[toCheck_2180] = '1';
+            }
+
+            if (this.idGozSliderArr[toCheck_2197] == undefined) {
+              this.idGozSliderArr[toCheck_2197] = '1';
+            }
+          }
         }
 
         if (this.optGozValuesGAV_.length > 0) {
           this.optGAVGozArr_ = [0];
           this.optGozGAVval_ = ['2197'];
           this.optGozNameGAV_ = [this.caseBemaOpt[0]['2197_Name']];
-          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']];
+          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']]; // SET Adh Slider default
+
+          for (var gv = 0; gv < this.optGozValuesGAV_.length; gv++) {
+            var toCheck_2197 = '2197' + this.optGozValuesGAV_[gv] + 'GAV_';
+
+            if (this.idGozSliderArr[toCheck_2197] == undefined) {
+              this.idGozSliderArr[toCheck_2197] = '1';
+            }
+          }
         }
       }
 
       if (label == 'lblAAV') {
         // // FOR GOZ SLIDER issue
-        console.log(this.idGozSliderArr); // console.log(dataValues['AAV Solution GOZ amount'])
-
         for (var gr = 0; gr < Object.values(dataValues['AAV Solution GOZ Region']).length; gr++) {
           var toCheck = dataValues['AAV#'] + Object.keys(dataValues['AAV Solution GOZ Region'])[gr] + caseId + 'AAV'; // console.log(toCheck)
 
@@ -1615,14 +1730,40 @@ var _validEntry = function validEntry(value) {
           this.optGAVGozArr = [0, 1, 2];
           this.optGozGAVval = ['0080', '0090', '9040'];
           this.optGozNameGAV = [this.caseBemaOpt[0]['0080_Name'], this.caseBemaOpt[0]['0090_Name'], this.caseBemaOpt[0]['9040_Name']];
-          this.optGozPriceGAV = [this.caseBemaOpt[0]['0080_Price'], this.caseBemaOpt[0]['0090_Price'], this.caseBemaOpt[0]['9040_Price']];
+          this.optGozPriceGAV = [this.caseBemaOpt[0]['0080_Price'], this.caseBemaOpt[0]['0090_Price'], this.caseBemaOpt[0]['9040_Price']]; // SET Auf Slider default
+
+          for (var gv = 0; gv < this.optGozValuesGAV.length; gv++) {
+            var toCheck_0080 = '0080' + this.optGozValuesGAV[gv] + 'AAV';
+            var toCheck_0090 = '0090' + this.optGozValuesGAV[gv] + 'AAV';
+            var toCheck_9040 = '9040' + this.optGozValuesGAV[gv] + 'AAV';
+
+            if (this.idGozSliderArr[toCheck_0080] == undefined) {
+              this.idGozSliderArr[toCheck_0080] = '1';
+            }
+
+            if (this.idGozSliderArr[toCheck_0090] == undefined) {
+              this.idGozSliderArr[toCheck_0090] = '1';
+            }
+
+            if (this.idGozSliderArr[toCheck_9040] == undefined) {
+              this.idGozSliderArr[toCheck_9040] = '1';
+            }
+          }
         }
 
         if (this.optGozValuesGAV_.length > 0) {
           this.optGAVGozArr_ = [0];
           this.optGozGAVval_ = ['2197'];
           this.optGozNameGAV_ = [this.caseBemaOpt[0]['2197_Name']];
-          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']];
+          this.optGozPriceGAV_ = [this.caseBemaOpt[0]['2197_Price']]; // SET Adh Slider default
+
+          for (var gv = 0; gv < this.optGozValuesGAV_.length; gv++) {
+            var toCheck_2197 = '2197' + this.optGozValuesGAV_[gv] + 'AAV_';
+
+            if (this.idGozSliderArr[toCheck_2197] == undefined) {
+              this.idGozSliderArr[toCheck_2197] = '1';
+            }
+          }
         }
       }
     },
@@ -2205,60 +2346,101 @@ var _validEntry = function validEntry(value) {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('RVstiftSlider' + faktors).value]);
         document.getElementById('RVstiftAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'RVstiftAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('RVstiftSlider' + faktors).value;
       }
 
       if (solutionT == 'RVAuf') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('RVAufSlider' + faktors).value]);
         document.getElementById('RVAufAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'RVAufAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('RVAufSlider' + faktors).value;
       }
 
       if (solutionT == 'RVAdh') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('RVAdhSlider' + faktors).value]);
         document.getElementById('RVAdhAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'RVAdhAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('RVAdhSlider' + faktors).value;
       }
 
       if (solutionT == 'GAVstift') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVstiftSlider' + faktors).value]);
         document.getElementById('GAVstiftAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'GAVstiftAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('GAVstiftSlider' + faktors).value;
       }
 
       if (solutionT == 'GAVAuf') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVAufSlider' + faktors).value]);
         document.getElementById('GAVAufAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'GAVAufAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('GAVAufSlider' + faktors).value;
       }
 
       if (solutionT == 'GAVAdh') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('GAVAdhSlider' + faktors).value]);
         document.getElementById('GAVAdhAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'GAVAdhAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('GAVAdhSlider' + faktors).value;
       }
 
       if (solutionT == 'AAVstift') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVstiftSlider' + faktors).value]);
         document.getElementById('AAVstiftAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'AAVstiftAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('AAVstiftSlider' + faktors).value;
       }
 
       if (solutionT == 'AAVAuf') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVAufSlider' + faktors).value]);
         document.getElementById('AAVAufAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'AAVAufAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('AAVAufSlider' + faktors).value;
       }
 
       if (solutionT == 'AAVAdh') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('AAVAdhSlider' + faktors).value]);
         document.getElementById('AAVAdhAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'AAVAdhAmount' + faktors;
+        this.idGozSliderArr[faktors] = document.getElementById('AAVAdhSlider' + faktors).value;
       }
 
       if (solutionT == 'oAAV') {
         newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('oAAVSlider' + faktors).value]);
         document.getElementById('oAAVAmount' + faktors).innerHTML = newGozAmount;
         this.idGozSlider = 'oAAVAmount' + faktors;
+      }
+
+      if (solutionT == 'weiter8010') {
+        newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weiter8010Slider').value]);
+        document.getElementById('weiter8010Amount').innerHTML = newGozAmount;
+        this.idGozSlider = 'weiter8010Amount';
+        this.idGozSliderArr[faktors] = document.getElementById('weiter8010Slider').value;
+      }
+
+      if (solutionT == 'weiter8020') {
+        newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weiter8020Slider').value]);
+        document.getElementById('weiter8020Amount').innerHTML = newGozAmount;
+        this.idGozSlider = 'weiter8020Amount';
+        this.idGozSliderArr[faktors] = document.getElementById('weiter8020Slider').value;
+      }
+
+      if (solutionT == 'weiter0065') {
+        newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weiter0065Slider').value]);
+        document.getElementById('weiter0065Amount').innerHTML = newGozAmount;
+        this.idGozSlider = 'weiter0065Amount';
+        this.idGozSliderArr[faktors] = document.getElementById('weiter0065Slider').value; // //Remove the Optisch GOZ values
+        // {
+        //   var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['0065_Price'], '2.3')
+        //   this.totalGavArr.filter((value, index) => {
+        //     if(value == elementOptPrice
+        //     ) {
+        //       this.totalGavArr[index] = 0
+        //       this.totalSumCalcArr[index] = 0
+        //     }
+        //   });
+        //   this.totalTableCalc()
+        // }
       }
 
       this.resetGozAmount = amountGoz; // console.log(document.getElementById('GAVSlider'+faktors).value)
@@ -2341,6 +2523,7 @@ var _validEntry = function validEntry(value) {
       var tempAmountFArr = 0.00;
       var tempGavArr = 0.00;
       var tempSumCalcArr = 0.00;
+      var tempEigenArr = 0.00;
 
       for (var si = 0; si < this.totalBemaArr.length; si++) {
         if (this.totalBemaArr[si]) {
@@ -2366,10 +2549,17 @@ var _validEntry = function validEntry(value) {
         }
       }
 
+      for (var si = 0; si < this.totalEigenlaborArr.length; si++) {
+        if (this.totalEigenlaborArr[si]) {
+          tempEigenArr += parseFloat(this.totalEigenlaborArr[si]);
+        }
+      }
+
       this.totalBemaDisp = parseFloat(tempBemaArr).toFixed(2);
       this.totalAmountFDisp = parseFloat(tempAmountFArr).toFixed(2);
       this.totalGavDisp = parseFloat(tempGavArr).toFixed(2);
-      this.totalSumCalcDisp = parseFloat(tempSumCalcArr).toFixed(2); // console.log(tempAmountFArr)
+      this.totalEigenlaborDisp = parseFloat(tempEigenArr).toFixed(2);
+      this.totalSumCalcDisp = parseFloat(tempSumCalcArr).toFixed(2);
     },
     closeCalc: function closeCalc() {
       //reset the radio btn selected
@@ -2409,69 +2599,184 @@ var _validEntry = function validEntry(value) {
 
 
       this.showOptGozGAVTable_RV.filter(function (value, region) {
-        console.log(value);
-        console.log(region);
-
+        // console.log(value);
+        // console.log(region);
         if (value && _this4.OptGozGAVselected_RV[dialogRowIndex]) {
-          console.log('value');
-          var elementOpt = document.getElementById('RVAufAmount2180' + region + 'RV');
-          elementOpt.classList.add("clsGozAmount");
-          elementOpt.classList.remove("clsGoaAmountNo");
-          var elementOpt2 = document.getElementById('RVAufAmount2197' + region + 'RV');
-          elementOpt2.classList.add("clsGozAmount");
-          elementOpt2.classList.remove("clsGoaAmountNo");
+          if (document.getElementById('RVAufAmount2180' + region + 'RV') !== null) {
+            var elementOpt = document.getElementById('RVAufAmount2180' + region + 'RV');
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('RVAufAmount2197' + region + 'RV') !== null) {
+            var elementOpt2 = document.getElementById('RVAufAmount2197' + region + 'RV');
+            elementOpt2.classList.add("clsGozAmount");
+            elementOpt2.classList.remove("clsGoaAmountNo");
+          }
         }
       });
       this.showOptGozGAVTable_GAV.filter(function (value, region) {
         if (value && _this4.OptGozGAVselected_GAV[dialogRowIndex]) {
-          var elementOpt = document.getElementById('GAVAufAmount2180' + region + 'GAV');
-          elementOpt.classList.add("clsGozAmount");
-          elementOpt.classList.remove("clsGoaAmountNo");
-          var elementOpt2 = document.getElementById('GAVAufAmount2197' + region + 'GAV');
-          elementOpt2.classList.add("clsGozAmount");
-          elementOpt2.classList.remove("clsGoaAmountNo");
+          if (document.getElementById('GAVAufAmount2180' + region + 'GAV') !== null) {
+            var elementOpt = document.getElementById('GAVAufAmount2180' + region + 'GAV');
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('GAVAufAmount2197' + region + 'GAV') !== null) {
+            var elementOpt2 = document.getElementById('GAVAufAmount2197' + region + 'GAV');
+            elementOpt2.classList.add("clsGozAmount");
+            elementOpt2.classList.remove("clsGoaAmountNo");
+          }
         }
       });
       this.showOptGozGAVTable_AAV.filter(function (value, region) {
         if (value && _this4.OptGozGAVselected_AAV[dialogRowIndex]) {
-          var elementOpt = document.getElementById('AAVAufAmount0080' + region + 'AAV');
-          elementOpt.classList.add("clsGozAmount");
-          elementOpt.classList.remove("clsGoaAmountNo");
-          var elementOpt2 = document.getElementById('AAVAufAmount0090' + region + 'AAV');
-          elementOpt2.classList.add("clsGozAmount");
-          elementOpt2.classList.remove("clsGoaAmountNo");
-          var elementOpt3 = document.getElementById('AAVAufAmount9040' + region + 'AAV');
-          elementOpt3.classList.add("clsGozAmount");
-          elementOpt3.classList.remove("clsGoaAmountNo");
+          if (document.getElementById('AAVAufAmount0080' + region + 'AAV') !== null) {
+            var elementOpt = document.getElementById('AAVAufAmount0080' + region + 'AAV');
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('AAVAufAmount0090' + region + 'AAV') !== null) {
+            var elementOpt2 = document.getElementById('AAVAufAmount0090' + region + 'AAV');
+            elementOpt2.classList.add("clsGozAmount");
+            elementOpt2.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('AAVAufAmount9040' + region + 'AAV') !== null) {
+            var elementOpt3 = document.getElementById('AAVAufAmount9040' + region + 'AAV');
+            elementOpt3.classList.add("clsGozAmount");
+            elementOpt3.classList.remove("clsGoaAmountNo");
+          }
         }
       }); // "Aufbaufüllung" END
       // "Adhäsive"
 
       this.showOptGozGAV_Table_RV.filter(function (value, region) {
         if (value && _this4.OptGozGAVselected_RV_[dialogRowIndex]) {
-          var elementOpt = document.getElementById('RVAdhAmount2197' + region + 'RV');
-          elementOpt.classList.add("clsGozAmount");
-          elementOpt.classList.remove("clsGoaAmountNo");
+          if (document.getElementById('RVAdhAmount2197' + region + 'RV_') !== null) {
+            var elementOpt = document.getElementById('RVAdhAmount2197' + region + 'RV_');
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
         }
       });
       this.showOptGozGAV_Table_GAV.filter(function (value, region) {
         if (value && _this4.OptGozGAVselected_GAV_[dialogRowIndex]) {
-          var elementOpt = document.getElementById('GAVAdhAmount2197' + region + 'GAV');
-          elementOpt.classList.add("clsGozAmount");
-          elementOpt.classList.remove("clsGoaAmountNo");
+          if (document.getElementById('GAVAdhAmount2197' + region + 'GAV_') !== null) {
+            var elementOpt = document.getElementById('GAVAdhAmount2197' + region + 'GAV_');
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
         }
       });
       this.showOptGozGAV_Table_AAV.filter(function (value, region) {
         if (value && _this4.OptGozGAVselected_AAV_[dialogRowIndex]) {
-          var elementOpt = document.getElementById('AAVAdhAmount2197' + region + 'AAV');
-          elementOpt.classList.add("clsGozAmount");
-          elementOpt.classList.remove("clsGoaAmountNo");
+          if (document.getElementById('AAVAdhAmount2197' + region + 'AAV_') !== null) {
+            var elementOpt = document.getElementById('AAVAdhAmount2197' + region + 'AAV_');
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
         }
       }); // "Adhäsive" END
       //Stift
+      // GOZ
 
-      console.log('optBemaValuesRV');
-      console.log(this.optBemaValuesRV); //Stift END
+      console.log('optGozRVShow');
+      this.optGozRVShow.filter(function (value, region) {
+        var toCheck_2195R = '2195' + region + 'RVstift';
+        var toCheck_2197R = '2197' + region + 'RVstift';
+        var toCheck_2195G = '2195' + region + 'GAVstift';
+        var toCheck_2197G = '2197' + region + 'GAVstift';
+        var toCheck_2195A = '2195' + region + 'AAVstift';
+        var toCheck_2197A = '2197' + region + 'AAVstift';
+
+        if (value && _this4.optGozRVShow[region]) {
+          if (document.getElementById('RVstiftAmount' + toCheck_2195R) !== null) {
+            var elementOpt = document.getElementById('RVstiftAmount' + toCheck_2195R);
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('RVstiftAmount' + toCheck_2197R) !== null) {
+            var elementOpt2 = document.getElementById('RVstiftAmount' + toCheck_2197R);
+            elementOpt2.classList.add("clsGozAmount");
+            elementOpt2.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('GAVstiftAmount' + toCheck_2195G) !== null) {
+            var elementOpt = document.getElementById('GAVstiftAmount' + toCheck_2195G);
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('GAVstiftAmount' + toCheck_2197G) !== null) {
+            var elementOpt2 = document.getElementById('GAVstiftAmount' + toCheck_2197G);
+            elementOpt2.classList.add("clsGozAmount");
+            elementOpt2.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('AAVstiftAmount' + toCheck_2195A) !== null) {
+            var elementOpt = document.getElementById('RVstiftAmount' + toCheck_2195R);
+            elementOpt.classList.add("clsGozAmount");
+            elementOpt.classList.remove("clsGoaAmountNo");
+          }
+
+          if (document.getElementById('AAVstiftAmount' + toCheck_2197A) !== null) {
+            var elementOpt2 = document.getElementById('AAVstiftAmount' + toCheck_2197A);
+            elementOpt2.classList.add("clsGozAmount");
+            elementOpt2.classList.remove("clsGoaAmountNo");
+          }
+        }
+      }); // BEMA
+
+      this.optBemaRVShow.filter(function (value, region) {
+        var toCheck_18aR = '18a' + region + 'RV';
+        var toCheck_18bR = '18b' + region + 'RV';
+        var toCheck_18aG = '18a' + region + 'GAV';
+        var toCheck_18bG = '18b' + region + 'GAV';
+        var toCheck_18aA = '18a' + region + 'AAV';
+        var toCheck_18bA = '18b' + region + 'AAV';
+
+        if (value && _this4.optBemaRVShow[region]) {
+          if (document.getElementById('RVstiftAmountB' + toCheck_18aR) !== null) {
+            var elementOpt = document.getElementById('RVstiftAmountB' + toCheck_18aR);
+            elementOpt.classList.add("clsBemaAmount");
+            elementOpt.classList.remove("clsBemaAmountNo");
+          }
+
+          if (document.getElementById('RVstiftAmountB' + toCheck_18bR) !== null) {
+            var elementOpt2 = document.getElementById('RVstiftAmountB' + toCheck_18bR);
+            elementOpt2.classList.add("clsBemaAmount");
+            elementOpt2.classList.remove("clsBemaAmountNo");
+          }
+
+          if (document.getElementById('GAVstiftAmountB' + toCheck_18aG) !== null) {
+            var elementOpt = document.getElementById('GAVstiftAmountB' + toCheck_18aG);
+            elementOpt.classList.add("clsBemaAmount");
+            elementOpt.classList.remove("clsBemaAmountNo");
+          }
+
+          if (document.getElementById('GAVstiftAmountB' + toCheck_18bG) !== null) {
+            var elementOpt2 = document.getElementById('GAVstiftAmountB' + toCheck_18bG);
+            elementOpt2.classList.add("clsBemaAmount");
+            elementOpt2.classList.remove("clsBemaAmountNo");
+          }
+
+          if (document.getElementById('AAVstiftAmountB' + toCheck_18aA) !== null) {
+            var elementOpt = document.getElementById('RVstiftAmountB' + toCheck_18aA);
+            elementOpt.classList.add("clsBemaAmount");
+            elementOpt.classList.remove("clsBemaAmountNo");
+          }
+
+          if (document.getElementById('AAVstiftAmountB' + toCheck_18bA) !== null) {
+            var elementOpt2 = document.getElementById('AAVstiftAmountB' + toCheck_18bA);
+            elementOpt2.classList.add("clsBemaAmount");
+            elementOpt2.classList.remove("clsBemaAmountNo");
+          }
+        }
+      }); //Stift END
 
       var collectionGoz = document.getElementsByClassName("clsGozAmount");
       var collectionBema = document.getElementsByClassName("clsBemaAmount");
@@ -2577,15 +2882,8 @@ var _validEntry = function validEntry(value) {
       this.displaySecond = false;
       this.dialogCalc = false; // RESET SLIDER GOZ AMOUNT
 
-      this.sliderValue = 1; // this.sliderValue = 0.5
-
-      var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1]); // console.log(oldGozAmount)
-      // console.log(this.idGozSlider)
-
-      if (this.idGozSlider !== '') {// document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
-      } // RESET SLIDER GOZ AMOUNT END
+      this.sliderValue = 1; // RESET SLIDER GOZ AMOUNT END
       // GO TO GENERAL QUESTION
-
 
       this.checkWeiterBtn();
     },
@@ -2628,12 +2926,24 @@ var _validEntry = function validEntry(value) {
       }
     },
     dispoptBemaRVSecond2: function dispoptBemaRVSecond2(region) {
+      //FOR stift slider
+      var toCheck_2195R = '2195' + region + 'RVstift';
+      var toCheck_2197R = '2197' + region + 'RVstift';
+      var toCheck_2195G = '2195' + region + 'GAVstift';
+      var toCheck_2197G = '2197' + region + 'GAVstift';
+      var toCheck_2195A = '2195' + region + 'AAVstift';
+      var toCheck_2197A = '2197' + region + 'AAVstift';
+
       if (this.optBemaRVJa2[region] == 'stift') {
         this.optBemaGozRV[region] = '18a';
         this.optBemaNameRV[region] = this.caseBemaOpt[0]['18a_Name'];
         this.optBemaPriceRV[region] = this.caseBemaOpt[0]['18a_Price'];
         this.optBemaRVShow[region] = true;
         this.optGozRVShow[region] = false;
+        this.Eigenlabor_Arr_18a_B.push(region);
+        this.Eigenlabor_Arr_2195_G = this.Eigenlabor_Arr_2195_G.filter(function (e) {
+          return e !== region;
+        });
       } else {
         this.optBemaGozArr[region] = [0, 1];
         this.optBemaGozRV[region] = ['2195', '2197'];
@@ -2641,6 +2951,36 @@ var _validEntry = function validEntry(value) {
         this.optBemaPriceRV[region] = [this.caseBemaOpt[0]['2195_Price'], this.caseBemaOpt[0]['2197_Price']];
         this.optBemaRVShow[region] = false;
         this.optGozRVShow[region] = true;
+        this.Eigenlabor_Arr_18a_B = this.Eigenlabor_Arr_18a_B.filter(function (e) {
+          return e !== region;
+        });
+        this.Eigenlabor_Arr_2195_G.push(region); //FOR stift slider RV
+
+        if (this.idGozSliderArr[toCheck_2195R] == undefined) {
+          this.idGozSliderArr[toCheck_2195R] = '1';
+        }
+
+        if (this.idGozSliderArr[toCheck_2197R] == undefined) {
+          this.idGozSliderArr[toCheck_2197R] = '1';
+        } //FOR stift slider GAV
+
+
+        if (this.idGozSliderArr[toCheck_2195G] == undefined) {
+          this.idGozSliderArr[toCheck_2195G] = '1';
+        }
+
+        if (this.idGozSliderArr[toCheck_2197G] == undefined) {
+          this.idGozSliderArr[toCheck_2197G] = '1';
+        } //FOR stift slider AAV
+
+
+        if (this.idGozSliderArr[toCheck_2195A] == undefined) {
+          this.idGozSliderArr[toCheck_2195A] = '1';
+        }
+
+        if (this.idGozSliderArr[toCheck_2197A] == undefined) {
+          this.idGozSliderArr[toCheck_2197A] = '1';
+        }
       }
     },
     checkWeiterBtn: function checkWeiterBtn() {
@@ -2669,7 +3009,385 @@ var _validEntry = function validEntry(value) {
         }
       }
 
+      if (document.getElementById('btnWeiterAct') !== null) {
+        document.getElementById('btnWeiterAct').disabled = true;
+        document.getElementById('btnWeiterAct').style = 'background-color: #eeeeee';
+      }
+
       this.weiterActivate = true;
+    },
+    showGeneralOpt_89: function showGeneralOpt_89() {
+      var _this5 = this;
+
+      if (this.chkBoxGQ89[0] == '89') {
+        this.displayWeiter89 = true;
+        this.totalBemaArr.push(this.caseBemaOpt[0]['89_Price']);
+        this.totalSumCalcArr.push(this.caseBemaOpt[0]['89_Price']);
+        this.totalTableCalc();
+      } else {
+        this.displayWeiter89 = false;
+        this.totalBemaArr.filter(function (value, index) {
+          if (value == _this5.caseBemaOpt[0]['89_Price']) {
+            _this5.totalBemaArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == _this5.caseBemaOpt[0]['89_Price']) {
+            _this5.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
+    },
+    showGeneralOpt_7b: function showGeneralOpt_7b() {
+      var _this6 = this;
+
+      if (this.chkBoxGQ7b[0] == '7b') {
+        this.displayWeiter7b = true;
+        this.totalBemaArr.push(this.caseBemaOpt[0]['7b_Price']);
+        this.totalSumCalcArr.push(this.caseBemaOpt[0]['7b_Price']);
+        this.Eigenlabor_Arr_7b_B.push('7b');
+        this.totalTableCalc();
+      } else {
+        this.displayWeiter7b = false; // Remove 7b price
+
+        this.totalBemaArr.filter(function (value, index) {
+          if (value == _this6.caseBemaOpt[0]['7b_Price']) {
+            _this6.totalBemaArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == _this6.caseBemaOpt[0]['7b_Price']) {
+            _this6.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.Eigenlabor_Arr_7b_B = this.Eigenlabor_Arr_7b_B.filter(function (e) {
+          return e !== '7b';
+        }); // this.Eigenlabor_Arr_7b_B.filter((value, index) => {
+        //   if(value == '7b'
+        //   ) {
+        //     this.Eigenlabor_Arr_7b_B[index] = null
+        //   }
+        // });
+
+        this.totalTableCalc();
+      }
+    },
+    showGeneralOpt_80: function showGeneralOpt_80() {
+      var _this7 = this;
+
+      var elementOptPrice_10 = this.gozAmount(this.caseBemaOpt[0]['8010_Price'], '2.3');
+      var elementOptPrice_20 = this.gozAmount(this.caseBemaOpt[0]['8020_Price'], '2.3');
+
+      if (this.chkBoxGQ8010[0] == '8010_20') {
+        this.displayWeiter8010 = true;
+        {
+          if (this.totalGavArr.indexOf(elementOptPrice_10) == -1) {
+            this.totalGavArr.push(elementOptPrice_10);
+            this.totalSumCalcArr.push(elementOptPrice_10);
+          }
+
+          if (this.totalGavArr.indexOf(elementOptPrice_20) == -1) {
+            this.totalGavArr.push(elementOptPrice_20);
+            this.totalSumCalcArr.push(elementOptPrice_20);
+          }
+
+          this.totalTableCalc();
+        }
+      } else {
+        this.displayWeiter8010 = false;
+        {
+          this.totalGavArr.filter(function (value, index) {
+            if (value == elementOptPrice_10) {
+              _this7.totalGavArr[index] = 0;
+              _this7.totalSumCalcArr[index] = 0;
+            }
+
+            if (value == elementOptPrice_20) {
+              _this7.totalGavArr[index] = 0;
+              _this7.totalSumCalcArr[index] = 0;
+            }
+          });
+          this.totalTableCalc();
+        }
+      }
+    },
+    showGeneralOpt: function showGeneralOpt() {
+      var _this8 = this;
+
+      if (this.chkBoxGQAbf[0] == 'Abformung') {
+        this.displayWeiterAbf = true;
+      } else {
+        this.displayWeiterAbf = false; //Remove the Plast.. bema values
+
+        {
+          this.totalBemaArr.filter(function (value, index) {
+            if (value == _this8.caseBemaOpt[0]['98a_Price']) {
+              _this8.totalBemaArr[index] = 0;
+              _this8.totalSumCalcArr[index] = 0;
+            }
+          });
+          this.totalTableCalc();
+        } //Remove the Optisch GOZ values
+
+        {
+          var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['0065_Price'], '2.3');
+          this.totalGavArr.filter(function (value, index) {
+            if (value == elementOptPrice) {
+              _this8.totalGavArr[index] = 0;
+              _this8.totalSumCalcArr[index] = 0;
+            }
+          });
+          this.totalTableCalc();
+        }
+      }
+    },
+    showGeneralOptRadio: function showGeneralOptRadio() {
+      var _this9 = this;
+
+      var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['0065_Price'], '2.3');
+      this.sliderWeiter0065 = '2.3';
+
+      if (this.optWeiterAbfFirst == 'Optisch') {
+        this.displayWeiterAbf65 = true;
+        this.displayWeiterAbf98a = false; //Remove the Plast.. bema values
+
+        {
+          this.totalBemaArr.filter(function (value, index) {
+            if (value == _this9.caseBemaOpt[0]['98a_Price']) {
+              _this9.totalBemaArr[index] = 0;
+              _this9.totalSumCalcArr[index] = 0;
+            }
+          });
+          this.totalTableCalc();
+        } //calc 0065 GOZ
+
+        {
+          if (this.totalGavArr.indexOf(elementOptPrice) == -1) {
+            this.totalGavArr.push(elementOptPrice);
+            this.totalSumCalcArr.push(elementOptPrice);
+            this.totalTableCalc();
+          }
+        }
+      } else {
+        this.displayWeiterAbf65 = false; //Remove the Optisch GOZ values
+
+        {
+          this.totalGavArr.filter(function (value, index) {
+            if (value == elementOptPrice) {
+              _this9.totalGavArr[index] = 0;
+              _this9.totalSumCalcArr[index] = 0;
+            }
+          });
+          this.totalTableCalc();
+        }
+      }
+    },
+    showGeneralOptRadioPlas: function showGeneralOptRadioPlas() {
+      var _this10 = this;
+
+      if (this.optWeiterAbfSecond == 'weiterOptAbfKon' || this.optWeiterAbfSecond == 'weiterOptAbfInd') {
+        this.displayWeiterAbf98a = true;
+        this.displayWeiterAbf65 = false;
+      } else {
+        this.displayWeiterAbf98a = false;
+      }
+
+      if (this.displayWeiterAbf98a) {
+        if (this.totalBemaArr.indexOf(this.caseBemaOpt[0]['98a_Price']) == -1) {
+          this.totalBemaArr.push(this.caseBemaOpt[0]['98a_Price']);
+          this.totalSumCalcArr.push(this.caseBemaOpt[0]['98a_Price']);
+          this.totalTableCalc();
+        }
+      } else {
+        this.totalBemaArr.filter(function (value, index) {
+          if (value == _this10.caseBemaOpt[0]['98a_Price']) {
+            _this10.totalBemaArr[index] = 0;
+            _this10.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
+    },
+    weiterCallElab: function weiterCallElab() {
+      this.weiterActivateElab = true; // make the general question checkboxes disable 
+      // and the pevious weiter btn
+
+      this.chkBoxGQ89_ = true;
+      this.chkBoxGQ7b_ = true;
+      this.chkBoxGQ8010_ = true;
+      this.chkBoxGQAbf_ = true;
+
+      if (document.getElementById('btnWeiterElab') !== null) {
+        document.getElementById('btnWeiterElab').disabled = true;
+        document.getElementById('btnWeiterElab').style = 'background-color: #eeeeee';
+      }
+    },
+    eigenOpChange: function eigenOpChange(eigenVal) {
+      if (eigenVal == '18a') {
+        var _18a_sel = '0';
+
+        if (this.Eigenlabor_Desc_18a_B.indexOf(this.Eigenlabor_Desc_18a_B_sel) !== -1) {
+          _18a_sel = this.Eigenlabor_Desc_18a_B.indexOf(this.Eigenlabor_Desc_18a_B_sel);
+          document.getElementById('eigen18a_amt').innerHTML = (parseFloat(this.Eigenlabor_Arr_19_B_Q) * parseFloat(this.Eigenlabor_Amt_18a_B[_18a_sel])).toFixed(2);
+        }
+      }
+
+      if (eigenVal == '2195') {
+        var _2195_sel = '0';
+
+        if (this.Eigenlabor_Desc_2195_G.indexOf(this.Eigenlabor_Desc_2195_G_sel) !== -1) {
+          _2195_sel = this.Eigenlabor_Desc_2195_G.indexOf(this.Eigenlabor_Desc_2195_G_sel);
+          document.getElementById('eigen2195_amt').innerHTML = (parseFloat(this.Eigenlabor_Arr_2195_G.length) * parseFloat(this.Eigenlabor_Amt_2195_G[_2195_sel])).toFixed(2);
+        }
+      }
+    },
+    weiterCallElabCalc: function weiterCallElabCalc() {
+      var _this11 = this;
+
+      var eigen7b_amt = '';
+      var eigen18a_amt = '';
+      var eigen19b_amt = '';
+      var eigen2195_amt = '';
+      var eigen9010_1_amt = '';
+      var eigen9010_2_amt = '';
+      var eigen9010_3_amt = '';
+
+      if (this.Eigenlabor_Arr_7b_B.length > 0) {
+        eigen7b_amt = document.getElementById('eigen7b_amt').innerHTML;
+        this.totalEigenlaborArr.push(eigen7b_amt);
+        this.totalSumCalcArr.push(eigen7b_amt);
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_7b_B.length == 0) {
+        // Remove 7b price
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen7b_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen7b_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_18a_B.length > 0) {
+        eigen18a_amt = document.getElementById('eigen18a_amt').innerHTML;
+        this.totalEigenlaborArr.push(eigen18a_amt);
+        this.totalSumCalcArr.push(eigen18a_amt);
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_18a_B.length == 0) {
+        // Remove 18a price
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen18a_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen18a_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_19_B.length > 0) {
+        eigen19b_amt = document.getElementById('eigen19b_amt').innerHTML;
+        this.totalEigenlaborArr.push(eigen19b_amt);
+        this.totalSumCalcArr.push(eigen19b_amt);
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_19_B.length == 0) {
+        // Remove 19b price
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen19b_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen19b_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_2195_G.length > 0) {
+        eigen2195_amt = document.getElementById('eigen2195_amt').innerHTML;
+        this.totalEigenlaborArr.push(eigen2195_amt);
+        this.totalSumCalcArr.push(eigen2195_amt);
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_2195_G.length == 0) {
+        // Remove 2195 price
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen2195_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen2195_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_9010_G1.length > 0) {
+        eigen9010_1_amt = document.getElementById('eigen9010_1_amt').innerHTML;
+        eigen9010_2_amt = document.getElementById('eigen9010_2_amt').innerHTML;
+        eigen9010_3_amt = document.getElementById('eigen9010_3_amt').innerHTML;
+        this.totalEigenlaborArr.push(eigen9010_1_amt);
+        this.totalSumCalcArr.push(eigen9010_1_amt);
+        this.totalEigenlaborArr.push(eigen9010_2_amt);
+        this.totalSumCalcArr.push(eigen9010_2_amt);
+        this.totalEigenlaborArr.push(eigen9010_3_amt);
+        this.totalSumCalcArr.push(eigen9010_3_amt);
+        this.totalTableCalc();
+      }
+
+      if (this.Eigenlabor_Arr_9010_G1.length == 0) {
+        // Remove 9010 price
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen9010_1_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen9010_1_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen9010_2_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen9010_2_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalEigenlaborArr.filter(function (value, index) {
+          if (value == eigen9010_3_amt) {
+            _this11.totalEigenlaborArr[index] = 0;
+          }
+        });
+        this.totalSumCalcArr.filter(function (value, index) {
+          if (value == eigen9010_3_amt) {
+            _this11.totalSumCalcArr[index] = 0;
+          }
+        });
+        this.totalTableCalc();
+      }
     }
   })
 });
@@ -3656,9 +4374,7 @@ var render = function render() {
     attrs: {
       color: "white",
       density: "compact",
-      "clipped-left": "",
-      fixed: "",
-      app: ""
+      "clipped-left": ""
     }
   }, [_c("Link", {
     attrs: {
@@ -3668,7 +4384,7 @@ var render = function render() {
     staticStyle: {
       height: "75"
     }
-  })], 1), _vm._v(" "), _c("v-app-bar-title", [_vm._v("ADDY.DENTAL")]), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("Link", {
+  })], 1), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("Link", {
     attrs: {
       href: _vm.route("calculation")
     }
@@ -3676,11 +4392,7 @@ var render = function render() {
     staticClass: "noShadow"
   }, [_c("span", {
     staticClass: "newPlan"
-  }, [_vm._v(" + Neue ZE-Planung ")])])], 1), _vm._v(" "), _c("v-btn", {
-    staticClass: "noShadow"
-  }, [_c("span", {
-    staticClass: "doctorName"
-  }, [_vm._v(" Dr. Ingmar Kappel")])]), _vm._v(" "), _c("app-bar-user-menu")], 1), _vm._v(" "), _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)], 1);
+  }, [_vm._v(" + Neue ZE-Planung ")])])], 1), _vm._v(" "), _c("app-bar-user-menu")], 1), _vm._v(" "), _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)], 1);
 };
 
 var staticRenderFns = [];
@@ -3701,7 +4413,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render=function render(){var _vm=this,_c=_vm._self._c;return _c("admin-layout",[_c("div",{staticClass:"home-page mx-8 my-4"},[_c("div",{staticClass:"d-flex align-center justify-space-between ma-0 pa-0"}),_vm._v(" "),_c("div",{staticClass:"ma-auto",staticStyle:{"max-width":"min-content"}},[_c("div",{staticClass:"d-flex mt-12 mb-5 pa-0",staticStyle:{"margin-top":"5px !important"}},[_c("span",{staticClass:"pr-1"},[_vm._v("Befundeingabe "),_c("a",{on:{click:function click($event){_vm.showInfo=true;}}},[_vm._v("info")])])]),_vm._v(" "),_c("div",{staticClass:"reset-btn"}),_vm._v(" "),_c("div",{staticClass:"my-3"},[_c("div",{directives:[{name:"show",rawName:"v-show",value:_vm.calculated,expression:"calculated"}],staticClass:"align-center","class":_vm.calculated?"d-flex":"",staticStyle:{"background-color":"#eee"}},[_c("span",{staticClass:"px-3"},[_vm._v("TP")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.upperJawTP,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                "+_vm._s(btn.value)+"\n              ")]);}),1)],1)]),_vm._v(" "),_c("div",{staticClass:"button-container"},[_c("div",{staticClass:"d-flex align-center"},[_c("span",{staticClass:"px-3"},[_vm._v("B")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.upperJawSelected,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0 text-lowercase",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                  "+_vm._s(btn.value)+"\n                ")]);}),1)],1),_vm._v(" "),_c("span",{staticClass:"px-3"},[_c("span",{staticClass:"mdi mdi-application-import",staticStyle:{cursor:"pointer"},on:{click:function click($event){_vm.importDialog=true;}}}),_vm._v(" "),_c("span",{staticClass:"mdi mdi-trash-can-outline",staticStyle:{cursor:"pointer",color:"darkred","font-size":"24px"},on:{click:_vm.resetLoad}})])]),_vm._v(" "),_c("div",{staticClass:"px-8 py-2"},[_c("UpperJaw",{attrs:{resetBtns:_vm.resetBtns,disabled:_vm.disabled,manualUpperJaw:_vm.manualUpperJaw,upperJawRV:_vm.isTP?_vm.upperJawTP:_vm.upperJawRV,apiCallSuccess:_vm.apiCallSuccess,statusImport:_vm.statusImport},on:{"btn-selected":function btnSelected($event){return _vm.upperJawSelectedBtn($event);}}}),_vm._v(" "),_c("TeethNumbers"),_vm._v(" "),_c("Mandible",{attrs:{resetBtns:_vm.resetBtns,disabled:_vm.disabled,manualMandible:_vm.manualMandible,MandibleRV:_vm.isTP?_vm.MandibleTP:_vm.MandibleRV,apiCallSuccess:_vm.apiCallSuccess,statusImport:_vm.statusImport},on:{"btn-selected":function btnSelected($event){return _vm.MandibleSelectedBtn($event);}}})],1),_vm._v(" "),_c("div",{staticClass:"d-flex align-center"},[_c("span",{staticClass:"px-3"},[_vm._v("B")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.MandibleSelected,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0 text-lowercase",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                  "+_vm._s(btn.value)+"\n                ")]);}),1)],1)])]),_vm._v(" "),_c("div",{directives:[{name:"show",rawName:"v-show",value:_vm.calculated,expression:"calculated"}],staticClass:"align-center","class":_vm.calculated?"d-flex":"",staticStyle:{"background-color":"#eee"}},[_c("span",{staticClass:"px-3"},[_vm._v("TP")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.MandibleTP,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                "+_vm._s(btn.value)+"\n              ")]);}),1)],1)])]),_vm._v(" "),_vm.calculated?_c("div",{staticClass:"table-container my-3"},[_c("v-simple-table",{attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("tbody",[_c("tr",[_c("td",{staticClass:"backColorTable"},[_vm._v(" Honorar BEMA ")]),_vm._v(" "),_c("td",{staticClass:"totalAmountBema",staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalBemaDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Labor gewerblich ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" 0.00 € ")]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Festzuschüsse ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalAmountFDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})])]),_vm._v(" "),_c("tr",[_c("td",{staticClass:"backColorTable"},[_vm._v(" Honorar GOZ / GOÄ ")]),_vm._v(" "),_c("td",{staticClass:"totalAmountGoz",staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalGavDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Eigenlabor ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" 0.00 "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Behandlungskosten ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalSumCalcDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable",staticStyle:{"font-weight":"bold"}},[_vm._v(" Eigenanteil ")]),_vm._v(" "),_c("td",{staticStyle:{"font-weight":"bold",width:"110px !important"}},[_vm._v(" 0.00 "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})])])])];},proxy:true}],null,false,2248405332)})],1):_vm._e(),_vm._v(" "),_vm.calculated?_c("div",{staticClass:"my-4"},[_c("div",[_vm._v("Bonus: "),_c("span",{staticClass:"font-weight-black"},[_vm._v(_vm._s(_vm.bonus)+"%")])]),_vm._v(" "),_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Case")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Zahn/Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Versorgung")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black",staticStyle:{width:"105px !important"}},[_vm._v("Aktion")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.tableData,function(data,index){return _c("tr",{key:index},[index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center"},[_vm._v(_vm._s(data["Case Name"]))]):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center",attrs:{id:"case_region_"+index}},[_vm._v(_vm._s(data["Case Region"]))]):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center",attrs:{id:"planen"+index}}):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center",staticStyle:{width:"105px !important"}},[_c("v-dialog",{attrs:{transition:"dialog-top-transition","max-width":"750",persistent:""},scopedSlots:_vm._u([{key:"default",fn:function fn(dialogPlan){return[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"},[_vm._v("\n                          "+_vm._s(data["Case Name"])+", "+_vm._s(data["Case Region"])+"\n                        ")]),_vm._v(" "),_c("v-card-text",[index!=="Final"?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("tbody",[_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Regelversorgung")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["RV Details"],function(dataRV,indexRV){return _c("div",{key:indexRV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexRV},on:{change:function change($event){_vm.displayRVs("lblRV","RV"+index+indexRV,""+index+indexRV,index);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexRV,id:"lblRV"+index+indexRV}},[_vm._v(" "+_vm._s(dataRV["RV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"RV"+index+indexRV}},[_vm._v(" "+_vm._s(dataRV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)]),_vm._v(" "),_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Gleichartiger Zahnersatz")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["GAV Details"],function(dataGAV,indexGAV){return _c("div",{key:indexGAV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexGAV},on:{change:function change($event){_vm.displayRVs("lblGAV","GAV"+index+indexGAV,""+index+indexGAV,index);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexGAV,id:"lblGAV"+index+indexGAV}},[_vm._v(" "+_vm._s(dataGAV["GAV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"GAV"+index+indexGAV}},[_vm._v(" "+_vm._s(dataGAV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)]),_vm._v(" "),_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Andersartiger Zahnersatz")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["AAV Details"],function(dataAAV,indexAAV){return _c("div",{key:indexAAV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexAAV},on:{change:function change($event){_vm.displayRVs("lblAAV","AAV"+index+indexAAV,""+index+indexAAV,index);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexAAV,id:"lblAAV"+index+indexAAV}},[_vm._v(" "+_vm._s(dataAAV["AAV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"AAV"+index+indexAAV}},[_vm._v(" "+_vm._s(dataAAV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)])])];},proxy:true}],null,true)}):_vm._e()],1),_vm._v(" "),_c("v-card-actions",{staticClass:"justify-end"},[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){dialogPlan.value=false;}}},[_vm._v("\n                            abbrechen\n                          ")])],1)],1)];}},{key:"activator",fn:function fn(_ref){var on=_ref.on,attrs=_ref.attrs;return[_c("div",{staticClass:"d-flex justify-space-around"},[_vm.showCasePencil.indexOf(index)==-1?_c("v-btn",_vm._g(_vm._b({attrs:{fab:"",dark:"","x-small":"",color:"#004d81",id:"btnCasePencil"+index,disabled:false},on:{click:function click($event){return _vm.displayPlanen(index);}}},"v-btn",attrs,false),on),[_c("v-icon",{attrs:{dark:""}},[_vm._v("\n                            mdi-pencil\n                          ")])],1):_vm._e(),_vm._v(" "),_vm.showCasePencil.indexOf(index)!==-1?_c("v-btn",{attrs:{fab:"",dark:"","x-small":"",color:"#004d81",id:"btnCasePencilSec"+index,disabled:false},on:{click:function click($event){return _vm.displayRVs(_vm.reOpenLabel[index],_vm.reOpenidValue[index],_vm.reOpenids[index],_vm.reOpenCaseid[index]);}}},[_c("v-icon",{attrs:{dark:""}},[_vm._v("\n                            mdi-pencil\n                          ")])],1):_vm._e(),_vm._v(" "),_c("v-spacer"),_vm._v(" "),_vm.Total_case>1&&_vm.showCaseTrash?_c("v-btn",{attrs:{fab:"",dark:"","x-small":"",color:"#b51700",id:"btnCaseTrash"+index,disabled:false},on:{click:function click($event){return _vm.cancelPlanen(index);}}},[_c("v-icon",{attrs:{dark:""}},[_vm._v("\n                            mdi-trash-can-outline\n                          ")])],1):_vm._e()],1)];}}],null,true)})],1):_vm._e()]);}),0)];},proxy:true}],null,false,3980520143)}),_vm._v(" "),_c("v-dialog",{attrs:{"max-width":"750",persistent:""},model:{value:_vm.dialogCalc,callback:function callback($$v){_vm.dialogCalc=$$v;},expression:"dialogCalc"}},[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"}),_vm._v(" "),_c("v-card-text",[_vm.dataRV_GAV_AAV["RV#"]?_c("h3",[_vm._v("BEMA-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"],function(datasRV,indexRV){return _c("tr",{key:indexRV},[_c("td",[_vm._v(" "+_vm._s(indexRV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref2){var on=_ref2.on,attrs=_ref2.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasRV)+" ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV])+" ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmount"},[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV])+" ")])]);}),0)];},proxy:true}],null,false,2440112376)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("div",[_vm.dataRV_GAV_AAV["RV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_c("hr"),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Aufbaufüllung(en)?",value:"Aufbaufüllung_RV"+_vm.dialogRow,name:"Aufbaufüllung_RV"+_vm.dialogRow,id:"Aufbaufüllung_RV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_RV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_RV,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_RV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_RV[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_RV[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_RV,region,$$v);},expression:"OptGozGAVselectedReg_RV[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable_RV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref3){var on=_ref3.on,attrs=_ref3.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"RVAufSlider"+_vm.optGozGAVval[bemaRegion]+region+"RV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval[bemaRegion]+region+"RV",_vm.optGozPriceGAV[bemaRegion],"RVAuf",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"RVAufAmount"+_vm.optGozGAVval[bemaRegion]+region+"RV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive_RV"+_vm.dialogRow,name:"Adhäsive_RV"+_vm.dialogRow,id:"Adhäsive_RV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall_(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_RV_[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_RV_,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_RV_[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_RV_[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_RV_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_RV_,region,$$v);},expression:"OptGozGAVselectedReg_RV_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table_RV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref4){var on=_ref4.on,attrs=_ref4.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"RVAdhSlider"+_vm.optGozGAVval_[bemaRegion]+region+"RV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval_[bemaRegion]+region+"RV",_vm.optGozPriceGAV_[bemaRegion],"RVAdh",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"RVAdhAmount"+_vm.optGozGAVval_[bemaRegion]+region+"RV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesRV?_c("div",[_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV(_vm.dialogRow);}},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond[_vm.dialogRow]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref5){var on=_ref5.on,attrs=_ref5.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"RVstiftAmountB"+_vm.optBemaGozRV[bemaRegion][_vm.index]+bemaRegion+"RV"}},[_vm._v(" "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+" ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref6){var on=_ref6.on,attrs=_ref6.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"RVstiftSlider"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RV"},on:{change:function change($event){return _vm.displayFak(_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RV",_vm.optBemaPriceRV[bemaRegion][index],"RVstift",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"RVstiftAmount"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);})],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("BEMA-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"],function(datasGAV,indexGAV){return _c("tr",{key:indexGAV},[_c("td",[_vm._v(" "+_vm._s(indexGAV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref7){var on=_ref7.on,attrs=_ref7.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasGAV)+" ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV])+" ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmount"},[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV])+" ")])]);}),0)];},proxy:true}],null,false,1214513528)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("GOZ-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left",staticStyle:{width:"150px"}},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"],function(datasGAV,indexGAV){return _c("tr",{key:datasGAV},[_c("td",[_vm._v(" "+_vm._s(indexGAV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref8){var on=_ref8.on,attrs=_ref8.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasGAV))]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"+_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"},on:{change:function change($event){return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV",_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV],"GAVGOZ",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGozAmount",attrs:{id:"GAVGOZAmount"+_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"}},[_vm._v(" \n                        "+_vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV],_vm.ticksLabels[_vm.idGozSliderArr[_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"]]))+"\n                      ")])]);}),0)];},proxy:true}],null,false,4083048508)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("div",[_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_c("hr"),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Aufbaufüllung(en)?",value:"Aufbaufüllung_GAV"+_vm.dialogRow,name:"Aufbaufüllung_GAV"+_vm.dialogRow,id:"Aufbaufüllung_GAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_GAV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_GAV,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_GAV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_GAV[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_GAV[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_GAV,region,$$v);},expression:"OptGozGAVselectedReg_GAV[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable_GAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref9){var on=_ref9.on,attrs=_ref9.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVAufSlider"+_vm.optGozGAVval[bemaRegion]+region+"GAV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval[bemaRegion]+region+"GAV",_vm.optGozPriceGAV[bemaRegion],"GAVAuf",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"GAVAufAmount"+_vm.optGozGAVval[bemaRegion]+region+"GAV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive_GAV"+_vm.dialogRow,name:"Adhäsive_GAV"+_vm.dialogRow,id:"Adhäsive_GAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall_(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_GAV_[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_GAV_,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_GAV_[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_GAV_[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_GAV_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_GAV_,region,$$v);},expression:"OptGozGAVselectedReg_GAV_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table_GAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref10){var on=_ref10.on,attrs=_ref10.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVAdhSlider"+_vm.optGozGAVval_[bemaRegion]+region+"GAV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval_[bemaRegion]+region+"GAV",_vm.optGozPriceGAV_[bemaRegion],"GAVAdh",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"GAVAdhAmount"+_vm.optGozGAVval_[bemaRegion]+region+"GAV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesGAV?_c("div",[_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV(_vm.dialogRow);}},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond[_vm.dialogRow]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref11){var on=_ref11.on,attrs=_ref11.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"GAVstiftAmountB"+_vm.optBemaGozRV[bemaRegion][_vm.index]+bemaRegion+"GAV"}},[_vm._v(" "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+" ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref12){var on=_ref12.on,attrs=_ref12.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVstiftSlider"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAV"},on:{change:function change($event){return _vm.displayFak(_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAV",_vm.optBemaPriceRV[bemaRegion][index],"GAVstift",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"GAVstiftAmount"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),_vm._v(" "),_c("v-col",{staticClass:"d-flex",attrs:{cols:"12",sm:"6"}},[_c("v-select",{attrs:{items:_vm.itemsMaterial,label:"Material",outlined:""}})],1)],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("h3",[_vm._v("GOZ-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left",staticStyle:{width:"150px"}},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"],function(datasAAV,indexAAV){return _c("tr",{key:indexAAV},[datasAAV?_c("td",[_vm._v(" "+_vm._s(indexAAV))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref13){var on=_ref13.on,attrs=_ref13.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV])+" ")])])],1):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_vm._v(" "+_vm._s(datasAAV))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",{staticStyle:{width:"150px"}},[indexAAV!=="0500"&&indexAAV!=="0510"&&indexAAV!=="0520"&&indexAAV!=="0530"?_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVGOZSlider"+_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"},on:{change:function change($event){return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV",_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV],"AAVGOZ",_vm.dialogRow);}}}):_vm._e()],1):_vm._e(),_vm._v(" "),_c("td",{staticClass:"clsGozAmount",attrs:{id:"AAVGOZAmount"+_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"}},[_vm._v("\n                        "+_vm._s(_vm.idGozSliderAmountArr[_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"])+"\n                      ")])]);}),0)];},proxy:true}],null,false,654795464)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("div",[_vm.dataRV_GAV_AAV["AAV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Freilegung(en)?",value:"Aufbaufüllung_AAV"+_vm.dialogRow,name:"Aufbaufüllung_AAV"+_vm.dialogRow,id:"Aufbaufüllung_AAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_AAV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_AAV,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_AAV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_AAV[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_AAV[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_AAV,region,$$v);},expression:"OptGozGAVselectedReg_AAV[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable_AAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref14){var on=_ref14.on,attrs=_ref14.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVAufSlider"+_vm.optGozGAVval[bemaRegion]+region+"AAV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval[bemaRegion]+region+"AAV",_vm.optGozPriceGAV[bemaRegion],"AAVAuf",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"AAVAufAmount"+_vm.optGozGAVval[bemaRegion]+region+"AAV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive_AAV"+_vm.dialogRow,name:"Adhäsive_AAV"+_vm.dialogRow,id:"Adhäsive_AAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall_(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_AAV_[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_AAV_,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_AAV_[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_AAV_[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_AAV_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_AAV_,region,$$v);},expression:"OptGozGAVselectedReg_AAV_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table_AAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref15){var on=_ref15.on,attrs=_ref15.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVAdhSlider"+_vm.optGozGAVval_[bemaRegion]+region+"AAV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval_[bemaRegion]+region+"AAV",_vm.optGozPriceGAV_[bemaRegion],"AAVAdh",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"AAVAdhAmount"+_vm.optGozGAVval_[bemaRegion]+region+"AAV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesAAV?_c("div",[_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV(_vm.dialogRow);}},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond[_vm.dialogRow]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref16){var on=_ref16.on,attrs=_ref16.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"AAVstiftAmountB"+_vm.optBemaGozRV[bemaRegion][_vm.index]+bemaRegion+"AAV"}},[_vm._v(" "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+" ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref17){var on=_ref17.on,attrs=_ref17.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVstiftSlider"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAV"},on:{change:function change($event){return _vm.displayFak(_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAV",_vm.optBemaPriceRV[bemaRegion][index],"AAVstift",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"AAVstiftAmount"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAV"}},[_vm._v(" "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],"2.3"))+" ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),_vm._v(" "),_c("v-col",{staticClass:"d-flex",attrs:{cols:"12",sm:"6"}},[_c("v-select",{attrs:{items:_vm.itemsMaterial,label:"Material",outlined:""}})],1)],2):_vm._e()],1),_vm._v(" "),_c("v-card-actions",[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"green darken-1",text:""},on:{click:function click($event){return _vm.calcTable(_vm.dialogRow);}}},[_vm._v("\n                speichern\n              ")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){_vm.closeCalc();_vm.dialogCalc=false;}}},[_vm._v("\n                abbrechen\n              ")])],1)],1)],1),_vm._v(" "),_c("v-overlay",{attrs:{value:_vm.overlay}},[_c("v-progress-circular",{attrs:{size:70,width:7,color:"primary",indeterminate:""}})],1)],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex ubernehmen"},[_c("v-text-field",{staticClass:"mr-4",attrs:{label:"Befundeingabe",rules:_vm.errorMsg?[_vm.errorMsg]:[_vm.rules.validEntry],dense:"",outlined:"",readonly:_vm.disabled},model:{value:_vm.findingsEntries,callback:function callback($$v){_vm.findingsEntries=$$v;},expression:"findingsEntries"}}),_vm._v(" "),_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.calculateFindingsEntries}},[_vm._v("Übernehmen")])],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex col-2 pa-0 bonus"},[_c("v-select",{attrs:{label:"Bonus",items:_vm.bonusOptions,"item-text":"text","item-value":"value",dense:"",outlined:""},model:{value:_vm.bonus,callback:function callback($$v){_vm.bonus=$$v;},expression:"bonus"}})],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.apiCall}},[_vm._v("Zahnersatz planen")])],1):_vm._e(),_vm._v(" "),_vm.isPlannen?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.weiterCall}},[_vm._v("Weiter")])],1):_vm._e(),_vm._v(" "),_vm.weiterActivate?_c("div",{staticStyle:{border:"1px solid",padding:"10px","margin-top":"30px"}},[_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"12",md:"12"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Beseitigung grober Artikulations- und Okklusionsstörungen vor Eingliederung von Prothesen und Brücken",value:"89"},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1),_vm._v(" "),_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 89 ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref18){var on=_ref18.on,attrs=_ref18.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                        "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["89_Name"],25))+"\n                      ")])];}}],null,false,3348782058)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["89_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 17.5")])])])];},proxy:true}],null,false,2866713045)}),_vm._v(" "),_c("h3",[_vm._v("Eigenlabor")]),_vm._v(" "),_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("Region")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Produkt")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 18a ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px"},attrs:{items:_vm.Eigenlabor_18a,label:"Produkt",outlined:""}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 10 ")])])])];},proxy:true}],null,false,189755860)})],1):_vm._e()]),_vm._v(" "),_c("v-dialog",{attrs:{width:"500"},model:{value:_vm.showInfo,callback:function callback($$v){_vm.showInfo=$$v;},expression:"showInfo"}},[_c("Information")],1),_vm._v(" "),_c("v-dialog",{attrs:{width:"500"},model:{value:_vm.importDialog,callback:function callback($$v){_vm.importDialog=$$v;},expression:"importDialog"}},[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"},[_vm._v("\n          Import Status\n        ")]),_vm._v(" "),_c("v-card-text",[_c("v-text-field",{staticClass:"mr-4",attrs:{dense:"",outlined:"",readonly:_vm.disabled},model:{value:_vm.findingsEntriesImport,callback:function callback($$v){_vm.findingsEntriesImport=$$v;},expression:"findingsEntriesImport"}})],1),_vm._v(" "),_c("v-card-actions",[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"green darken-1",text:""},on:{click:_vm.calculateFindingsImport}},[_vm._v("\n            speichern\n          ")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){_vm.importDialog=false;}}},[_vm._v("\n            abbrechen\n          ")])],1)],1)],1)],1)]);};var staticRenderFns=[];render._withStripped=true;
+var render=function render(){var _vm=this,_c=_vm._self._c;return _c("admin-layout",[_c("div",{staticClass:"home-page mx-8 my-4"},[_c("div",{staticClass:"d-flex align-center justify-space-between ma-0 pa-0"}),_vm._v(" "),_c("div",{staticClass:"ma-auto",staticStyle:{"max-width":"min-content"}},[_c("div",{staticClass:"d-flex mt-12 mb-5 pa-0",staticStyle:{"margin-top":"5px !important"}},[_c("span",{staticClass:"pr-1"},[_vm._v("Befundeingabe "),_c("a",{on:{click:function click($event){_vm.showInfo=true;}}},[_vm._v("info")])])]),_vm._v(" "),_c("div",{staticClass:"reset-btn"}),_vm._v(" "),_c("div",{staticClass:"my-3"},[_c("div",{directives:[{name:"show",rawName:"v-show",value:_vm.calculated,expression:"calculated"}],staticClass:"align-center","class":_vm.calculated?"d-flex":"",staticStyle:{"background-color":"#eee"}},[_c("span",{staticClass:"px-3"},[_vm._v("TP")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.upperJawTP,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                "+_vm._s(btn.value)+"\n              ")]);}),1)],1)]),_vm._v(" "),_c("div",{staticClass:"button-container"},[_c("div",{staticClass:"d-flex align-center"},[_c("span",{staticClass:"px-3"},[_vm._v("B")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.upperJawSelected,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0 text-lowercase",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                  "+_vm._s(btn.value)+"\n                ")]);}),1)],1),_vm._v(" "),_c("span",{staticClass:"px-3"},[_c("span",{staticClass:"mdi mdi-application-import",staticStyle:{cursor:"pointer"},on:{click:function click($event){_vm.importDialog=true;}}}),_vm._v(" "),_c("span",{staticClass:"mdi mdi-trash-can-outline",staticStyle:{cursor:"pointer",color:"darkred","font-size":"24px"},on:{click:_vm.resetLoad}})])]),_vm._v(" "),_c("div",{staticClass:"px-8 py-2"},[_c("UpperJaw",{attrs:{resetBtns:_vm.resetBtns,disabled:_vm.disabled,manualUpperJaw:_vm.manualUpperJaw,upperJawRV:_vm.isTP?_vm.upperJawTP:_vm.upperJawRV,apiCallSuccess:_vm.apiCallSuccess,statusImport:_vm.statusImport},on:{"btn-selected":function btnSelected($event){return _vm.upperJawSelectedBtn($event);}}}),_vm._v(" "),_c("TeethNumbers"),_vm._v(" "),_c("Mandible",{attrs:{resetBtns:_vm.resetBtns,disabled:_vm.disabled,manualMandible:_vm.manualMandible,MandibleRV:_vm.isTP?_vm.MandibleTP:_vm.MandibleRV,apiCallSuccess:_vm.apiCallSuccess,statusImport:_vm.statusImport},on:{"btn-selected":function btnSelected($event){return _vm.MandibleSelectedBtn($event);}}})],1),_vm._v(" "),_c("div",{staticClass:"d-flex align-center"},[_c("span",{staticClass:"px-3"},[_vm._v("B")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.MandibleSelected,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0 text-lowercase",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                  "+_vm._s(btn.value)+"\n                ")]);}),1)],1)])]),_vm._v(" "),_c("div",{directives:[{name:"show",rawName:"v-show",value:_vm.calculated,expression:"calculated"}],staticClass:"align-center","class":_vm.calculated?"d-flex":"",staticStyle:{"background-color":"#eee"}},[_c("span",{staticClass:"px-3"},[_vm._v("TP")]),_vm._v(" "),_c("div",{staticClass:"d-flex justify-center"},[_c("v-btn-toggle",{attrs:{tile:"","background-color":"transparent"}},_vm._l(_vm.MandibleTP,function(btn){return _c("v-btn",{key:btn.index,staticClass:"ma-0 pa-0",staticStyle:{"border-color":"transparent !important",color:"black !important"},attrs:{text:"",disabled:""}},[_vm._v("\n                "+_vm._s(btn.value)+"\n              ")]);}),1)],1)])]),_vm._v(" "),_vm.calculated?_c("div",{staticClass:"table-container my-3 sticky"},[_c("v-simple-table",{attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("tbody",[_c("tr",[_c("td",{staticClass:"backColorTable"},[_vm._v(" Honorar BEMA ")]),_vm._v(" "),_c("td",{staticClass:"totalAmountBema",staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalBemaDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Labor gewerblich ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" 0.00 € ")]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Festzuschüsse ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalAmountFDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})])]),_vm._v(" "),_c("tr",[_c("td",{staticClass:"backColorTable"},[_vm._v(" Honorar GOZ / GOÄ ")]),_vm._v(" "),_c("td",{staticClass:"totalAmountGoz",staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalGavDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Eigenlabor ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalEigenlaborDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable"},[_vm._v(" Behandlungskosten ")]),_vm._v(" "),_c("td",{staticStyle:{width:"110px !important"}},[_vm._v(" "+_vm._s(_vm.totalSumCalcDisp)+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})]),_vm._v(" "),_c("td",{staticClass:"backColorTable",staticStyle:{"font-weight":"bold"}},[_vm._v(" Eigenanteil ")]),_vm._v(" "),_c("td",{staticStyle:{"font-weight":"bold",width:"110px !important"}},[_vm._v(" "+_vm._s((_vm.totalSumCalcDisp-_vm.totalAmountFDisp).toFixed(2))+" "),_c("span",{domProps:{innerHTML:_vm._s(_vm.euro)}})])])])];},proxy:true}],null,false,3152602298)})],1):_vm._e(),_vm._v(" "),_vm.calculated?_c("div",{staticClass:"my-4"},[_c("div",[_vm._v("Bonus: "),_c("span",{staticClass:"font-weight-black"},[_vm._v(_vm._s(_vm.bonus)+"%")])]),_vm._v(" "),_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Case")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Zahn/Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Versorgung")]),_vm._v(" "),_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black",staticStyle:{width:"105px !important"}},[_vm._v("Aktion")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.tableData,function(data,index){return _c("tr",{key:index},[index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center"},[_vm._v(_vm._s(data["Case Name"]))]):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center",attrs:{id:"case_region_"+index}},[_vm._v(_vm._s(data["Case Region"]))]):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center",attrs:{id:"planen"+index}}):_vm._e(),_vm._v(" "),index!=="Final"&&index!=="Total_case"?_c("td",{staticClass:"text-center",staticStyle:{width:"105px !important"}},[_c("v-dialog",{attrs:{transition:"dialog-top-transition","max-width":"750",persistent:""},scopedSlots:_vm._u([{key:"default",fn:function fn(dialogPlan){return[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"},[_vm._v("\n                          "+_vm._s(data["Case Name"])+", "+_vm._s(data["Case Region"])+"\n                        ")]),_vm._v(" "),_c("v-card-text",[index!=="Final"?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("tbody",[_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Regelversorgung")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["RV Details"],function(dataRV,indexRV){return _c("div",{key:indexRV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexRV},on:{change:function change($event){_vm.displayRVs("lblRV","RV"+index+indexRV,""+index+indexRV,index);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexRV,id:"lblRV"+index+indexRV}},[_vm._v(" "+_vm._s(dataRV["RV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"RV"+index+indexRV}},[_vm._v(" "+_vm._s(dataRV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)]),_vm._v(" "),_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Gleichartiger Zahnersatz")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["GAV Details"],function(dataGAV,indexGAV){return _c("div",{key:indexGAV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexGAV},on:{change:function change($event){_vm.displayRVs("lblGAV","GAV"+index+indexGAV,""+index+indexGAV,index);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexGAV,id:"lblGAV"+index+indexGAV}},[_vm._v(" "+_vm._s(dataGAV["GAV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"GAV"+index+indexGAV}},[_vm._v(" "+_vm._s(dataGAV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)]),_vm._v(" "),_c("tr",[_c("th",{staticClass:"text-center text-subtitle-1 font-weight-black"},[_vm._v("Andersartiger Zahnersatz")])]),_vm._v(" "),_c("tr",[_c("td",_vm._l(data["AAV Details"],function(dataAAV,indexAAV){return _c("div",{key:indexAAV,staticStyle:{"margin-bottom":"15px","margin-top":"5px"}},[_c("input",{attrs:{type:"radio",name:"RV_GAV_AAV"},domProps:{value:indexAAV},on:{change:function change($event){_vm.displayRVs("lblAAV","AAV"+index+indexAAV,""+index+indexAAV,index);dialogPlan.value=false;}}}),_vm._v(" "),_c("label",{attrs:{"for":indexAAV,id:"lblAAV"+index+indexAAV}},[_vm._v(" "+_vm._s(dataAAV["AAV Solution Name"]))]),_vm._v(" "),_c("textarea",{staticStyle:{display:"none"},attrs:{id:"AAV"+index+indexAAV}},[_vm._v(" "+_vm._s(dataAAV)+" ")]),_vm._v(" "),_c("v-divider")],1);}),0)])])];},proxy:true}],null,true)}):_vm._e()],1),_vm._v(" "),_c("v-card-actions",{staticClass:"justify-end"},[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){dialogPlan.value=false;}}},[_vm._v("\n                            abbrechen\n                          ")])],1)],1)];}},{key:"activator",fn:function fn(_ref){var on=_ref.on,attrs=_ref.attrs;return[_c("div",{staticClass:"d-flex justify-space-around"},[_vm.showCasePencil.indexOf(index)==-1?_c("v-btn",_vm._g(_vm._b({attrs:{fab:"",dark:"","x-small":"",color:"#004d81",id:"btnCasePencil"+index,disabled:false},on:{click:function click($event){return _vm.displayPlanen(index);}}},"v-btn",attrs,false),on),[_c("v-icon",{attrs:{dark:""}},[_vm._v("\n                            mdi-pencil\n                          ")])],1):_vm._e(),_vm._v(" "),_vm.showCasePencil.indexOf(index)!==-1?_c("v-btn",{attrs:{fab:"",dark:"","x-small":"",color:"#004d81",id:"btnCasePencilSec"+index,disabled:false},on:{click:function click($event){return _vm.displayRVs(_vm.reOpenLabel[index],_vm.reOpenidValue[index],_vm.reOpenids[index],_vm.reOpenCaseid[index]);}}},[_c("v-icon",{attrs:{dark:""}},[_vm._v("\n                            mdi-pencil\n                          ")])],1):_vm._e(),_vm._v(" "),_c("v-spacer"),_vm._v(" "),_vm.Total_case>1&&_vm.showCaseTrash?_c("v-btn",{attrs:{fab:"",dark:"","x-small":"",color:"#b51700",id:"btnCaseTrash"+index,disabled:false},on:{click:function click($event){return _vm.cancelPlanen(index);}}},[_c("v-icon",{attrs:{dark:""}},[_vm._v("\n                            mdi-trash-can-outline\n                          ")])],1):_vm._e()],1)];}}],null,true)})],1):_vm._e()]);}),0)];},proxy:true}],null,false,3980520143)}),_vm._v(" "),_c("v-dialog",{attrs:{"max-width":"750",persistent:""},model:{value:_vm.dialogCalc,callback:function callback($$v){_vm.dialogCalc=$$v;},expression:"dialogCalc"}},[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"}),_vm._v(" "),_c("v-card-text",[_vm.dataRV_GAV_AAV["RV#"]?_c("h3",[_vm._v("BEMA-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["RV Solution BEMA Region"],function(datasRV,indexRV){return _c("tr",{key:indexRV},[_c("td",[_vm._v(" "+_vm._s(indexRV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref2){var on=_ref2.on,attrs=_ref2.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA name"][indexRV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasRV)+" ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA Quantity"][indexRV])+" ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmount"},[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["RV Solution BEMA amount"][indexRV])+" ")])]);}),0)];},proxy:true}],null,false,2440112376)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("div",[_vm.dataRV_GAV_AAV["RV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_c("hr"),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Aufbaufüllung(en)?",value:"Aufbaufüllung_RV"+_vm.dialogRow,name:"Aufbaufüllung_RV"+_vm.dialogRow,id:"Aufbaufüllung_RV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_RV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_RV,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_RV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_RV[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_RV[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_RV,region,$$v);},expression:"OptGozGAVselectedReg_RV[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable_RV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref3){var on=_ref3.on,attrs=_ref3.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optGozGAVval[bemaRegion]+region+"RV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"RVAufSlider"+_vm.optGozGAVval[bemaRegion]+region+"RV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval[bemaRegion]+region+"RV",_vm.optGozPriceGAV[bemaRegion],"RVAuf",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"RVAufAmount"+_vm.optGozGAVval[bemaRegion]+region+"RV"}},[_vm._v(" \n                                  "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optGozGAVval[bemaRegion]+region+"RV"]]))+" \n                                ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive_RV"+_vm.dialogRow,name:"Adhäsive_RV"+_vm.dialogRow,id:"Adhäsive_RV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall_(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_RV_[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_RV_,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_RV_[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_RV_[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_RV_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_RV_,region,$$v);},expression:"OptGozGAVselectedReg_RV_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table_RV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref4){var on=_ref4.on,attrs=_ref4.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optGozGAVval_[bemaRegion]+region+"RV_"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"RVAdhSlider"+_vm.optGozGAVval_[bemaRegion]+region+"RV_"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval_[bemaRegion]+region+"RV_",_vm.optGozPriceGAV_[bemaRegion],"RVAdh",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"RVAdhAmount"+_vm.optGozGAVval_[bemaRegion]+region+"RV_"}},[_vm._v(" \n                                  "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optGozGAVval_[bemaRegion]+region+"RV_"]]))+" \n                                ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesRV?_c("div",[_vm.dataRV_GAV_AAV["RV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV(_vm.dialogRow);}},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond[_vm.dialogRow]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref5){var on=_ref5.on,attrs=_ref5.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"RVstiftAmountB"+_vm.optBemaGozRV[bemaRegion]+bemaRegion+"RV"}},[_vm._v(" \n                              "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+"\n                            ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref6){var on=_ref6.on,attrs=_ref6.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RVstift"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"RVstiftSlider"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RVstift"},on:{change:function change($event){return _vm.displayFak(_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RVstift",_vm.optBemaPriceRV[bemaRegion][index],"RVstift",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"RVstiftAmount"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RVstift"}},[_vm._v(" \n                              "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"RVstift"]]))+" \n                            ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);})],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("BEMA-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["GAV Solution BEMA Region"],function(datasGAV,indexGAV){return _c("tr",{key:indexGAV},[_c("td",[_vm._v(" "+_vm._s(indexGAV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref7){var on=_ref7.on,attrs=_ref7.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA name"][indexGAV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasGAV)+" ")]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA Quantity"][indexGAV])+" ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmount"},[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution BEMA amount"][indexGAV])+" ")])]);}),0)];},proxy:true}],null,false,1214513528)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("GOZ-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left",staticStyle:{width:"150px"}},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["GAV Solution GOZ Region"],function(datasGAV,indexGAV){return _c("tr",{key:datasGAV},[_c("td",[_vm._v(" "+_vm._s(indexGAV))]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref8){var on=_ref8.on,attrs=_ref8.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ name"][indexGAV])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(datasGAV))]),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["GAV Solution GOZ Quantity"][indexGAV]))]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVSliderGoz"+_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"},on:{change:function change($event){return _vm.displayFak(_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV",_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV],"GAVGOZ",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGozAmount",attrs:{id:"GAVGOZAmount"+_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"}},[_vm._v(" \n                        "+_vm._s(_vm.gozAmount(_vm.dataRV_GAV_AAV["GAV Solution GOZ amount"][indexGAV],_vm.ticksLabels[_vm.idGozSliderArr[_vm.dataRV_GAV_AAV["GAV#"]+datasGAV+_vm.dialogRow+"GAV"]]))+"\n                      ")])]);}),0)];},proxy:true}],null,false,4083048508)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("div",[_vm.dataRV_GAV_AAV["GAV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_c("hr"),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Aufbaufüllung(en)?",value:"Aufbaufüllung_GAV"+_vm.dialogRow,name:"Aufbaufüllung_GAV"+_vm.dialogRow,id:"Aufbaufüllung_GAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_GAV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_GAV,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_GAV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_GAV[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_GAV[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_GAV,region,$$v);},expression:"OptGozGAVselectedReg_GAV[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable_GAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref9){var on=_ref9.on,attrs=_ref9.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optGozGAVval[bemaRegion]+region+"GAV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVAufSlider"+_vm.optGozGAVval[bemaRegion]+region+"GAV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval[bemaRegion]+region+"GAV",_vm.optGozPriceGAV[bemaRegion],"GAVAuf",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"GAVAufAmount"+_vm.optGozGAVval[bemaRegion]+region+"GAV"}},[_vm._v(" \n                                  "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optGozGAVval[bemaRegion]+region+"GAV"]]))+"\n                                ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive_GAV"+_vm.dialogRow,name:"Adhäsive_GAV"+_vm.dialogRow,id:"Adhäsive_GAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall_(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_GAV_[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_GAV_,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_GAV_[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_GAV_[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_GAV_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_GAV_,region,$$v);},expression:"OptGozGAVselectedReg_GAV_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table_GAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref10){var on=_ref10.on,attrs=_ref10.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optGozGAVval_[bemaRegion]+region+"GAV_"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVAdhSlider"+_vm.optGozGAVval_[bemaRegion]+region+"GAV_"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval_[bemaRegion]+region+"GAV_",_vm.optGozPriceGAV_[bemaRegion],"GAVAdh",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"GAVAdhAmount"+_vm.optGozGAVval_[bemaRegion]+region+"GAV_"}},[_vm._v(" \n                                  "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optGozGAVval_[bemaRegion]+region+"GAV_"]]))+" \n                                ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesGAV?_c("div",[_vm.dataRV_GAV_AAV["GAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV(_vm.dialogRow);}},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond[_vm.dialogRow]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref11){var on=_ref11.on,attrs=_ref11.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"GAVstiftAmountB"+_vm.optBemaGozRV[bemaRegion]+bemaRegion+"GAV"}},[_vm._v(" \n                              "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+"\n                            ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref12){var on=_ref12.on,attrs=_ref12.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAVstift"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"GAVstiftSlider"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAVstift"},on:{change:function change($event){return _vm.displayFak(_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAVstift",_vm.optBemaPriceRV[bemaRegion][index],"GAVstift",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"GAVstiftAmount"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAVstift"}},[_vm._v(" \n                              "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"GAVstift"]]))+" \n                            ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),_vm._v(" "),_c("v-col",{staticClass:"d-flex",attrs:{cols:"12",sm:"6"}},[_c("v-select",{attrs:{items:_vm.itemsMaterial,label:"Material",outlined:""}})],1)],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("h3",[_vm._v("GOZ-Positionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left",staticStyle:{width:"150px"}},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.dataRV_GAV_AAV["AAV Solution GOZ Region"],function(datasAAV,indexAAV){return _c("tr",{key:indexAAV+datasAAV},[datasAAV?_c("td",[_vm._v(" "+_vm._s(indexAAV))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref13){var on=_ref13.on,attrs=_ref13.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                              "+_vm._s(_vm._f("truncate")(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV],25))+"\n                            ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ name"][indexAAV])+" ")])])],1):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_vm._v(" "+_vm._s(datasAAV))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",[_vm._v(" "+_vm._s(_vm.dataRV_GAV_AAV["AAV Solution GOZ Quantity"][indexAAV]))]):_vm._e(),_vm._v(" "),datasAAV?_c("td",{staticStyle:{width:"150px"}},[indexAAV!=="0500"&&indexAAV!=="0510"&&indexAAV!=="0520"&&indexAAV!=="0530"?_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVGOZSlider"+_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"},on:{change:function change($event){return _vm.displayFak(_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV",_vm.dataRV_GAV_AAV["AAV Solution GOZ amount"][indexAAV],"AAVGOZ",_vm.dialogRow);}}}):_vm._e()],1):_vm._e(),_vm._v(" "),_c("td",{staticClass:"clsGozAmount",attrs:{id:"AAVGOZAmount"+_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"}},[_vm._v("\n                        "+_vm._s(_vm.idGozSliderAmountArr[_vm.dataRV_GAV_AAV["AAV#"]+indexAAV+_vm.dialogRow+"AAV"])+"\n                      ")])]);}),0)];},proxy:true}],null,false,3433309718)}):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("div",[_vm.dataRV_GAV_AAV["AAV#"]?_c("h3",[_vm._v("Behandlungsoptionen")]):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Freilegung(en)?",value:"Aufbaufüllung_AAV"+_vm.dialogRow,name:"Aufbaufüllung_AAV"+_vm.dialogRow,id:"Aufbaufüllung_AAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_AAV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_AAV,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_AAV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_AAV[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_AAV[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_AAV,region,$$v);},expression:"OptGozGAVselectedReg_AAV[region]"}}),_vm._v(" "),_vm.showOptGozGAVTable_AAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref14){var on=_ref14.on,attrs=_ref14.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optGozGAVval[bemaRegion]+region+"AAV"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVAufSlider"+_vm.optGozGAVval[bemaRegion]+region+"AAV"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval[bemaRegion]+region+"AAV",_vm.optGozPriceGAV[bemaRegion],"AAVAuf",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"AAVAufAmount"+_vm.optGozGAVval[bemaRegion]+region+"AAV"}},[_vm._v(" \n                                  "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV[bemaRegion],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optGozGAVval[bemaRegion]+region+"AAV"]]))+" \n                                ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Adhäsive Kronenbefestigung(en)?",value:"Adhäsive_AAV"+_vm.dialogRow,name:"Adhäsive_AAV"+_vm.dialogRow,id:"Adhäsive_AAV"+_vm.dialogRow},on:{change:function change($event){return _vm.optGozGavCall_(_vm.dialogRow);}},model:{value:_vm.OptGozGAVselected_AAV_[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselected_AAV_,_vm.dialogRow,$$v);},expression:"OptGozGAVselected_AAV_[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm.displayOptGozGavs_AAV_[_vm.dialogRow]?_c("div",_vm._l(_vm.optGozValuesGAV_,function(region){return _c("div",{key:region},[_c("v-checkbox",{attrs:{label:region,value:region},on:{change:function change($event){return _vm.optGozGavCallReg(_vm.dialogRow,region);}},model:{value:_vm.OptGozGAVselectedReg_AAV_[region],callback:function callback($$v){_vm.$set(_vm.OptGozGAVselectedReg_AAV_,region,$$v);},expression:"OptGozGAVselectedReg_AAV_[region]"}}),_vm._v(" "),_vm.showOptGozGAV_Table_AAV[region]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optGAVGozArr_,function(bemaRegion){return _c("tr",{key:bemaRegion},[_c("td",[_vm._v(" "+_vm._s(_vm.optGozGAVval_[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref15){var on=_ref15.on,attrs=_ref15.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                        "+_vm._s(_vm._f("truncate")(_vm.optGozNameGAV_[bemaRegion],25))+"\n                                      ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optGozNameGAV_[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(region)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optGozGAVval_[bemaRegion]+region+"AAV_"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVAdhSlider"+_vm.optGozGAVval_[bemaRegion]+region+"AAV_"},on:{change:function change($event){return _vm.displayFak(_vm.optGozGAVval_[bemaRegion]+region+"AAV_",_vm.optGozPriceGAV_[bemaRegion],"AAVAdh",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"AAVAdhAmount"+_vm.optGozGAVval_[bemaRegion]+region+"AAV_"}},[_vm._v(" \n                                  "+_vm._s(_vm.gozAmount(_vm.optGozPriceGAV_[bemaRegion],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optGozGAVval_[bemaRegion]+region+"AAV_"]]))+" \n                                ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);}),0):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.showCaseQuesAAV?_c("div",[_vm.dataRV_GAV_AAV["AAV#"]?_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"4",md:"4"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Stift(e)?",value:"yes"},on:{change:function change($event){return _vm.displayOptsBemaRV(_vm.dialogRow);}},model:{value:_vm.optBemaRV[_vm.dialogRow],callback:function callback($$v){_vm.$set(_vm.optBemaRV,_vm.dialogRow,$$v);},expression:"optBemaRV[dialogRow]"}})],1)],1):_vm._e(),_vm._v(" "),_vm._l(_vm.optBemaValuesRV,function(bemaRegion){return _c("div",{key:bemaRegion},[_vm.optBemaRVSecond[_vm.dialogRow]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond(bemaRegion);}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return[_c("h4",[_vm._v(" "+_vm._s(bemaRegion)+" ")])];},proxy:true}],null,true),model:{value:_vm.optBemaRVJa[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa,bemaRegion,$$v);},expression:"optBemaRVJa[bemaRegion]"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"gegossen",value:"gegossen",name:bemaRegion}}),_vm._v(" "),_c("v-radio",{attrs:{label:"konfektioniert",value:"konfektioniert",name:bemaRegion}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVSecond2[bemaRegion]?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.dispoptBemaRVSecond2(bemaRegion);}},model:{value:_vm.optBemaRVJa2[bemaRegion],callback:function callback($$v){_vm.$set(_vm.optBemaRVJa2,bemaRegion,$$v);},expression:"optBemaRVJa2[bemaRegion]"}},[_c("v-radio",{attrs:{label:"Metallischer Stift- oder Schraubenaufbau",value:"stift"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Glasfaser",value:"glasfaser"}})],1):_vm._e(),_vm._v(" "),_vm.optBemaRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref16){var on=_ref16.on,attrs=_ref16.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"AAVstiftAmountB"+_vm.optBemaGozRV[bemaRegion]+bemaRegion+"AAV"}},[_vm._v(" \n                              "+_vm._s(_vm.optBemaPriceRV[bemaRegion])+"\n                            ")])])])];},proxy:true}],null,true)})],1):_vm._e(),_vm._v(" "),_vm.optGozRVShow[bemaRegion]?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Zahn/ Gebiet")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",_vm._l(_vm.optBemaGozArr[bemaRegion],function(index){return _c("tr",{key:index},[_c("td",[_vm._v(" "+_vm._s(_vm.optBemaGozRV[bemaRegion][index])+" ")]),_vm._v(" "),_c("td",[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref17){var on=_ref17.on,attrs=_ref17.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                                    "+_vm._s(_vm._f("truncate")(_vm.optBemaNameRV[bemaRegion][index],25))+"\n                                  ")])];}}],null,true)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.optBemaNameRV[bemaRegion][index])+" ")])])],1),_vm._v(" "),_c("td",[_vm._v(" "+_vm._s(bemaRegion)+" ")]),_vm._v(" "),_c("td",[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:_vm.idGozSliderArr[_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAVstift"],"tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"AAVstiftSlider"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAVstift"},on:{change:function change($event){return _vm.displayFak(_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAVstift",_vm.optBemaPriceRV[bemaRegion][index],"AAVstift",_vm.dialogRow);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"AAVstiftAmount"+_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAVstift"}},[_vm._v(" \n                              "+_vm._s(_vm.gozAmount(_vm.optBemaPriceRV[bemaRegion][index],_vm.ticksLabels[_vm.idGozSliderArr[_vm.optBemaGozRV[bemaRegion][index]+bemaRegion+"AAVstift"]]))+" \n                            ")])]);}),0)];},proxy:true}],null,true)})],1):_vm._e()],1);})],2):_vm._e(),_vm._v(" "),_vm.dataRV_GAV_AAV["AAV#"]?_c("div",[_c("v-col",{staticClass:"d-flex",attrs:{cols:"12",sm:"6"}},[_c("v-select",{attrs:{items:_vm.itemsMaterial,label:"Material",outlined:""}})],1)],1):_vm._e()],1),_vm._v(" "),_c("v-card-actions",[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"green darken-1",text:""},on:{click:function click($event){return _vm.calcTable(_vm.dialogRow);}}},[_vm._v("\n                speichern\n              ")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){_vm.closeCalc();_vm.dialogCalc=false;}}},[_vm._v("\n                abbrechen\n              ")])],1)],1)],1),_vm._v(" "),_c("v-overlay",{attrs:{value:_vm.overlay}},[_c("v-progress-circular",{attrs:{size:70,width:7,color:"primary",indeterminate:""}})],1)],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex ubernehmen"},[_c("v-text-field",{staticClass:"mr-4",attrs:{label:"Befundeingabe",rules:_vm.errorMsg?[_vm.errorMsg]:[_vm.rules.validEntry],dense:"",outlined:"",readonly:_vm.disabled},model:{value:_vm.findingsEntries,callback:function callback($$v){_vm.findingsEntries=$$v;},expression:"findingsEntries"}}),_vm._v(" "),_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.calculateFindingsEntries}},[_vm._v("Übernehmen")])],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex col-2 pa-0 bonus"},[_c("v-select",{attrs:{label:"Bonus",items:_vm.bonusOptions,"item-text":"text","item-value":"value",dense:"",outlined:""},model:{value:_vm.bonus,callback:function callback($$v){_vm.bonus=$$v;},expression:"bonus"}})],1):_vm._e(),_vm._v(" "),!_vm.calculated?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{elevation:"0",color:"#BBDEFB"},on:{click:_vm.apiCall}},[_vm._v("Zahnersatz planen")])],1):_vm._e(),_vm._v(" "),_vm.isPlannen?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{id:"btnWeiterAct",elevation:"0",color:"#BBDEFB",disabled:false},on:{click:_vm.weiterCall}},[_vm._v("\n          Weiter\n        ")])],1):_vm._e(),_vm._v(" "),_vm.weiterActivate?_c("div",{staticStyle:{border:"1px solid",padding:"10px",margin:"30px 0"}},[_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"12",md:"12"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Beseitigung grober Artikulations- und Okklusionsstörungen vor Eingliederung von Prothesen und Brücken",value:"89",disabled:_vm.chkBoxGQ89_},on:{change:function change($event){return _vm.showGeneralOpt_89();}},model:{value:_vm.chkBoxGQ89,callback:function callback($$v){_vm.chkBoxGQ89=$$v;},expression:"chkBoxGQ89"}})],1)],1),_vm._v(" "),_vm.displayWeiter89?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 89 ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref18){var on=_ref18.on,attrs=_ref18.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                        "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["89_Name"],25))+"\n                      ")])];}}],null,false,3348782058)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["89_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"Weiter89_bema"}},[_vm._v("\n                  "+_vm._s(_vm.caseBemaOpt[0]["89_Price"])+" \n                ")])])])];},proxy:true}],null,false,3223665209)}):_vm._e(),_vm._v(" "),_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"12",md:"12"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:_vm.caseBemaOpt[0]["7b_Name"],value:"7b",disabled:_vm.chkBoxGQ7b_},on:{change:function change($event){return _vm.showGeneralOpt_7b();}},model:{value:_vm.chkBoxGQ7b,callback:function callback($$v){_vm.chkBoxGQ7b=$$v;},expression:"chkBoxGQ7b"}})],1)],1),_vm._v(" "),_vm.displayWeiter7b?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 7b ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref19){var on=_ref19.on,attrs=_ref19.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                        "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["7b_Name"],25))+"\n                      ")])];}}],null,false,1398743582)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["7b_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"Weiter7b_bema"}},[_vm._v("\n                  "+_vm._s(_vm.caseBemaOpt[0]["7b_Price"])+"\n                ")])])])];},proxy:true}],null,false,3154794093)}):_vm._e(),_vm._v(" "),_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"12",md:"12"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Arbiträre Scharnierachsenbestimmung und Zentrikregistrat",value:"8010_20",disabled:_vm.chkBoxGQ8010_},on:{change:function change($event){return _vm.showGeneralOpt_80();}},model:{value:_vm.chkBoxGQ8010,callback:function callback($$v){_vm.chkBoxGQ8010=$$v;},expression:"chkBoxGQ8010"}})],1)],1),_vm._v(" "),_vm.displayWeiter8010?_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 8010 ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref20){var on=_ref20.on,attrs=_ref20.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                        "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["8010_Name"],25))+"\n                      ")])];}}],null,false,2266403714)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["8010_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"weiter8010Slider"},on:{change:function change($event){return _vm.displayFak("weiter8010Slider",_vm.caseBemaOpt[0]["8010_Price"],"weiter8010",1);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"weiter8010Amount"}},[_vm._v("\n                  "+_vm._s(_vm.gozAmount(_vm.caseBemaOpt[0]["8010_Price"],"2.3"))+"\n                ")])]),_vm._v(" "),_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 8020 ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref21){var on=_ref21.on,attrs=_ref21.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                        "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["8020_Name"],25))+"\n                      ")])];}}],null,false,3694644097)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["8020_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"weiter8020Slider"},on:{change:function change($event){return _vm.displayFak("weiter8020Slider",_vm.caseBemaOpt[0]["8020_Price"],"weiter8020",1);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"weiter8020Amount"}},[_vm._v("\n                  "+_vm._s(_vm.gozAmount(_vm.caseBemaOpt[0]["8020_Price"],"2.3"))+"\n                ")])])])];},proxy:true}],null,false,1982697626)}):_vm._e(),_vm._v(" "),_c("v-row",[_c("v-col",{attrs:{cols:"12",sm:"12",md:"12"}},[_c("v-checkbox",{staticClass:"lblStrong",attrs:{label:"Abformung",value:"Abformung",disabled:_vm.chkBoxGQAbf_},on:{change:function change($event){return _vm.showGeneralOpt();}},model:{value:_vm.chkBoxGQAbf,callback:function callback($$v){_vm.chkBoxGQAbf=$$v;},expression:"chkBoxGQAbf"}})],1)],1),_vm._v(" "),_vm.displayWeiterAbf?_c("div",[_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.showGeneralOptRadio();}},scopedSlots:_vm._u([{key:"label",fn:function fn(){return undefined;},proxy:true}],null,false,522070287),model:{value:_vm.optWeiterAbfFirst,callback:function callback($$v){_vm.optWeiterAbfFirst=$$v;},expression:"optWeiterAbfFirst"}},[_vm._v(" "),_c("v-radio",{attrs:{label:"Optisch",value:"Optisch",name:"optWeiterAbfFirst"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"Plastisch",value:"Plastisch",name:"optWeiterAbfFirst"}})],1),_vm._v(" "),_vm.optWeiterAbfFirst=="Plastisch"?_c("v-radio-group",{attrs:{row:""},on:{change:function change($event){return _vm.showGeneralOptRadioPlas();}},model:{value:_vm.optWeiterAbfSecond,callback:function callback($$v){_vm.optWeiterAbfSecond=$$v;},expression:"optWeiterAbfSecond"}},[_c("v-radio",{attrs:{label:"konfektionierter Abformlöffel",value:"weiterOptAbfKon"}}),_vm._v(" "),_c("v-radio",{attrs:{label:"individueller Abformlöffel",value:"weiterOptAbfInd"}})],1):_vm._e(),_vm._v(" "),_vm.displayWeiterAbf98a?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("BEMA-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 98a ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref22){var on=_ref22.on,attrs=_ref22.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                            "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["98a_Name"],25))+"\n                          ")])];}}],null,false,2469084811)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["98a_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1 ")]),_vm._v(" "),_c("td",{staticClass:"clsBemaAmountNo",attrs:{id:"Weiter98a_bema"}},[_vm._v("\n                      "+_vm._s(_vm.caseBemaOpt[0]["98a_Price"])+"\n                    ")])])])];},proxy:true}],null,false,1672133721)})],1):_vm._e(),_vm._v(" "),_vm.displayWeiterAbf65?_c("div",[_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("GOZ-Nr.")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Leistungsbeschreibung")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Faktor")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Betrag (€)")])])]),_vm._v(" "),_c("tbody",[_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" 0065 ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-tooltip",{attrs:{top:"",color:"success"},scopedSlots:_vm._u([{key:"activator",fn:function fn(_ref23){var on=_ref23.on,attrs=_ref23.attrs;return[_c("v-btn",_vm._g(_vm._b({staticStyle:{"text-transform":"none !important",height:"0px !important"},attrs:{text:""}},"v-btn",attrs,false),on),[_vm._v("\n                            "+_vm._s(_vm._f("truncate")(_vm.caseBemaOpt[0]["0065_Name"],25))+"\n                          ")])];}}],null,false,4151430760)},[_vm._v(" "),_c("span",[_vm._v(" "+_vm._s(_vm.caseBemaOpt[0]["0065_Name"])+" ")])])],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 4 ")]),_vm._v(" "),_c("td",{staticStyle:{width:"150px"}},[_c("v-slider",{attrs:{value:"1","tick-labels":_vm.ticksLabels,max:2,step:"1",ticks:"always","tick-size":"4","thumb-size":36,vertical:false,id:"weiter0065Slider"},on:{change:function change($event){return _vm.displayFak("weiter0065Slider",_vm.caseBemaOpt[0]["0065_Price"],"weiter0065",1);}}})],1),_vm._v(" "),_c("td",{staticClass:"clsGoaAmountNo",attrs:{id:"weiter0065Amount"}},[_vm._v("\n                      "+_vm._s(_vm.gozAmount(_vm.caseBemaOpt[0]["0065_Price"],"2.3"))+"\n                    ")])])])];},proxy:true}],null,false,1789198005)})],1):_vm._e()],1):_vm._e()],1):_vm._e(),_vm._v(" "),_vm.weiterActivate?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{id:"btnWeiterElab",elevation:"0",color:"#BBDEFB",disabled:false},on:{click:_vm.weiterCallElab}},[_vm._v("\n          Weiter\n        ")])],1):_vm._e(),_vm._v(" "),_vm.weiterActivateElab?_c("div",{staticStyle:{border:"1px solid",padding:"10px",margin:"30px 0"}},[_c("h3",[_vm._v("Eigenlabor")]),_vm._v(" "),_c("v-simple-table",{staticClass:"my-2",attrs:{outlined:""},scopedSlots:_vm._u([{key:"default",fn:function fn(){return[_c("thead",[_c("tr",[_c("th",{staticClass:"text-left"},[_vm._v("Material Group")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Material Description")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Anzahl")]),_vm._v(" "),_c("th",{staticClass:"text-left"},[_vm._v("Preis (€)")])])]),_vm._v(" "),_c("tbody",[_vm.Eigenlabor_Arr_7b_B.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_7b_B)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_7b_B,label:"Produkt",outlined:""},model:{value:_vm.Eigenlabor_Desc_7b_B[0],callback:function callback($$v){_vm.$set(_vm.Eigenlabor_Desc_7b_B,0,$$v);},expression:"Eigenlabor_Desc_7b_B[0]"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1")]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen7b_amt"}},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Amt_7b_B[0])+" ")])]):_vm._e(),_vm._v(" "),_vm.Eigenlabor_Arr_18a_B.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_18a_B)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_18a_B,label:"Produkt",outlined:""},on:{change:function change($event){return _vm.eigenOpChange("18a");}},model:{value:_vm.Eigenlabor_Desc_18a_B_sel,callback:function callback($$v){_vm.Eigenlabor_Desc_18a_B_sel=$$v;},expression:"Eigenlabor_Desc_18a_B_sel"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Arr_18a_B.length)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen18a_amt"}},[_vm._v(" "+_vm._s((parseFloat(_vm.Eigenlabor_Arr_18a_B.length)*parseFloat(_vm.Eigenlabor_Amt_18a_B[0])).toFixed(2))+" ")])]):_vm._e(),_vm._v(" "),_vm.Eigenlabor_Arr_19_B.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_19_B)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_19_B,label:"Produkt",outlined:""},model:{value:_vm.Eigenlabor_Desc_19_B[0],callback:function callback($$v){_vm.$set(_vm.Eigenlabor_Desc_19_B,0,$$v);},expression:"Eigenlabor_Desc_19_B[0]"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Arr_19_B_Q)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen19b_amt"}},[_vm._v(" "+_vm._s((parseFloat(_vm.Eigenlabor_Arr_19_B_Q)*parseFloat(_vm.Eigenlabor_Amt_19_B[0])).toFixed(2))+" ")])]):_vm._e(),_vm._v(" "),_vm.Eigenlabor_Arr_2195_G.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_2195_G)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_2195_G,label:"Produkt",outlined:""},on:{change:function change($event){return _vm.eigenOpChange("2195");}},model:{value:_vm.Eigenlabor_Desc_2195_G_sel,callback:function callback($$v){_vm.Eigenlabor_Desc_2195_G_sel=$$v;},expression:"Eigenlabor_Desc_2195_G_sel"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Arr_2195_G.length))]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen2195_amt"}},[_vm._v(" "+_vm._s((parseFloat(_vm.Eigenlabor_Arr_2195_G.length)*parseFloat(_vm.Eigenlabor_Amt_2195_G[0])).toFixed(2))+" ")])]):_vm._e(),_vm._v(" "),_vm.Eigenlabor_Arr_9010_G1.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_9010_G1)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_9010_G1,label:"Produkt",outlined:""},model:{value:_vm.Eigenlabor_Desc_9010_G1[0],callback:function callback($$v){_vm.$set(_vm.Eigenlabor_Desc_9010_G1,0,$$v);},expression:"Eigenlabor_Desc_9010_G1[0]"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Arr_9010_G_Q)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen9010_1_amt"}},[_vm._v(" "+_vm._s((parseFloat(_vm.Eigenlabor_Arr_9010_G_Q)*parseFloat(_vm.Eigenlabor_Amt_9010_G1[0])).toFixed(2))+" ")])]):_vm._e(),_vm._v(" "),_vm.Eigenlabor_Arr_9010_G1.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_9010_G2)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_9010_G2,label:"Produkt",outlined:""},model:{value:_vm.Eigenlabor_Desc_9010_G2[0],callback:function callback($$v){_vm.$set(_vm.Eigenlabor_Desc_9010_G2,0,$$v);},expression:"Eigenlabor_Desc_9010_G2[0]"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" 1")]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen9010_2_amt"}},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Amt_9010_G2[0])+" ")])]):_vm._e(),_vm._v(" "),_vm.Eigenlabor_Arr_9010_G1.length>0?_c("tr",[_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Gr_9010_G3)+" ")]),_vm._v(" "),_c("td",{staticClass:"text-center"},[_c("v-select",{staticStyle:{"margin-top":"30px",width:"450px"},attrs:{items:_vm.Eigenlabor_Desc_9010_G3,label:"Produkt",outlined:""},model:{value:_vm.Eigenlabor_Desc_9010_G3[0],callback:function callback($$v){_vm.$set(_vm.Eigenlabor_Desc_9010_G3,0,$$v);},expression:"Eigenlabor_Desc_9010_G3[0]"}})],1),_vm._v(" "),_c("td",{staticClass:"text-center"},[_vm._v(" "+_vm._s(_vm.Eigenlabor_Arr_9010_G_Q))]),_vm._v(" "),_c("td",{staticClass:"text-center",attrs:{id:"eigen9010_3_amt"}},[_vm._v(" "+_vm._s((parseFloat(_vm.Eigenlabor_Arr_9010_G_Q)*parseFloat(_vm.Eigenlabor_Amt_9010_G3[0])).toFixed(2))+" ")])]):_vm._e()])];},proxy:true}],null,false,3829856293)})],1):_vm._e(),_vm._v(" "),_vm.weiterActivateElab?_c("div",{staticClass:"d-flex col-2 pa-0 festzuschüsse-berechnen"},[_c("v-btn",{attrs:{id:"btnWeiterElabCalc",elevation:"0",color:"#BBDEFB",disabled:false},on:{click:_vm.weiterCallElabCalc}},[_vm._v("\n          Weiter\n        ")])],1):_vm._e()]),_vm._v(" "),_c("v-dialog",{attrs:{width:"500"},model:{value:_vm.showInfo,callback:function callback($$v){_vm.showInfo=$$v;},expression:"showInfo"}},[_c("Information")],1),_vm._v(" "),_c("v-dialog",{attrs:{width:"500"},model:{value:_vm.importDialog,callback:function callback($$v){_vm.importDialog=$$v;},expression:"importDialog"}},[_c("v-card",[_c("v-card-title",{staticClass:"text-h5"},[_vm._v("\n          Import Status\n        ")]),_vm._v(" "),_c("v-card-text",[_c("v-text-field",{staticClass:"mr-4",attrs:{dense:"",outlined:"",readonly:_vm.disabled},model:{value:_vm.findingsEntriesImport,callback:function callback($$v){_vm.findingsEntriesImport=$$v;},expression:"findingsEntriesImport"}})],1),_vm._v(" "),_c("v-card-actions",[_c("v-spacer"),_vm._v(" "),_c("v-btn",{attrs:{color:"green darken-1",text:""},on:{click:_vm.calculateFindingsImport}},[_vm._v("\n            speichern\n          ")]),_vm._v(" "),_c("v-btn",{attrs:{color:"red darken-1",text:""},on:{click:function click($event){_vm.importDialog=false;}}},[_vm._v("\n            abbrechen\n          ")])],1)],1)],1)],1)]);};var staticRenderFns=[];render._withStripped=true;
 
 /***/ }),
 
@@ -9256,7 +9968,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\r\n  background-color: #eeeeee;\r\n  width: -moz-fit-content;\r\n  width: fit-content;\r\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\r\n  background-color: white;\n}\n.table-container .backColorTable[data-v-09e82b30] {\r\n  background-color: #cfe2f3;\n}\n.ubernehmen[data-v-09e82b30] {\r\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\r\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\r\n  border: 1px solid black;\r\n  text-align: left;\r\n  padding: 8px;\n}\nth[data-v-09e82b30] {\r\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\r\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\r\n  padding-right: 0px !important;\r\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\r\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\r\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\r\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\r\n  border-radius: 0px !important;\r\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\r\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\r\n  margin: 1rem !important;\n}\n.v-btn[data-v-09e82b30]::before {\r\n  background-color: transparent !important;\n}\ntd.insideTable[data-v-09e82b30] {\r\n  border: none;\r\n  margin-bottom: 5px;\n}\n.lblStrong[data-v-09e82b30] {\r\n  font-weight: bold;\n}\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button-container[data-v-09e82b30] {\r\n  background-color: #eeeeee;\r\n  width: -moz-fit-content;\r\n  width: fit-content;\r\n  padding: 10px;\n}\n.table-container[data-v-09e82b30] {\r\n  background-color: white;\n}\n.table-container .backColorTable[data-v-09e82b30] {\r\n  background-color: #cfe2f3;\n}\n.ubernehmen[data-v-09e82b30] {\r\n  width: 80%;\n}\n.ubernehmen button[data-v-09e82b30], .festzuschüsse-berechnen button[data-v-09e82b30], .logout-btn[data-v-09e82b30], .reset-btn button[data-v-09e82b30] {\r\n  border: thin solid black !important;\n}\ntd[data-v-09e82b30], th[data-v-09e82b30] {\r\n  border: 1px solid black;\r\n  text-align: left;\r\n  padding: 8px;\n}\nth[data-v-09e82b30] {\r\n  background-color: #ddecdd !important;\n}\ntable[data-v-09e82b30] {\r\n  table-layout: fixed;\n}\n.v-data-table__expanded__content td[data-v-09e82b30] {\r\n  padding-right: 0px !important;\r\n  padding-left: 0px !important;\n}\n.v-data-table__expanded[data-v-09e82b30] {\r\n  box-shadow: none !important;\n}\n.v-data-table__expanded__content[data-v-09e82b30] {\r\n  background-color: rgba(255, 209, 220, 0.2) !important;\n}\n.v-data-table__expanded__content .expanded-datatable[data-v-09e82b30] {\r\n  background-color: white !important;\n}\n.expanded-datatable[data-v-09e82b30] {\r\n  border-radius: 0px !important;\r\n  background-color: white !important;\n}\nthead[data-v-09e82b30] {\r\n  background-color: #ddecdd !important;\n}\n.v-progress-circular[data-v-09e82b30] {\r\n  margin: 1rem !important;\n}\n.v-btn[data-v-09e82b30]::before {\r\n  background-color: transparent !important;\n}\ntd.insideTable[data-v-09e82b30] {\r\n  border: none;\r\n  margin-bottom: 5px;\n}\n.lblStrong[data-v-09e82b30] {\r\n  font-weight: bold;\n}\n.sticky[data-v-09e82b30] { \r\n    position: sticky; \r\n    top: 0;\r\n    z-index: 99;\r\n    /* background-color: rgb(32, 165, 20);  */\r\n    /* color: white;  */\r\n    /* padding: 10px;  */\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

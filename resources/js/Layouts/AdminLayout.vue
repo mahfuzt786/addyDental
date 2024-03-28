@@ -3,8 +3,10 @@
           <v-app-bar
             color="white"
             density="compact"
-            clipped-left fixed  app
+            clipped-left
           >
+          <!-- clipped-left fixed  app // new -->
+
 
             <!-- <template v-slot:prepend> -->
             <!-- <template v-slot:img="{ props }">
@@ -20,7 +22,7 @@
                   <application-logo style="height: 75" />
                 </Link>
 
-            <v-app-bar-title>ADDY.DENTAL</v-app-bar-title>
+            <!-- <v-app-bar-title>ADDY.DENTAL</v-app-bar-title> // new -->
 
             <v-spacer></v-spacer>
 
@@ -30,9 +32,9 @@
             </v-btn>
           </Link>
 
-            <v-btn class="noShadow">
+            <!-- <v-btn class="noShadow">
               <span class="doctorName"> Dr. Ingmar Kappel</span>
-            </v-btn>
+            </v-btn> // new -->
 
           <app-bar-user-menu></app-bar-user-menu>
     </v-app-bar>

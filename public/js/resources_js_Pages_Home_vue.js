@@ -133,9 +133,7 @@ var render = function render() {
     attrs: {
       color: "white",
       density: "compact",
-      "clipped-left": "",
-      fixed: "",
-      app: ""
+      "clipped-left": ""
     }
   }, [_c("Link", {
     attrs: {
@@ -145,7 +143,7 @@ var render = function render() {
     staticStyle: {
       height: "75"
     }
-  })], 1), _vm._v(" "), _c("v-app-bar-title", [_vm._v("ADDY.DENTAL")]), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("Link", {
+  })], 1), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("Link", {
     attrs: {
       href: _vm.route("calculation")
     }
@@ -153,11 +151,7 @@ var render = function render() {
     staticClass: "noShadow"
   }, [_c("span", {
     staticClass: "newPlan"
-  }, [_vm._v(" + Neue ZE-Planung ")])])], 1), _vm._v(" "), _c("v-btn", {
-    staticClass: "noShadow"
-  }, [_c("span", {
-    staticClass: "doctorName"
-  }, [_vm._v(" Dr. Ingmar Kappel")])]), _vm._v(" "), _c("app-bar-user-menu")], 1), _vm._v(" "), _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)], 1);
+  }, [_vm._v(" + Neue ZE-Planung ")])])], 1), _vm._v(" "), _c("app-bar-user-menu")], 1), _vm._v(" "), _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)], 1);
 };
 
 var staticRenderFns = [];

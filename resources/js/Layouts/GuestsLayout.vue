@@ -4,8 +4,10 @@
       <v-app-bar
             color="white"
             density="compact"
-            clipped-left fixed  app
+            clipped-left app
           >
+          <!-- clipped-left fixed app   // new -->
+
 
             <!-- <template v-slot:img="{ props }">
               <v-img

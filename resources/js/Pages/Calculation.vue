@@ -155,7 +155,7 @@
 
         </div>
 
-        <div class="table-container my-3" v-if="calculated">
+        <div class="table-container my-3 sticky" v-if="calculated">
 
           <v-simple-table outlined>
             <template v-slot:default>
@@ -177,7 +177,7 @@
                 <td class="totalAmountGoz" style="width: 110px !important;"> {{ totalGavDisp }} <span v-html="euro"></span> </td>
 
                 <td class="backColorTable"> Eigenlabor </td>
-                <td style="width: 110px !important;"> 0.00 <span v-html="euro"></span> </td>
+                <td style="width: 110px !important;"> {{ totalEigenlaborDisp }} <span v-html="euro"></span> </td>
 
                 <td class="backColorTable"> Behandlungskosten </td>
                 <td style="width: 110px !important;"> {{ totalSumCalcDisp }} <span v-html="euro"></span> </td>
@@ -2007,7 +2007,7 @@
           </v-btn>
         </div>
 
-        <div v-if="weiterActivate" style="border: 1px solid; padding: 10px; margin-top: 30px;">
+        <div v-if="weiterActivate" style="border: 1px solid; padding: 10px; margin: 30px 0;">
           
           <v-row>
             <v-col
@@ -2020,7 +2020,8 @@
                 label="Beseitigung grober Artikulations- und Okklusionsstörungen vor Eingliederung von Prothesen und Brücken"
                 value="89"
                 class="lblStrong"
-                v-on:change="showGeneralOpt()"
+                v-on:change="showGeneralOpt_89()"
+                :disabled="chkBoxGQ89_"
               ></v-checkbox>
             </v-col>
           </v-row>
@@ -2074,7 +2075,8 @@
                 :label="caseBemaOpt[0]['7b_Name']"
                 value="7b"
                 class="lblStrong"
-                v-on:change="showGeneralOpt()"
+                v-on:change="showGeneralOpt_7b()"
+                :disabled="chkBoxGQ7b_"
               ></v-checkbox>
             </v-col>
           </v-row>
@@ -2128,7 +2130,8 @@
                 label="Arbiträre Scharnierachsenbestimmung und Zentrikregistrat"
                 value="8010_20"
                 class="lblStrong"
-                v-on:change="showGeneralOpt()"
+                v-on:change="showGeneralOpt_80()"
+                :disabled="chkBoxGQ8010_"
               ></v-checkbox>
             </v-col>
           </v-row>
@@ -2178,7 +2181,7 @@
                     >
                     </v-slider>
                   </td>
-                  <td class="clsGoaAmountNo" :id="'weiter8010Amount'">
+                  <td class="clsGoaAmountNo" id="weiter8010Amount">
                     {{ gozAmount(caseBemaOpt[0]['8010_Price'], '2.3') }}
                   </td>
                 </tr>
@@ -2216,7 +2219,7 @@
                     >
                     </v-slider>
                   </td>
-                  <td class="clsGoaAmountNo" :id="'weiter8020Amount'">
+                  <td class="clsGoaAmountNo" id="weiter8020Amount">
                     {{ gozAmount(caseBemaOpt[0]['8020_Price'], '2.3') }}
                   </td>
                 </tr>
@@ -2239,6 +2242,7 @@
                 value="Abformung"
                 class="lblStrong"
                 v-on:change="showGeneralOpt()"
+                :disabled="chkBoxGQAbf_"
               ></v-checkbox>
             </v-col>
           </v-row>
@@ -2311,7 +2315,9 @@
                         </v-tooltip>
                       </td>
                       <td class="text-center"> 1 </td>
-                      <td class="text-center"> {{ caseBemaOpt[0]['98a_Price'] }} </td>
+                      <td class="clsBemaAmountNo" id="Weiter98a_bema">
+                        {{ caseBemaOpt[0]['98a_Price'] }}
+                      </td>
                     </tr>
 
                   </tbody>
@@ -2352,22 +2358,23 @@
                       </td>
                       <td class="text-center"> 4 </td>
                       <td style="width: 150px;">
-                    <v-slider
-                      value="1"
-                      :tick-labels="ticksLabels"
-                      :max="2"
-                      step="1"
-                      ticks="always"
-                      tick-size="4"
-                      :thumb-size="36"
-                      :vertical="false"
-                      v-on:change="displayFak('weiter0065Slider', caseBemaOpt[0]['0065_Price'], 'weiter0065', 1)"
-                      :id="'weiter0065Slider'"
-                    >
-                    </v-slider>
-                  </td>
-                      <td class="clsGoaAmountNo" :id="'weiter0065Amount'"> 
-                        {{ gozAmount(caseBemaOpt[0]['0065_Price'], '2.3') }} </td>
+                        <v-slider
+                          value="1"
+                          :tick-labels="ticksLabels"
+                          :max="2"
+                          step="1"
+                          ticks="always"
+                          tick-size="4"
+                          :thumb-size="36"
+                          :vertical="false"
+                          v-on:change="displayFak('weiter0065Slider', caseBemaOpt[0]['0065_Price'], 'weiter0065', 1)"
+                          :id="'weiter0065Slider'"
+                        >
+                        </v-slider>
+                      </td>
+                      <td class="clsGoaAmountNo" id="weiter0065Amount">
+                        {{ gozAmount(caseBemaOpt[0]['0065_Price'], '2.3') }}
+                      </td>
                     </tr>
 
                   </tbody>
@@ -2378,38 +2385,152 @@
 
           </div>
 
-          <!-- <h3>Eigenlabor</h3>
+        </div>
+
+        <div v-if="weiterActivate" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
+          <v-btn @click="weiterCallElab"
+                id="btnWeiterElab" 
+                elevation="0" 
+                color="#BBDEFB"
+                :disabled=false
+          >
+            Weiter
+          </v-btn>
+        </div>
+
+        <div v-if="weiterActivateElab" style="border: 1px solid; padding: 10px; margin: 30px 0;">
+
+          <h3>Eigenlabor</h3>
           <v-simple-table outlined class="my-2">
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-left">Region</th>
-                  <th class="text-left">Produkt</th>
+                  <th class="text-left">Material Group</th>
+                  <th class="text-left">Material Description</th>
                   <th class="text-left">Anzahl</th>
-                  <th class="text-left">Betrag (€)</th>
+                  <th class="text-left">Preis (€)</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="text-center"> 18a </td>
-                  <td class="text-center">
-                  
+                <tr v-if="Eigenlabor_Arr_7b_B.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_7b_B }} </td>
+                  <td class="text-center">                  
                     <v-select
-                      :items="Eigenlabor_18a"
+                      :items="Eigenlabor_Desc_7b_B"
+                      v-model="Eigenlabor_Desc_7b_B[0]"
                       label="Produkt"
                       outlined
-                      style="margin-top: 30px;"
-                    ></v-select>
-                  
+                      style="margin-top: 30px; width: 450px;"
+                    ></v-select>                  
                   </td>
                   <td class="text-center"> 1</td>
-                  <td class="text-center"> 10.00 </td>
+                  <td class="text-center" id="eigen7b_amt"> {{ Eigenlabor_Amt_7b_B[0] }} </td>
                 </tr>
+
+                <tr v-if="Eigenlabor_Arr_18a_B.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_18a_B }} </td>
+                  <td class="text-center">
+                    <v-select
+                      :items="Eigenlabor_Desc_18a_B"
+                      v-model="Eigenlabor_Desc_18a_B_sel"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px; width: 450px;"
+                      v-on:change="eigenOpChange('18a')"
+                    ></v-select>
+                  </td>
+                  <td class="text-center"> {{ Eigenlabor_Arr_18a_B.length }} </td>
+                  <td class="text-center" id="eigen18a_amt"> {{ (parseFloat(Eigenlabor_Arr_18a_B.length) * parseFloat(Eigenlabor_Amt_18a_B[0])).toFixed(2) }} </td>
+                </tr>
+                <tr v-if="Eigenlabor_Arr_19_B.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_19_B }} </td>
+                  <td class="text-center">
+                    <v-select
+                      :items="Eigenlabor_Desc_19_B"
+                      v-model="Eigenlabor_Desc_19_B[0]"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px; width: 450px;"
+                    ></v-select>
+                  </td>
+                  <td class="text-center"> {{ Eigenlabor_Arr_19_B_Q }} </td>
+                  <td class="text-center" id="eigen19b_amt"> {{ (parseFloat(Eigenlabor_Arr_19_B_Q) * parseFloat(Eigenlabor_Amt_19_B[0])).toFixed(2) }} </td>
+                </tr>
+                <tr v-if="Eigenlabor_Arr_2195_G.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_2195_G }} </td>
+                  <td class="text-center">
+                    <v-select
+                      :items="Eigenlabor_Desc_2195_G"
+                      v-model="Eigenlabor_Desc_2195_G_sel"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px; width: 450px;"
+                      v-on:change="eigenOpChange('2195')"
+                    ></v-select>
+                  </td>
+                  <td class="text-center"> {{ Eigenlabor_Arr_2195_G.length }}</td>
+                  <td class="text-center" id="eigen2195_amt"> {{ (parseFloat(Eigenlabor_Arr_2195_G.length) * parseFloat(Eigenlabor_Amt_2195_G[0])).toFixed(2) }} </td>
+                </tr>
+
+                <tr v-if="Eigenlabor_Arr_9010_G1.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_9010_G1 }} </td>
+                  <td class="text-center">
+                    <v-select
+                      :items="Eigenlabor_Desc_9010_G1"
+                      v-model="Eigenlabor_Desc_9010_G1[0]"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px; width: 450px;"
+                    ></v-select>
+                  </td>
+                  <td class="text-center"> {{ Eigenlabor_Arr_9010_G_Q }} </td>
+                  <td class="text-center" id="eigen9010_1_amt"> {{ (parseFloat(Eigenlabor_Arr_9010_G_Q) * parseFloat(Eigenlabor_Amt_9010_G1[0])).toFixed(2) }} </td>
+                </tr>
+                <tr v-if="Eigenlabor_Arr_9010_G1.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_9010_G2 }} </td>
+                  <td class="text-center">
+                    <v-select
+                      :items="Eigenlabor_Desc_9010_G2"
+                      v-model="Eigenlabor_Desc_9010_G2[0]"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px; width: 450px;"
+                    ></v-select>
+                  </td>
+                  <td class="text-center"> 1</td>
+                  <td class="text-center" id="eigen9010_2_amt"> {{ Eigenlabor_Amt_9010_G2[0] }} </td>
+                </tr>
+                <tr v-if="Eigenlabor_Arr_9010_G1.length > 0">
+                  <td class="text-center"> {{ Eigenlabor_Gr_9010_G3 }} </td>
+                  <td class="text-center">
+                    <v-select
+                      :items="Eigenlabor_Desc_9010_G3"
+                      v-model="Eigenlabor_Desc_9010_G3[0]"
+                      label="Produkt"
+                      outlined
+                      style="margin-top: 30px; width: 450px;"
+                    ></v-select>
+                  </td>
+                  <td class="text-center"> {{ Eigenlabor_Arr_9010_G_Q }}</td>
+                  <td class="text-center" id="eigen9010_3_amt"> {{ (parseFloat(Eigenlabor_Arr_9010_G_Q) * parseFloat(Eigenlabor_Amt_9010_G3[0])).toFixed(2) }} </td>
+                </tr>
+
               </tbody>
 
             </template>
-          </v-simple-table> -->
+          </v-simple-table>
 
+        </div>
+
+        <div v-if="weiterActivateElab" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
+          <v-btn @click="weiterCallElabCalc"
+                id="btnWeiterElabCalc" 
+                elevation="0" 
+                color="#BBDEFB"
+                :disabled=false
+          >
+            Weiter
+          </v-btn>
         </div>
         
       </div>
@@ -3066,11 +3187,13 @@
       totalAmountFArr   : [],
       totalGavArr       : [],
       totalSumCalcArr   : [],
+      totalEigenlaborArr   : [],
 
       totalBemaDisp     : '0.00',
       totalAmountFDisp  : '0.00',
       totalGavDisp      : '0.00',
       totalSumCalcDisp  : '0.00',
+      totalEigenlaborDisp : '0.00',
 
       overlay: false,
       dialogRow: 0,
@@ -3151,10 +3274,10 @@
                     '7b_Name': 'Vorbereitende Maßnahmen: Abformung, Bissnahme für das Erstellen von Modellen des Ober- und Unterkiefers zur diagnostischen Auswertung und Planung sowie schriftliche Niederlegung',
                     '7b_Price': '20.78',
 
-                    '8010_Name': '.',
-                    '8010_Price': '0.00',
-                    '8020_Name': '.',
-                    '8020_Price': '0.00',
+                    '8010_Name': 'Registrieren der gelenkbezüglichen Zentrallage des Unterkiefers, auch Stützstiftregistrierung, je Registrat',
+                    '8010_Price': '10.12',
+                    '8020_Name': 'Arbiträre Scharnierachsenbestimmung (eingeschlossen sind die arbiträre Scharnierachsenbestimmung, das Anlegen eines Übertragungsbogens, Koordinieren eines Übertragungsbogens mit einem Artikulator)',
+                    '8020_Price': '16.87',
 
                     '98a_Name': 'Abformung mit individuellem oder individualisiertem Löffel, je Kiefer',
                     '98a_Price': '31.71',
@@ -3215,8 +3338,6 @@
       reOpenCaseid: [],
 
       weiterActivate: false,
-      Eigenlabor_18a: ["Dentsply Radix Anker Standard Edelstahl",
-                      "Dentsply Radix Anker Titan"],
       displayWeiter89: false,
       displayWeiter7b: false,
       displayWeiter8010: false,
@@ -3226,14 +3347,61 @@
       displayWeiter98a: false,
       displayWeiter0065: false,
       chkBoxGQ89: [],
+      chkBoxGQ89_: false,
       chkBoxGQ7b: [],
+      chkBoxGQ7b_: false,
       chkBoxGQ8010: [],
+      chkBoxGQ8010_: false,
       chkBoxGQAbf: [],
+      chkBoxGQAbf_: false,
       chkBoxGQ98a: [],
       chkBoxGQ0065: [],
       optWeiterAbfFirst: [],
       optWeiterAbfSecond: [],
+      sliderWeiter0065: '',
+      sliderWeiter8010: '',
+      sliderWeiter8020: '',
 
+      weiterActivateElab: false,
+      Eigenlabor_Desc_7b_B:    ["Abformung (Alginat), Bissregistrat und Herstellung von Diagnostik-/Planungsmodellen des Ober- und Unterkiefers (BELII)"],
+      Eigenlabor_Desc_18a_B:   ["Radix Anker Standard Edelstahl (Dentsply)",
+                                "Radix Anker Titan (Dentsply)"],
+      Eigenlabor_Desc_19_B:    ["Protemp 4 (3M)"],
+      Eigenlabor_Desc_2195_G:  ["DT Light Post (VDW)",
+                                "RelyX™ Fiber Post Stifte (3M)",
+                                "EnaPost Glasfaser-Wurzelstift 2% (Medicom)"],
+      Eigenlabor_Desc_9010_G1:  ["Straumann Bonelevel Tapered (Straumann)"],
+      Eigenlabor_Desc_9010_G2:  ["PH-Seide 4/0 FS2 0,45m (Johnson & Johnson)"],
+      Eigenlabor_Desc_9010_G3:  ["Sterile RC Verschlussschraube - Höhe 0.5 mm - Ti (Straumann)"],
+
+      Eigenlabor_Gr_7b_B:     'Diagnostik-/Planungsmodelle',
+      Eigenlabor_Gr_18a_B:    'Metallischer Stift- oder Schraubenaufbau',
+      Eigenlabor_Gr_19_B:     'Provisorium',
+      Eigenlabor_Gr_2195_G:   'Glasfaserstift',
+      Eigenlabor_Gr_9010_G1:  'Implantat',
+      Eigenlabor_Gr_9010_G2:  'Nahtmaterial',
+      Eigenlabor_Gr_9010_G3:  'Verschlussschraube',
+
+      Eigenlabor_Arr_7b_B:     [],
+      Eigenlabor_Arr_18a_B:    [],
+      Eigenlabor_Arr_19_B:     [],
+      Eigenlabor_Arr_19_B_Q:   [],
+      Eigenlabor_Arr_2195_G:   [],
+      Eigenlabor_Arr_9010_G1:  [],
+      Eigenlabor_Arr_9010_G_Q:  [],
+      // Eigenlabor_Arr_9010_G2:  [],
+      // Eigenlabor_Arr_9010_G3:  [],
+
+      Eigenlabor_Amt_7b_B:     ['50.00'],
+      Eigenlabor_Amt_18a_B:    ['10.00', '15.00'],
+      Eigenlabor_Amt_19_B:     ['0.00'],
+      Eigenlabor_Amt_2195_G:   ['30.00', '35.00', '40.00'],
+      Eigenlabor_Amt_9010_G1:  ['223.00'],
+      Eigenlabor_Amt_9010_G2:  ['10.00'],
+      Eigenlabor_Amt_9010_G3:  ['10.00'],
+
+      Eigenlabor_Desc_18a_B_sel: 'Radix Anker Standard Edelstahl (Dentsply)',
+      Eigenlabor_Desc_2195_G_sel: 'DT Light Post (VDW)'
 
     }),
     watch: {
@@ -3699,6 +3867,7 @@
           this.RVShortcut = dataValues['RV Solution shortcuts'];
           if(dataValues['RV Solution BEMA Region']['19']) {
             this.case_region_ = dataValues['RV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+            this.Eigenlabor_Arr_19_B_Q = dataValues['RV Solution BEMA Quantity']['19'] // As 19 always has the original region values either than AAV
           }
         }
 
@@ -3707,6 +3876,7 @@
           this.RVShortcut = dataValues['RV Solution shortcuts'];
           if(dataValues['GAV Solution BEMA Region']['19']) {
             this.case_region_ = dataValues['GAV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
+            this.Eigenlabor_Arr_19_B_Q = dataValues['GAV Solution BEMA Quantity']['19'] // As 19 always has the original region values either than AAV
           }
 
           // this.TPShortcut = dataValues['GAV Solution shortcuts'];
@@ -3737,6 +3907,9 @@
           // this.TPShortcut = dataValues['AAV Solution shortcuts'];
           // this.TPShortcut = dataValues['TP Solution shortcuts'];
 
+          this.Eigenlabor_Arr_9010_G1 = dataValues['AAV Solution GOZ Region']['9010']
+          this.Eigenlabor_Arr_9010_G_Q = dataValues['AAV Solution GOZ Quantity']['9010']
+
           let newKM = '';
           for(let tp in dataValues['TP Solution shortcuts']) {
             var kms = []
@@ -3762,6 +3935,7 @@
         this.optBemaGav= []
         this.dialogCalc = true // show the individual solution
         this.selectedCaseId = idValue
+        this.Eigenlabor_Arr_19_B = this.case_region_ //  For eigen calc
         
 
         // FOR Case questions
@@ -4929,6 +5103,23 @@
           document.getElementById('weiter0065Amount').innerHTML = newGozAmount
           this.idGozSlider = 'weiter0065Amount'
           this.idGozSliderArr[faktors] = document.getElementById('weiter0065Slider').value
+
+
+          // //Remove the Optisch GOZ values
+          // {
+          //   var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['0065_Price'], '2.3')
+
+          //   this.totalGavArr.filter((value, index) => {
+          //     if(value == elementOptPrice
+          //     ) {
+          //       this.totalGavArr[index] = 0
+          //       this.totalSumCalcArr[index] = 0
+          //     }
+          //   });
+
+          //   this.totalTableCalc()
+          // }
+          
         }
 
         this.resetGozAmount = amountGoz
@@ -5017,6 +5208,7 @@
         var tempAmountFArr  = 0.00
         var tempGavArr      = 0.00
         var tempSumCalcArr  = 0.00
+        var tempEigenArr    = 0.00
 
         for(var si=0; si<this.totalBemaArr.length; si++) {
           if(this.totalBemaArr[si]
@@ -5046,9 +5238,17 @@
           }
         }
 
+        for(var si=0; si<this.totalEigenlaborArr.length; si++) {
+          if(this.totalEigenlaborArr[si]
+          ) {
+            tempEigenArr += parseFloat(this.totalEigenlaborArr[si])
+          }
+        }
+
         this.totalBemaDisp      = parseFloat(tempBemaArr).toFixed(2)
         this.totalAmountFDisp   = parseFloat(tempAmountFArr).toFixed(2)
         this.totalGavDisp       = parseFloat(tempGavArr).toFixed(2)
+        this.totalEigenlaborDisp  = parseFloat(tempEigenArr).toFixed(2)
         this.totalSumCalcDisp   = parseFloat(tempSumCalcArr).toFixed(2)
 
       },
@@ -5262,10 +5462,7 @@
         });
 
         // BEMA
-        this.optBemaRVShow.filter((value, region) => {
-          console.log(value)
-          console.log(region)
-          
+        this.optBemaRVShow.filter((value, region) => {          
 
           var toCheck_18aR = '18a'+region+'RV'
           var toCheck_18bR = '18b'+region+'RV'
@@ -5433,15 +5630,7 @@
 
         // RESET SLIDER GOZ AMOUNT
         this.sliderValue = 1
-        // this.sliderValue = 0.5
-
-        var oldGozAmount = this.gozAmount(this.resetGozAmount, this.ticksLabels[1])
-        // console.log(oldGozAmount)
-        // console.log(this.idGozSlider)
-        if(this.idGozSlider !== '')
-        {
-          // document.getElementById(this.idGozSlider).innerHTML = oldGozAmount
-        }
+        
         // RESET SLIDER GOZ AMOUNT END
 
         // GO TO GENERAL QUESTION
@@ -5508,6 +5697,9 @@
 
           this.optBemaRVShow[region]    = true
           this.optGozRVShow[region]     = false
+
+          this.Eigenlabor_Arr_18a_B.push(region);
+          this.Eigenlabor_Arr_2195_G = this.Eigenlabor_Arr_2195_G.filter(e => e !== region)
         }
         else {
           this.optBemaGozArr[region]    = [0, 1]
@@ -5517,6 +5709,10 @@
 
           this.optBemaRVShow[region]    = false
           this.optGozRVShow[region]     = true
+
+          this.Eigenlabor_Arr_18a_B = this.Eigenlabor_Arr_18a_B.filter(e => e !== region)
+          this.Eigenlabor_Arr_2195_G.push(region);
+
           
 
           //FOR stift slider RV
@@ -5584,77 +5780,457 @@
 
         this.weiterActivate = true
       },
-      showGeneralOpt() {
+      showGeneralOpt_89() {
         if(this.chkBoxGQ89[0] == '89') {
           this.displayWeiter89 = true
+
+          this.totalBemaArr.push(this.caseBemaOpt[0]['89_Price'])
+          this.totalSumCalcArr.push(this.caseBemaOpt[0]['89_Price'])
+
+          this.totalTableCalc()
         }
         else {
           this.displayWeiter89 = false
-        }
 
+          this.totalBemaArr.filter((value, index) => {
+            if(value == this.caseBemaOpt[0]['89_Price']
+            ) {
+              this.totalBemaArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == this.caseBemaOpt[0]['89_Price']
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+      },
+      showGeneralOpt_7b() {
         if(this.chkBoxGQ7b[0] == '7b') {
           this.displayWeiter7b = true
+
+          this.totalBemaArr.push(this.caseBemaOpt[0]['7b_Price'])
+          this.totalSumCalcArr.push(this.caseBemaOpt[0]['7b_Price'])
+          this.Eigenlabor_Arr_7b_B.push('7b')
+          this.totalTableCalc()
         }
         else {
           this.displayWeiter7b = false
+
+          // Remove 7b price
+          this.totalBemaArr.filter((value, index) => {
+            if(value == this.caseBemaOpt[0]['7b_Price']
+            ) {
+              this.totalBemaArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == this.caseBemaOpt[0]['7b_Price']
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.Eigenlabor_Arr_7b_B = this.Eigenlabor_Arr_7b_B.filter(e => e !== '7b')
+
+          // this.Eigenlabor_Arr_7b_B.filter((value, index) => {
+          //   if(value == '7b'
+          //   ) {
+          //     this.Eigenlabor_Arr_7b_B[index] = null
+          //   }
+          // });
+
+          this.totalTableCalc()
         }
+
+      },
+      showGeneralOpt_80() {
+        var elementOptPrice_10 = this.gozAmount(this.caseBemaOpt[0]['8010_Price'], '2.3')
+        var elementOptPrice_20 = this.gozAmount(this.caseBemaOpt[0]['8020_Price'], '2.3')
 
         if(this.chkBoxGQ8010[0] == '8010_20') {
           this.displayWeiter8010 = true
+
+          {
+            if(this.totalGavArr.indexOf(elementOptPrice_10) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice_10)
+              this.totalSumCalcArr.push(elementOptPrice_10)
+            }
+
+            if(this.totalGavArr.indexOf(elementOptPrice_20) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice_20)
+              this.totalSumCalcArr.push(elementOptPrice_20)
+            }
+
+            this.totalTableCalc()
+
+          }
         }
         else {
           this.displayWeiter8010 = false
-        }
 
+          {
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice_10
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+
+              if(value == elementOptPrice_20
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+
+        }
+      },
+      showGeneralOpt() {
         if(this.chkBoxGQAbf[0] == 'Abformung') {
           this.displayWeiterAbf = true
         }
         else {
           this.displayWeiterAbf = false
-        }
 
+          //Remove the Plast.. bema values
+          {
+            this.totalBemaArr.filter((value, index) => {
+              if(value == this.caseBemaOpt[0]['98a_Price']
+              ) {
+                this.totalBemaArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
 
-        if(this.displayWeiter89) {
-          console.log(this.totalBemaArr)
+            this.totalTableCalc()
+          }
 
-          this.totalBemaArr.push(this.caseBemaOpt[0]['89_Price'])
-          console.log(this.totalBemaArr)
-          this.totalTableCalc()
+          //Remove the Optisch GOZ values
+          {
+            var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['0065_Price'], '2.3')
 
-          // if(document.getElementById('Weiter89_bema') !== null) {
-          //   var elementOpt = document.getElementById('Weiter89_bema');
-          //   elementOpt.classList.add("clsBemaAmount");
-          //   elementOpt.classList.remove("clsBemaAmountNo");
-          // }
-        }
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
 
-        if(this.displayWeiter7b) {
-          
-        }
-
-        if(this.displayWeiter7b) {
-          
+            this.totalTableCalc()
+          }
         }
 
       },
       showGeneralOptRadio() {
+        var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['0065_Price'], '2.3')
+        this.sliderWeiter0065 = '2.3'
+
         if(this.optWeiterAbfFirst == 'Optisch') {
           this.displayWeiterAbf65 = true
           this.displayWeiterAbf98a = false
+
+          //Remove the Plast.. bema values
+          {
+            this.totalBemaArr.filter((value, index) => {
+              if(value == this.caseBemaOpt[0]['98a_Price']
+              ) {
+                this.totalBemaArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+
+          //calc 0065 GOZ
+          {
+            if(this.totalGavArr.indexOf(elementOptPrice) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice)
+              this.totalSumCalcArr.push(elementOptPrice)
+              this.totalTableCalc()
+            }
+          }
         }
         else {
           this.displayWeiterAbf65 = false
+
+          //Remove the Optisch GOZ values
+          {
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
         }
+
       },
       showGeneralOptRadioPlas() {
-        if(this.optWeiterAbfSecond !== '') {
+        if(this.optWeiterAbfSecond == 'weiterOptAbfKon'
+          || this.optWeiterAbfSecond == 'weiterOptAbfInd'
+        ) {
           this.displayWeiterAbf98a = true
           this.displayWeiterAbf65 = false
         }
         else {
           this.displayWeiterAbf98a = false
         }
+
+        if(this.displayWeiterAbf98a) {
+          if(this.totalBemaArr.indexOf(this.caseBemaOpt[0]['98a_Price']) == -1)
+          {
+            this.totalBemaArr.push(this.caseBemaOpt[0]['98a_Price'])
+            this.totalSumCalcArr.push(this.caseBemaOpt[0]['98a_Price'])
+            this.totalTableCalc()
+          }
+        }
+        else {
+          this.totalBemaArr.filter((value, index) => {
+            if(value == this.caseBemaOpt[0]['98a_Price']
+            ) {
+              this.totalBemaArr[index] = 0
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
       },
+      weiterCallElab() {
+        this.weiterActivateElab = true
+
+        // make the general question checkboxes disable 
+        // and the pevious weiter btn
+        this.chkBoxGQ89_    = true
+        this.chkBoxGQ7b_    = true
+        this.chkBoxGQ8010_  = true
+        this.chkBoxGQAbf_   = true
+
+        if(document.getElementById('btnWeiterElab') !== null) {
+          document.getElementById('btnWeiterElab').disabled = true
+          document.getElementById('btnWeiterElab').style = 'background-color: #eeeeee'
+        }
+
+      },
+      eigenOpChange(eigenVal) {
+        if(eigenVal == '18a') {
+          var _18a_sel = '0'
+          if(this.Eigenlabor_Desc_18a_B.indexOf(this.Eigenlabor_Desc_18a_B_sel) !== -1) {
+            _18a_sel = this.Eigenlabor_Desc_18a_B.indexOf(this.Eigenlabor_Desc_18a_B_sel)
+            document.getElementById('eigen18a_amt').innerHTML = (parseFloat(this.Eigenlabor_Arr_19_B_Q) * parseFloat(this.Eigenlabor_Amt_18a_B[_18a_sel])).toFixed(2)
+          }
+        }
+
+        if(eigenVal == '2195') {
+          var _2195_sel = '0'
+          if(this.Eigenlabor_Desc_2195_G.indexOf(this.Eigenlabor_Desc_2195_G_sel) !== -1) {
+            _2195_sel = this.Eigenlabor_Desc_2195_G.indexOf(this.Eigenlabor_Desc_2195_G_sel)
+            document.getElementById('eigen2195_amt').innerHTML = (parseFloat(this.Eigenlabor_Arr_2195_G.length) * parseFloat(this.Eigenlabor_Amt_2195_G[_2195_sel])).toFixed(2)
+          }
+        }
+      },
+      weiterCallElabCalc() {
+
+        var eigen7b_amt = ''
+        var eigen18a_amt = ''
+        var eigen19b_amt = ''
+        var eigen2195_amt = ''
+        var eigen9010_1_amt = ''
+        var eigen9010_2_amt = ''
+        var eigen9010_3_amt = ''
+
+        if(this.Eigenlabor_Arr_7b_B.length > 0) {
+          eigen7b_amt = document.getElementById('eigen7b_amt').innerHTML
+
+          this.totalEigenlaborArr.push(eigen7b_amt)
+          this.totalSumCalcArr.push(eigen7b_amt)
+
+          this.totalTableCalc()
+        }
+        if(this.Eigenlabor_Arr_7b_B.length == 0) {
+          // Remove 7b price
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen7b_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen7b_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+
+        if(this.Eigenlabor_Arr_18a_B.length > 0) {
+          eigen18a_amt = document.getElementById('eigen18a_amt').innerHTML
+
+          this.totalEigenlaborArr.push(eigen18a_amt)
+          this.totalSumCalcArr.push(eigen18a_amt)
+
+          this.totalTableCalc()
+        }
+        if(this.Eigenlabor_Arr_18a_B.length == 0) {
+          // Remove 18a price
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen18a_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen18a_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+
+        if(this.Eigenlabor_Arr_19_B.length > 0) {
+          eigen19b_amt = document.getElementById('eigen19b_amt').innerHTML
+
+          this.totalEigenlaborArr.push(eigen19b_amt)
+          this.totalSumCalcArr.push(eigen19b_amt)
+
+          this.totalTableCalc()
+        }
+        if(this.Eigenlabor_Arr_19_B.length == 0) {
+          // Remove 19b price
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen19b_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen19b_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+
+        if(this.Eigenlabor_Arr_2195_G.length > 0) {
+          eigen2195_amt = document.getElementById('eigen2195_amt').innerHTML
+
+          this.totalEigenlaborArr.push(eigen2195_amt)
+          this.totalSumCalcArr.push(eigen2195_amt)
+
+          this.totalTableCalc()
+        }
+        if(this.Eigenlabor_Arr_2195_G.length == 0) {
+          // Remove 2195 price
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen2195_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen2195_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+
+        if(this.Eigenlabor_Arr_9010_G1.length > 0) {
+          eigen9010_1_amt = document.getElementById('eigen9010_1_amt').innerHTML
+          eigen9010_2_amt = document.getElementById('eigen9010_2_amt').innerHTML
+          eigen9010_3_amt = document.getElementById('eigen9010_3_amt').innerHTML
+
+          this.totalEigenlaborArr.push(eigen9010_1_amt)
+          this.totalSumCalcArr.push(eigen9010_1_amt)
+
+          this.totalEigenlaborArr.push(eigen9010_2_amt)
+          this.totalSumCalcArr.push(eigen9010_2_amt)
+
+          this.totalEigenlaborArr.push(eigen9010_3_amt)
+          this.totalSumCalcArr.push(eigen9010_3_amt)
+
+          this.totalTableCalc()
+        }
+        if(this.Eigenlabor_Arr_9010_G1.length == 0) {
+          // Remove 9010 price
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen9010_1_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen9010_1_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen9010_2_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen9010_2_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalEigenlaborArr.filter((value, index) => {
+            if(value == eigen9010_3_amt
+            ) {
+              this.totalEigenlaborArr[index] = 0
+            }
+          });
+
+          this.totalSumCalcArr.filter((value, index) => {
+            if(value == eigen9010_3_amt
+            ) {
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+
+
+      }
+
+
 
     }
   }
@@ -5724,6 +6300,14 @@ td.insideTable {
 }
 .lblStrong {
   font-weight: bold;
+}
+.sticky { 
+    position: sticky; 
+    top: 0;
+    z-index: 99;
+    /* background-color: rgb(32, 165, 20);  */
+    /* color: white;  */
+    /* padding: 10px;  */
 }
 
 

@@ -76,7 +76,6 @@ var render = function render() {
       color: "white",
       density: "compact",
       "clipped-left": "",
-      fixed: "",
       app: ""
     }
   }, [_c("Link", {
