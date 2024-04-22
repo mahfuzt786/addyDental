@@ -1,28 +1,27 @@
 <template>
         <v-app>
-          <v-app-bar
+          <!-- <v-app-bar
             color="white"
             density="compact"
-            clipped-left
+            clipped-left app fixed
           >
-          <!-- clipped-left fixed  app // new -->
 
 
-            <!-- <template v-slot:prepend> -->
-            <!-- <template v-slot:img="{ props }">
+            < !-- <template v-slot:prepend> -- >
+            < !-- <template v-slot:img="{ props }">
               <v-img
                 width="60"
                 height="60"
                 :src="Logo"
                 v-bind="props"
               ></v-img>
-            </template> -->
+            </template> -- >
 
             <Link :href="route('home')">
                   <application-logo style="height: 75" />
                 </Link>
 
-            <!-- <v-app-bar-title>ADDY.DENTAL</v-app-bar-title> // new -->
+            <v-app-bar-title>ADDY.DENTAL</v-app-bar-title>
 
             <v-spacer></v-spacer>
 
@@ -32,12 +31,12 @@
             </v-btn>
           </Link>
 
-            <!-- <v-btn class="noShadow">
+            <v-btn class="noShadow">
               <span class="doctorName"> Dr. Ingmar Kappel</span>
-            </v-btn> // new -->
+            </v-btn>
 
           <app-bar-user-menu></app-bar-user-menu>
-    </v-app-bar>
+    </v-app-bar> -->
 
     <v-main>
       <v-container>

@@ -2402,29 +2402,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("v-app", [_c("v-app-bar", {
-    attrs: {
-      color: "white",
-      density: "compact",
-      "clipped-left": ""
-    }
-  }, [_c("Link", {
-    attrs: {
-      href: _vm.route("home")
-    }
-  }, [_c("application-logo", {
-    staticStyle: {
-      height: "75"
-    }
-  })], 1), _vm._v(" "), _c("v-spacer"), _vm._v(" "), _c("Link", {
-    attrs: {
-      href: _vm.route("calculation")
-    }
-  }, [_c("v-btn", {
-    staticClass: "noShadow"
-  }, [_c("span", {
-    staticClass: "newPlan"
-  }, [_vm._v(" + Neue ZE-Planung ")])])], 1), _vm._v(" "), _c("app-bar-user-menu")], 1), _vm._v(" "), _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)], 1);
+  return _c("v-app", [_c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1)], 1);
 };
 
 var staticRenderFns = [];
