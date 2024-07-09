@@ -1412,9 +1412,15 @@
                   >
                     <v-select
                       :items="itemsMaterial"
-                      label="Material"
+                      label="Material (*)"
                       outlined
-                    ></v-select>
+                      id="itemsMaterialGAV"
+                      v-model="itemsMaterialGAV"
+                    >
+                      <template v-slot:label>
+                        <span :class="chkBoxMandatory">Material (*)</span>
+                      </template>
+                    </v-select>
                   </v-col>
                 </div>
                   
@@ -1987,9 +1993,35 @@
                   >
                     <v-select
                       :items="itemsMaterial"
-                      label="Material"
+                      label="Material (*)"
                       outlined
-                    ></v-select>
+                      id="itemsMaterialAAV"
+                      v-model="itemsMaterialAAV"
+                    >
+                      <template v-slot:label>
+                        <span :class="chkBoxMandatory">Material (*)</span>
+                      </template>
+                    </v-select>
+                  </v-col>
+                </div>
+
+                <div v-if="showAbutmentAAV">
+                  <v-col
+                    class="d-flex"
+                    cols="12"
+                    sm="6"
+                  >
+                    <v-select
+                      :items="itemsAbutment"
+                      label="Abutment (*)"
+                      outlined
+                      id="itemsAbutmentAAV"
+                      v-model="itemsAbutmentAAV"
+                    >
+                      <template v-slot:label>
+                        <span :class="chkBoxMandatory">Abutment (*)</span>
+                      </template>
+                    </v-select>
                   </v-col>
                 </div>
                 
@@ -2094,6 +2126,7 @@
                 <tr>
                   <th class="text-left">BEMA-Nr.</th>
                   <th class="text-left">Leistungsbeschreibung</th>
+                  <th class="text-left">Zahn/ Gebiet</th>
                   <th class="text-left">Anzahl</th>
                   <th class="text-left">Betrag (€)</th>
                 </tr>
@@ -2119,6 +2152,7 @@
                       <span> {{ caseBemaOpt[0]['89_Name'] }} </span>
                     </v-tooltip>
                   </td>
+                  <td class="text-center"> </td>
                   <td class="text-center weiter89RowQuan"> 1 </td>
                   <td class="clsBemaAmountNo weiter89RowAmt" id="Weiter89_bema">
                     {{ caseBemaOpt[0]['89_Price'] }}
@@ -2152,6 +2186,7 @@
                 <tr>
                   <th class="text-left">BEMA-Nr.</th>
                   <th class="text-left">Leistungsbeschreibung</th>
+                  <th class="text-left">Zahn/ Gebiet</th>
                   <th class="text-left">Anzahl</th>
                   <th class="text-left">Betrag (€)</th>
                 </tr>
@@ -2177,6 +2212,7 @@
                       <span> {{ caseBemaOpt[0]['7b_Name'] }} </span>
                     </v-tooltip>
                   </td>
+                  <td class="text-center"> </td>
                   <td class="text-center weiter7bRowQuan"> 1 </td>
                   <td class="clsBemaAmountNo weiter7bRowAmt" id="Weiter7b_bema">
                     {{ caseBemaOpt[0]['7b_Price'] }}
@@ -2210,6 +2246,7 @@
                 <tr>
                   <th class="text-left">GOZ-Nr.</th>
                   <th class="text-left">Leistungsbeschreibung</th>
+                  <th class="text-left">Zahn/ Gebiet</th>
                   <th class="text-left">Anzahl</th>
                   <th class="text-left">Faktor</th>
                   <th class="text-left">Betrag (€)</th>
@@ -2219,7 +2256,7 @@
                 <tr>
                   <td class="text-center weiter8010RowBema"> 8010 </td>
                   <td class="text-center">
-                    <input type="hidden" class="weiter89RowName" 
+                    <input type="hidden" class="weiter8010RowName" 
                                       :value="caseBemaOpt[0]['8010_Name']">
 
                     <v-tooltip top color="success">
@@ -2236,6 +2273,7 @@
                       <span> {{ caseBemaOpt[0]['8010_Name'] }} </span>
                     </v-tooltip>
                   </td>
+                  <td class="text-center"> </td>
                   <td class="text-center weiter8010RowQuan"> 1 </td>
                   <td style="width: 150px;">
                     <v-slider
@@ -2260,7 +2298,7 @@
                 <tr>
                   <td class="text-center weiter8020RowBema"> 8020 </td>
                   <td class="text-center">
-                    <input type="hidden" class="weiter89RowName" 
+                    <input type="hidden" class="weiter8020RowName" 
                                       :value="caseBemaOpt[0]['8020_Name']">
 
                     <v-tooltip top color="success">
@@ -2277,6 +2315,7 @@
                       <span> {{ caseBemaOpt[0]['8020_Name'] }} </span>
                     </v-tooltip>
                   </td>
+                  <td class="text-center"> </td>
                   <td class="text-center weiter8020RowQuan"> 1 </td>
                   <td style="width: 150px;">
                     <v-slider
@@ -2299,7 +2338,6 @@
                 </tr>
 
               </tbody>
-
             </template>
           </v-simple-table>
 
@@ -2312,12 +2350,16 @@
             >
               <v-checkbox
                 v-model="chkBoxGQAbf"
-                label="Abformung"
+                label="Abformung (*)"
                 value="Abformung"
-                class="lblStrong"
+                class=""
                 v-on:change="showGeneralOpt()"
                 :disabled="chkBoxGQAbf_"
-              ></v-checkbox>
+              >
+                <template v-slot:label>
+                  <span :class="chkBoxMandatory">Abformung (*)</span>
+                </template>
+              </v-checkbox>
             </v-col>
           </v-row>
 
@@ -2366,6 +2408,7 @@
                     <tr>
                       <th class="text-left">BEMA-Nr.</th>
                       <th class="text-left">Leistungsbeschreibung</th>
+                      <th class="text-left">Zahn/ Gebiet</th>
                       <th class="text-left">Anzahl</th>
                       <th class="text-left">Betrag (€)</th>
                     </tr>
@@ -2374,7 +2417,7 @@
                     <tr>
                       <td class="text-center weiter98aRowBema"> 98a </td>
                       <td class="text-center">
-                        <input type="hidden" class="weiter89RowName" 
+                        <input type="hidden" class="weiter98aRowName" 
                                       :value="caseBemaOpt[0]['98a_Name']">
 
                         <v-tooltip top color="success">
@@ -2391,6 +2434,7 @@
                           <span> {{ caseBemaOpt[0]['98a_Name'] }} </span>
                         </v-tooltip>
                       </td>
+                      <td class="text-center"> </td>
                       <td class="text-center weiter98aRowQuan"> 1 </td>
                       <td class="clsBemaAmountNo weiter98aRowAmt" id="Weiter98a_bema">
                         {{ caseBemaOpt[0]['98a_Price'] }}
@@ -2410,6 +2454,7 @@
                     <tr>
                       <th class="text-left">GOZ-Nr.</th>
                       <th class="text-left">Leistungsbeschreibung</th>
+                      <th class="text-left">Zahn/ Gebiet</th>
                       <th class="text-left">Anzahl</th>
                       <th class="text-left">Faktor</th>
                       <th class="text-left">Betrag (€)</th>
@@ -2419,7 +2464,7 @@
                     <tr>
                       <td class="text-center weiter0065RowBema"> 0065 </td>
                       <td class="text-center">
-                        <input type="hidden" class="weiter89RowName" 
+                        <input type="hidden" class="weiter0065RowName" 
                                       :value="caseBemaOpt[0]['0065_Name']">
 
                         <v-tooltip top color="success">
@@ -2436,6 +2481,7 @@
                           <span> {{ caseBemaOpt[0]['0065_Name'] }} </span>
                         </v-tooltip>
                       </td>
+                      <td class="text-center"> </td>
                       <td class="text-center weiter0065RowQuan"> 4 </td>
                       <td style="width: 150px;">
                         <v-slider
@@ -2465,6 +2511,488 @@
 
           </div>
 
+
+          <!-- <v-row v-if="showAbutmentAAV"> -->
+          <v-row v-if="genQuesAAV">
+            <v-col
+              cols="12"
+              sm="12"
+              md="12"
+            >
+              <v-checkbox
+                v-model="chkBoxGQPra"
+                label="Bildgebung (präoperativ)"
+                value="praoperativ"
+                class="lblStrong"
+                v-on:change="showGeneralOpt_Pra()"
+                :disabled="chkBoxGQPra_"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+
+          <div v-if="displayWeiterPra">
+            <v-radio-group
+              v-model="optWeiterPraFirst"
+              row
+              v-on:change="showGeneralOptRadio_Pra()"
+            >
+              <v-radio
+                label="OPTG"
+                value="OPTG"
+                name="optWeiterPraFirst"
+              ></v-radio>
+              <v-radio
+                label="DVT"
+                value="DVT"
+                name="optWeiterPraFirst"
+              ></v-radio>
+            </v-radio-group>
+
+            <div v-if="displayWeiterPraOP">
+              <v-simple-table outlined class="my-2">
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">GOÄ-Nr.</th>
+                      <th class="text-left">Leistungsbeschreibung</th>
+                      <th class="text-left">Zahn/ Gebiet</th>
+                      <th class="text-left">Anzahl</th>
+                      <th class="text-left">Faktor</th>
+                      <th class="text-left">Betrag (€)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center weitera5004RowBema"> Ä5004 </td>
+                      <td class="text-center">
+                        <input type="hidden" class="weitera5004RowName" 
+                                      :value="caseBemaOpt[0]['a5004_Name']">
+
+                        <v-tooltip top color="success">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              text
+                              v-bind="attrs"
+                              v-on="on"
+                              style="text-transform: none !important; height: 0px !important;"
+                            >
+                              {{ caseBemaOpt[0]['a5004_Name']|truncate(25) }}
+                            </v-btn>
+                          </template>
+                          <span> {{ caseBemaOpt[0]['a5004_Name'] }} </span>
+                        </v-tooltip>
+                      </td>
+                      <td class="text-center"> </td>
+                      <td class="text-center weitera5004RowQuan"> 1 </td>
+                      <td style="width: 150px;">
+                        <v-slider
+                          value="1"
+                          :tick-labels="ticksLabels_A"
+                          :max="2"
+                          step="1"
+                          ticks="always"
+                          tick-size="4"
+                          :thumb-size="36"
+                          :vertical="false"
+                          v-on:change="displayFak('weitera5004Slider', caseBemaOpt[0]['a5004_Price'], 'weitera5004', 1)"
+                          :id="'weitera5004Slider'"
+                        >
+                        </v-slider>
+                      </td>
+                      <td class="clsGoaAmountNo weitera5004RowAmt" id="weitera5004Amount">
+                        {{ gozAmount(caseBemaOpt[0]['a5004_Price'], '1.8') }}
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </template>
+              </v-simple-table>
+            </div>
+
+            <div v-if="displayWeiterPraDV">
+              <v-simple-table  outlined class="my-2">
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">GOÄ-Nr.</th>
+                      <th class="text-left">Leistungsbeschreibung</th>
+                      <th class="text-left">Zahn/ Gebiet</th>
+                      <th class="text-left">Anzahl</th>
+                      <th class="text-left">Faktor</th>
+                      <th class="text-left">Betrag (€)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center weitera5370RowBema"> Ä5370 </td>
+                      <td class="text-center">
+                        <input type="hidden" class="weitera5370RowName" 
+                                      :value="caseBemaOpt[0]['a5370_Name']">
+
+                        <v-tooltip top color="success">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              text
+                              v-bind="attrs"
+                              v-on="on"
+                              style="text-transform: none !important; height: 0px !important;"
+                            >
+                              {{ caseBemaOpt[0]['a5370_Name']|truncate(25) }}
+                            </v-btn>
+                          </template>
+                          <span> {{ caseBemaOpt[0]['a5370_Name'] }} </span>
+                        </v-tooltip>
+                      </td>
+                      <td class="text-center"> </td>
+                      <td class="text-center weitera5370RowQuan"> 1 </td>
+                      <td style="width: 150px;">
+                        <v-slider
+                          value="1"
+                          :tick-labels="ticksLabels"
+                          :max="2"
+                          step="1"
+                          ticks="always"
+                          tick-size="4"
+                          :thumb-size="36"
+                          :vertical="false"
+                          v-on:change="displayFak('weitera5370Slider', caseBemaOpt[0]['a5370_Price'], 'weitera5370', 1)"
+                          :id="'weitera5370Slider'"
+                        >
+                        </v-slider>
+                      </td>
+                      <td class="clsGoaAmountNo weitera5370RowAmt" id="weitera5370Amount">
+                        {{ gozAmount(caseBemaOpt[0]['a5370_Price'], '2.3') }}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="text-center weitera5377RowBema"> Ä5377 </td>
+                      <td class="text-center">
+                        <input type="hidden" class="weitera5377RowName" 
+                                      :value="caseBemaOpt[0]['a5377_Name']">
+
+                        <v-tooltip top color="success">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              text
+                              v-bind="attrs"
+                              v-on="on"
+                              style="text-transform: none !important; height: 0px !important;"
+                            >
+                              {{ caseBemaOpt[0]['a5377_Name']|truncate(25) }}
+                            </v-btn>
+                          </template>
+                          <span> {{ caseBemaOpt[0]['a5377_Name'] }} </span>
+                        </v-tooltip>
+                      </td>
+                      <td class="text-center"> </td>
+                      <td class="text-center weitera5377RowQuan"> 1 </td>
+                      <td style="width: 150px;">
+                        <!-- <v-slider
+                          value="1"
+                          :tick-labels="ticksLabels"
+                          :max="2"
+                          step="1"
+                          ticks="always"
+                          tick-size="4"
+                          :thumb-size="36"
+                          :vertical="false"
+                          v-on:change="displayFak('weitera5377Slider', caseBemaOpt[0]['a5377_Price'], 'weitera5377', 1)"
+                          :id="'weitera5377Slider'"
+                        >
+                        </v-slider> -->
+                      </td>
+                      <td class="clsGoaAmountNo weitera5377RowAmt" id="weitera5377Amount">
+                        {{ gozAmount(caseBemaOpt[0]['a5377_Price'], '1') }}
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                </template>
+              </v-simple-table>
+            </div>
+
+          </div>
+
+
+          <!-- <v-row v-if="showAbutmentAAV"> -->
+          <v-row v-if="genQuesAAV">
+            <v-col
+              cols="12"
+              sm="12"
+              md="12"
+            >
+              <v-checkbox
+                v-model="chkBoxGQPost"
+                label="Bildgebung (postoperativ)"
+                value="postoperativ"
+                class="lblStrong"
+                v-on:change="showGeneralOpt_Post()"
+                :disabled="chkBoxGQPost_"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+
+          <div v-if="displayWeiterPost">
+            <v-radio-group
+              v-model="optWeiterPostFirst"
+              row
+              v-on:change="showGeneralOptRadio_Post()"
+            >
+              <v-radio
+                label="OPTG"
+                value="OPTG"
+                name="optWeiterPostFirst"
+              ></v-radio>
+              <v-radio
+                label="Einzelbild(er)"
+                value="Einzelbild"
+                name="optWeiterPostFirst"
+              ></v-radio>
+            </v-radio-group>
+
+            <v-simple-table v-if="displayWeiterPostOP" outlined class="my-2">
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-left">GOÄ-Nr.</th>
+                    <th class="text-left">Leistungsbeschreibung</th>
+                    <th class="text-left">Zahn/ Gebiet</th>
+                    <th class="text-left">Anzahl</th>
+                    <th class="text-left">Faktor</th>
+                    <th class="text-left">Betrag (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center weitera5004_PRowBema"> Ä5004 </td>
+                    <td class="text-center">
+                      <input type="hidden" class="weitera5004_PRowName" 
+                                    :value="caseBemaOpt[0]['a5004_P_Name']">
+
+                      <v-tooltip top color="success">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            text
+                            v-bind="attrs"
+                            v-on="on"
+                            style="text-transform: none !important; height: 0px !important;"
+                          >
+                            {{ caseBemaOpt[0]['a5004_P_Name']|truncate(25) }}
+                          </v-btn>
+                        </template>
+                        <span> {{ caseBemaOpt[0]['a5004_P_Name'] }} </span>
+                      </v-tooltip>
+                    </td>
+                    <td class="text-center"> </td>
+                    <td class="text-center weitera5004_PRowQuan"> 1 </td>
+                    <td style="width: 150px;">
+                      <v-slider
+                        value="1"
+                        :tick-labels="ticksLabels_A"
+                        :max="2"
+                        step="1"
+                        ticks="always"
+                        tick-size="4"
+                        :thumb-size="36"
+                        :vertical="false"
+                        v-on:change="displayFak('weitera5004_PSlider', caseBemaOpt[0]['a5004_P_Price'], 'weitera5004_P', 1)"
+                        :id="'weitera5004_PSlider'"
+                      >
+                      </v-slider>
+                    </td>
+                    <td class="clsGozAmountNo weitera5004_PRowAmt" id="weitera5004_PAmount">
+                      {{ gozAmount(caseBemaOpt[0]['a5004_P_Price'], '1.8') }}
+                    </td>
+                  </tr>
+                </tbody>
+
+              </template>
+            </v-simple-table>
+
+            <v-simple-table v-if="displayWeiterPostEin" outlined class="my-2">
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-left">GOÄ-Nr.</th>
+                    <th class="text-left">Leistungsbeschreibung</th>
+                    <th class="text-left">Zahn/ Gebiet</th>
+                    <th class="text-left">Anzahl</th>
+                    <th class="text-left">Faktor</th>
+                    <th class="text-left">Betrag (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center weitera5000RowBema"> Ä5000 </td>
+                    <td class="text-center">
+                      <input type="hidden" class="weitera5000RowName" 
+                                    :value="caseBemaOpt[0]['a5000_Name']">
+
+                      <v-tooltip top color="success">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            text
+                            v-bind="attrs"
+                            v-on="on"
+                            style="text-transform: none !important; height: 0px !important;"
+                          >
+                            {{ caseBemaOpt[0]['a5000_Name']|truncate(25) }}
+                          </v-btn>
+                        </template>
+                        <span> {{ caseBemaOpt[0]['a5000_Name'] }} </span>
+                      </v-tooltip>
+                    </td>
+                    <td class="text-center"> </td>
+                    <td class="text-center weitera5000RowQuan"> 1 </td>
+                    <td style="width: 150px;">
+                      <v-slider
+                        value="1"
+                        :tick-labels="ticksLabels_A"
+                        :max="2"
+                        step="1"
+                        ticks="always"
+                        tick-size="4"
+                        :thumb-size="36"
+                        :vertical="false"
+                        v-on:change="displayFak('weitera5000Slider', caseBemaOpt[0]['a5000_Price'], 'weitera5000', 1)"
+                        :id="'weitera5000Slider'"
+                      >
+                      </v-slider>
+                    </td>
+                    <td class="clsGoaAmountNo weitera5000RowAmt" id="weitera5000Amount">
+                      {{ gozAmount(caseBemaOpt[0]['a5000_Price'], '1.8') }}
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </template>
+            </v-simple-table>
+          </div>
+
+
+          <!-- <v-row v-if="showAbutmentAAV"> -->
+          <v-row v-if="genQuesAAV">
+            <v-col
+              cols="12"
+              sm="12"
+              md="12"
+            >
+              <v-checkbox
+                v-model="chkBoxGQBer"
+                label="Beratung"
+                value="beratung"
+                class="lblStrong"
+                v-on:change="showGeneralOpt_a15()"
+                :disabled="chkBoxGQBer_"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+
+          <v-simple-table v-if="displayWeitera15" outlined class="my-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">GOÄ-Nr.</th>
+                  <th class="text-left">Leistungsbeschreibung</th>
+                  <th class="text-left">Zahn/ Gebiet</th>
+                  <th class="text-left">Anzahl</th>
+                  <th class="text-left">Faktor</th>
+                  <th class="text-left">Betrag (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center weitera1RowBema"> Ä1 </td>
+                  <td class="text-center">
+                    <input type="hidden" class="weitera1RowName" 
+                                  :value="caseBemaOpt[0]['a1_Name']">
+
+                    <v-tooltip top color="success">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          text
+                          v-bind="attrs"
+                          v-on="on"
+                          style="text-transform: none !important; height: 0px !important;"
+                        >
+                          {{ caseBemaOpt[0]['a1_Name']|truncate(25) }}
+                        </v-btn>
+                      </template>
+                      <span> {{ caseBemaOpt[0]['a1_Name'] }} </span>
+                    </v-tooltip>
+                  </td>
+                  <td class="text-center"> </td>
+                  <td class="text-center weitera1RowQuan"> 1 </td>
+                  <td style="width: 150px;">
+                    <v-slider
+                      value="1"
+                      :tick-labels="ticksLabels"
+                      :max="2"
+                      step="1"
+                      ticks="always"
+                      tick-size="4"
+                      :thumb-size="36"
+                      :vertical="false"
+                      v-on:change="displayFak('weitera1Slider', caseBemaOpt[0]['a1_Price'], 'weitera1', 1)"
+                      :id="'weitera1Slider'"
+                    >
+                    </v-slider>
+                  </td>
+                  <td class="clsGoaAmountNo weitera1RowAmt" id="weitera1Amount">
+                    {{ gozAmount(caseBemaOpt[0]['a1_Price'], '2.3') }}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="text-center weitera5RowBema"> Ä5 </td>
+                  <td class="text-center">
+                    <input type="hidden" class="weitera5RowName" 
+                                  :value="caseBemaOpt[0]['a5_Name']">
+
+                    <v-tooltip top color="success">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          text
+                          v-bind="attrs"
+                          v-on="on"
+                          style="text-transform: none !important; height: 0px !important;"
+                        >
+                          {{ caseBemaOpt[0]['a5_Name']|truncate(25) }}
+                        </v-btn>
+                      </template>
+                      <span> {{ caseBemaOpt[0]['a5_Name'] }} </span>
+                    </v-tooltip>
+                  </td>
+                  <td class="text-center"> </td>
+                  <td class="text-center weitera5RowQuan"> 1 </td>
+                  <td style="width: 150px;">
+                    <v-slider
+                      value="1"
+                      :tick-labels="ticksLabels"
+                      :max="2"
+                      step="1"
+                      ticks="always"
+                      tick-size="4"
+                      :thumb-size="36"
+                      :vertical="false"
+                      v-on:change="displayFak('weitera5Slider', caseBemaOpt[0]['a5_Price'], 'weitera5', 1)"
+                      :id="'weitera5Slider'"
+                    >
+                    </v-slider>
+                  </td>
+                  <td class="clsGoaAmountNo weitera5RowAmt" id="weitera5Amount">
+                    {{ gozAmount(caseBemaOpt[0]['a5_Price'], '2.3') }}
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </template>
+          </v-simple-table>
+
         </div>
 
         <div v-if="weiterActivate" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
@@ -2479,7 +3007,6 @@
         </div>
 
         <div v-if="weiterActivateElab" style="border: 1px solid; padding: 10px; margin: 30px 0;">
-
           <h3>Eigenlabor</h3>
           <v-simple-table outlined class="my-2">
             <template v-slot:default>
@@ -2599,7 +3126,6 @@
 
             </template>
           </v-simple-table>
-
         </div>
 
         <div v-if="weiterActivateElab" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
@@ -2652,7 +3178,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(dataFinal, indexFinal) in tableDataFinal" :key="indexFinal">
+                <tr v-for="(dataFinal, indexFinal) in tableDataFinalDispArr" :key="indexFinal">
                   <td> 
                     {{dataFinal['subsidy']}}
                   </td>
@@ -2662,14 +3188,20 @@
                   <td>
                     {{dataFinal['quantity']}} 
                   </td>
-                  <td>
+                  <td class="dataFinalPrice">
                     {{dataFinal['price']}} 
                   </td>
+                </tr>
+
+                <tr>
+                  <td> </td>
+                  <td style="font-weight: bold;"> TOTAL </td>
+                  <td> </td>
+                  <td style="font-weight: bold;"> {{ dataFinalPriceAmt }} </td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
-
 
           <h4> BEMA </h4>
           <v-simple-table v-if="totalBemaDispZusa" outlined class="my-2" style="margin-bottom: 20px;">
@@ -2703,7 +3235,14 @@
                   </td>
                   <td> {{datasRV['region']}} </td>
                   <td> {{datasRV['quantity']}} </td>
-                  <td> {{datasRV['amount']}} </td>
+                  <td class="datasRVAmount"> {{datasRV['amount']}} </td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td style="font-weight: bold;"> TOTAL </td>
+                  <td> </td>
+                  <td> </td>
+                  <td style="font-weight: bold;"> {{ datasBemaAmountVal }} </td>
                 </tr>
               </tbody>
             </template>
@@ -2743,7 +3282,63 @@
                   <td> {{datasRV['region']}} </td>
                   <td> {{datasRV['quantity']}} </td>
                   <td> {{datasRV['factor']}} </td>
-                  <td> {{datasRV['amount']}} </td>
+                  <td class="datasGozAmount"> {{datasRV['amount']}} </td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td style="font-weight: bold;"> TOTAL </td>
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                  <td style="font-weight: bold;"> {{ datasGozAmountVal }} </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+
+          <h4> GOÄ </h4>
+          <v-simple-table v-if="totalGoaDispZusa" outlined class="my-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">GOZ-Nr.</th>
+                  <th class="text-left">Leistungsbeschreibung</th>
+                  <th class="text-left">Zahn/ Gebiet</th>
+                  <th class="text-left">Anzahl</th>
+                  <th class="text-left">Faktor</th>
+                  <th class="text-left">Betrag (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(datasRV, indexRV) in totalGoaDispZusa" :key="indexRV">
+                  <td> {{datasRV['value']}}</td>
+                  <td>
+                    <v-tooltip top color="success">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          text
+                          v-bind="attrs"
+                          v-on="on"
+                          style="text-transform: none !important; height: 0px !important;"
+                        >
+                          {{ datasRV['name']|truncate(25) }}
+                        </v-btn>
+                      </template>
+                      <span> {{datasRV['name']}} </span>
+                    </v-tooltip>
+                  </td>
+                  <td> {{datasRV['region']}} </td>
+                  <td> {{datasRV['quantity']}} </td>
+                  <td> {{datasRV['factor']}} </td>
+                  <td class="datasGozAmount"> {{datasRV['amount']}} </td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td style="font-weight: bold;"> TOTAL </td>
+                  <td> </td>
+                  <td> </td>
+                  <td> </td>
+                  <td style="font-weight: bold;"> {{ datasGoaAmountVal }} </td>
                 </tr>
               </tbody>
             </template>
@@ -3359,6 +3954,9 @@
       manualMandible: [],
       tableData: [],
       tableDataFinal: [],
+      tableDataFinalDisp: [],
+      tableDataFinalDispArr: [],
+      tableDataFinalStift: [],
       rules: {
         validEntry: value => validEntry(value) || 'Falsche Befundeingabe: Bitte korrigieren Sie den eingegebenen Befund!'
       },
@@ -3396,6 +3994,11 @@
         '1',
         '2.3',
         '3.5',
+      ],
+      ticksLabels_A: [
+        '1',
+        '1.8',
+        '2.5',
       ],
       totalGav          : '0.00',
       totalBema         : '0.00',
@@ -3437,6 +4040,9 @@
 
       showOptGozGAV: false,
       showOptGozGAV_: false,
+
+      showAbutmentAAV: false,
+      genQuesAAV: false,
 
       // optBemaRV: null,
       optBemaRV: [],
@@ -3505,6 +4111,21 @@
                     '0065_Name': 'Optisch-elektronische Abformung einschließlich vorbereitender Maßnahmen, einfache digitale Bissregistrierung und Archivierung, je Kieferhälfte oder Frontzahnbereich',
                     '0065_Price': '4.50',
 
+                    'a1_Name': 'Beratung - auch mittels Fernsprecher',
+                    'a1_Price': '4.66',
+                    'a5_Name': 'Symptombezogene Untersuchung',
+                    'a5_Price': '4.66',
+                    'a5000_Name': 'Röntgenaufnahme, je Projektion',
+                    'a5000_Price': '2.91',
+                    'a5004_Name': 'Panoramaschichtaufnahme der Kiefer',
+                    'a5004_Price': '23.31',
+                    'a5004_P_Name': 'Panoramaschichtaufnahme der Kiefer',
+                    'a5004_P_Price': '23.31',
+                    'a5370_Name': 'Computergesteuerte Tomographie im Kopfbereich',
+                    'a5370_Price': '116.57',
+                    'a5377_Name': 'Zuschlag für computergesteuerte Analyse - einschließlich speziell nachfolgender 3D-Rekonstruktion -',
+                    'a5377_Price': '46.63',
+
                   }],
       itemsMaterial: ["Zirkon monolithisch einfach",
                       "Zirkon monolithisch multilayer",
@@ -3513,6 +4134,14 @@
                       "Emax",
                       "NEM vollverblendet",
                       "Gold vollverblendet"],
+
+      itemsAbutment: ["Konfektioniert",
+                      "Titan (individuell)",
+                      "Zirkon (individuell)",
+                      "Direkt-verschraubt"],
+      itemsMaterialGAV: '',
+      itemsMaterialAAV: '',
+      itemsAbutmentAAV: '',
 
       OptGozGAVselected: [], // opt GOZ GAV op 1
       OptGozGAVselected_: [],  // opt GOZ GAV op 2
@@ -3523,65 +4152,83 @@
       OptGozGAVselectedReg: [],
       OptGozGAVselectedReg_: [],
 
-      OptGozGAVselected_RV: [],
-      displayOptGozGavs_RV: [],
-      OptGozGAVselected_RV_: [],
-      displayOptGozGavs_RV_: [],
-      OptGozGAVselectedReg_RV: [],
-      OptGozGAVselectedReg_RV_: [],
-      showOptGozGAVTable_RV: [],  // opt GOZ GAV op 1
-      showOptGozGAV_Table_RV: [],  // opt GOZ GAV op 2
+      OptGozGAVselected_RV      : [],
+      displayOptGozGavs_RV      : [],
+      OptGozGAVselected_RV_     : [],
+      displayOptGozGavs_RV_     : [],
+      OptGozGAVselectedReg_RV   : [],
+      OptGozGAVselectedReg_RV_  : [],
+      showOptGozGAVTable_RV     : [],  // opt GOZ GAV op 1
+      showOptGozGAV_Table_RV    : [],  // opt GOZ GAV op 2
 
-      OptGozGAVselected_GAV: [],
-      displayOptGozGavs_GAV: [],
-      OptGozGAVselected_GAV_: [],
-      displayOptGozGavs_GAV_: [],
-      OptGozGAVselectedReg_GAV: [],
-      OptGozGAVselectedReg_GAV_: [],
-      showOptGozGAVTable_GAV: [],  // opt GOZ GAV op 1
-      showOptGozGAV_Table_GAV: [],  // opt GOZ GAV op 2
+      OptGozGAVselected_GAV     : [],
+      displayOptGozGavs_GAV     : [],
+      OptGozGAVselected_GAV_    : [],
+      displayOptGozGavs_GAV_    : [],
+      OptGozGAVselectedReg_GAV  : [],
+      OptGozGAVselectedReg_GAV_ : [],
+      showOptGozGAVTable_GAV    : [],  // opt GOZ GAV op 1
+      showOptGozGAV_Table_GAV   : [],  // opt GOZ GAV op 2
 
-      OptGozGAVselected_AAV: [],
-      displayOptGozGavs_AAV: [],
-      OptGozGAVselected_AAV_: [],
-      displayOptGozGavs_AAV_: [],
-      OptGozGAVselectedReg_AAV: [],
-      OptGozGAVselectedReg_AAV_: [],
-      showOptGozGAVTable_AAV: [],  // opt GOZ GAV op 1
-      showOptGozGAV_Table_AAV: [],  // opt GOZ GAV op 2
+      OptGozGAVselected_AAV     : [],
+      displayOptGozGavs_AAV     : [],
+      OptGozGAVselected_AAV_    : [],
+      displayOptGozGavs_AAV_    : [],
+      OptGozGAVselectedReg_AAV  : [],
+      OptGozGAVselectedReg_AAV_ : [],
+      showOptGozGAVTable_AAV    : [],  // opt GOZ GAV op 1
+      showOptGozGAV_Table_AAV   : [],  // opt GOZ GAV op 2
 
-      showCaseTrash: false,
-      // showCaseTrash: [],
-      showCasePencil: [],
-      reOpenLabel:[],
-      reOpenidValue:[],
-      reOpenids:[],
-      reOpenCaseid: [],
+      showCaseTrash   : false,
+      showCasePencil  : [],
+      reOpenLabel     : [],
+      reOpenidValue   : [],
+      reOpenids       : [],
+      reOpenCaseid    : [],
 
-      weiterActivate: false,
-      displayWeiter89: false,
-      displayWeiter7b: false,
-      displayWeiter8010: false,
-      displayWeiterAbf: false,
-      displayWeiterAbf65: false,
-      displayWeiterAbf98a: false,
-      displayWeiter98a: false,
-      displayWeiter0065: false,
-      chkBoxGQ89: [],
-      chkBoxGQ89_: false,
-      chkBoxGQ7b: [],
-      chkBoxGQ7b_: false,
-      chkBoxGQ8010: [],
-      chkBoxGQ8010_: false,
-      chkBoxGQAbf: [],
-      chkBoxGQAbf_: false,
-      chkBoxGQ98a: [],
-      chkBoxGQ0065: [],
+      weiterActivate        : false,
+      displayWeiter89       : false,
+      displayWeiter7b       : false,
+      displayWeiter8010     : false,
+      displayWeiterAbf      : false,
+      displayWeiterAbf65    : false,
+      displayWeiterAbf98a   : false,
+      displayWeiter98a      : false,
+      displayWeiter0065     : false,
+      displayWeiterPra      : false,
+      displayWeiterPost     : false,
+      displayWeitera15      : false,
+      displayWeiterPraOP    : false,
+      displayWeiterPraDV    : false,
+      displayWeiterPostOP   : false,
+      displayWeiterPostEin  : false,
+
+      chkBoxGQ89    : [],
+      chkBoxGQ89_   : false,
+      chkBoxGQ7b    : [],
+      chkBoxGQ7b_   : false,
+      chkBoxGQ8010  : [],
+      chkBoxGQ8010_ : false,
+      chkBoxGQAbf   : [],
+      chkBoxGQAbf_  : false,
+      chkBoxGQ98a   : [],
+      chkBoxGQ0065  : [],
+
+      chkBoxGQPra   : [],
+      chkBoxGQPra_  : false,
+      chkBoxGQPost  : [],
+      chkBoxGQPost_ : false,
+      chkBoxGQBer   : [],
+      chkBoxGQBer_  : false,
+
       optWeiterAbfFirst: [],
       optWeiterAbfSecond: [],
       sliderWeiter0065: '',
       sliderWeiter8010: '',
       sliderWeiter8020: '',
+
+      optWeiterPraFirst: [],
+      optWeiterPostFirst: [],
 
       weiterActivateElab: false,
       Eigenlabor_Desc_7b_B:    ["Abformung (Alginat), Bissregistrat und Herstellung von Diagnostik-/Planungsmodellen des Ober- und Unterkiefers (BELII)"],
@@ -3606,7 +4253,8 @@
       Eigenlabor_Arr_7b_B:     [],
       Eigenlabor_Arr_18a_B:    [],
       Eigenlabor_Arr_19_B:     [],
-      Eigenlabor_Arr_19_B_Q:   [],
+      // Eigenlabor_Arr_19_B_Q:   [],
+      Eigenlabor_Arr_19_B_Q:   0,
       Eigenlabor_Arr_2195_G:   [],
       Eigenlabor_Arr_9010_G1:  [],
       Eigenlabor_Arr_9010_G_Q:  [],
@@ -3631,11 +4279,22 @@
       totalBemaDispZusa       : [],
       totalAmountFDispZusa    : [],
       totalGavDispZusa        : [],
+      totalGoaDispZusa        : [],
       totalSumCalcDispZusa    : [],
       totalEigenlaborDispZusa : [],
       totalGewerblichDispZusa : [],
       totalGavSliderZusaArr   : [],
 
+      dataFinalPriceAmt   : 0,
+      datasBemaAmountVal  : 0,
+      datasGozAmountVal   : 0,
+      datasGoaAmountVal   : 0,
+
+      defaultSlider0065   : '2.3',
+      defaultSlider8010   : '2.3',
+      defaultSlider8020   : '2.3',
+
+      chkBoxMandatory     : 'lblStrong',
 
 
     }),
@@ -3662,12 +4321,17 @@
         if(this.tableData['Final'] && 
           this.tableData['Final'].length > 0
         ) {
-          return ((this.tableData['Final'].map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0))/this.tableData['Total_case']).toFixed(2)
-          // for(var cal=0; cal< this.tableData['Final'].length; cal++) {
-          //   amountArray[cal] = this.tableData['Final'][cal]['price']
-          // }
-
-          // return amountArray
+          // return ((this.tableData['Final'].map(i=>i.price).reduce((a,b)=>Number(a)+Number(b),0))/this.tableData['Total_case']).toFixed(2)
+          for(var cal=0; cal< this.tableData['Final'].length; cal++) {
+            amountArray[cal] = 0
+            // amountArray[cal] = this.tableData['Final'][cal][0]['price']
+            for(var cal_2=0; cal_2< this.tableData['Final'][cal].length; cal_2++) {
+              amountArray[cal] += this.tableData['Final'][cal][cal_2]['price']
+            }
+          }
+          
+          return amountArray
+          // return '0.00'
         } 
         else {
           return '0.00'
@@ -4103,16 +4767,17 @@
           this.RVShortcut = dataValues['RV Solution shortcuts'];
           if(dataValues['RV Solution BEMA Region']['19']) {
             this.case_region_ = dataValues['RV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
-            this.Eigenlabor_Arr_19_B_Q = dataValues['RV Solution BEMA Quantity']['19'] // As 19 always has the original region values either than AAV
+            this.Eigenlabor_Arr_19_B_Q += parseInt(dataValues['RV Solution BEMA Quantity']['19']) // As 19 always has the original region values either than AAV
           }
         }
 
         if(label == 'lblGAV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
+          console.log(this.Eigenlabor_Arr_19_B_Q)
           if(dataValues['GAV Solution BEMA Region']['19']) {
             this.case_region_ = dataValues['GAV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
-            this.Eigenlabor_Arr_19_B_Q = dataValues['GAV Solution BEMA Quantity']['19'] // As 19 always has the original region values either than AAV
+            this.Eigenlabor_Arr_19_B_Q += parseInt(dataValues['GAV Solution BEMA Quantity']['19']) // As 19 always has the original region values either than AAV
           }
 
           // this.TPShortcut = dataValues['GAV Solution shortcuts'];
@@ -4559,6 +5224,7 @@
 
         }
 
+        this.showAbutmentAAV = false
         if(label == 'lblAAV') {
           // // FOR GOZ SLIDER issue
           for(var gr=0; gr<Object.values(dataValues['AAV Solution GOZ Region']).length; gr++) {
@@ -4618,6 +5284,12 @@
                   // this.optBemaValuesRV.push({ '91d' : textOpt[to].trim() })
                   this.optBemaValuesRV.push( textOpt[to].trim() )
                 }
+            }
+
+            if( dataValues['AAV Solution GOZ Region']['9010'] !== undefined
+            ) {
+                this.showAbutmentAAV  = true
+                this.genQuesAAV       = true
             }
 
           }
@@ -4751,12 +5423,7 @@
         }
 
       },
-      optGozGavCall(solNo) {
-        // console.log(solNo)
-        console.log('solNo')
-        console.log(this.OptGozGAVselected_RV)
-        console.log(this.OptGozGAVselectedReg_RV)
-        console.log('solNo__')
+      optGozGavCall(solNo) {        
 
         if(this.OptGozGAVselected_RV[solNo] == "Aufbaufüllung_RV"+solNo
         ) {
@@ -4784,10 +5451,7 @@
           this.displayOptGozGavs_AAV[solNo] = false
         }
       },
-      optGozGavCall_(solNo) {
-        console.log(solNo)
-        console.log(this.OptGozGAVselected_RV_)
-        
+      optGozGavCall_(solNo) {        
 
         if(this.OptGozGAVselected_RV_.indexOf("Adhäsive_RV"+solNo) !== -1) {
           this.displayOptGozGavs_RV_[solNo] = true
@@ -4894,6 +5558,34 @@
           }
         })
         return char
+      },
+      transformArray(arr) {
+          // Function to get the characters from the end of a string, including the `)(` symbol
+          function getCharacters(str) {
+              let match = str.match(/[a-zA-Z]+|\)\(/g);
+              return match ? match.join('') : '';
+          }
+
+          // Function to transform the array
+          function transform(arr) {
+              // Loop through the array
+              for (let i = 0; i < arr.length; i++) {
+                  // If the current element has no alphabet characters or `)(` symbol
+                  if (!/[a-zA-Z\)\(]/.test(arr[i])) {
+                      // Find the next element with alphabet characters or `)(` symbol
+                      for (let j = i + 1; j < arr.length; j++) {
+                          if (/[a-zA-Z\)\(]/.test(arr[j])) {
+                              // Append those characters to the current element
+                              arr[i] += getCharacters(arr[j]);
+                              break;
+                          }
+                      }
+                  }
+              }
+              return arr;
+          }
+
+          return transform(arr);
       },
       calculateFindingsImport() {
         let findingsArrayImportIni = null
@@ -5103,6 +5795,8 @@
           findingsArray = this.findingsEntries.split(',')
         }
 
+        findingsArray = this.transformArray(findingsArray)
+
         for(let i=0; i<findingsArray.length; i++) {
           if(/-/.test(findingsArray[i])) {
             let start_num = Number(findingsArray[i].split("-")[0])
@@ -5177,8 +5871,7 @@
             let numbs = findingsArray[i].match(/[0-9]/g).join('')
             let char = undefined
             char = findingsArray[i].match(/[a-z)(]/g)
-            console.log(char)
-
+            
             if(!char) {
               char = this.findStatus(findingsArray.slice(i,findingsArray.length))
             } else {
@@ -5224,13 +5917,13 @@
             }
           }
         }
+
+        // disabled the entries
         if(this.findingsEntries) {
-          this.disabled = true
+          // this.disabled = true
         }
       },
       displayFak(faktors, amountGoz, solutionT, dialogRow) {
-        // console.log(document.getElementById('GAVSlider'+faktors).value)
-
         var newGozAmount = 0;
 
         if(solutionT == 'GAVGOZ') {
@@ -5369,6 +6062,67 @@
           this.totalGavSliderZusaArr[faktors] = this.ticksLabels[document.getElementById('weiter0065Slider').value]
         }
 
+        if(solutionT == 'weitera1') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weitera1Slider').value])
+          document.getElementById('weitera1Amount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera1Amount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera1Slider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels[document.getElementById('weitera1Slider').value]
+        }
+        if(solutionT == 'weitera5') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weitera5Slider').value])
+          document.getElementById('weitera5Amount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera5Amount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera5Slider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels[document.getElementById('weitera5Slider').value]
+        }
+
+        if(solutionT == 'weitera5004') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels_A[document.getElementById('weitera5004Slider').value])
+          document.getElementById('weitera5004Amount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera5004Amount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera5004Slider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels_A[document.getElementById('weitera5004Slider').value]
+        }
+
+        if(solutionT == 'weitera5370') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weitera5370Slider').value])
+          document.getElementById('weitera5370Amount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera5370Amount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera5370Slider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels[document.getElementById('weitera5370Slider').value]
+        }
+        if(solutionT == 'weitera5377') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels[document.getElementById('weitera5377Slider').value])
+          document.getElementById('weitera5377Amount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera5377Amount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera5377Slider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels[document.getElementById('weitera5377Slider').value]
+        }
+
+        if(solutionT == 'weitera5004_P') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels_A[document.getElementById('weitera5004_PSlider').value])
+          document.getElementById('weitera5004_PAmount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera5004_PAmount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera5004_PSlider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels_A[document.getElementById('weitera5004_PSlider').value]
+        }
+
+        if(solutionT == 'weitera5000') {
+          newGozAmount = this.gozAmount(amountGoz, this.ticksLabels_A[document.getElementById('weitera5000Slider').value])
+          document.getElementById('weitera5000Amount').innerHTML = newGozAmount
+          this.idGozSlider = 'weitera5000Amount'
+          this.idGozSliderArr[faktors] = document.getElementById('weitera5000Slider').value
+
+          this.totalGavSliderZusaArr[faktors] = this.ticksLabels_A[document.getElementById('weitera5000Slider').value]
+        }
+
         this.resetGozAmount = amountGoz
         // console.log(document.getElementById('GAVSlider'+faktors).value)
 
@@ -5492,11 +6246,11 @@
           }
         }
 
-        this.totalBemaDisp      = parseFloat(tempBemaArr).toFixed(2)
-        this.totalAmountFDisp   = parseFloat(tempAmountFArr).toFixed(2)
-        this.totalGavDisp       = parseFloat(tempGavArr).toFixed(2)
+        this.totalBemaDisp        = parseFloat(tempBemaArr).toFixed(2)
+        this.totalAmountFDisp     = parseFloat(tempAmountFArr).toFixed(2)
+        this.totalGavDisp         = parseFloat(tempGavArr).toFixed(2)
         this.totalEigenlaborDisp  = parseFloat(tempEigenArr).toFixed(2)
-        this.totalSumCalcDisp   = parseFloat(tempSumCalcArr).toFixed(2)
+        this.totalSumCalcDisp     = parseFloat(tempSumCalcArr).toFixed(2)
 
       },
       closeCalc() {
@@ -5511,6 +6265,47 @@
       },
       calcTable(dialogRowIndex) {
         // this.dialogSolution[dialogRowIndex] = false; // issue recheck
+
+        /** mandatory selections */
+        let mandChecked = false
+
+        /** For RVs **/
+        if(document.getElementById('itemsMaterialGAV') == null
+          && document.getElementById('itemsMaterialAAV') == null
+          && document.getElementById('itemsAbutmentAAV') == null
+        ) {
+          mandChecked = true
+        }
+
+        /** For GAVs */
+        if(document.getElementById('itemsMaterialGAV') !== null
+          && document.getElementById('itemsAbutmentAAV') == null
+          && document.getElementById('itemsMaterialAAV') == null
+        ) {
+          if(this.itemsMaterialGAV !== ''
+          ) {
+            mandChecked = true
+          }
+        }
+
+        /** For AAVs */
+        if(document.getElementById('itemsMaterialAAV') !== null
+          && document.getElementById('itemsAbutmentAAV') !== null
+          && document.getElementById('itemsMaterialGAV') == null
+        ) {
+          if(this.itemsMaterialAAV !== ''
+            && this.itemsAbutmentAAV !== ''
+          ) {
+            mandChecked = true
+          }
+        }
+
+        if(!mandChecked) {
+          this.chkBoxMandatory = 'lblStrongMand'
+          return;
+        }
+
+        this.chkBoxMandatory = 'lblStrong' // remove the red Border for material and items
         
         /** Add Toggle Selected Values */
         for(var op=0; op<this.optGoz.length; op++) {
@@ -5784,23 +6579,26 @@
         for(var gozI=0; gozI<collectionGoz.length; gozI++) {
           clsGozAmount += parseFloat(collectionGoz[gozI].innerText)
         }
-        this.totalGav = parseFloat(parseFloat(this.totalGav) + parseFloat(clsGozAmount)).toFixed(2)
+        this.totalGav = parseFloat(parseFloat(this.totalGav) + parseFloat(clsGozAmount))
 
         for(var bemaI=0; bemaI<collectionBema.length; bemaI++) {
           clsBemaAmount += parseFloat(collectionBema[bemaI].innerText)
         }
-        this.totalBema = parseFloat(parseFloat(this.totalBema) + parseFloat(clsBemaAmount)).toFixed(2)
+        this.totalBema = parseFloat(parseFloat(this.totalBema) + parseFloat(clsBemaAmount))
 
-        this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema)).toFixed(2)
+        this.totalSumCalc = parseFloat(parseFloat(this.totalGav) + parseFloat(this.totalBema))
         this.totalAmountF = this.totalAmount
 
         // Einanteil is gesamkosten minus subsidies = festzuschuss
 
         this.totalBemaArr[dialogRowIndex]     = this.totalBema
-        // this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF[dialogRowIndex] // RECHECK
-        this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF // RECHECK
+        this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF[dialogRowIndex] // RECHECK
+        // this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF // RECHECK
         this.totalGavArr[dialogRowIndex]      = this.totalGav
         this.totalSumCalcArr[dialogRowIndex]  = this.totalSumCalc
+
+        // For the Final table
+        this.tableDataFinalDisp[dialogRowIndex] = this.tableDataFinal[dialogRowIndex]
 
         this.totalTableCalc()
 
@@ -5868,9 +6666,11 @@
 
         this.apiCallSuccess = true
         /** DISPLAY TEETH IMAGES END */
-
-        this.displaySecond = false;
-        this.dialogCalc = false
+        
+        if(mandChecked) {
+          this.displaySecond = false;
+          this.dialogCalc = false
+        }
 
         // RESET SLIDER GOZ AMOUNT
         this.sliderValue = 1
@@ -5891,7 +6691,7 @@
             "name" : bemaRVsRowName[bemaI].value.trim(),
             "region" : bemaRVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : bemaRVsRowQuan[bemaI].innerHTML.trim(),
-            "amount" : parseFloat(bemaRVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(bemaRVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -5902,9 +6702,6 @@
         var optGozRVsRowQuan    = document.getElementsByClassName('optGozRVsRowQuan')
         var optGozRVsRowFactor  = document.getElementsByClassName('optGozRVsRowFactor')
         var optGozRVsRowAmt     = document.getElementsByClassName('optGozRVsRowAmt')
-
-        console.log('optGozRVsRowFactor')
-        console.log(this.totalGavSliderZusaArr)
 
         for(var bemaI=0; bemaI<optGozRVsRowBema.length; bemaI++) {
           var fakVal = '2.3'
@@ -5919,7 +6716,7 @@
             "region" : optGozRVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : optGozRVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(optGozRVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(optGozRVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -5944,7 +6741,7 @@
             "region" : optGozRVsRowRegion_[bemaI].innerHTML.trim(),
             "quantity" : optGozRVsRowQuan_[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(optGozRVsRowAmt_[bemaI].innerHTML.trim())
+            "amount" : parseFloat(optGozRVsRowAmt_[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -5961,9 +6758,43 @@
             "name" : stiftRVsRowName[bemaI].value.trim(),
             "region" : stiftRVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : stiftRVsRowQuan[bemaI].innerHTML.trim(),
-            "amount" : parseFloat(stiftRVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(stiftRVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
+
+          if(stiftRVsRowBema[bemaI].innerHTML.trim() == '18a') {
+            // 18b -> 1.4 add, festz.. price from gsheet
+            // 18a -> 1.5 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftRVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100).toFixed(2),
+              "quantity" : stiftRVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftRVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.4'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftRVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100))
+
+            this.totalTableCalc()
+          }
+
+          if(stiftRVsRowBema[bemaI].innerHTML.trim() == '18b') {
+            // 18b -> 1.4 add, festz.. price from gsheet
+            // 18a -> 1.5 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftRVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(229.96))/100).toFixed(2),
+              "quantity" : stiftRVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftRVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.5'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftRVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(229.96))/100))
+
+            this.totalTableCalc()
+          }
+
         }
+        
 
         // RV stift GOZ
         var stiftGozRVsRowBema    = document.getElementsByClassName('stiftGozRVsRowBema')
@@ -5986,8 +6817,23 @@
             "region" : stiftGozRVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : stiftGozRVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(stiftGozRVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(stiftGozRVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
+
+          if(stiftGozRVsRowBema[bemaI].innerHTML.trim() == '2195') {
+            // 2195 -> 1.4 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftGozRVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100).toFixed(2),
+              "quantity" : stiftGozRVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftGozRVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.4'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftGozRVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100))
+
+            this.totalTableCalc()
+          }
         }
 
 
@@ -6004,7 +6850,7 @@
             "name" : bemaGAVsRowName[bemaI].value.trim(),
             "region" : bemaGAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : bemaGAVsRowQuan[bemaI].innerHTML.trim(),
-            "amount" : parseFloat(bemaGAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(bemaGAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6029,7 +6875,7 @@
             "region" : gozGAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : gozGAVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(gozGAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(gozGAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6055,7 +6901,7 @@
             "region" : optGozGAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : optGozGAVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(optGozGAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(optGozGAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6066,12 +6912,6 @@
         var optGozGAVsRowQuan_    = document.getElementsByClassName('optGozGAVsRowQuan_')
         var optGozGAVsRowFactor_  = document.getElementsByClassName('optGozGAVsRowFactor_')
         var optGozGAVsRowAmt_     = document.getElementsByClassName('optGozGAVsRowAmt_')
-
-        console.log(optGozGAVsRowBema_)
-        console.log(optGozGAVsRowName_)
-        console.log(optGozGAVsRowRegion_)
-        console.log(optGozGAVsRowQuan_)
-        console.log(optGozGAVsRowAmt_)
 
         for(var bemaI=0; bemaI<optGozGAVsRowBema_.length; bemaI++) {
           var fakVal = '2.3'
@@ -6086,7 +6926,7 @@
             "region" : optGozGAVsRowRegion_[bemaI].innerHTML.trim(),
             "quantity" : optGozGAVsRowQuan_[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(optGozGAVsRowAmt_[bemaI].innerHTML.trim())
+            "amount" : parseFloat(optGozGAVsRowAmt_[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6103,8 +6943,42 @@
             "name" : stiftGAVsRowName[bemaI].value.trim(),
             "region" : stiftGAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : stiftGAVsRowQuan[bemaI].innerHTML.trim(),
-            "amount" : parseFloat(stiftGAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(stiftGAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
+
+
+          if(stiftGAVsRowBema[bemaI].innerHTML.trim() == '18a') {
+            // 18b -> 1.4 add, festz.. price from gsheet
+            // 18a -> 1.5 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftGAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100).toFixed(2),
+              "quantity" : stiftGAVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftGAVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.4'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftGAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100))
+
+            this.totalTableCalc()
+          }
+
+          if(stiftGAVsRowBema[bemaI].innerHTML.trim() == '18b') {
+            // 18b -> 1.4 add, festz.. price from gsheet
+            // 18a -> 1.5 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftGAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(229.96))/100).toFixed(2),
+              "quantity" : stiftGAVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftGAVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.5'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftGAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(229.96))/100))
+
+            this.totalTableCalc()
+          }
+
         }
 
         // GAV stift GOZ
@@ -6128,8 +7002,23 @@
             "region" : stiftGozGAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : stiftGozGAVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(stiftGozGAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(stiftGozGAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
+
+          if(stiftGozGAVsRowBema[bemaI].innerHTML.trim() == '2195') {
+            // 2195 -> 1.4 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftGozGAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100).toFixed(2),
+              "quantity" : stiftGozGAVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftGozGAVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.4'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftGozGAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100))
+
+            this.totalTableCalc()
+          }
         }
 
 
@@ -6146,7 +7035,7 @@
             "name" : bemaAAVsRowName[bemaI].value.trim(),
             "region" : bemaAAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : bemaAAVsRowQuan[bemaI].innerHTML.trim(),
-            "amount" : parseFloat(bemaAAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(bemaAAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6171,7 +7060,7 @@
             "region" : gozAAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : gozAAVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(gozAAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(gozAAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6196,7 +7085,7 @@
             "region" : optGozAAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : optGozAAVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(optGozAAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(optGozAAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6221,7 +7110,7 @@
             "region" : optGozAAVsRowRegion_[bemaI].innerHTML.trim(),
             "quantity" : optGozAAVsRowQuan_[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(optGozAAVsRowAmt_[bemaI].innerHTML.trim())
+            "amount" : parseFloat(optGozAAVsRowAmt_[bemaI].innerHTML.trim()).toFixed(2)
           })
         }
 
@@ -6238,8 +7127,41 @@
             "name" : stiftAAVsRowName[bemaI].value.trim(),
             "region" : stiftAAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : stiftAAVsRowQuan[bemaI].innerHTML.trim(),
-            "amount" : parseFloat(stiftAAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(stiftAAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
+
+          if(stiftAAVsRowBema[bemaI].innerHTML.trim() == '18a') {
+            // 18b -> 1.4 add, festz.. price from gsheet
+            // 18a -> 1.5 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftAAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100).toFixed(2),
+              "quantity" : stiftAAVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftAAVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.4'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftAAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100))
+
+            this.totalTableCalc()
+          }
+
+          if(stiftAAVsRowBema[bemaI].innerHTML.trim() == '18b') {
+            // 18b -> 1.4 add, festz.. price from gsheet
+            // 18a -> 1.5 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftAAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(229.96))/100).toFixed(2),
+              "quantity" : stiftAAVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftAAVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.5'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftAAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(229.96))/100))
+
+            this.totalTableCalc()
+          }
+
         }
 
         // AAV stift GOZ
@@ -6263,8 +7185,23 @@
             "region" : stiftGozAAVsRowRegion[bemaI].innerHTML.trim(),
             "quantity" : stiftGozAAVsRowQuan[bemaI].innerHTML.trim(),
             "factor" : fakVal,
-            "amount" : parseFloat(stiftGozAAVsRowAmt[bemaI].innerHTML.trim())
+            "amount" : parseFloat(stiftGozAAVsRowAmt[bemaI].innerHTML.trim()).toFixed(2)
           })
+
+          if(stiftGozAAVsRowBema[bemaI].innerHTML.trim() == '2195') {
+            // 2195 -> 1.4 add, festz.. price from gsheet
+            this.tableDataFinalStift.push({
+              "price" : parseFloat(parseInt(stiftGozAAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100).toFixed(2),
+              "quantity" : stiftGozAAVsRowQuan[bemaI].innerHTML.trim(),
+              "region" : stiftGozAAVsRowRegion[bemaI].innerHTML.trim(),
+              "subsidy" : '1.4'
+            })
+
+            // add price to Festzuschüsse
+            this.totalAmountFArr.push(parseFloat(parseInt(stiftGozAAVsRowQuan[bemaI].innerHTML.trim()) * (parseInt(this.bonus) * parseFloat(76.35))/100))
+
+            this.totalTableCalc()
+          }
         }
 
         // GO TO GENERAL QUESTION
@@ -6290,7 +7227,6 @@
           this.optBemaRVJa2     = []
           this.optBemaRVSecond  = []
           this.optBemaRVSecond2 = []
-
         }
       },
       dispoptBemaRVSecond(region) {
@@ -6418,13 +7354,6 @@
           this.totalBemaArr.push(this.caseBemaOpt[0]['89_Price'])
           this.totalSumCalcArr.push(this.caseBemaOpt[0]['89_Price'])
 
-          this.totalBemaDispZusa.push(
-            {"value" : "BEMA 89", 
-              "AMOUNT" : this.caseBemaOpt[0]['89_Price'], 
-              "Desc" : 'General Questions',
-              "Factor" : ''
-            })
-
           this.totalTableCalc()
         }
         else {
@@ -6444,13 +7373,6 @@
             }
           });
 
-          this.totalBemaDispZusa.filter((value, index) => {
-            if(value.AMOUNT == this.caseBemaOpt[0]['89_Price']
-            ) {
-              this.totalBemaDispZusa[index] = 0
-            }
-          });
-
           this.totalTableCalc()
         }
       },
@@ -6461,13 +7383,6 @@
           this.totalBemaArr.push(this.caseBemaOpt[0]['7b_Price'])
           this.totalSumCalcArr.push(this.caseBemaOpt[0]['7b_Price'])
           this.Eigenlabor_Arr_7b_B.push('7b')
-
-          this.totalBemaDispZusa.push(
-            {"value" : "BEMA 7b", 
-              "AMOUNT" : this.caseBemaOpt[0]['7b_Price'], 
-              "Desc" : 'General Questions',
-              "Factor" : ''
-            })
 
           this.totalTableCalc()
         }
@@ -6489,21 +7404,7 @@
             }
           });
 
-          this.totalBemaDispZusa.filter((value, index) => {
-            if(value.AMOUNT == this.caseBemaOpt[0]['7b_Price']
-            ) {
-              this.totalBemaDispZusa[index] = 0
-            }
-          });
-
           this.Eigenlabor_Arr_7b_B = this.Eigenlabor_Arr_7b_B.filter(e => e !== '7b')
-
-          // this.Eigenlabor_Arr_7b_B.filter((value, index) => {
-          //   if(value == '7b'
-          //   ) {
-          //     this.Eigenlabor_Arr_7b_B[index] = null
-          //   }
-          // });
 
           this.totalTableCalc()
         }
@@ -6556,11 +7457,58 @@
 
         }
       },
+      showGeneralOpt_a15() {
+        var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['a1_Price'], '2.3')
+        // this.sliderWeitera1 = '2.3'
+
+        var elementOptPrice_a5 = this.gozAmount(this.caseBemaOpt[0]['a5_Price'], '2.3')
+        // this.sliderWeitera5_a5 = '2.3'
+
+        if(this.chkBoxGQBer[0] == 'beratung') {
+          this.displayWeitera15 = true
+
+          if(this.totalGavArr.indexOf(elementOptPrice) == -1)
+          {
+            this.totalGavArr.push(elementOptPrice)
+            this.totalSumCalcArr.push(elementOptPrice)
+          }
+
+          if(this.totalGavArr.indexOf(elementOptPrice_a5+'0') == -1)
+          {
+            this.totalGavArr.push(elementOptPrice_a5+'0')
+            this.totalSumCalcArr.push(elementOptPrice_a5+'0')
+          }
+
+          this.totalTableCalc()
+          console.log(this.totalGavArr)
+        }
+        else {
+          this.displayWeitera15 = false
+
+          this.totalGavArr.filter((value, index) => {
+            if(value == elementOptPrice
+            ) {
+              this.totalGavArr[index] = 0
+              this.totalSumCalcArr[index] = 0
+            }
+
+            if(value == elementOptPrice_a5+'0'
+            ) {
+              this.totalGavArr[index] = 0
+              this.totalSumCalcArr[index] = 0
+            }
+          });
+
+          this.totalTableCalc()
+        }
+      },
       showGeneralOpt() {
         if(this.chkBoxGQAbf[0] == 'Abformung') {
+          this.chkBoxMandatory = 'lblStrong'
           this.displayWeiterAbf = true
         }
         else {
+          this.chkBoxMandatory = 'lblStrongMand'
           this.displayWeiterAbf = false
 
           //Remove the Plast.. bema values
@@ -6570,13 +7518,6 @@
               ) {
                 this.totalBemaArr[index] = 0
                 this.totalSumCalcArr[index] = 0
-              }
-            });
-
-            this.totalBemaDispZusa.filter((value, index) => {
-              if(value.AMOUNT == this.caseBemaOpt[0]['98a_Price']
-              ) {
-                this.totalBemaDispZusa[index] = 0
               }
             });
 
@@ -6615,13 +7556,6 @@
               ) {
                 this.totalBemaArr[index] = 0
                 this.totalSumCalcArr[index] = 0
-              }
-            });
-
-            this.totalBemaDispZusa.filter((value, index) => {
-              if(value.AMOUNT == this.caseBemaOpt[0]['98a_Price']
-              ) {
-                this.totalBemaDispZusa[index] = 0
               }
             });
 
@@ -6673,13 +7607,6 @@
             this.totalBemaArr.push(this.caseBemaOpt[0]['98a_Price'])
             this.totalSumCalcArr.push(this.caseBemaOpt[0]['98a_Price'])
 
-            this.totalBemaDispZusa.push(
-            {"value" : "BEMA 98a", 
-              "AMOUNT" : this.caseBemaOpt[0]['98a_Price'], 
-              "Desc" : 'General Questions',
-              "Factor" : ''
-            })
-
             this.totalTableCalc()
           }
         }
@@ -6692,29 +7619,244 @@
             }
           });
 
-          this.totalBemaDispZusa.filter((value, index) => {
-            if(value.AMOUNT == this.caseBemaOpt[0]['98a_Price']
-            ) {
-              this.totalBemaDispZusa[index] = 0
-            }
-          });
-
           this.totalTableCalc()
         }
       },
+
+      showGeneralOpt_Pra() {
+        if(this.chkBoxGQPra[0] == 'praoperativ') {
+          this.displayWeiterPra = true
+        }
+        else {
+          this.displayWeiterPra = false
+          
+
+          //Remove the values
+          {
+            var elementOptPrice1 = this.gozAmount(this.caseBemaOpt[0]['a5004_Price'], '1.8')
+            var elementOptPrice2 = this.gozAmount(this.caseBemaOpt[0]['a5370_Price'], '2.3')
+            var elementOptPrice3 = this.gozAmount(this.caseBemaOpt[0]['a5377_Price'], '1')
+
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice1
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+
+              if(value == elementOptPrice2
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+
+              if(value == elementOptPrice3
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+        }
+
+      },
+      showGeneralOptRadio_Pra() {
+        var elementOptPrice = this.gozAmount(this.caseBemaOpt[0]['a5004_Price'], '1.8')
+        // this.sliderWeiter0065 = '2.3'
+        var elementOptPrice2 = this.gozAmount(this.caseBemaOpt[0]['a5370_Price'], '2.3')
+        var elementOptPrice3 = this.gozAmount(this.caseBemaOpt[0]['a5377_Price'], '1')
+
+        // this.displayWeiterPraOP = true
+        // this.displayWeiterPraDV = true
+
+        if(this.optWeiterPraFirst == 'OPTG') {
+          this.displayWeiterPraOP = true
+          this.displayWeiterPraDV = false
+
+          //Remove the DVT values
+          {
+            this.totalGavArr.filter((value, index) => {
+
+              if(value == elementOptPrice2
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+
+              if(value == elementOptPrice3
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+
+          //calc a5004 GOZ
+          {
+            if(this.totalGavArr.indexOf(elementOptPrice) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice)
+              this.totalSumCalcArr.push(elementOptPrice)
+              this.totalTableCalc()
+            }
+          }
+        }
+        else {
+          this.displayWeiterPraOP = false
+          this.displayWeiterPraDV = true
+
+          //Remove the a5004 values
+          {
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+
+
+          //calc DVT GOZ
+          {
+            if(this.totalGavArr.indexOf(elementOptPrice2) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice2)
+              this.totalSumCalcArr.push(elementOptPrice2)
+            }
+
+            if(this.totalGavArr.indexOf(elementOptPrice3) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice3)
+              this.totalSumCalcArr.push(elementOptPrice3)
+            }
+
+            this.totalTableCalc()
+          }
+        }
+      },
+      showGeneralOpt_Post() {
+        if(this.chkBoxGQPost[0] == 'postoperativ') {
+          this.displayWeiterPost = true
+        }
+        else {
+          this.displayWeiterPost = false
+          
+
+          //Remove the values
+          {
+            var elementOptPrice1 = this.gozAmount(this.caseBemaOpt[0]['a5004_P_Price'], '1.8')
+            var elementOptPrice2 = this.gozAmount(this.caseBemaOpt[0]['a5000_Price'], '1.8')
+
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice1
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+
+              if(value == elementOptPrice2
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+        }
+      },
+      showGeneralOptRadio_Post() {
+        var elementOptPrice   = this.gozAmount(this.caseBemaOpt[0]['a5004_P_Price'], '1.8')
+        var elementOptPrice2  = this.gozAmount(this.caseBemaOpt[0]['a5000_Price'], '1.8')
+        // this.sliderWeiter0065 = '2.3'
+
+        if(this.optWeiterPostFirst == 'OPTG') {
+          this.displayWeiterPostOP = true
+          this.displayWeiterPostEin = false
+
+          //Remove the Ein... values
+          {
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice2
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+
+          //calc a5004 GOZ
+          {
+            if(this.totalGavArr.indexOf(elementOptPrice) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice)
+              this.totalSumCalcArr.push(elementOptPrice)
+              this.totalTableCalc()
+            }
+          }
+        }
+        else {
+          this.displayWeiterPostOP = false
+          this.displayWeiterPostEin = true
+
+          //Remove the a5004 values
+          {
+            this.totalGavArr.filter((value, index) => {
+              if(value == elementOptPrice
+              ) {
+                this.totalGavArr[index] = 0
+                this.totalSumCalcArr[index] = 0
+              }
+            });
+
+            this.totalTableCalc()
+          }
+
+
+          //calc Ein... GOZ
+          {
+            if(this.totalGavArr.indexOf(elementOptPrice2) == -1)
+            {
+              this.totalGavArr.push(elementOptPrice2)
+              this.totalSumCalcArr.push(elementOptPrice2)
+            }
+
+            this.totalTableCalc()
+          }
+        }
+      },
       weiterCallElab() {
-        this.weiterActivateElab = true
+        if(this.chkBoxGQAbf == 'Abformung'
+        ) {
+          this.weiterActivateElab = true
+          this.chkBoxMandatory = 'lblStrong'
 
-        // make the general question checkboxes disable 
-        // and the pevious weiter btn
-        this.chkBoxGQ89_    = true
-        this.chkBoxGQ7b_    = true
-        this.chkBoxGQ8010_  = true
-        this.chkBoxGQAbf_   = true
+          // make the general question checkboxes disable 
+          // and the pevious weiter btn
+          this.chkBoxGQ89_    = true
+          this.chkBoxGQ7b_    = true
+          this.chkBoxGQ8010_  = true
+          this.chkBoxGQAbf_   = true
+          this.chkBoxGQPra_   = true
+          this.chkBoxGQPost_  = true
+          this.chkBoxGQBer_   = true
 
-        if(document.getElementById('btnWeiterElab') !== null) {
-          document.getElementById('btnWeiterElab').disabled = true
-          document.getElementById('btnWeiterElab').style = 'background-color: #eeeeee'
+          if(document.getElementById('btnWeiterElab') !== null) {
+            document.getElementById('btnWeiterElab').disabled = true
+            document.getElementById('btnWeiterElab').style = 'background-color: #eeeeee'
+          }
+        }
+        else {
+          this.chkBoxMandatory = 'lblStrongMand'
         }
 
       },
@@ -6952,6 +8094,227 @@
           document.getElementById('btnWeiterElabCalc').style = 'background-color: #eeeeee'
         }
 
+        // General Questions and Eigen tables
+
+        // 89 bema
+        var weiter89RowBema    = document.getElementsByClassName('weiter89RowBema')
+        var weiter89RowName    = document.getElementsByClassName('weiter89RowName')
+        var weiter89RowQuan    = document.getElementsByClassName('weiter89RowQuan')
+        var weiter89RowAmt     = document.getElementsByClassName('weiter89RowAmt')
+
+        for(var bemaI=0; bemaI<weiter89RowBema.length; bemaI++) {
+          this.totalBemaDispZusa.push({
+            "value" : weiter89RowBema[bemaI].innerHTML.trim(),
+            "name" : weiter89RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weiter89RowQuan[bemaI].innerHTML.trim(),
+            "amount" : parseFloat(weiter89RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // 7B bema
+        var weiter7bRowBema    = document.getElementsByClassName('weiter7bRowBema')
+        var weiter7bRowName    = document.getElementsByClassName('weiter7bRowName')
+        var weiter7bRowQuan    = document.getElementsByClassName('weiter7bRowQuan')
+        var weiter7bRowAmt     = document.getElementsByClassName('weiter7bRowAmt')
+
+        for(var bemaI=0; bemaI<weiter7bRowBema.length; bemaI++) {
+          this.totalBemaDispZusa.push({
+            "value" : weiter7bRowBema[bemaI].innerHTML.trim(),
+            "name" : weiter7bRowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weiter7bRowQuan[bemaI].innerHTML.trim(),
+            "amount" : parseFloat(weiter7bRowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // 8010 goz
+        var weiter8010RowBema    = document.getElementsByClassName('weiter8010RowBema')
+        var weiter8010RowName    = document.getElementsByClassName('weiter8010RowName')
+        var weiter8010RowQuan    = document.getElementsByClassName('weiter8010RowQuan')
+        var weiter8010RowAmt     = document.getElementsByClassName('weiter8010RowAmt')
+
+        for(var bemaI=0; bemaI<weiter8010RowBema.length; bemaI++) {
+          this.totalGavDispZusa.push({
+            "value" : weiter8010RowBema[bemaI].innerHTML.trim(),
+            "name" : weiter8010RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weiter8010RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels[document.getElementById('weiter8010Slider').value],
+            "amount" : parseFloat(weiter8010RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // 8020 goz
+        var weiter8020RowBema    = document.getElementsByClassName('weiter8020RowBema')
+        var weiter8020RowName    = document.getElementsByClassName('weiter8020RowName')
+        var weiter8020RowQuan    = document.getElementsByClassName('weiter8020RowQuan')
+        var weiter8020RowAmt     = document.getElementsByClassName('weiter8020RowAmt')
+
+        for(var bemaI=0; bemaI<weiter8020RowBema.length; bemaI++) {
+          this.totalGavDispZusa.push({
+            "value" : weiter8020RowBema[bemaI].innerHTML.trim(),
+            "name" : weiter8020RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weiter8020RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels[document.getElementById('weiter8020Slider').value],
+            "amount" : parseFloat(weiter8020RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // 98a bema
+        var weiter98aRowBema    = document.getElementsByClassName('weiter98aRowBema')
+        var weiter98aRowName    = document.getElementsByClassName('weiter98aRowName')
+        var weiter98aRowQuan    = document.getElementsByClassName('weiter98aRowQuan')
+        var weiter98aRowAmt     = document.getElementsByClassName('weiter98aRowAmt')
+
+        for(var bemaI=0; bemaI<weiter98aRowBema.length; bemaI++) {
+          this.totalBemaDispZusa.push({
+            "value" : weiter98aRowBema[bemaI].innerHTML.trim(),
+            "name" : weiter98aRowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weiter98aRowQuan[bemaI].innerHTML.trim(),
+            "amount" : parseFloat(weiter98aRowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // 0065 goz
+        var weiter0065RowBema    = document.getElementsByClassName('weiter0065RowBema')
+        var weiter0065RowName    = document.getElementsByClassName('weiter0065RowName')
+        var weiter0065RowQuan    = document.getElementsByClassName('weiter0065RowQuan')
+        var weiter0065RowAmt     = document.getElementsByClassName('weiter0065RowAmt')
+
+        for(var bemaI=0; bemaI<weiter0065RowBema.length; bemaI++) {
+          this.totalGavDispZusa.push({
+            "value" : weiter0065RowBema[bemaI].innerHTML.trim(),
+            "name" : weiter0065RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weiter0065RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels[document.getElementById('weiter0065Slider').value],
+            "amount" : parseFloat(weiter0065RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // A1 goa, Beratung
+        var weitera1RowBema    = document.getElementsByClassName('weitera1RowBema')
+        var weitera1RowName    = document.getElementsByClassName('weitera1RowName')
+        var weitera1RowQuan    = document.getElementsByClassName('weitera1RowQuan')
+        var weitera1RowAmt     = document.getElementsByClassName('weitera1RowAmt')
+
+        for(var bemaI=0; bemaI<weitera1RowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera1RowBema[bemaI].innerHTML.trim(),
+            "name" : weitera1RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera1RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels[document.getElementById('weitera1Slider').value],
+            "amount" : parseFloat(weitera1RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // A5 goa, Beratung
+        var weitera5RowBema    = document.getElementsByClassName('weitera5RowBema')
+        var weitera5RowName    = document.getElementsByClassName('weitera5RowName')
+        var weitera5RowQuan    = document.getElementsByClassName('weitera5RowQuan')
+        var weitera5RowAmt     = document.getElementsByClassName('weitera5RowAmt')
+
+        for(var bemaI=0; bemaI<weitera5RowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera5RowBema[bemaI].innerHTML.trim(),
+            "name" : weitera5RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera5RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels[document.getElementById('weitera5Slider').value],
+            "amount" : parseFloat(weitera5RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+
+        // A5000 goa
+        var weitera5000RowBema    = document.getElementsByClassName('weitera5000RowBema')
+        var weitera5000RowName    = document.getElementsByClassName('weitera5000RowName')
+        var weitera5000RowQuan    = document.getElementsByClassName('weitera5000RowQuan')
+        var weitera5000RowAmt     = document.getElementsByClassName('weitera5000RowAmt')
+
+        for(var bemaI=0; bemaI<weitera5000RowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera5000RowBema[bemaI].innerHTML.trim(),
+            "name" : weitera5000RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera5000RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels_A[document.getElementById('weitera5000Slider').value],
+            "amount" : parseFloat(weitera5000RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // A5004 goa
+        var weitera5004RowBema    = document.getElementsByClassName('weitera5004RowBema')
+        var weitera5004RowName    = document.getElementsByClassName('weitera5004RowName')
+        var weitera5004RowQuan    = document.getElementsByClassName('weitera5004RowQuan')
+        var weitera5004RowAmt     = document.getElementsByClassName('weitera5004RowAmt')
+
+        for(var bemaI=0; bemaI<weitera5004RowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera5004RowBema[bemaI].innerHTML.trim(),
+            "name" : weitera5004RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera5004RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels_A[document.getElementById('weitera5004Slider').value],
+            "amount" : parseFloat(weitera5004RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // A5004_post goa
+        var weitera5004_PRowBema    = document.getElementsByClassName('weitera5004_PRowBema')
+        var weitera5004_PRowName    = document.getElementsByClassName('weitera5004_PRowName')
+        var weitera5004_PRowQuan    = document.getElementsByClassName('weitera5004_PRowQuan')
+        var weitera5004_PRowAmt     = document.getElementsByClassName('weitera5004_PRowAmt')
+
+        for(var bemaI=0; bemaI<weitera5004_PRowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera5004_PRowBema[bemaI].innerHTML.trim(),
+            "name" : weitera5004_PRowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera5004_PRowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels_A[document.getElementById('weitera5004_PSlider').value],
+            "amount" : parseFloat(weitera5004_PRowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // A5370 goa
+        var weitera5370RowBema    = document.getElementsByClassName('weitera5370RowBema')
+        var weitera5370RowName    = document.getElementsByClassName('weitera5370RowName')
+        var weitera5370RowQuan    = document.getElementsByClassName('weitera5370RowQuan')
+        var weitera5370RowAmt     = document.getElementsByClassName('weitera5370RowAmt')
+
+        for(var bemaI=0; bemaI<weitera5370RowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera5370RowBema[bemaI].innerHTML.trim(),
+            "name" : weitera5370RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera5370RowQuan[bemaI].innerHTML.trim(),
+            "factor" : this.ticksLabels[document.getElementById('weitera5370Slider').value],
+            "amount" : parseFloat(weitera5370RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
+        // A5377 goa
+        var weitera5377RowBema    = document.getElementsByClassName('weitera5377RowBema')
+        var weitera5377RowName    = document.getElementsByClassName('weitera5377RowName')
+        var weitera5377RowQuan    = document.getElementsByClassName('weitera5377RowQuan')
+        var weitera5377RowAmt     = document.getElementsByClassName('weitera5377RowAmt')
+
+        for(var bemaI=0; bemaI<weitera5377RowBema.length; bemaI++) {
+          this.totalGoaDispZusa.push({
+            "value" : weitera5377RowBema[bemaI].innerHTML.trim(),
+            "name" : weitera5377RowName[bemaI].value.trim(),
+            "region" : '',
+            "quantity" : weitera5377RowQuan[bemaI].innerHTML.trim(),
+            "factor" : '1',
+            "amount" : parseFloat(weitera5377RowAmt[bemaI].innerHTML.trim()).toFixed(2)
+          })
+        }
+
       },
       weiterCallFlabCalc() {
         var gewerblichAmt = (parseFloat(document.getElementById('txtLaborGewerblich').value).toFixed(2))
@@ -6960,8 +8323,6 @@
         this.totalSumCalcArr.push(gewerblichAmt)
         this.totalTableCalc()
 
-        console.log(this.totalBemaDispZusa)
-        console.log(this.totalGavDispZusa)
 
         this.weiterActivateFinal = true
         this.txtLaborGewerblich = true
@@ -6990,6 +8351,10 @@
           totalBemaDispZusaArr[values.value]['amount'] = ((typeof totalBemaDispZusaArr[values.value]['region'] !== 'undefined' && totalBemaDispZusaArr[values.value]['region'] != null) 
                 && (totalBemaDispZusaArr[values.value]['region'] !== values.region)) 
                 ? parseFloat(totalBemaDispZusaArr[values.value]['amount']) + parseFloat(values.amount) : parseFloat(values.amount)
+
+          totalBemaDispZusaArr[values.value]['region'] = totalBemaDispZusaArr[values.value]['region'].split(", ");
+          totalBemaDispZusaArr[values.value]['region'] = [... new Set(totalBemaDispZusaArr[values.value]['region'])]
+          totalBemaDispZusaArr[values.value]['region'] = totalBemaDispZusaArr[values.value]['region'].toString()
 
           totalBemaDispZusaTemp.push(totalBemaDispZusaArr[values.value])
         })
@@ -7026,10 +8391,140 @@
                 && (totalGozDispZusaArr[values.value]['region'] !== values.region)) 
                 ? parseFloat(totalGozDispZusaArr[values.value]['amount']) + parseFloat(values.amount) : parseFloat(values.amount)
 
+          totalGozDispZusaArr[values.value]['region'] = totalGozDispZusaArr[values.value]['region'].split(", ");
+          totalGozDispZusaArr[values.value]['region'] = [... new Set(totalGozDispZusaArr[values.value]['region'])]
+          totalGozDispZusaArr[values.value]['region'] = totalGozDispZusaArr[values.value]['region'].toString()
+
           totalGozDispZusaTemp.push(totalGozDispZusaArr[values.value])
         })
 
         this.totalGavDispZusa = [... new Set(totalGozDispZusaTemp)]
+
+
+        // GOA Final Table refinement
+        var totalGoaDispZusaArr = []
+        var totalGoaDispZusaTemp = []
+        this.totalGoaDispZusa.forEach((values) => {
+          totalGoaDispZusaArr[values.value] = []
+        })
+
+        this.totalGoaDispZusa.forEach((values) => {
+          totalGoaDispZusaArr[values.value]['value'] = values.value
+
+          totalGoaDispZusaArr[values.value]['name'] = values.name
+
+          totalGoaDispZusaArr[values.value]['region'] = ((typeof totalGoaDispZusaArr[values.value]['region'] !== 'undefined' && totalGoaDispZusaArr[values.value]['region'] != null) 
+                // && (totalGozDispZusaArr[values.value]['region'] !== values.region)
+              ) 
+                ? totalGoaDispZusaArr[values.value]['region'] +', '+ values.region : values.region
+          
+          totalGoaDispZusaArr[values.value]['quantity'] = ((typeof totalGoaDispZusaArr[values.value]['region'] !== 'undefined' && totalGoaDispZusaArr[values.value]['region'] != null) 
+                && (totalGoaDispZusaArr[values.value]['region'] !== values.region)) 
+                ? parseInt(totalGoaDispZusaArr[values.value]['quantity']) + parseInt(values.quantity) : parseInt(values.quantity)
+
+          totalGoaDispZusaArr[values.value]['factor'] = ((typeof totalGoaDispZusaArr[values.value]['region'] !== 'undefined' && totalGoaDispZusaArr[values.value]['region'] != null) 
+                && (totalGoaDispZusaArr[values.value]['region'] !== values.region)) 
+                ? totalGoaDispZusaArr[values.value]['factor'] +', '+ values.factor : values.factor
+          
+          totalGoaDispZusaArr[values.value]['amount'] = ((typeof totalGoaDispZusaArr[values.value]['region'] !== 'undefined' && totalGoaDispZusaArr[values.value]['region'] != null) 
+                && (totalGoaDispZusaArr[values.value]['region'] !== values.region)) 
+                ? parseFloat(totalGoaDispZusaArr[values.value]['amount']) + parseFloat(values.amount) : parseFloat(values.amount)
+
+          totalGoaDispZusaArr[values.value]['region'] = totalGoaDispZusaArr[values.value]['region'].split(", ");
+          totalGoaDispZusaArr[values.value]['region'] = [... new Set(totalGoaDispZusaArr[values.value]['region'])]
+          totalGoaDispZusaArr[values.value]['region'] = totalGoaDispZusaArr[values.value]['region'].toString()
+
+          totalGoaDispZusaTemp.push(totalGoaDispZusaArr[values.value])
+        })
+
+        this.totalGoaDispZusa = [... new Set(totalGoaDispZusaTemp)]
+
+
+
+        // Fest. Final Table refinement
+        var tableDataFinalArr   = []
+        var tableDataFinalTemp  = []
+        this.tableDataFinalStift.forEach((values) => {
+          if(values.subsidy == '1.4' 
+              || values.subsidy == '1.5'
+          ) {
+            tableDataFinalArr[values.subsidy] = []
+          }
+        })
+
+        this.tableDataFinalStift.forEach((values) => {
+          if(values.subsidy == '1.4' 
+              || values.subsidy == '1.5'
+          ) {
+            tableDataFinalArr[values.subsidy]['subsidy'] = values.subsidy
+
+            tableDataFinalArr[values.subsidy]['region'] = ((typeof tableDataFinalArr[values.subsidy]['region'] !== 'undefined' && tableDataFinalArr[values.subsidy]['region'] != null)) 
+                  ? tableDataFinalArr[values.subsidy]['region'] +', '+ values.region : values.region
+            
+            tableDataFinalArr[values.subsidy]['quantity'] = ((typeof tableDataFinalArr[values.subsidy]['region'] !== 'undefined' && tableDataFinalArr[values.subsidy]['region'] != null) 
+                  && (tableDataFinalArr[values.subsidy]['region'] !== values.region))
+                  ? parseInt(tableDataFinalArr[values.subsidy]['quantity']) + parseInt(values.quantity) : parseInt(values.quantity)
+            
+            tableDataFinalArr[values.subsidy]['price'] = ((typeof tableDataFinalArr[values.subsidy]['region'] !== 'undefined' && tableDataFinalArr[values.subsidy]['region'] != null) 
+                  && (tableDataFinalArr[values.subsidy]['region'] !== values.region)) 
+                  ? parseFloat(tableDataFinalArr[values.subsidy]['price']) + parseFloat(values.price) : parseFloat(values.price)
+
+            tableDataFinalTemp.push(tableDataFinalArr[values.subsidy])
+          }
+        })
+
+        this.tableDataFinalStift = [... new Set(tableDataFinalTemp)]
+
+        var tbf = this.tableDataFinalDisp.length
+        for(var df=0; df<this.tableDataFinalStift.length; df++) {
+          // this.tableDataFinal.push(this.tableDataFinalStift[df])
+          this.tableDataFinalDisp[df+tbf] = []
+          this.tableDataFinalDisp[df+tbf].push(this.tableDataFinalStift[df])
+        }
+        
+
+        // console.log(this.tableDataFinalDisp)
+        // TOTAL Row AMOUNTs calc
+        // this.tableDataFinal.forEach((values) => {
+        //   this.dataFinalPriceAmt = (parseFloat(this.dataFinalPriceAmt) + parseFloat(values.price)).toFixed(2)
+        // })
+        this.tableDataFinalDisp.forEach((valuesArr) => {
+          valuesArr.forEach((values) => {
+            this.dataFinalPriceAmt = (parseFloat(this.dataFinalPriceAmt) + parseFloat(values.price)).toFixed(2)
+            this.tableDataFinalDispArr.push(values)
+          })
+        })
+
+        const mergeBySubsidy = (data) => {
+            const mergedData = data.reduce((acc, item) => {
+                const { subsidy, quantity, price, region } = item;
+                if (!acc[subsidy]) {
+                    acc[subsidy] = { subsidy, quantity: 0, price: 0, region: '' };
+                }
+                acc[subsidy].quantity += quantity;
+                acc[subsidy].price += price;
+                acc[subsidy].region += region + ',';
+                return acc;
+            }, {});
+
+            return Object.values(mergedData);
+        };
+
+        const mergedArray = mergeBySubsidy(this.tableDataFinalDispArr);
+
+        this.tableDataFinalDispArr = mergedArray
+
+        this.totalBemaDispZusa.forEach((values) => {
+          this.datasBemaAmountVal = (parseFloat(this.datasBemaAmountVal) + parseFloat(values.amount)).toFixed(2)
+        })
+
+        this.totalGavDispZusa.forEach((values) => {
+          this.datasGozAmountVal = (parseFloat(this.datasGozAmountVal) + parseFloat(values.amount)).toFixed(2)
+        })
+
+        this.totalGoaDispZusa.forEach((values) => {
+          this.datasGoaAmountVal = (parseFloat(this.datasGoaAmountVal) + parseFloat(values.amount)).toFixed(2)
+        })
 
       },
 
@@ -7106,9 +8601,10 @@ td.insideTable {
     position: sticky; 
     top: 0;
     z-index: 99;
-    /* background-color: rgb(32, 165, 20);  */
-    /* color: white;  */
-    /* padding: 10px;  */
+}
+.lblStrongMand {
+  color: red;
+  font-weight: bold;
 }
 
 

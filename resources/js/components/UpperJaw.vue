@@ -1,14 +1,15 @@
 <template>
   <div class="upper-jaw d-flex justify-center py-3">
-    <v-btn-toggle
+    <!-- <v-btn-toggle
       v-model="upper_toggle_exclusive"
       multiple
       :active-class="activeClass"
       background-color="transparent"
       @change="changedBtns($event)"
-    >
+    > 
       <v-btn :disabled="disabled" 
-        v-for="(image, index) in toothImages" :key="index" icon class="ma-0 pa-0" 
+        v-for="(image, index) in toothImages" :key="index" :value="index"
+        icon class="ma-0 pa-0"
         style="border-color: transparent !important;">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
@@ -18,7 +19,29 @@
         </v-tooltip>
         
       </v-btn>
-    </v-btn-toggle>
+    </v-btn-toggle> -->
+
+    <div>
+      <div class="btn-group">
+        <v-btn :disabled="disabled"
+          v-model="upper_toggle_exclusive"
+          background-color="transparent"
+          v-for="(image, index) in toothImages" :key="index"
+          @click="changedBtns(index)"
+          icon class="ma-0 pa-0"
+          style="border-color: transparent !important;"
+        >
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-img contain width="40" height="40" :src="image.image" v-on="on" v-bind="attrs"></v-img>
+            </template>
+            <span>{{image.toothNo}}</span>
+          </v-tooltip>
+
+        </v-btn>
+      </div>
+    </div>
+
     <v-dialog v-model="showInfo" width="300" 
       @click:outside="checkOptionSelected" 
       scrollable
@@ -214,10 +237,6 @@ export default {
         text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       },
-      // {
-      //   text: 'löschen',
-      //   value: 'löschen'
-      // }
     ],
     optionsAb: [
       {
@@ -303,6 +322,90 @@ export default {
         value: 'bw'
       },
     ],
+    upperJawTeeth: [
+        {
+          index: 0,
+          toothNo: 18,
+          value: '',
+        },
+        {
+          index: 1,
+          toothNo: 17,
+          value: '',
+        },
+        {
+          index: 2,
+          toothNo: 16,
+          value: '',
+        },
+        {
+          index: 3,
+          toothNo: 15,
+          value: '',
+        },
+        {
+          index: 4,
+          toothNo: 14,
+          value: '',
+        },
+        {
+          index: 5,
+          toothNo: 13,
+          value: '',
+        },
+        {
+          index: 6,
+          toothNo: 12,
+          value: '',
+        },
+        {
+          index: 7,
+          toothNo: 11,
+          value: '',
+        },
+        {
+          index: 8,
+          toothNo: 21,
+          value: '',
+        },
+        {
+          index: 9,
+          toothNo: 22,
+          value: '',
+        },
+        {
+          index: 10,
+          toothNo: 23,
+          value: '',
+        },
+        {
+          index: 11,
+          toothNo: 24,
+          value: '',
+        },
+        {
+          index: 12,
+          toothNo: 25,
+          value: '',
+        },
+        {
+          index: 13,
+          toothNo: 26,
+          value: '',
+        },
+        {
+          index: 14,
+          toothNo: 27,
+          value: '',
+        },
+        {
+          index: 15,
+          toothNo: 28,
+          value: '',
+        },
+    ],
+    array_diff: [],
+    tooth_No: null,
   }),
   watch: {
     resetBtns() {
@@ -312,28 +415,12 @@ export default {
       }
     },
     manualUpperJaw() {
-      console.log(this.selectedBtns)
-
       if(this.manualUpperJaw.length>0) {
         this.manualUpperJaw.forEach(element => {
           this.upper_toggle_exclusive.push(element.index)
           this.checkedOption(element.value)
         })
       }
-
-      // var elementOpt = document.querySelectorAll('.ma-0.pa-0.v-btn');
-      // console.log(elementOpt)
-
-      // elementOpt.forEach((element) => {
-      //   element.classList.remove('active-item');
-      //   element.classList.remove('v-btn--active');
-      // });
-
-      // elementOpt.classList.remove("active-item v-btn--active");
-      // console.log(this.upper_toggle_exclusive)
-
-      // this.upper_toggle_exclusive.pop()
-
     },
     apiCallSuccess() {
       if(this.apiCallSuccess) {
@@ -382,75 +469,185 @@ export default {
   },
   methods: {
     checkedOption(value) {
-      this.selectedBtns.push( {
-        index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1],
-        value: value
-      })
+      // this.selectedBtns.push( {
+      //   index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1],
+      //   value: value
+      // })
+
+      // add value into upper jaw array
+      // this.upperJawTeeth[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]['value'] = value
       
-      if(value == 'b' || value == 'ab') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.b_ab_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'bw' || value == 'abw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.bw_abw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'e') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.e_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'ew') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.ew_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'i') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.i_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'k') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.k_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'kw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.kw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'a' || value == 'aw' || value == 'ur') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.a_aw_ur_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'pw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.pw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'r') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.r_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'rw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.rw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'sw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.sw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 't') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.t_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'tw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.tw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'ww') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.ww_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'x' || value == 'ix') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.x_ix_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'i-') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.i_m_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == ')(') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.gap_closure_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
-      } else if(value == 'f') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.f_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+      var selectedJawArray_ = []
+      var selectedValueArray_ = []
+      this.selectedBtns.forEach(element => {
+        selectedValueArray_.push(element.value);
+        selectedJawArray_.push(element.index);
+      })
+
+      let arr_dif = this.arr_diff(selectedJawArray_, this.upper_toggle_exclusive)
+      console.log('arr_dif')
+      console.log(value)
+      console.log(this.tooth_No)
+      
+
+      // if(arr_dif.length < 1) 
+      if(this.tooth_No == null)
+      {
+        this.selectedBtns.push( {
+          index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1],
+          value: value
+        })
+
+        if(value == 'b' || value == 'ab') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.b_ab_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'bw' || value == 'abw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.bw_abw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'e') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.e_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'ew') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.ew_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'i') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.i_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'k') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.k_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'kw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.kw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'a' || value == 'aw' || value == 'ur') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.a_aw_ur_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'pw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.pw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'r') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.r_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'rw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.rw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'sw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.sw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 't') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.t_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'tw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.tw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'ww') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.ww_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'x' || value == 'ix') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.x_ix_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'i-') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.i_m_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == ')(') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.gap_closure_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        } else if(value == 'f') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]] = this.f_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]
+        }
       }
+      else {
+        // let index_ = arr_dif[0]
+        let index_ = this.tooth_No
+    
+        this.selectedBtns.push( {
+          index: index_,
+          value: value
+        })
+
+        if(value == 'b' || value == 'ab') {
+          this.toothImages[index_] = this.b_ab_toothImages[index_]
+        } else if(value == 'bw' || value == 'abw') {
+          this.toothImages[index_] = this.bw_abw_toothImages[index_]
+        } else if(value == 'e') {
+          this.toothImages[index_] = this.e_toothImages[index_]
+        } else if(value == 'ew') {
+          this.toothImages[index_] = this.ew_toothImages[index_]
+        } else if(value == 'i') {
+          this.toothImages[index_] = this.i_toothImages[index_]
+        } else if(value == 'k') {
+          this.toothImages[index_] = this.k_toothImages[index_]
+        } else if(value == 'kw') {
+          this.toothImages[index_] = this.kw_toothImages[index_]
+        } else if(value == 'a' || value == 'aw' || value == 'ur') {
+          this.toothImages[index_] = this.a_aw_ur_toothImages[index_]
+        } else if(value == 'pw') {
+          this.toothImages[index_] = this.pw_toothImages[index_]
+        } else if(value == 'r') {
+          this.toothImages[index_] = this.r_toothImages[index_]
+        } else if(value == 'rw') {
+          this.toothImages[index_] = this.rw_toothImages[index_]
+        } else if(value == 'sw') {
+          this.toothImages[index_] = this.sw_toothImages[index_]
+        } else if(value == 't') {
+          this.toothImages[index_] = this.t_toothImages[index_]
+        } else if(value == 'tw') {
+          this.toothImages[index_] = this.tw_toothImages[index_]
+        } else if(value == 'ww') {
+          this.toothImages[index_] = this.ww_toothImages[index_]
+        } else if(value == 'x' || value == 'ix') {
+          this.toothImages[index_] = this.x_ix_toothImages[index_]
+        } else if(value == 'i-') {
+          this.toothImages[index_] = this.i_m_toothImages[index_]
+        } else if(value == ')(') {
+          this.toothImages[index_] = this.gap_closure_toothImages[index_]
+        } else if(value == 'f') {
+          this.toothImages[index_] = this.f_toothImages[index_]
+        }
+      }
+
       this.showInfo = false
       this.$emit('btn-selected', this.selectedBtns)
+    },
+    arr_diff(a1, a2){
+      var a = [], diff = [];
+      for (var i = 0; i < a1.length; i++) {
+          a[a1[i]] = true;
+      }
+
+      for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            a[a2[i]] = true;
+        }
+      }
+
+      for (var k in a) {
+          diff.push(k);
+      }
+
+      return diff;
     },
     changedBtns(event) {
       this.optionsDisplay = this.options
       this.isImportMenu = false
+      this.tooth_No = event
 
-      var eventArray = [...new Set(event)]
+      // var eventArray = [...new Set(event)]
       
       var jawArray = [...new Set(this.manualUpperJaw)]
       var newJawArray = []
       var newValueArray = []
 
-      console.log(event)
-      console.log(this.selectedBtns)
-      // console.log(eventArray.at(-1))
-      // console.log(this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1])
+      // var selectedArray = [...new Set(this.selectedBtns)]
+      var selectedArray = this.selectedBtns
+      var selectedJawArray = []
+      var selectedValueArray = []
 
-      jawArray.forEach(element => {
-        newValueArray.push(element.value);
+
+      // jawArray.forEach(element => {
+      selectedArray.forEach(element => {
+        // newValueArray.push(element.value);
+        newValueArray[element.index] = element.value
         newJawArray.push(element.index);
       })
 
-      if(newJawArray.indexOf(eventArray.at(-1))) {
-        let index = newJawArray.indexOf(eventArray.at(-1));
+      selectedArray.forEach(element => {
+        selectedValueArray.push(element.value);
+        selectedJawArray.push(element.index);
+      })
+
+      // let index = this.arr_diff(selectedJawArray, this.upper_toggle_exclusive)[0]
+      let index = event
+
+      newJawArray = [...new Set(newJawArray)]
+
+      if(newJawArray.indexOf(index)) {
+      // if(newJawArray.indexOf(eventArray.at(-1))) {
+        // let index = newJawArray.indexOf(eventArray.at(-1));
 
         if(newValueArray[index] == 'a') {
           this.optionsDisplay = this.optionsA
@@ -500,9 +697,13 @@ export default {
       /*if(event.length > this.selectedBtns.length) {
         this.showInfo = true
       }*/
-      if(event.length < 1) {
+
+      // if(event.length < 1) 
+      if(this.upper_toggle_exclusive.length < 1) 
+      {
         this.toothImages = this.$options.data(this.toothImages).toothImages
       }
+
       /*if(event.length != this.selectedBtns.length) {
         this.selectedBtns = this.selectedBtns.filter((value) => {
           let unselectedBtns = []
@@ -518,16 +719,21 @@ export default {
           }
         })
       }*/
+     
       this.$emit('btn-selected', this.selectedBtns)
     },
     removeImportStatus(value) {
-      var eventArray = [...new Set(value)]
+      console.log('value')
+      
+      console.log(this.tooth_No)
+      console.log(value)
 
-      console.log(eventArray.at(-1))
+      // var eventArray = [...new Set(value)]
+      // this.$delete(this.manualUpperJaw, eventArray.at(-1))
+      console.log(this.selectedBtns)
 
-      console.log(this.manualUpperJaw)
-
-      this.$delete(this.manualUpperJaw, eventArray.at(-1))
+      // this.$delete(this.selectedBtns, this.tooth_No)
+      // this.$emit('btn-selected', this.selectedBtns)
 
       console.log(this.manualUpperJaw)
     },
@@ -543,20 +749,35 @@ export default {
 }
 </script>
 <style scoped>
-.active-item {
-  background-color: lightgreen;
-  opacity: 0.5;
-  border-radius: 10px !important;
-}
+  .active-item {
+    background-color: lightgreen;
+    opacity: 0.5;
+    border-radius: 10px !important;
+  }
 
-.active-item-import {
-  background-color: azure;
-  opacity: 0.5;
-  border-radius: 10px !important;
-}
+  .active-item-import {
+    background-color: azure;
+    opacity: 0.5;
+    border-radius: 10px !important;
+  }
 
-.v-btn::before {
-  background-color: transparent !important;
-}
+  .v-btn::before {
+    background-color: transparent !important;
+  }
+
+  .btn-group {
+    display: flex;
+  }
+
+  .btn-group .v-btn {
+    margin: 0 5px;
+    height: 48px !important;
+    width: 48px !important;
+  }
+
+  .btn-group .v-btn.active-btn {
+    background-color: #1976d2; /* Primary color */
+    color: white;
+  }
 
 </style>

@@ -1663,80 +1663,146 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         value: ')('
       }],
       optionsA: [{
-        text: 'aw',
+        text: 'aw : erneuerungsbedürftige Adhäsivbrücke (Anker)',
         value: 'aw'
       }, {
-        text: 'pw',
+        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
         value: 'pw'
       }, {
-        text: 'ww',
+        text: 'ww : erhaltungswürdiger Zahn mit weitgehender Zerstörung',
         value: 'ww'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsAb: [{
-        text: 'abw',
+        text: 'abw : erneuerungsbedürftige Adhäsivbrücke (Brückenglied)',
         value: 'abw'
       }],
       optionsE: [{
-        text: 'ew',
+        text: 'ew : ersetzter, aber erneuerungsbedürftiger Zahn',
         value: 'ew'
       }],
       optionsI: [{
-        text: 'ix',
+        text: 'ix : zu entfernendes Implantat',
         value: 'ix'
       }, {
-        text: 'sw',
+        text: 'sw : erneuerungsbedürftige Suprakonstruktion',
         value: 'sw'
       }],
       optionsK: [{
-        text: 'kw',
+        text: 'kw : erneuerungsbedürftige Krone',
         value: 'kw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsPK: [{
-        text: 'pw',
+        text: 'pw : erhaltungswürdiger Zahn mit partiellen Substanzdefekten',
         value: 'pw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsR: [{
-        text: 'rw',
+        text: 'rw : erneuerungsbedürftige Wurzelstiftkappe',
         value: 'rw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsT: [{
-        text: 'tw',
+        text: 'tw : erneuerungsbedürftiges Teleskop',
         value: 'tw'
       }, {
-        text: 'ur',
+        text: 'ur : unzureichende Retention',
         value: 'ur'
       }, {
-        text: 'x',
+        text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
       }],
       optionsB: [{
-        text: 'bw',
+        text: 'bw : erneuerungsbedürfiges Brückenglied',
         value: 'bw'
-      }]
+      }],
+      MandibleTeeth: [{
+        index: 0,
+        toothNo: 48,
+        value: ''
+      }, {
+        index: 1,
+        toothNo: 47,
+        value: ''
+      }, {
+        index: 2,
+        toothNo: 46,
+        value: ''
+      }, {
+        index: 3,
+        toothNo: 45,
+        value: ''
+      }, {
+        index: 4,
+        toothNo: 44,
+        value: ''
+      }, {
+        index: 5,
+        toothNo: 43,
+        value: ''
+      }, {
+        index: 6,
+        toothNo: 42,
+        value: ''
+      }, {
+        index: 7,
+        toothNo: 41,
+        value: ''
+      }, {
+        index: 8,
+        toothNo: 31,
+        value: ''
+      }, {
+        index: 9,
+        toothNo: 32,
+        value: ''
+      }, {
+        index: 10,
+        toothNo: 33,
+        value: ''
+      }, {
+        index: 11,
+        toothNo: 34,
+        value: ''
+      }, {
+        index: 12,
+        toothNo: 35,
+        value: ''
+      }, {
+        index: 13,
+        toothNo: 36,
+        value: ''
+      }, {
+        index: 14,
+        toothNo: 37,
+        value: ''
+      }, {
+        index: 15,
+        toothNo: 38,
+        value: ''
+      }],
+      tooth_No: null
     };
   },
   // computed: {
@@ -1759,12 +1825,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     manualMandible: function manualMandible() {
       var _this = this;
 
-      if (this.statusImport == true) {
-        this.activeClass = this.activeItemImport;
-      } else {
-        this.activeClass = this.activeItem;
-      }
-
+      // if(this.statusImport == true) {
+      //   this.activeClass = this.activeItemImport
+      // }
+      // else {
+      //   this.activeClass = this.activeItem
+      // }
       if (this.manualMandible.length > 0) {
         this.manualMandible.forEach(function (element) {
           _this.mandible_toggle_exclusive.push(element.index);
@@ -1822,126 +1888,226 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   methods: {
     checkedOption: function checkedOption(value) {
-      this.selectedBtns.push({
-        index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1],
-        value: value
+      // add value into upper jaw array
+      // this.MandibleTeeth[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length-1]]['value'] = value
+      var selectedJawArray_ = [];
+      var selectedValueArray_ = [];
+      this.selectedBtns.forEach(function (element) {
+        selectedValueArray_.push(element.value);
+        selectedJawArray_.push(element.index);
       });
+      var arr_dif = this.arr_diff(selectedJawArray_, this.mandible_toggle_exclusive); // if(arr_dif.length < 1) {
 
-      if (value == 'b' || value == 'ab') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.b_ab_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'bw' || value == 'abw') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.bw_abw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'e') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.e_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'ew') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.ew_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'i') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.i_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'k') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.k_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'kw') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.kw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'a' || value == 'aw' || value == 'ur') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.a_aw_ur_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'pw') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.pw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'r') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.r_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'rw') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.rw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'sw') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.sw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 't') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.t_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'tw') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.tw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'ww') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.ww_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'x' || value == 'ix') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.x_ix_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'i-') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.i_m_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == ')(') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.gap_closure_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
-      } else if (value == 'f') {
-        this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.f_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+      if (this.tooth_No == null) {
+        this.selectedBtns.push({
+          index: this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1],
+          value: value
+        });
+
+        if (value == 'b' || value == 'ab') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.b_ab_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'bw' || value == 'abw') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.bw_abw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'e') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.e_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'ew') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.ew_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'i') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.i_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'k') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.k_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'kw') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.kw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'a' || value == 'aw' || value == 'ur') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.a_aw_ur_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'pw') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.pw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'r') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.r_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'rw') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.rw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'sw') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.sw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 't') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.t_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'tw') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.tw_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'ww') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.ww_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'x' || value == 'ix') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.x_ix_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'i-') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.i_m_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == ')(') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.gap_closure_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        } else if (value == 'f') {
+          this.toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]] = this.f_toothImages[this.mandible_toggle_exclusive[this.mandible_toggle_exclusive.length - 1]];
+        }
+      } else {
+        // let index_ = arr_dif[0]
+        var index_ = this.tooth_No;
+        this.selectedBtns.push({
+          index: index_,
+          value: value
+        });
+
+        if (value == 'b' || value == 'ab') {
+          this.toothImages[index_] = this.b_ab_toothImages[index_];
+        } else if (value == 'bw' || value == 'abw') {
+          this.toothImages[index_] = this.bw_abw_toothImages[index_];
+        } else if (value == 'e') {
+          this.toothImages[index_] = this.e_toothImages[index_];
+        } else if (value == 'ew') {
+          this.toothImages[index_] = this.ew_toothImages[index_];
+        } else if (value == 'i') {
+          this.toothImages[index_] = this.i_toothImages[index_];
+        } else if (value == 'k') {
+          this.toothImages[index_] = this.k_toothImages[index_];
+        } else if (value == 'kw') {
+          this.toothImages[index_] = this.kw_toothImages[index_];
+        } else if (value == 'a' || value == 'aw' || value == 'ur') {
+          this.toothImages[index_] = this.a_aw_ur_toothImages[index_];
+        } else if (value == 'pw') {
+          this.toothImages[index_] = this.pw_toothImages[index_];
+        } else if (value == 'r') {
+          this.toothImages[index_] = this.r_toothImages[index_];
+        } else if (value == 'rw') {
+          this.toothImages[index_] = this.rw_toothImages[index_];
+        } else if (value == 'sw') {
+          this.toothImages[index_] = this.sw_toothImages[index_];
+        } else if (value == 't') {
+          this.toothImages[index_] = this.t_toothImages[index_];
+        } else if (value == 'tw') {
+          this.toothImages[index_] = this.tw_toothImages[index_];
+        } else if (value == 'ww') {
+          this.toothImages[index_] = this.ww_toothImages[index_];
+        } else if (value == 'x' || value == 'ix') {
+          this.toothImages[index_] = this.x_ix_toothImages[index_];
+        } else if (value == 'i-') {
+          this.toothImages[index_] = this.i_m_toothImages[index_];
+        } else if (value == ')(') {
+          this.toothImages[index_] = this.gap_closure_toothImages[index_];
+        } else if (value == 'f') {
+          this.toothImages[index_] = this.f_toothImages[index_];
+        }
       }
 
       this.showInfo = false;
       this.$emit('btn-selected', this.selectedBtns);
     },
+    arr_diff: function arr_diff(a1, a2) {
+      var a = [],
+          diff = [];
+
+      for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+      }
+
+      for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+          delete a[a2[i]];
+        } else {
+          a[a2[i]] = true;
+        }
+      }
+
+      for (var k in a) {
+        diff.push(k);
+      }
+
+      return diff;
+    },
     changedBtns: function changedBtns(event) {
-      var _this3 = this;
-
       this.optionsDisplay = this.options;
-
-      var eventArray = _toConsumableArray(new Set(event));
+      this.isImportMenu = false;
+      this.tooth_No = event; // var eventArray = [...new Set(event)]
 
       var jawArray = _toConsumableArray(new Set(this.manualMandible));
 
       var newJawArray = [];
       var newValueArray = [];
-      jawArray.forEach(function (element) {
-        newValueArray.push(element.value);
+
+      var selectedArray = _toConsumableArray(new Set(this.selectedBtns));
+
+      var selectedJawArray = [];
+      var selectedValueArray = []; // jawArray.forEach(element => {
+
+      selectedArray.forEach(function (element) {
+        // newValueArray.push(element.value);
+        newValueArray[element.index] = element.value;
         newJawArray.push(element.index);
-      });
+      }); // let index = this.arr_diff(newValueArray, this.mandible_toggle_exclusive)[0]
 
-      if (newJawArray.indexOf(eventArray.at(-1))) {
-        var index = newJawArray.indexOf(eventArray.at(-1));
+      var index = event;
+      newJawArray = _toConsumableArray(new Set(newJawArray));
 
+      if (newJawArray.indexOf(index)) {
+        // if(newJawArray.indexOf(eventArray.at(-1))) {
+        // let index = newJawArray.indexOf(eventArray.at(-1));
         if (newValueArray[index] == 'a') {
           this.optionsDisplay = this.optionsA;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'ab') {
           this.optionsDisplay = this.optionsAb;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'e') {
           this.optionsDisplay = this.optionsE;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'i') {
           this.optionsDisplay = this.optionsI;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'k') {
           this.optionsDisplay = this.optionsK;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'pk') {
           this.optionsDisplay = this.optionsPK;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'r') {
           this.optionsDisplay = this.optionsR;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 't') {
           this.optionsDisplay = this.optionsT;
+          this.isImportMenu = true;
         } else if (newValueArray[index] == 'b') {
           this.optionsDisplay = this.optionsB;
+          this.isImportMenu = true;
         } else {
           this.optionsDisplay = this.options;
+          this.isImportMenu = false;
         }
       }
 
       this.selectedOption = '';
+      this.showInfo = true;
+      /*if(event.length > this.selectedBtns.length) {
+        this.showInfo = true
+      }*/
+      // if(event.length < 1) {
 
-      if (event.length > this.selectedBtns.length) {
-        this.showInfo = true;
-      }
-
-      if (event.length < 1) {
+      if (this.mandible_toggle_exclusive.length < 1) {
         this.toothImages = this.$options.data(this.toothImages).toothImages;
       }
-
-      if (event.length != this.selectedBtns.length) {
-        this.selectedBtns = this.selectedBtns.filter(function (value) {
-          var unselectedBtns = [];
-
-          for (var i = 0; i < event.length; i++) {
-            if (value.index == event[i]) {
-              return value;
+      /*if(event.length != this.selectedBtns.length) {
+        this.selectedBtns = this.selectedBtns.filter((value) => {
+          let unselectedBtns = []
+          for(let i=0; i<event.length; i++) {
+            if (value.index == event[i]){
+              return value
             } else {
-              unselectedBtns.push(value.index);
+              unselectedBtns.push(value.index)
             }
           }
-
-          for (var _i = 0, _unselectedBtns = unselectedBtns; _i < _unselectedBtns.length; _i++) {
-            var btn = _unselectedBtns[_i];
-            _this3.toothImages[btn] = _this3.$options.data(_this3.toothImages).toothImages[btn];
+          for(let btn of unselectedBtns) {
+            this.toothImages[btn] = this.$options.data(this.toothImages).toothImages[btn]
           }
-        });
-      }
+        })
+      }*/
+
 
       this.$emit('btn-selected', this.selectedBtns);
+    },
+    removeImportStatus: function removeImportStatus(value) {// var eventArray = [...new Set(value)]
+      // this.$delete(this.manualMandible, eventArray.at(-1))
     },
     checkOptionSelected: function checkOptionSelected() {
       if (!this.selectedOption) {
@@ -2092,11 +2258,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         text: 'x : nicht erhaltungswürdiger Zahn',
         value: 'x'
-      } // {
-      //   text: 'löschen',
-      //   value: 'löschen'
-      // }
-      ],
+      }],
       optionsAb: [{
         text: 'abw : erneuerungsbedürftige Adhäsivbrücke (Brückenglied)',
         value: 'abw'
@@ -2155,7 +2317,74 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       optionsB: [{
         text: 'bw : erneuerungsbedürfiges Brückenglied',
         value: 'bw'
-      }]
+      }],
+      upperJawTeeth: [{
+        index: 0,
+        toothNo: 18,
+        value: ''
+      }, {
+        index: 1,
+        toothNo: 17,
+        value: ''
+      }, {
+        index: 2,
+        toothNo: 16,
+        value: ''
+      }, {
+        index: 3,
+        toothNo: 15,
+        value: ''
+      }, {
+        index: 4,
+        toothNo: 14,
+        value: ''
+      }, {
+        index: 5,
+        toothNo: 13,
+        value: ''
+      }, {
+        index: 6,
+        toothNo: 12,
+        value: ''
+      }, {
+        index: 7,
+        toothNo: 11,
+        value: ''
+      }, {
+        index: 8,
+        toothNo: 21,
+        value: ''
+      }, {
+        index: 9,
+        toothNo: 22,
+        value: ''
+      }, {
+        index: 10,
+        toothNo: 23,
+        value: ''
+      }, {
+        index: 11,
+        toothNo: 24,
+        value: ''
+      }, {
+        index: 12,
+        toothNo: 25,
+        value: ''
+      }, {
+        index: 13,
+        toothNo: 26,
+        value: ''
+      }, {
+        index: 14,
+        toothNo: 27,
+        value: ''
+      }, {
+        index: 15,
+        toothNo: 28,
+        value: ''
+      }],
+      array_diff: [],
+      tooth_No: null
     };
   },
   watch: {
@@ -2168,24 +2397,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     manualUpperJaw: function manualUpperJaw() {
       var _this = this;
 
-      console.log(this.selectedBtns);
-
       if (this.manualUpperJaw.length > 0) {
         this.manualUpperJaw.forEach(function (element) {
           _this.upper_toggle_exclusive.push(element.index);
 
           _this.checkedOption(element.value);
         });
-      } // var elementOpt = document.querySelectorAll('.ma-0.pa-0.v-btn');
-      // console.log(elementOpt)
-      // elementOpt.forEach((element) => {
-      //   element.classList.remove('active-item');
-      //   element.classList.remove('v-btn--active');
-      // });
-      // elementOpt.classList.remove("active-item v-btn--active");
-      // console.log(this.upper_toggle_exclusive)
-      // this.upper_toggle_exclusive.pop()
-
+      }
     },
     apiCallSuccess: function apiCallSuccess() {
       var _this2 = this;
@@ -2236,76 +2454,172 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   methods: {
     checkedOption: function checkedOption(value) {
-      this.selectedBtns.push({
-        index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1],
-        value: value
+      // this.selectedBtns.push( {
+      //   index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1],
+      //   value: value
+      // })
+      // add value into upper jaw array
+      // this.upperJawTeeth[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1]]['value'] = value
+      var selectedJawArray_ = [];
+      var selectedValueArray_ = [];
+      this.selectedBtns.forEach(function (element) {
+        selectedValueArray_.push(element.value);
+        selectedJawArray_.push(element.index);
       });
+      var arr_dif = this.arr_diff(selectedJawArray_, this.upper_toggle_exclusive);
+      console.log('arr_dif');
+      console.log(value);
+      console.log(this.tooth_No); // if(arr_dif.length < 1) 
 
-      if (value == 'b' || value == 'ab') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.b_ab_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'bw' || value == 'abw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.bw_abw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'e') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.e_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'ew') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.ew_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'i') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.i_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'k') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.k_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'kw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.kw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'a' || value == 'aw' || value == 'ur') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.a_aw_ur_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'pw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.pw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'r') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.r_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'rw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.rw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'sw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.sw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 't') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.t_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'tw') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.tw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'ww') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.ww_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'x' || value == 'ix') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.x_ix_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'i-') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.i_m_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == ')(') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.gap_closure_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
-      } else if (value == 'f') {
-        this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.f_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+      if (this.tooth_No == null) {
+        this.selectedBtns.push({
+          index: this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1],
+          value: value
+        });
+
+        if (value == 'b' || value == 'ab') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.b_ab_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'bw' || value == 'abw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.bw_abw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'e') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.e_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'ew') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.ew_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'i') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.i_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'k') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.k_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'kw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.kw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'a' || value == 'aw' || value == 'ur') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.a_aw_ur_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'pw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.pw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'r') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.r_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'rw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.rw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'sw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.sw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 't') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.t_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'tw') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.tw_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'ww') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.ww_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'x' || value == 'ix') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.x_ix_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'i-') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.i_m_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == ')(') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.gap_closure_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        } else if (value == 'f') {
+          this.toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]] = this.f_toothImages[this.upper_toggle_exclusive[this.upper_toggle_exclusive.length - 1]];
+        }
+      } else {
+        // let index_ = arr_dif[0]
+        var index_ = this.tooth_No;
+        this.selectedBtns.push({
+          index: index_,
+          value: value
+        });
+
+        if (value == 'b' || value == 'ab') {
+          this.toothImages[index_] = this.b_ab_toothImages[index_];
+        } else if (value == 'bw' || value == 'abw') {
+          this.toothImages[index_] = this.bw_abw_toothImages[index_];
+        } else if (value == 'e') {
+          this.toothImages[index_] = this.e_toothImages[index_];
+        } else if (value == 'ew') {
+          this.toothImages[index_] = this.ew_toothImages[index_];
+        } else if (value == 'i') {
+          this.toothImages[index_] = this.i_toothImages[index_];
+        } else if (value == 'k') {
+          this.toothImages[index_] = this.k_toothImages[index_];
+        } else if (value == 'kw') {
+          this.toothImages[index_] = this.kw_toothImages[index_];
+        } else if (value == 'a' || value == 'aw' || value == 'ur') {
+          this.toothImages[index_] = this.a_aw_ur_toothImages[index_];
+        } else if (value == 'pw') {
+          this.toothImages[index_] = this.pw_toothImages[index_];
+        } else if (value == 'r') {
+          this.toothImages[index_] = this.r_toothImages[index_];
+        } else if (value == 'rw') {
+          this.toothImages[index_] = this.rw_toothImages[index_];
+        } else if (value == 'sw') {
+          this.toothImages[index_] = this.sw_toothImages[index_];
+        } else if (value == 't') {
+          this.toothImages[index_] = this.t_toothImages[index_];
+        } else if (value == 'tw') {
+          this.toothImages[index_] = this.tw_toothImages[index_];
+        } else if (value == 'ww') {
+          this.toothImages[index_] = this.ww_toothImages[index_];
+        } else if (value == 'x' || value == 'ix') {
+          this.toothImages[index_] = this.x_ix_toothImages[index_];
+        } else if (value == 'i-') {
+          this.toothImages[index_] = this.i_m_toothImages[index_];
+        } else if (value == ')(') {
+          this.toothImages[index_] = this.gap_closure_toothImages[index_];
+        } else if (value == 'f') {
+          this.toothImages[index_] = this.f_toothImages[index_];
+        }
       }
 
       this.showInfo = false;
       this.$emit('btn-selected', this.selectedBtns);
     },
+    arr_diff: function arr_diff(a1, a2) {
+      var a = [],
+          diff = [];
+
+      for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+      }
+
+      for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+          delete a[a2[i]];
+        } else {
+          a[a2[i]] = true;
+        }
+      }
+
+      for (var k in a) {
+        diff.push(k);
+      }
+
+      return diff;
+    },
     changedBtns: function changedBtns(event) {
       this.optionsDisplay = this.options;
       this.isImportMenu = false;
-
-      var eventArray = _toConsumableArray(new Set(event));
+      this.tooth_No = event; // var eventArray = [...new Set(event)]
 
       var jawArray = _toConsumableArray(new Set(this.manualUpperJaw));
 
       var newJawArray = [];
-      var newValueArray = [];
-      console.log(event);
-      console.log(this.selectedBtns); // console.log(eventArray.at(-1))
-      // console.log(this.upper_toggle_exclusive[this.upper_toggle_exclusive.length-1])
+      var newValueArray = []; // var selectedArray = [...new Set(this.selectedBtns)]
 
-      jawArray.forEach(function (element) {
-        newValueArray.push(element.value);
+      var selectedArray = this.selectedBtns;
+      var selectedJawArray = [];
+      var selectedValueArray = []; // jawArray.forEach(element => {
+
+      selectedArray.forEach(function (element) {
+        // newValueArray.push(element.value);
+        newValueArray[element.index] = element.value;
         newJawArray.push(element.index);
       });
+      selectedArray.forEach(function (element) {
+        selectedValueArray.push(element.value);
+        selectedJawArray.push(element.index);
+      }); // let index = this.arr_diff(selectedJawArray, this.upper_toggle_exclusive)[0]
 
-      if (newJawArray.indexOf(eventArray.at(-1))) {
-        var index = newJawArray.indexOf(eventArray.at(-1));
+      var index = event;
+      newJawArray = _toConsumableArray(new Set(newJawArray));
 
+      if (newJawArray.indexOf(index)) {
+        // if(newJawArray.indexOf(eventArray.at(-1))) {
+        // let index = newJawArray.indexOf(eventArray.at(-1));
         if (newValueArray[index] == 'a') {
           this.optionsDisplay = this.optionsA;
           this.isImportMenu = true;
@@ -2344,8 +2658,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       /*if(event.length > this.selectedBtns.length) {
         this.showInfo = true
       }*/
+      // if(event.length < 1) 
 
-      if (event.length < 1) {
+      if (this.upper_toggle_exclusive.length < 1) {
         this.toothImages = this.$options.data(this.toothImages).toothImages;
       }
       /*if(event.length != this.selectedBtns.length) {
@@ -2368,11 +2683,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.$emit('btn-selected', this.selectedBtns);
     },
     removeImportStatus: function removeImportStatus(value) {
-      var eventArray = _toConsumableArray(new Set(value));
+      console.log('value');
+      console.log(this.tooth_No);
+      console.log(value); // var eventArray = [...new Set(value)]
+      // this.$delete(this.manualUpperJaw, eventArray.at(-1))
 
-      console.log(eventArray.at(-1));
-      console.log(this.manualUpperJaw);
-      this.$delete(this.manualUpperJaw, eventArray.at(-1));
+      console.log(this.selectedBtns); // this.$delete(this.selectedBtns, this.tooth_No)
+      // this.$emit('btn-selected', this.selectedBtns)
+
       console.log(this.manualUpperJaw);
     },
     checkOptionSelected: function checkOptionSelected() {
@@ -3490,24 +3808,8 @@ var render = function render() {
     staticStyle: {
       "margin-top": "-200px"
     }
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      multiple: "",
-      "active-class": _vm.activeClass,
-      "background-color": "transparent"
-    },
-    on: {
-      change: function change($event) {
-        return _vm.changedBtns($event);
-      }
-    },
-    model: {
-      value: _vm.mandible_toggle_exclusive,
-      callback: function callback($$v) {
-        _vm.mandible_toggle_exclusive = $$v;
-      },
-      expression: "mandible_toggle_exclusive"
-    }
+  }, [_c("div", [_c("div", {
+    staticClass: "btn-group"
   }, _vm._l(_vm.toothImages, function (image, index) {
     return _c("v-btn", {
       key: index,
@@ -3517,7 +3819,20 @@ var render = function render() {
       },
       attrs: {
         disabled: _vm.disabled,
+        "background-color": "transparent",
         icon: ""
+      },
+      on: {
+        click: function click($event) {
+          return _vm.changedBtns(index);
+        }
+      },
+      model: {
+        value: _vm.mandible_toggle_exclusive,
+        callback: function callback($$v) {
+          _vm.mandible_toggle_exclusive = $$v;
+        },
+        expression: "mandible_toggle_exclusive"
       }
     }, [_c("v-tooltip", {
       attrs: {
@@ -3540,7 +3855,7 @@ var render = function render() {
         }
       }], null, true)
     }, [_vm._v(" "), _c("span", [_vm._v(_vm._s(image.toothNo))])])], 1);
-  }), 1), _vm._v(" "), _c("v-dialog", {
+  }), 1)]), _vm._v(" "), _c("v-dialog", {
     attrs: {
       width: "300"
     },
@@ -3556,7 +3871,20 @@ var render = function render() {
     }
   }, [_c("v-card", {
     staticClass: "ma-0 pa-0"
-  }, [_c("v-radio-group", {
+  }, [_c("v-card-title", {
+    staticStyle: {
+      padding: "0 !important"
+    }
+  }, [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      icon: ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.showInfo = false;
+      }
+    }
+  }, [_c("v-icon", [_vm._v("mdi-close")])], 1)], 1), _vm._v(" "), _c("v-card-text", [_c("v-radio-group", {
     staticClass: "ma-0",
     attrs: {
       column: "",
@@ -3583,7 +3911,17 @@ var render = function render() {
         value: option.value
       }
     });
-  }), 1)], 1)], 1)], 1);
+  }), 1)], 1), _vm._v(" "), _vm.isImportMenu ? _c("v-card-actions", [_c("v-spacer"), _vm._v(" "), _c("v-btn", {
+    attrs: {
+      color: "red darken-1",
+      text: ""
+    },
+    on: {
+      click: function click($event) {
+        return _vm.removeImportStatus(_vm.mandible_toggle_exclusive);
+      }
+    }
+  }, [_vm._v("\n          löschen\n        ")])], 1) : _vm._e()], 1)], 1)], 1);
 };
 
 var staticRenderFns = [];
@@ -3811,24 +4149,8 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "upper-jaw d-flex justify-center py-3"
-  }, [_c("v-btn-toggle", {
-    attrs: {
-      multiple: "",
-      "active-class": _vm.activeClass,
-      "background-color": "transparent"
-    },
-    on: {
-      change: function change($event) {
-        return _vm.changedBtns($event);
-      }
-    },
-    model: {
-      value: _vm.upper_toggle_exclusive,
-      callback: function callback($$v) {
-        _vm.upper_toggle_exclusive = $$v;
-      },
-      expression: "upper_toggle_exclusive"
-    }
+  }, [_c("div", [_c("div", {
+    staticClass: "btn-group"
   }, _vm._l(_vm.toothImages, function (image, index) {
     return _c("v-btn", {
       key: index,
@@ -3838,7 +4160,20 @@ var render = function render() {
       },
       attrs: {
         disabled: _vm.disabled,
+        "background-color": "transparent",
         icon: ""
+      },
+      on: {
+        click: function click($event) {
+          return _vm.changedBtns(index);
+        }
+      },
+      model: {
+        value: _vm.upper_toggle_exclusive,
+        callback: function callback($$v) {
+          _vm.upper_toggle_exclusive = $$v;
+        },
+        expression: "upper_toggle_exclusive"
       }
     }, [_c("v-tooltip", {
       attrs: {
@@ -3860,7 +4195,7 @@ var render = function render() {
         }
       }], null, true)
     }, [_vm._v(" "), _c("span", [_vm._v(_vm._s(image.toothNo))])])], 1);
-  }), 1), _vm._v(" "), _c("v-dialog", {
+  }), 1)]), _vm._v(" "), _c("v-dialog", {
     attrs: {
       width: "300",
       scrollable: ""
@@ -8910,7 +9245,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-4744f107] {\r\n  background-color: lightgreen;\r\n  opacity: 0.5;\r\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-4744f107] {\r\n  opacity: 0.5;\r\n  border-radius: 10px !important;\n}\n.rotate-180[data-v-4744f107] {\r\n  transform: rotate(180deg);\n}\n.v-btn[data-v-4744f107]::before {\r\n  background-color: transparent !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-4744f107] {\r\n  background-color: lightgreen;\r\n  opacity: 0.5;\r\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-4744f107] {\r\n  opacity: 0.5;\r\n  border-radius: 10px !important;\n}\n.rotate-180[data-v-4744f107] {\r\n  transform: rotate(180deg);\n}\n.v-btn[data-v-4744f107]::before {\r\n  background-color: transparent !important;\n}\n.btn-group[data-v-4744f107] {\r\n    display: flex;\n}\n.btn-group .v-btn[data-v-4744f107] {\r\n    margin: 0 5px;\r\n    height: 48px !important;\r\n    width: 48px !important;\n}\n.btn-group .v-btn.active-btn[data-v-4744f107] {\r\n    background-color: #1976d2; /* Primary color */\r\n    color: white;\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8958,7 +9293,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-5a9d4489] {\r\n  background-color: lightgreen;\r\n  opacity: 0.5;\r\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-5a9d4489] {\r\n  background-color: azure;\r\n  opacity: 0.5;\r\n  border-radius: 10px !important;\n}\n.v-btn[data-v-5a9d4489]::before {\r\n  background-color: transparent !important;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.active-item[data-v-5a9d4489] {\n  background-color: lightgreen;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.active-item-import[data-v-5a9d4489] {\n  background-color: azure;\n  opacity: 0.5;\n  border-radius: 10px !important;\n}\n.v-btn[data-v-5a9d4489]::before {\n  background-color: transparent !important;\n}\n.btn-group[data-v-5a9d4489] {\n  display: flex;\n}\n.btn-group .v-btn[data-v-5a9d4489] {\n  margin: 0 5px;\n  height: 48px !important;\n  width: 48px !important;\n}\n.btn-group .v-btn.active-btn[data-v-5a9d4489] {\n  background-color: #1976d2; /* Primary color */\n  color: white;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
