@@ -484,11 +484,7 @@ export default {
         selectedJawArray_.push(element.index);
       })
 
-      let arr_dif = this.arr_diff(selectedJawArray_, this.upper_toggle_exclusive)
-      console.log('arr_dif')
-      console.log(value)
-      console.log(this.tooth_No)
-      
+      let arr_dif = this.arr_diff(selectedJawArray_, this.upper_toggle_exclusive)      
 
       // if(arr_dif.length < 1) 
       if(this.tooth_No == null)

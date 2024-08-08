@@ -13,7 +13,7 @@
         <div class="reset-btn">
           <!-- <v-btn @click="resetLoad" class="" elevation="0" color="#BBDEFB">Löschen</v-btn> -->
         </div>
-        <div class="my-3">
+        <div class="my-3" id="printable">
 
           <div v-show="calculated" :class="calculated?'d-flex':''" class="align-center" style="background-color: #eee;">
             <span class="px-3">TP</span>
@@ -76,7 +76,7 @@
               </span>
             </div>
 
-            <div class="px-8 py-2">
+            <div class="px-8 py-2" >
               <UpperJaw
                 @btn-selected="upperJawSelectedBtn($event)"
                 :resetBtns="resetBtns"
@@ -2086,6 +2086,28 @@
             outlined
           ></v-select>
         </div>
+        <div v-if="!calculated" class="d-flex col-6 pa-0 festzuschüsse-berechnen">
+          <v-text-field 
+              clearable 
+              label="Patienten-ID"
+              dense
+              outlined
+              id="txtPatientId"
+              v-model="txtPatientId"
+            ></v-text-field>
+        </div>
+
+        <div v-if="!calculated" class="d-flex col-6 pa-0 festzuschüsse-berechnen">
+          <v-text-field 
+              clearable 
+              label="Behandler"
+              outlined
+              dense
+              id="txtBehandler"
+              v-model="txtBehandler"
+            ></v-text-field>
+        </div>
+
         <div v-if="!calculated" class="d-flex col-2 pa-0 festzuschüsse-berechnen">
           <v-btn @click="apiCall" class="" elevation="0" color="#BBDEFB">Zahnersatz planen</v-btn>
         </div>
@@ -2844,8 +2866,8 @@
                         <span> {{ caseBemaOpt[0]['a5000_Name'] }} </span>
                       </v-tooltip>
                     </td>
-                    <td class="text-center"> </td>
-                    <td class="text-center weitera5000RowQuan"> 1 </td>
+                    <td class="text-center"> {{ aav9010Reg }} </td>
+                    <td class="text-center weitera5000RowQuan"> {{ aav9010Quan }} </td>
                     <td style="width: 150px;">
                       <v-slider
                         value="1"
@@ -2871,7 +2893,6 @@
               </template>
             </v-simple-table>
           </div>
-
 
           <!-- <v-row v-if="showAbutmentAAV"> -->
           <v-row v-if="genQuesAAV">
@@ -3049,6 +3070,7 @@
                   <td class="text-center"> {{ Eigenlabor_Arr_18a_B.length }} </td>
                   <td class="text-center" id="eigen18a_amt"> {{ (parseFloat(Eigenlabor_Arr_18a_B.length) * parseFloat(Eigenlabor_Amt_18a_B[0])).toFixed(2) }} </td>
                 </tr>
+
                 <tr v-if="Eigenlabor_Arr_19_B.length > 0">
                   <td class="text-center"> {{ Eigenlabor_Gr_19_B }} </td>
                   <td class="text-center">
@@ -3063,6 +3085,7 @@
                   <td class="text-center"> {{ Eigenlabor_Arr_19_B_Q }} </td>
                   <td class="text-center" id="eigen19b_amt"> {{ (parseFloat(Eigenlabor_Arr_19_B_Q) * parseFloat(Eigenlabor_Amt_19_B[0])).toFixed(2) }} </td>
                 </tr>
+
                 <tr v-if="Eigenlabor_Arr_2195_G.length > 0">
                   <td class="text-center"> {{ Eigenlabor_Gr_2195_G }} </td>
                   <td class="text-center">
@@ -3090,8 +3113,8 @@
                       style="margin-top: 30px; width: 450px;"
                     ></v-select>
                   </td>
-                  <td class="text-center"> {{ Eigenlabor_Arr_9010_G_Q }} </td>
-                  <td class="text-center" id="eigen9010_1_amt"> {{ (parseFloat(Eigenlabor_Arr_9010_G_Q) * parseFloat(Eigenlabor_Amt_9010_G1[0])).toFixed(2) }} </td>
+                  <td class="text-center"> {{ aav9010Quan }} </td>
+                  <td class="text-center" id="eigen9010_1_amt"> {{ (parseFloat(aav9010Quan) * parseFloat(Eigenlabor_Amt_9010_G1[0])).toFixed(2) }} </td>
                 </tr>
                 <tr v-if="Eigenlabor_Arr_9010_G1.length > 0">
                   <td class="text-center"> {{ Eigenlabor_Gr_9010_G2 }} </td>
@@ -3118,12 +3141,11 @@
                       style="margin-top: 30px; width: 450px;"
                     ></v-select>
                   </td>
-                  <td class="text-center"> {{ Eigenlabor_Arr_9010_G_Q }}</td>
-                  <td class="text-center" id="eigen9010_3_amt"> {{ (parseFloat(Eigenlabor_Arr_9010_G_Q) * parseFloat(Eigenlabor_Amt_9010_G3[0])).toFixed(2) }} </td>
+                  <td class="text-center"> {{ aav9010Quan }}</td>
+                  <td class="text-center" id="eigen9010_3_amt"> {{ (parseFloat(aav9010Quan) * parseFloat(Eigenlabor_Amt_9010_G3[0])).toFixed(2) }} </td>
                 </tr>
 
               </tbody>
-
             </template>
           </v-simple-table>
         </div>
@@ -3160,11 +3182,12 @@
                 :disabled=false
             >
               Weiter
+              <!-- Briefing Export -->
             </v-btn>
           </div>
         </div>
 
-        <div v-if="weiterActivateFinal" style="margin: 30px 0;">
+        <div v-if="weiterActivateFinal" style="margin: 30px 0;" ref="finalTablesPrint" id="finalTablesPrint">
           <h3> Zusammenfassung </h3>
           <h4> Final </h4>
           <v-simple-table outlined class="my-2" style="margin-bottom: 20px;">
@@ -3199,6 +3222,43 @@
                   <td> </td>
                   <td style="font-weight: bold;"> {{ dataFinalPriceAmt }} </td>
                 </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+
+          <h4> Calculation Table </h4>
+          <v-simple-table v-if="calculated" outlined class="my-2" >
+            <template v-slot:default>
+              <tbody>
+                <tr>
+                  <th> Honorar BEMA </th>
+                  <td> {{ totalBemaDisp }} <span v-html="euro"></span> </td>
+
+                  <th> Labor gewerblich </th>
+                  <td> {{ totalGewerblichDisp }} € </td>
+                </tr>
+
+                <tr>
+                  <th> Festzuschüsse </th>
+                  <td> {{ totalAmountFDisp }} <span v-html="euro"></span> </td>
+
+                  <th> Honorar GOZ / GOÄ </th>
+                  <td> {{ totalGavDisp }} <span v-html="euro"></span> </td>
+                </tr>
+
+                <tr>
+                  <th> Eigenlabor </th>
+                  <td> {{ totalEigenlaborDisp }} <span v-html="euro"></span> </td>
+
+                  <th> Behandlungskosten </th>
+                  <td> {{ totalSumCalcDisp }} <span v-html="euro"></span> </td>
+                </tr>
+
+                <tr>
+                  <th style="font-weight: bold;"> Eigenanteil </th>
+                  <td style="font-weight: bold;"> {{ (totalSumCalcDisp - totalAmountFDisp).toFixed(2) }} <span v-html="euro"></span> </td>
+                </tr>
+
               </tbody>
             </template>
           </v-simple-table>
@@ -3344,8 +3404,52 @@
             </template>
           </v-simple-table>
 
+          <h4> Eigenlabor </h4>
+          <v-simple-table v-if="finalEigenlaborDispZusa" outlined class="my-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">BEMA/ GOZ Nr.</th>
+                  <th class="text-left">Material Group</th>
+                  <th class="text-left">Material Description</th>
+                  <th class="text-left">Anzahl</th>
+                  <th class="text-left">Preis (€)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(datasRV, indexRV) in finalEigenlaborDispZusa" :key="indexRV">
+                  <td> {{datasRV['value']}}</td>
+                  <td> {{datasRV['group']}}</td>
+                  <td> {{datasRV['desc']}}</td>
+                  <td> {{datasRV['quantity']}}</td>
+                  <td> {{ parseFloat(datasRV['amount']).toFixed(2)}}</td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  <td style="font-weight: bold;"> TOTAL </td>
+                  <td> </td>
+                  <td> </td>
+                  <td style="font-weight: bold;"> {{ totalEigenlaborDisp }} </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </div>
-        
+
+        <div v-if="weiterActivateFinal" style="margin: 30px 0;">
+
+          <div class="d-flex col-2 pa-0 festzuschüsse-berechnen">
+            <v-btn @click="printpdf"
+                id="btnWeiterFlabCalc" 
+                elevation="0" 
+                color="#BBDEFB"
+                :disabled=false
+            >
+              Briefing Export
+            </v-btn>
+          </div>
+        </div>
+
       </div>
       
       <v-dialog v-model="showInfo" width="500">
@@ -3366,6 +3470,12 @@
               class="mr-4"
               :readonly="disabled"
             ></v-text-field>
+
+            <v-alert type="error" v-model="showStatusImportError" dismissible>
+              Error on import. <br/>
+              FORMAT: patientId,status in of 2 char <br/>
+              Example: 110,f f k k f
+            </v-alert>
 
           </v-card-text>
 
@@ -3402,6 +3512,9 @@
   // import Logo from '@/assets/addy_logo.png'
   import { mapActions, mapGetters } from 'vuex'
   import AdminLayout from "../Layouts/AdminLayout.vue";
+  import jsPDF from 'jspdf';
+  import 'jspdf-autotable';
+  import html2pdf from "html2pdf.js";
 
   
   const options = ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "i-", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", "\\)\\("]
@@ -3965,7 +4078,7 @@
       errorMsg: '',
       errorImport: '',
       decryptedId: '',
-      allowedStatus: ["a", "ab", "aw", "abw", "b", "e", "ew", "f", "i", "ix", "i-", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")(", "\\)\\("],
+      allowedStatus: ["a", "ab", "aw", "abw", "bw", "b", "e", "ew", "f", "i", "ix", "i-", "k", "kw", "pw", "r", "rw", "sw", "t", "tw", "ur", "ww", "x", ")(", "\\)\\("],
       importStatus: ["", "a", "ab", "e", "j", "i", "i-", "k", "pk", "r", "t", "b", "f", ")(", " "],
       case_name : {
                       '1.1' : 'Krone',
@@ -4284,6 +4397,7 @@
       totalEigenlaborDispZusa : [],
       totalGewerblichDispZusa : [],
       totalGavSliderZusaArr   : [],
+      finalEigenlaborDispZusa : [],
 
       dataFinalPriceAmt   : 0,
       datasBemaAmountVal  : 0,
@@ -4296,6 +4410,12 @@
 
       chkBoxMandatory     : 'lblStrong',
 
+      txtPatientId    : '',
+      txtBehandler    : '',
+      aav9010Quan     : 0,
+      aav9010Reg      : '',
+
+      showStatusImportError : false,
 
     }),
     watch: {
@@ -4315,6 +4435,7 @@
     computed: {
       // ...mapGetters(["isLoggedIn"]),
       totalAmount() {
+        console.log('tableData');
         console.log(this.tableData);
         var amountArray = []
 
@@ -4359,9 +4480,9 @@
           })
         } else {
           this.upperJawSelected = this.upperJawSelected.map((value)=> {
-              value.value = ''
-              return value
-            })
+            value.value = ''
+            return value
+          })
         }
         // this.resetBtns = false
       },
@@ -4407,6 +4528,7 @@
           this.overlay = true
 
           this.calculateValuesApi(input).then((response) => {
+            console.log('response.data')
             console.log(response.data)
 
             if(response.data.length>1) {
@@ -4688,11 +4810,9 @@
 
                 //   if (result_UK.value) { //3.1 [0]
                 //     // this.displayData(response.data[1])
-                //     console.log(response.data[1][1])
                 //   }
                 //   else { // [1] 2.xers
                 //     // this.displayData(response.data[0])
-                //     console.log(response.data[0])
                 //   }
                 // })
 
@@ -4728,8 +4848,7 @@
           console.log('invalid')
         }
       },
-      displayData(responseData) {
-
+      displayData(responseData) {        
         this.tableData  = responseData
         this.tableDataFinal  = responseData['Final']
         this.Total_case = responseData['Total_case'] // get for Next button
@@ -4774,7 +4893,7 @@
         if(label == 'lblGAV') {
           this.planLabel = label+ids
           this.RVShortcut = dataValues['RV Solution shortcuts'];
-          console.log(this.Eigenlabor_Arr_19_B_Q)
+
           if(dataValues['GAV Solution BEMA Region']['19']) {
             this.case_region_ = dataValues['GAV Solution BEMA Region']['19'] // As 19 always has the original region values either than AAV
             this.Eigenlabor_Arr_19_B_Q += parseInt(dataValues['GAV Solution BEMA Quantity']['19']) // As 19 always has the original region values either than AAV
@@ -4789,8 +4908,14 @@
             
             if(tp == 'BM') {
               kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
-            }
+            }            
             if(tp == 'KM' || tp == 'PKM') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
+            }
+            if(tp == 'KMO') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
+            }
+            if(tp == 'TM') {
               kms = dataValues['TP Solution shortcuts'][tp].trim().split(",");
             }
 
@@ -4808,14 +4933,18 @@
           // this.TPShortcut = dataValues['AAV Solution shortcuts'];
           // this.TPShortcut = dataValues['TP Solution shortcuts'];
 
-          this.Eigenlabor_Arr_9010_G1 = dataValues['AAV Solution GOZ Region']['9010']
-          this.Eigenlabor_Arr_9010_G_Q = dataValues['AAV Solution GOZ Quantity']['9010']
+          // this.Eigenlabor_Arr_9010_G1 = dataValues['AAV Solution GOZ Region']['9010']
+          this.Eigenlabor_Arr_9010_G1.push(dataValues['AAV Solution GOZ Region']['9010'])
+          this.Eigenlabor_Arr_9010_G_Q[dataValues['AAV Solution GOZ Region']['9010']] = dataValues['AAV Solution GOZ Quantity']['9010']
 
           let newKM = '';
           for(let tp in dataValues['TP Solution shortcuts']) {
             var kms = []
             
             if(tp == 'SKM') {
+              kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
+            }
+            if(tp == 'SBM') {
               kms = dataValues['TP Solution shortcuts'][tp].trim().slice(0, -1).split(",");
             }
             if(tp == 'KM') {
@@ -4840,7 +4969,6 @@
         
 
         // FOR Case questions
-        // console.log(this.dataRV_GAV_AAV)
         this.optBemaValuesRV = []
         // this.showOptGozGAV = false // make opt GOZ GAV false for all
 
@@ -5229,7 +5357,6 @@
           // // FOR GOZ SLIDER issue
           for(var gr=0; gr<Object.values(dataValues['AAV Solution GOZ Region']).length; gr++) {
             var toCheck = (dataValues['AAV#']+Object.keys(dataValues['AAV Solution GOZ Region'])[gr]+caseId+'AAV')
-            // console.log(toCheck)
 
             if(this.idGozSliderArr[toCheck] == undefined
             ) {
@@ -5597,15 +5724,20 @@
                                 ]
         
 
-        if(!this.findingsEntriesImport.split(',')) {
-          console.log('ERROR')
+        // if(!this.findingsEntriesImport.split(',')) {
+        if(this.findingsEntriesImport.indexOf(',') === -1) {
+          // console.log('ERROR')
+          this.showStatusImportError = true
         }
+
+        // set patient ID
+        this.txtPatientId = this.findingsEntriesImport.split(',')[0]
 
         // findingsArrayImportIni = this.findingsEntriesImport.split(',')[1].split("") //into array by each char
         findingsArrayImportIni = this.findingsEntriesImport.split(',')[1].split(/(..)/g).filter(s => s); //into array of 2 char
 
         if(!findingsArrayImportIni) {
-          console.log('ERROR')
+          this.showStatusImportError = true
         }
 
         for(let i=0; i<findingsArrayImportIni.length; i++) {
@@ -5636,9 +5768,6 @@
           }
 
         }
-
-        // resultStatus = resultStatus.substr(0, resultStatus.length-1);
-
         
         for(let i=0; i<findingsArrayImportIni.length; i++) {
           //Add teeth nos to the status array
@@ -6124,17 +6253,15 @@
         }
 
         this.resetGozAmount = amountGoz
-        // console.log(document.getElementById('GAVSlider'+faktors).value)
 
       },
       optGozActivate() {
-        console.log(this.optGoz)
+        // console.log(this.optGoz)
       },
       optRVBemaActivate() {
-        console.log(this.optBema)
+        // console.log(this.optBema)
       },
       displayPlanen(rowIndex) {
-        console.log(rowIndex)
         // this.dialogSolution[rowIndex] = true;  // issue recheck
         this.dialogRow = rowIndex;
         this.displaySecond = rowIndex;
@@ -6334,8 +6461,6 @@
         
         // "Aufbaufüllung"
         this.showOptGozGAVTable_RV.filter((value, region) => {
-            // console.log(value);
-            // console.log(region);
 
             if(value &&
               this.OptGozGAVselected_RV[dialogRowIndex]
@@ -6590,12 +6715,12 @@
         this.totalAmountF = this.totalAmount
 
         // Einanteil is gesamkosten minus subsidies = festzuschuss
-
         this.totalBemaArr[dialogRowIndex]     = this.totalBema
         this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF[dialogRowIndex] // RECHECK
         // this.totalAmountFArr[dialogRowIndex]  = this.totalAmountF // RECHECK
         this.totalGavArr[dialogRowIndex]      = this.totalGav
         this.totalSumCalcArr[dialogRowIndex]  = this.totalSumCalc
+        
 
         // For the Final table
         this.tableDataFinalDisp[dialogRowIndex] = this.tableDataFinal[dialogRowIndex]
@@ -6619,6 +6744,7 @@
 
         /** DISPLAY TEETH IMAGES */
         var dataRVs = this.RVShortcut.trim().slice(0, -1).split(",");
+        // var dataRVs = this.RVShortcut;
         dataRVs.forEach(element => {
           let splitedElement = element.split(':')
           if(Number(splitedElement[0])<30) {
@@ -7323,6 +7449,17 @@
         }
       },
       weiterCall() {
+
+        // get the 9010 region and quantity
+        this.Eigenlabor_Arr_9010_G_Q.forEach(element => {
+          this.aav9010Quan = (this.aav9010Quan == 0) ? element : parseInt(this.aav9010Quan) + parseInt(element)
+        });
+
+        this.Eigenlabor_Arr_9010_G1.forEach(element => {
+          this.aav9010Reg = (this.aav9010Reg == '') ? element : this.aav9010Reg +', '+ element
+        });
+
+
         for(var tc=0; tc<this.Total_case; tc++) {
           if(document.getElementById('btnCasePencil'+tc) !== null) {
             document.getElementById('btnCasePencil'+tc).disabled = true
@@ -7480,7 +7617,6 @@
           }
 
           this.totalTableCalc()
-          console.log(this.totalGavArr)
         }
         else {
           this.displayWeitera15 = false
@@ -7898,7 +8034,17 @@
               "Desc" : this.Eigenlabor_Gr_7b_B
             })
 
+          this.finalEigenlaborDispZusa.push({
+            "value" : "BEMA 7b",
+            "group" : this.Eigenlabor_Gr_7b_B,
+            "desc" : this.Eigenlabor_Desc_7b_B[0],
+            "quantity" : 1,
+            "amount" : parseFloat(eigen7b_amt)
+          })
+
           this.totalTableCalc()
+
+
         }
         if(this.Eigenlabor_Arr_7b_B.length == 0) {
           // Remove 7b price
@@ -7930,6 +8076,13 @@
             "Desc" : this.Eigenlabor_Gr_18a_B
           })
 
+          this.finalEigenlaborDispZusa.push({
+            "value" : "BEMA 18a",
+            "group" : this.Eigenlabor_Gr_18a_B,
+            "desc" : this.Eigenlabor_Desc_18a_B_sel,
+            "quantity" : this.Eigenlabor_Arr_18a_B.length,
+            "amount" : parseFloat(eigen18a_amt)
+          })
 
           this.totalTableCalc()
         }
@@ -7961,6 +8114,14 @@
             "value" : "BEMA 19b", 
             "AMOUNT" : eigen19b_amt,
             "Desc" : this.Eigenlabor_Gr_19_B
+          })
+          
+          this.finalEigenlaborDispZusa.push({
+            "value" : "BEMA 19b",
+            "group" : this.Eigenlabor_Gr_19_B,
+            "desc" : this.Eigenlabor_Desc_19_B[0],
+            "quantity" : this.Eigenlabor_Arr_19_B_Q,
+            "amount" : parseFloat(eigen19b_amt)
           })
 
 
@@ -7996,6 +8157,13 @@
             "Desc" : this.Eigenlabor_Gr_2195_G
           })
 
+          this.finalEigenlaborDispZusa.push({
+            "value" : "GOZ 2195",
+            "group" : this.Eigenlabor_Gr_2195_G,
+            "desc" : this.Eigenlabor_Desc_2195_G_sel,
+            "quantity" : this.Eigenlabor_Arr_2195_G.length,
+            "amount" : parseFloat(eigen2195_amt)
+          })
 
           this.totalTableCalc()
         }
@@ -8036,6 +8204,30 @@
             "value" : "GOZ 9010", 
             "AMOUNT" : parseFloat(eigen9010_1_amt) + parseFloat(eigen9010_2_amt) + parseFloat(eigen9010_3_amt),
             "Desc" : this.Eigenlabor_Gr_9010_G1 + ', ' + this.Eigenlabor_Gr_9010_G2 + ', ' + this.Eigenlabor_Gr_9010_G3,
+          })
+
+          this.finalEigenlaborDispZusa.push({
+            "value" : "GOZ 9010",
+            "group" : this.Eigenlabor_Gr_9010_G1,
+            "desc" : this.Eigenlabor_Desc_9010_G1[0],
+            "quantity" : parseInt(this.aav9010Quan),
+            "amount" : parseFloat(eigen9010_1_amt)
+          })
+
+          this.finalEigenlaborDispZusa.push({
+            "value" : "GOZ 9010",
+            "group" : this.Eigenlabor_Gr_9010_G2,
+            "desc" : this.Eigenlabor_Desc_9010_G2[0],
+            "quantity" : 1,
+            "amount" : parseFloat(eigen9010_2_amt)
+          })
+
+          this.finalEigenlaborDispZusa.push({
+            "value" : "GOZ 9010",
+            "group" : this.Eigenlabor_Gr_9010_G3,
+            "desc" : this.Eigenlabor_Desc_9010_G3[0],
+            "quantity" : parseInt(this.aav9010Quan),
+            "amount" : parseFloat(eigen9010_3_amt)
           })
 
           this.totalTableCalc()
@@ -8483,7 +8675,6 @@
         }
         
 
-        // console.log(this.tableDataFinalDisp)
         // TOTAL Row AMOUNTs calc
         // this.tableDataFinal.forEach((values) => {
         //   this.dataFinalPriceAmt = (parseFloat(this.dataFinalPriceAmt) + parseFloat(values.price)).toFixed(2)
@@ -8525,6 +8716,185 @@
         this.totalGoaDispZusa.forEach((values) => {
           this.datasGoaAmountVal = (parseFloat(this.datasGoaAmountVal) + parseFloat(values.amount)).toFixed(2)
         })
+
+        // this.printpdf()
+
+      },
+      printpdf() {
+        // let contents = document.getElementById("printable").innerHTML;
+
+        console.log(this.$refs.finalTablesPrint);
+        console.log(document.getElementById("finalTablesPrint"));
+        
+        const pdf = new jsPDF('p', 'pt', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        let yOffset = 20;
+
+        // Add PDF Header
+        pdf.setFontSize(18);
+        pdf.text(`Zusammenfassung`, pdfWidth / 2, yOffset, { align: 'center' });
+
+        yOffset += 30;
+        pdf.setFontSize(12);
+        // pdf.text(document.getElementById("finalTablesPrint").innerHTML, 20, yOffset);
+        pdf.html(document.getElementById("finalTablesPrint"));
+
+
+        // pdf.save('finals.pdf');
+
+
+        // var element = document.getElementById('printable');
+        // var opt = {
+        //   margin:       1,
+        //   filename:     'myfile.pdf',
+        //   html2canvas:  { scale: 1 },
+        //   jsPDF:        { orientation: 'p', unit: 'pt', format: 'a4', }
+        // };
+
+        // // New Promise-based usage:
+        // html2pdf().set(opt).from(element).save();
+
+
+        const element1 = document.getElementById('printable');
+        const element3 = document.getElementById('finalTablesPrint');
+
+        // Create a container to hold both elements
+        const container = document.createElement('div');
+        container.appendChild(element1.cloneNode(true));
+        container.appendChild(element3.cloneNode(true));
+
+
+        // Inject Vuetify CSS into the container
+        const vuetifyStyle = document.createElement('link');
+        vuetifyStyle.rel = 'stylesheet';
+        vuetifyStyle.href = 'https://cdn.jsdelivr.net/npm/vuetify@2.5.5/dist/vuetify.min.css';
+        container.appendChild(vuetifyStyle);
+
+        // Include custom CSS in the container
+        const style = document.createElement('style');
+        style.innerHTML = `
+          /* Custom CSS */
+          .button-container {
+            background-color: #eeeeee;
+            width: fit-content;
+            padding: 10px;
+          }
+          .table-container {
+            background-color: white;
+            
+          }
+          .table-container .backColorTable {
+            background-color: #cfe2f3;
+          }
+          .ubernehmen {
+            width: 80%;
+          }
+          .ubernehmen button, .festzuschüsse-berechnen button, .logout-btn, .reset-btn button {
+            border: thin solid black !important;
+          }
+          td, th {
+            border: 1px solid black;
+            text-align: left;
+            padding: 8px;
+            word-wrap: break-word;
+          }
+          th {
+            background-color: #ddecdd !important;
+          }
+
+          table {
+            table-layout: fixed;
+          }
+          .v-data-table__expanded__content td {
+            padding-right: 0px !important;
+            padding-left: 0px !important;
+          }
+          .v-data-table__expanded {
+            box-shadow: none !important;
+          }
+          .v-data-table__expanded__content {
+            background-color: rgba(255, 209, 220, 0.2) !important;
+          }
+          .v-data-table__expanded__content .expanded-datatable {
+            background-color: white !important;
+          }
+          .expanded-datatable {
+            border-radius: 0px !important;
+            background-color: white !important;
+          }
+          thead {
+            background-color: #ddecdd !important;
+          }
+          .v-progress-circular {
+            margin: 1rem !important;
+          }
+
+          .v-btn::before {
+            background-color: transparent !important;
+          }
+
+          td.insideTable {
+            border: none;
+            margin-bottom: 5px;
+            word-wrap: break-word;
+          }
+          .lblStrong {
+            font-weight: bold;
+          }
+          
+          .lblStrongMand {
+            color: red;
+            font-weight: bold;
+          }
+
+          .active-item {
+            background-color: lightgreen;
+            opacity: 0.5;
+            border-radius: 10px !important;
+          }
+
+          .active-item-import {
+            background-color: azure;
+            opacity: 0.5;
+            border-radius: 10px !important;
+          }
+
+          .v-btn::before {
+            background-color: transparent !important;
+          }
+
+          .btn-group {
+            display: flex;
+          }
+
+          .btn-group .v-btn {
+            margin: 0 5px;
+            height: 48px !important;
+            width: 48px !important;
+          }
+
+          .btn-group .v-btn.active-btn {
+            background-color: #1976d2; /* Primary color */
+            color: white;
+          }
+        `;
+        container.appendChild(style);
+
+        // Debugging: Log the container to ensure it contains both elements and the style
+        console.log('Container:', container);
+
+        // Configure html2pdf options
+        const opt = {
+          margin: 1,
+          filename: 'document.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 1 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'l' }
+        };
+
+        // Generate PDF
+        html2pdf().from(container).set(opt).save();
+
 
       },
 
